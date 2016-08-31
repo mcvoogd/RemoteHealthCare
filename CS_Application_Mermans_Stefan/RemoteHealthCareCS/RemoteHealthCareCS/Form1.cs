@@ -37,9 +37,10 @@ namespace RemoteHealthCareCS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (_serialPort != null)
+            if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_RESET);
+                textBox1.Text += _serialPort.ReadLine();
             }
         }
 
@@ -54,6 +55,7 @@ namespace RemoteHealthCareCS
             {
                 _serialPort = new SerialPort((string) comboBox1.SelectedItem);
                 _serialPort.Open();
+                textBox1.Text += "Connected\n";
             }
             catch (Exception exception)
             {
@@ -64,33 +66,37 @@ namespace RemoteHealthCareCS
 
         private void IDButton_Click(object sender, EventArgs e)
         {
-            if (_serialPort != null)
+            if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_GET_ID);
+                textBox1.Text += _serialPort.ReadLine();
             }
         }
 
         private void versionButton_Click(object sender, EventArgs e)
         {
-            if (_serialPort != null)
+            if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_GET_VER);
+                textBox1.Text += _serialPort.ReadLine();
             }
         }
 
         private void commandMButton_Click(object sender, EventArgs e)
         {
-            if (_serialPort != null)
+            if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_COMMAND_MODE);
+                textBox1.Text += _serialPort.ReadLine();
             }
         }
 
         private void statusButton_Click(object sender, EventArgs e)
         {
-            if (_serialPort != null)
+            if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_STATUS);
+                textBox1.Text += _serialPort.ReadLine();
             }
         }
 
@@ -99,7 +105,13 @@ namespace RemoteHealthCareCS
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.Close();
+                textBox1.Text += "Disconnected\n";
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

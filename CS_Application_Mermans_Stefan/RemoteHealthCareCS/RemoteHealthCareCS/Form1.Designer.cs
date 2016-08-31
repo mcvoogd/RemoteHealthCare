@@ -36,12 +36,13 @@
             this.commandMButton = new System.Windows.Forms.Button();
             this.statusButton = new System.Windows.Forms.Button();
             this.disconnectButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetButton.Location = new System.Drawing.Point(155, 12);
+            this.resetButton.Location = new System.Drawing.Point(368, 13);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(121, 23);
             this.resetButton.TabIndex = 0;
@@ -71,7 +72,7 @@
             // IDButton
             // 
             this.IDButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IDButton.Location = new System.Drawing.Point(155, 42);
+            this.IDButton.Location = new System.Drawing.Point(368, 42);
             this.IDButton.Name = "IDButton";
             this.IDButton.Size = new System.Drawing.Size(121, 23);
             this.IDButton.TabIndex = 3;
@@ -82,7 +83,7 @@
             // versionButton
             // 
             this.versionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.versionButton.Location = new System.Drawing.Point(155, 72);
+            this.versionButton.Location = new System.Drawing.Point(368, 72);
             this.versionButton.Name = "versionButton";
             this.versionButton.Size = new System.Drawing.Size(121, 23);
             this.versionButton.TabIndex = 4;
@@ -93,7 +94,7 @@
             // commandMButton
             // 
             this.commandMButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.commandMButton.Location = new System.Drawing.Point(155, 102);
+            this.commandMButton.Location = new System.Drawing.Point(368, 102);
             this.commandMButton.Name = "commandMButton";
             this.commandMButton.Size = new System.Drawing.Size(121, 23);
             this.commandMButton.TabIndex = 5;
@@ -104,7 +105,7 @@
             // statusButton
             // 
             this.statusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusButton.Location = new System.Drawing.Point(155, 131);
+            this.statusButton.Location = new System.Drawing.Point(368, 131);
             this.statusButton.Name = "statusButton";
             this.statusButton.Size = new System.Drawing.Size(121, 23);
             this.statusButton.TabIndex = 6;
@@ -122,11 +123,21 @@
             this.disconnectButton.UseVisualStyleBackColor = true;
             this.disconnectButton.Click += new System.EventHandler(this.disconnectButton_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(139, 12);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(223, 112);
+            this.textBox1.TabIndex = 8;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(288, 132);
+            this.ClientSize = new System.Drawing.Size(501, 132);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.disconnectButton);
             this.Controls.Add(this.statusButton);
             this.Controls.Add(this.commandMButton);
@@ -138,6 +149,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -151,6 +163,7 @@
         private System.Windows.Forms.Button commandMButton;
         private System.Windows.Forms.Button statusButton;
         private System.Windows.Forms.Button disconnectButton;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

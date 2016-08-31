@@ -8,7 +8,7 @@ import jssc.SerialPortTimeoutException;
 /**
  * Created by kevin on 29-8-2016.
  */
-public class Main {
+public class MainIsOLD {
 
     private static String comport;
     private static String resetMessage = "ST\r\n";

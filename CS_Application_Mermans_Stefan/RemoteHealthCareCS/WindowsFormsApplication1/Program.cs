@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RemoteHealthCareCS
+namespace WindowsFormsApplication1
 {
     static class Program
     {

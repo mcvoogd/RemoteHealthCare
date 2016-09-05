@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Simulation
+namespace DataScreen
 {
     static class Program
     {
@@ -17,11 +17,11 @@ namespace Simulation
         [STAThread]
         static void Main()
         {
-            DataWindow dataWindow;
+            SimulationForm simulationForm;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(dataWindow = new DataWindow());
+            Application.Run(simulationForm = new SimulationForm());
         }
     }
 }

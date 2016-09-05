@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace Simulation
+namespace DataScreen
 {
     public partial class DataWindow : Form, StandardErgometer
     {

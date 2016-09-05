@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace DataScreen
 {
-    public partial class SimulationForm : Form
+    public partial class SimulationForm : Form, StandardErgometer
     {
         private int pulse = 120;
         private int rotations = 100;
@@ -20,6 +20,110 @@ namespace DataScreen
         private int time = 120;
         private int reachedPower = 666;
         private int distance = 500;
+
+        int StandardErgometer.pulse
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int StandardErgometer.rotations
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int StandardErgometer.speed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int StandardErgometer.power
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int StandardErgometer.burned
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int StandardErgometer.time
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int reachedpower
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int StandardErgometer.distance
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public SimulationForm()
         {
@@ -137,5 +241,14 @@ namespace DataScreen
             //        );
         }
 
+        public void connect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void disconnect()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

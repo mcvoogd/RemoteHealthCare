@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimulatorApplication.Properties
+namespace DataScreen.Properties
 {
 
 

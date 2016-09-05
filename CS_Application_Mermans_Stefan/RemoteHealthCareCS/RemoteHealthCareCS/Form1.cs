@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,7 @@ namespace RemoteHealthCareCS
 {
     public partial class Form1 : Form
     {
+
         public static string COMMAND_RESET = "RS";
         public static string COMMAND_GET_ID = "ID";
         public static string COMMAND_GET_VER = "VE";
@@ -40,7 +42,7 @@ namespace RemoteHealthCareCS
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_RESET);
-                textBox1.Text += _serialPort.ReadLine();
+                textBox1.Text += _serialPort.ReadLine() + "\n";
             }
         }
 
@@ -69,7 +71,7 @@ namespace RemoteHealthCareCS
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_GET_ID);
-                textBox1.Text += _serialPort.ReadLine();
+                textBox1.Text += _serialPort.ReadLine() + "\n";
             }
         }
 
@@ -78,7 +80,7 @@ namespace RemoteHealthCareCS
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_GET_VER);
-                textBox1.Text += _serialPort.ReadLine();
+                textBox1.Text += _serialPort.ReadLine() + "\n";
             }
         }
 
@@ -87,7 +89,7 @@ namespace RemoteHealthCareCS
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_COMMAND_MODE);
-                textBox1.Text += _serialPort.ReadLine();
+                textBox1.Text += _serialPort.ReadLine() + "\n";
             }
         }
 
@@ -96,7 +98,7 @@ namespace RemoteHealthCareCS
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 _serialPort.WriteLine(COMMAND_STATUS);
-                textBox1.Text += _serialPort.ReadLine();
+                textBox1.Text += _serialPort.ReadLine() + "\n";
             }
         }
 

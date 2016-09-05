@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Simulator")]
+[assembly: AssemblyTitle("DataScreen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Simulator")]
+[assembly: AssemblyProduct("DataScreen")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("922f4b61-71c3-402c-bfcd-f4ceb4760e52")]
+[assembly: Guid("d7059e93-b080-4b22-a9aa-c09ffb69ec3c")]
 
 // Version information for an assembly consists of the following four values:
 //

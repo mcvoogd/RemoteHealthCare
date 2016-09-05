@@ -19,6 +19,7 @@ namespace WindowsFormsApplication1
         private int burned = 420;
         private int time = 120;
         private int reachedPower = 666;
+        private int distance = 500;
 
         public Form1()
         {
@@ -88,13 +89,13 @@ namespace WindowsFormsApplication1
         private void timeMin_Click(object sender, EventArgs e)
         {
             if (time > 0) { time--; }
-            timeCount.Text = "" + time;
+            timeCount.Text = string.Format("{0:00}:{1:00}", time / 60, time % 60);
         }
 
         private void timePlus_Click(object sender, EventArgs e)
         {
             if (time < 999) { time++; }
-            timeCount.Text = "" + time;
+            timeCount.Text = string.Format("{0:00}:{1:00}", time / 60, time % 60);
         }
 
         private void reachedPowerMin_Click(object sender, EventArgs e)
@@ -109,6 +110,20 @@ namespace WindowsFormsApplication1
             reachedPowerCount.Text = "" + reachedPower;
         }
 
+        private void distanceMin_Click(object sender, EventArgs e)
+        {
+            if (distance > 0) { distance--; }
+            distanceCount.Text = "" + distance;
+        }
+
+        private void distancePlus_Click(object sender, EventArgs e)
+        {
+            if (distance < 999) { distance++; }
+            distanceCount.Text = "" + distance;
+
+        }
+
+
         private void verzendButton_Click(object sender, EventArgs e)
         {
             //    Console.WriteLine(
@@ -121,5 +136,6 @@ namespace WindowsFormsApplication1
             //        "Gehaald vermogen = " + reachedPower
             //        );
         }
+
     }
 }

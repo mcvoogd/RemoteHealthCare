@@ -61,7 +61,7 @@ namespace RemoteHealthCareCS
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine("Connection failed");
+                 System.Console.WriteLine("Connection failed");
                 // TODO do something with this exception
             }
         }

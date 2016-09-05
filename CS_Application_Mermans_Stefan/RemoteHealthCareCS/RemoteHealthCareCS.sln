@@ -5,7 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteHealthCareCS", "RemoteHealthCareCS\RemoteHealthCareCS.csproj", "{8FA18FEB-2478-47E6-94F8-F5CF95A7E691}"
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataScreen", "DataScreen\DataScreen.csproj", "{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{A3385EBB-6323-494E-90E2-C95141E60302}"
+>>>>>>> 1e4f7fc470f885683ed15773d507628c00cd0e56
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +21,17 @@ Global
 		{8FA18FEB-2478-47E6-94F8-F5CF95A7E691}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FA18FEB-2478-47E6-94F8-F5CF95A7E691}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FA18FEB-2478-47E6-94F8-F5CF95A7E691}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{A3385EBB-6323-494E-90E2-C95141E60302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3385EBB-6323-494E-90E2-C95141E60302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3385EBB-6323-494E-90E2-C95141E60302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3385EBB-6323-494E-90E2-C95141E60302}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> 1e4f7fc470f885683ed15773d507628c00cd0e56
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

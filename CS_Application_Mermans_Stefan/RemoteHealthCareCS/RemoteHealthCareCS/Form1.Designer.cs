@@ -42,7 +42,7 @@
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetButton.Location = new System.Drawing.Point(368, 13);
+            this.resetButton.Location = new System.Drawing.Point(367, 13);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(121, 23);
             this.resetButton.TabIndex = 0;
@@ -72,7 +72,7 @@
             // IDButton
             // 
             this.IDButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IDButton.Location = new System.Drawing.Point(368, 42);
+            this.IDButton.Location = new System.Drawing.Point(367, 42);
             this.IDButton.Name = "IDButton";
             this.IDButton.Size = new System.Drawing.Size(121, 23);
             this.IDButton.TabIndex = 3;
@@ -83,7 +83,7 @@
             // versionButton
             // 
             this.versionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.versionButton.Location = new System.Drawing.Point(368, 72);
+            this.versionButton.Location = new System.Drawing.Point(367, 72);
             this.versionButton.Name = "versionButton";
             this.versionButton.Size = new System.Drawing.Size(121, 23);
             this.versionButton.TabIndex = 4;
@@ -94,7 +94,7 @@
             // commandMButton
             // 
             this.commandMButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.commandMButton.Location = new System.Drawing.Point(368, 102);
+            this.commandMButton.Location = new System.Drawing.Point(367, 102);
             this.commandMButton.Name = "commandMButton";
             this.commandMButton.Size = new System.Drawing.Size(121, 23);
             this.commandMButton.TabIndex = 5;
@@ -105,7 +105,7 @@
             // statusButton
             // 
             this.statusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusButton.Location = new System.Drawing.Point(368, 131);
+            this.statusButton.Location = new System.Drawing.Point(367, 131);
             this.statusButton.Name = "statusButton";
             this.statusButton.Size = new System.Drawing.Size(121, 23);
             this.statusButton.TabIndex = 6;

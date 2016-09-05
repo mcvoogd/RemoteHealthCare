@@ -17,11 +17,14 @@ namespace DataScreen
         [STAThread]
         static void Main()
         {
-            SimulationForm simulationForm;
+
+            DataWindow dataScreen;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(simulationForm = new SimulationForm());
+            Application.Run(dataScreen = new DataWindow());
+
+
         }
     }
 }

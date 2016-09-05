@@ -19,6 +19,7 @@ namespace DataScreen
         public string SelectedComm { get; set; }
         private string[] _portStrings;
         public List<string> DataList { get; set; }
+        private SimulationForm simulationForm;
 
         public DataWindow()
         {
@@ -31,6 +32,10 @@ namespace DataScreen
             {
                 comboBox1.Items.Add(_portStrings[i]);
             }
+
+            simulationForm = new SimulationForm();
+            simulationForm.Show();
+
         }
 
         delegate void SetTextCallback(string text);

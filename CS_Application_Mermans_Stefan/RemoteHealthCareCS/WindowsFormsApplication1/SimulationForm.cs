@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace Simulation
 {
-    public partial class Form1 : Form
+    public partial class SimulationForm : Form
     {
         private int pulse = 120;
         private int rotations = 100;
@@ -21,7 +21,7 @@ namespace WindowsFormsApplication1
         private int reachedPower = 666;
         private int distance = 500;
 
-        public Form1()
+        public SimulationForm()
         {
             InitializeComponent();
         }

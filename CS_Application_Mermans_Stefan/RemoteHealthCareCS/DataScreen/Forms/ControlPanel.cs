@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DataScreen
+namespace Simulation
 {
     public partial class ControlPanel : Form
     {

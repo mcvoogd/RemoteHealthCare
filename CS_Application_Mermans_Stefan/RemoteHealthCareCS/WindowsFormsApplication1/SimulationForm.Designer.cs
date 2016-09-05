@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace Simulation
 {
-    partial class Form1
+    partial class SimulationForm
     {
         /// <summary>
         /// Required designer variable.

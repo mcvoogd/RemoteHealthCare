@@ -46,25 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlPanel.cs">
+    <Compile Include="Forms\ControlPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ControlPanel.Designer.cs">
+    <Compile Include="Forms\ControlPanel.Designer.cs">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataReceiver.cs" />
-    <Compile Include="DataWindow.cs">
+    <Compile Include="Classes\DataReceiver.cs" />
+    <Compile Include="Forms\DataWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataWindow.Designer.cs">
+    <Compile Include="Forms\DataWindow.Designer.cs">
       <DependentUpon>DataWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Classes\StandardErgometer.cs" />
+    <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ControlPanel.resx">
+    <EmbeddedResource Include="Forms\ControlPanel.resx">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataWindow.resx">
+    <EmbeddedResource Include="Forms\DataWindow.resx">
       <DependentUpon>DataWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

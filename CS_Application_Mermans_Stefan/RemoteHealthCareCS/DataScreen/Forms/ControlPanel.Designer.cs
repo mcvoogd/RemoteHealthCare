@@ -1,4 +1,4 @@
-﻿namespace DataScreen
+﻿namespace Simulation
 {
     partial class ControlPanel
     {

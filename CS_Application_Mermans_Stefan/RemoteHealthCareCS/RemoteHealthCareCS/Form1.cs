@@ -13,11 +13,11 @@ namespace RemoteHealthCareCS
 {
     public partial class Form1 : Form
     {
-        public static string COMMAND_RESET = "RS\r\n";
-        public static string COMMAND_GET_ID = "ID\r\n";
-        public static string COMMAND_GET_VER = "VE\r\n";
-        public static string COMMAND_COMMAND_MODE = "CM\r\n";
-        public static string COMMAND_STATUS = "ST\r\n";
+        public static string COMMAND_RESET = "RS";
+        public static string COMMAND_GET_ID = "ID";
+        public static string COMMAND_GET_VER = "VE";
+        public static string COMMAND_COMMAND_MODE = "CM";
+        public static string COMMAND_STATUS = "ST";
 
         private string[] _portStrings;
         private SerialPort _serialPort;

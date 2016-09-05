@@ -14,21 +14,19 @@ namespace RemoteHealthCareCS
 {
     public partial class Form1 : Form
     {
-        public static string COMMAND_RESET = "RS\r\n";
-        public static string COMMAND_GET_ID = "ID\r\n";
-        public static string COMMAND_GET_VER = "VE\r\n";
-        public static string COMMAND_COMMAND_MODE = "CM\r\n";
-        public static string COMMAND_STATUS = "ST\r\n";
-        public static string COMMAND_RMP = "VS\r\n";
+
+        public static string COMMAND_RESET = "RS";
+        public static string COMMAND_GET_ID = "ID";
+        public static string COMMAND_GET_VER = "VE";
+        public static string COMMAND_COMMAND_MODE = "CM";
+        public static string COMMAND_STATUS = "ST";
 
         private string[] _portStrings;
-        private List<int> _rpmInts = new List<int>();
         private SerialPort _serialPort;
 
         public Form1()
         {
             InitializeComponent();
-            panel1.Paint += new PaintEventHandler(panel1_Paint);            
 
             _serialPort = null;
             _portStrings = SerialPort.GetPortNames();
@@ -36,20 +34,6 @@ namespace RemoteHealthCareCS
             for (int i = 0; i < _portStrings.Length; i++)
             {
                 comboBox1.Items.Add(_portStrings[i]);
-            }
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            Panel p = sender as Panel;
-            Graphics graphics = e.Graphics;
-
-            if(_rpmInts != null && _rpmInts.Count > 0)
-            {
-                for (int i = 0; i < _rpmInts.Count; i++)
-                {
-                    graphics.DrawRectangle(new Pen(Color.Aqua),new Rectangle(i,_rpmInts[i],10,10) );
-                }
             }
         }
 

@@ -37,7 +37,6 @@
             this.statusButton = new System.Windows.Forms.Button();
             this.disconnectButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // resetButton
@@ -133,19 +132,11 @@
             this.textBox1.TabIndex = 8;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(12, 173);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(477, 185);
-            this.panel1.TabIndex = 9;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 370);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(501, 178);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.disconnectButton);
             this.Controls.Add(this.statusButton);
@@ -173,7 +164,6 @@
         private System.Windows.Forms.Button statusButton;
         private System.Windows.Forms.Button disconnectButton;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Panel panel1;
     }
 }
 

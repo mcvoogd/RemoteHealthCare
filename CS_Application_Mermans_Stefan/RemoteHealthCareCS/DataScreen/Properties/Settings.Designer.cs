@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BikeGraph.Properties
+namespace DataScreen.Properties
 {
 
 

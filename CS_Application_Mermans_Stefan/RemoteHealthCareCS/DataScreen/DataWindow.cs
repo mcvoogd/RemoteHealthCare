@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace DataScreen
 {
@@ -46,14 +47,14 @@ namespace DataScreen
             }
             else
             {
-                this.dataTextBox.Text += text;
+                this.dataTextBox.AppendText(text);
+                dataTextBox.SelectionStart = dataTextBox.TextLength;
+                dataTextBox.ScrollToCaret();
             }
         }
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-                    dataTextBox.Text += "HI";
-
             if (SerialPort == null || !SerialPort.IsOpen)
             {
                 if (SelectedComm != null)
@@ -91,6 +92,11 @@ namespace DataScreen
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedComm = (string) comboBox1.SelectedItem;
+        }
+
+        private void controlPanelButton_Click(object sender, EventArgs e)
+        {
+            new ControlPanel();
         }
     }
 }

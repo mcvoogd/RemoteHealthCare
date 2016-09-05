@@ -40,5 +40,25 @@ namespace DataScreen
                 
             }
         }
+
+        public static void SendCommand(string command, SerialPort serialPort)
+        {
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                serialPort.WriteLine(command);
+            }
+            else
+            {
+                Console.WriteLine("Failed to send command");
+            }
+        }
+
+        public static void ReceiveCommand(string command, SerialPort serialPort)
+        {
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                
+            }
+        }
     }
 }

@@ -12,122 +12,27 @@ namespace DataScreen
 {
     public partial class SimulationForm : Form, StandardErgometer
     {
-        private int pulse = 120;
-        private int rotations = 100;
-        private int speed = 25;
-        private int power = 50;
-        private int burned = 420;
-        private int time = 120;
-        private int reachedPower = 666;
-        private int distance = 500;
-
-        int StandardErgometer.pulse
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        int StandardErgometer.rotations
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        int StandardErgometer.speed
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        int StandardErgometer.power
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        int StandardErgometer.burned
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        int StandardErgometer.time
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int reachedpower
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        int StandardErgometer.distance
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int pulse { get; set; }
+        public int rotations { get; set; }
+        public int speed { get; set; }
+        public int power { get; set; }
+        public int burned { get; set; }
+        public int time { get; set; }
+        public int reachedpower { get; set; }
+        public int distance { get; set; }
 
         public SimulationForm()
         {
+            pulse = 120;
+            rotations = 100;
+            speed = 25;
+            power = 50;
+            burned = 420;
+            time = 120;
+            reachedpower = 666;
+            distance = 500;
             InitializeComponent();
+    
         }
 
         private void pulseMin_Click(object sender, EventArgs e)
@@ -204,14 +109,14 @@ namespace DataScreen
 
         private void reachedPowerMin_Click(object sender, EventArgs e)
         {
-            if (reachedPower > 0) { reachedPower--; }
-            reachedPowerCount.Text = "" + reachedPower;
+            if (reachedpower > 0) { reachedpower--; }
+            reachedPowerCount.Text = "" + reachedpower;
         }
 
         private void reachedPowerPlus_Click(object sender, EventArgs e)
         {
-            if (reachedPower < 999) { reachedPower++; }
-            reachedPowerCount.Text = "" + reachedPower;
+            if (reachedpower < 999) { reachedpower++; }
+            reachedPowerCount.Text = "" + reachedpower;
         }
 
         private void distanceMin_Click(object sender, EventArgs e)
@@ -240,6 +145,8 @@ namespace DataScreen
             //        "Gehaald vermogen = " + reachedPower
             //        );
         }
+
+       
 
         public void connect()
         {

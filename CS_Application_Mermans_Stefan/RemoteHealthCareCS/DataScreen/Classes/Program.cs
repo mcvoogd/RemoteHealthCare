@@ -18,8 +18,9 @@ namespace DataScreen.Classes
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DataWindow());
 
+            new SimulationForm().Show();
+            Application.Run(new DataWindow());
         }
     }
 }

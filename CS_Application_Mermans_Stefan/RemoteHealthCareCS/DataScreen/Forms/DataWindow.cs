@@ -34,10 +34,6 @@ namespace DataScreen.Forms
             {
                 comboBox1.Items.Add(port);
             }
-
-            var simulationForm = new SimulationForm();
-            simulationForm.Show();
-
         }
 
         private delegate void SetTextCallback(string text);

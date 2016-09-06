@@ -124,7 +124,6 @@ namespace DataScreen.Forms
             distanceCount.Text = "" + Distance;
         }
 
-
         private void verzendButton_Click(object sender, EventArgs e)
         {
             //    Console.WriteLine(

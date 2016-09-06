@@ -10,6 +10,7 @@ namespace DataScreen
     static class Program
     {
         public const string STATUS_COMMAND = "ST";
+        public const string ACTIVATE_COMMANDS = "CM";
 
         /// <summary>
         /// The main entry point for the application.

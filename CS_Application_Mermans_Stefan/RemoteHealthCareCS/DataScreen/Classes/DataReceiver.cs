@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using DataScreen.Forms;
 
-namespace DataScreen
+namespace DataScreen.Classes
 {
     class DataReceiver
     {
@@ -26,7 +22,7 @@ namespace DataScreen
                 try
                 {
 
-                    _serialPort.WriteLine(Program.STATUS_COMMAND);
+                    _serialPort.WriteLine(Program.StatusCommand);
                     Console.WriteLine("Reading...");
                     string temp = _serialPort.ReadLine();
 

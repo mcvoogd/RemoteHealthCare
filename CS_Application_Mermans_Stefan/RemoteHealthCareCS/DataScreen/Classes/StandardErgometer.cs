@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataScreen
+﻿namespace DataScreen.Classes
 {
-    interface StandardErgometer
+    interface IStandardErgometer
     {
-        int pulse { get; set; }
-        int rotations { get; set; }
-        int speed { get; set; }
-        int power { get; set; }
-        int burned { get; set; }
-        int time { get; set; }
-        int reachedpower { get; set; }
-        int distance { get; set; }
+        int Pulse { get; set; }
+        int Rotations { get; set; }
+        int Speed { get; set; }
+        int Power { get; set; }
+        int Burned { get; set; }
+        int Time { get; set; }
+        int Reachedpower { get; set; }
+        int Distance { get; set; }
 
-        void connect();
-        void disconnect();
-
+        void Connect();
+        void Disconnect();
     }
 }

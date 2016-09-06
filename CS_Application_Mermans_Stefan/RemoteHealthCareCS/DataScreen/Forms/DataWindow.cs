@@ -1,25 +1,27 @@
-﻿using System;
+﻿using DataScreen.Classes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 
-namespace DataScreen
+namespace DataScreen.Forms
 {
-    public partial class DataWindow : Form, StandardErgometer
+    public partial class DataWindow : Form, IStandardErgometer
     {
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
-        private string[] _portStrings;
+        public string[] PortStrings { get; }
         public List<string> DataList { get; set; }
-        private SimulationForm simulationForm;
+
+        public int Pulse { get; set; }
+        public int Rotations { get; set; }
+        public int Speed { get; set; }
+        public int Power { get; set; }
+        public int Burned { get; set; }
+        public int Time { get; set; }
+        public int Reachedpower { get; set; }
+        public int Distance { get; set; }
 
         public DataWindow()
         {
@@ -27,18 +29,18 @@ namespace DataScreen
 
             DataList = new List<string>();
 
-            _portStrings = SerialPort.GetPortNames();
-            for (int i = 0; i < _portStrings.Length; i++)
+            PortStrings = SerialPort.GetPortNames();
+            foreach (string port in PortStrings)
             {
-                comboBox1.Items.Add(_portStrings[i]);
+                comboBox1.Items.Add(port);
             }
 
-            simulationForm = new SimulationForm();
+            var simulationForm = new SimulationForm();
             simulationForm.Show();
 
         }
 
-        delegate void SetTextCallback(string text);
+        private delegate void SetTextCallback(string text);
 
         public void SetText(string text)
         {
@@ -47,7 +49,7 @@ namespace DataScreen
             // If these threads are different, it returns true.
             if (dataTextBox.InvokeRequired)
             {
-                SetTextCallback d = new SetTextCallback(SetText);
+                var d = new SetTextCallback(SetText);
                 this.Invoke(d, new object[] { text });
             }
             else
@@ -68,10 +70,10 @@ namespace DataScreen
                     SerialPort.Open();
 
                     // Try to activate the command untill confirmation is received. DANGEROUS!
-                    while (DataReceiver.SendCommand(Program.ACTIVATE_COMMANDS, SerialPort) != "RUN"){}
+                    while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN"){}
 
-                    DataReceiver dataReceiver = new DataReceiver(SerialPort,this);
-                    System.Threading.Thread dataReceiverThread = new Thread(dataReceiver.Run);
+                    var dataReceiver = new DataReceiver(SerialPort,this);
+                    var dataReceiverThread = new Thread(dataReceiver.Run);
                     dataReceiverThread.Start();
                 }
                 else
@@ -107,118 +109,14 @@ namespace DataScreen
             new ControlPanel();
         }
 
-        public void connect()
+        public void Connect()
         {
             throw new NotImplementedException();
         }
 
-        public void disconnect()
+        public void Disconnect()
         {
             throw new NotImplementedException();
-        }
-
-        public int pulse
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int rotations
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int speed
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int power
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int burned
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int time
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int reachedpower
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int distance
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

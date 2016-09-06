@@ -17,11 +17,14 @@ namespace DataScreen
         [STAThread]
         static void Main()
         {
-            DataWindow dataWindow;
+
+            DataWindow dataScreen;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(dataWindow = new DataWindow());
+            Application.Run(dataScreen = new DataWindow());
+
+
         }
     }
 }

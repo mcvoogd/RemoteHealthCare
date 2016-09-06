@@ -32,6 +32,7 @@
             this.disconnectButton = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dataTextBox = new System.Windows.Forms.RichTextBox();
+            this.controlPanelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // connectButton
@@ -72,11 +73,22 @@
             this.dataTextBox.TabIndex = 3;
             this.dataTextBox.Text = "";
             // 
+            // controlPanelButton
+            // 
+            this.controlPanelButton.Location = new System.Drawing.Point(12, 101);
+            this.controlPanelButton.Name = "controlPanelButton";
+            this.controlPanelButton.Size = new System.Drawing.Size(122, 23);
+            this.controlPanelButton.TabIndex = 4;
+            this.controlPanelButton.Text = "controle paneel";
+            this.controlPanelButton.UseVisualStyleBackColor = true;
+            this.controlPanelButton.Click += new System.EventHandler(this.controlPanelButton_Click);
+            // 
             // DataWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 253);
+            this.Controls.Add(this.controlPanelButton);
             this.Controls.Add(this.dataTextBox);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.disconnectButton);
@@ -93,5 +105,6 @@
         private System.Windows.Forms.Button disconnectButton;
         private System.Windows.Forms.ComboBox comboBox1;
         public System.Windows.Forms.RichTextBox dataTextBox;
+        private System.Windows.Forms.Button controlPanelButton;
     }
 }

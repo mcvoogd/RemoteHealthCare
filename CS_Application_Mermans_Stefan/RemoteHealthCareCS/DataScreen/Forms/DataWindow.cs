@@ -9,15 +9,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace DataScreen
 {
-    public partial class DataWindow : Form
+    public partial class DataWindow : Form, StandardErgometer
     {
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
         private string[] _portStrings;
         public List<string> DataList { get; set; }
+        private SimulationForm simulationForm;
 
         public DataWindow()
         {
@@ -30,6 +32,10 @@ namespace DataScreen
             {
                 comboBox1.Items.Add(_portStrings[i]);
             }
+
+            simulationForm = new SimulationForm();
+            simulationForm.Show();
+
         }
 
         delegate void SetTextCallback(string text);
@@ -46,14 +52,14 @@ namespace DataScreen
             }
             else
             {
-                this.dataTextBox.Text += text;
+                this.dataTextBox.AppendText(text);
+                dataTextBox.SelectionStart = dataTextBox.TextLength;
+                dataTextBox.ScrollToCaret();
             }
         }
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-                    dataTextBox.Text += "HI";
-
             if (SerialPort == null || !SerialPort.IsOpen)
             {
                 if (SelectedComm != null)
@@ -91,6 +97,125 @@ namespace DataScreen
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedComm = (string) comboBox1.SelectedItem;
+        }
+
+        private void controlPanelButton_Click(object sender, EventArgs e)
+        {
+            new ControlPanel();
+        }
+
+        public void connect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void disconnect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int pulse
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int rotations
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int speed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int power
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int burned
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int time
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int reachedpower
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int distance
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

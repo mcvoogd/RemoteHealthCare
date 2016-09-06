@@ -13,12 +13,13 @@ using System.Xml;
 
 namespace DataScreen
 {
-    public partial class DataWindow : Form
+    public partial class DataWindow : Form, StandardErgometer
     {
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
         private string[] _portStrings;
         public List<string> DataList { get; set; }
+        private SimulationForm simulationForm;
 
         public DataWindow()
         {
@@ -31,6 +32,10 @@ namespace DataScreen
             {
                 comboBox1.Items.Add(_portStrings[i]);
             }
+
+            simulationForm = new SimulationForm();
+            simulationForm.Show();
+
         }
 
         delegate void SetTextCallback(string text);
@@ -100,6 +105,120 @@ namespace DataScreen
         private void controlPanelButton_Click(object sender, EventArgs e)
         {
             new ControlPanel();
+        }
+
+        public void connect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void disconnect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int pulse
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int rotations
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int speed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int power
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int burned
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int time
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int reachedpower
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int distance
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

@@ -66,7 +66,7 @@ namespace DataScreen.Forms
                         SerialPort.Open();
 
                         // Try to activate the command untill confirmation is received. DANGEROUS!
-                        while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN") { }
+                       // while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN") { }
 
                         var dataReceiver = new DataReceiver(SerialPort, this);
                         var dataReceiverThread = new Thread(dataReceiver.Run);

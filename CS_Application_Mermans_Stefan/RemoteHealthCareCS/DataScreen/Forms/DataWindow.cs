@@ -1,6 +1,5 @@
 ﻿using DataScreen.Classes;
 using System;
-using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,7 +14,7 @@ namespace DataScreen.Forms
         public string SelectedComm { get; set; }
         public string[] PortStrings { get; }
         public bool Connected { get; set; }
-        private SimulationForm _simulationForm;
+        private readonly SimulationForm _simulationForm;
         private System.Threading.Thread _receiverThread;
 
         public DataWindow()

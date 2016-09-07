@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace DataScreen.Classes
 {
-    class Measurement
+     public class Measurement
     {
         public int Pulse { get; set; }
         public int Rotations { get; set; }

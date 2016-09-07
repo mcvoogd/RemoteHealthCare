@@ -20,7 +20,7 @@ namespace DataScreen.Forms
         {
             if (usernameTextBox.Text == "admin" && passwordTextBox.Text == "admin")
             {
-                this.DialogResult = DialogResult.OK;
+                DialogResult = DialogResult.OK;
             }
             else if (usernameTextBox.Text == "guest" && passwordTextBox.Text == "guest")
             {

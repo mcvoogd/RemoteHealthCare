@@ -7,22 +7,15 @@ using System.Windows.Forms;
 
 namespace DataScreen.Forms
 {
-    public partial class DataWindow : Form, IStandardErgometer
+    public partial class DataWindow : Form
     {
+        private const string SimulatorText = "Simulator";
+
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
         public string[] PortStrings { get; }
         public List<string> DataList { get; set; }
-
-        public int Pulse { get; set; }
-        public int Rotations { get; set; }
-        public int Speed { get; set; }
-        public int Power { get; set; }
-        public int Burned { get; set; }
-        public int Time { get; set; }
-        public int Reachedpower { get; set; }
-        public int Distance { get; set; }
-
+       
         public DataWindow()
         {
             InitializeComponent();
@@ -34,6 +27,7 @@ namespace DataScreen.Forms
             {
                 comboBox1.Items.Add(port);
             }
+            comboBox1.Items.Add(SimulatorText);
         }
 
         private delegate void SetTextCallback(string text);
@@ -62,15 +56,22 @@ namespace DataScreen.Forms
             {
                 if (SelectedComm != null)
                 {
-                    SerialPort = new SerialPort(SelectedComm);
-                    SerialPort.Open();
+                    if (SelectedComm == SimulatorText)
+                    {
+                        new SimulationForm().Show();
+                    }
+                    else
+                    {
+                        SerialPort = new SerialPort(SelectedComm);
+                        SerialPort.Open();
 
-                    // Try to activate the command untill confirmation is received. DANGEROUS!
-                    while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN"){}
+                        // Try to activate the command untill confirmation is received. DANGEROUS!
+                        while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN") { }
 
-                    var dataReceiver = new DataReceiver(SerialPort,this);
-                    var dataReceiverThread = new Thread(dataReceiver.Run);
-                    dataReceiverThread.Start();
+                        var dataReceiver = new DataReceiver(SerialPort, this);
+                        var dataReceiverThread = new Thread(dataReceiver.Run);
+                        dataReceiverThread.Start();
+                    }
                 }
                 else
                 {
@@ -103,16 +104,6 @@ namespace DataScreen.Forms
         private void controlPanelButton_Click(object sender, EventArgs e)
         {
             new ControlPanel();
-        }
-
-        public void Connect()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Disconnect()
-        {
-            throw new NotImplementedException();
         }
     }
 }

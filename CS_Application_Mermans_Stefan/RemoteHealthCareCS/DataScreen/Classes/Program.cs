@@ -15,7 +15,6 @@ namespace DataScreen.Classes
         [STAThread]
         private static void Main()
         {
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -25,7 +24,6 @@ namespace DataScreen.Classes
             {
                 return;
             }
-            new SimulationForm().Show();
             Application.Run(dataWindow);
         }
     }

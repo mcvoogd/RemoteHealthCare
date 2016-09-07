@@ -7,18 +7,18 @@ using System.Windows.Forms;
 
 namespace DataScreen.Classes
 {
-    class Measurement
+     public class Measurement
     {
         public int Pulse { get; set; }
         public int Rotations { get; set; }
         public int Speed { get; set; }
         public int Power { get; set; }
         public int Burned { get; set; }
-        public int Time { get; set; }
+        public SimpleTime Time { get; set; }
         public int ReachedPower { get; set; }
         public int Distance { get; set; }
 
-        public Measurement(int pulse, int rotations, int speed, int power, int burned, int time, int reachedpower,
+        public Measurement(int pulse, int rotations, int speed, int power, int burned, SimpleTime time, int reachedpower,
             int distance)
         {
             this.Pulse = pulse;
@@ -31,4 +31,16 @@ namespace DataScreen.Classes
             this.Distance = distance;
         }
      }
+
+    public struct SimpleTime
+    {
+        public readonly int Minutes;
+        public readonly int Seconds;
+
+        public SimpleTime(int min, int sec)
+        {
+            Minutes = min;
+            Seconds = sec;
+        }
+    }
 }

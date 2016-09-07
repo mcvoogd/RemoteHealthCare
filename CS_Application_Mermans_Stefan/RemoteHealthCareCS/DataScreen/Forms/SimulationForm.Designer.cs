@@ -61,6 +61,9 @@
             this.distanceCount = new System.Windows.Forms.Label();
             this.distancePlus = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.CommandLabel = new System.Windows.Forms.Label();
+            this.CommandButton = new System.Windows.Forms.Button();
+            this.CommandBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // pulseLabel
@@ -345,7 +348,7 @@
             // 
             // verzendButton
             // 
-            this.verzendButton.Location = new System.Drawing.Point(15, 252);
+            this.verzendButton.Location = new System.Drawing.Point(12, 302);
             this.verzendButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.verzendButton.Name = "verzendButton";
             this.verzendButton.Size = new System.Drawing.Size(141, 41);
@@ -394,11 +397,41 @@
             this.label3.TabIndex = 32;
             this.label3.Text = "Afstand";
             // 
+            // CommandLabel
+            // 
+            this.CommandLabel.AutoSize = true;
+            this.CommandLabel.Location = new System.Drawing.Point(12, 239);
+            this.CommandLabel.Name = "CommandLabel";
+            this.CommandLabel.Size = new System.Drawing.Size(112, 17);
+            this.CommandLabel.TabIndex = 33;
+            this.CommandLabel.Text = "Text commando:";
+            // 
+            // CommandButton
+            // 
+            this.CommandButton.Location = new System.Drawing.Point(259, 239);
+            this.CommandButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CommandButton.Name = "CommandButton";
+            this.CommandButton.Size = new System.Drawing.Size(61, 23);
+            this.CommandButton.TabIndex = 34;
+            this.CommandButton.Text = "Send";
+            this.CommandButton.UseVisualStyleBackColor = true;
+            this.CommandButton.Click += new System.EventHandler(this.CommandButton_Click);
+            // 
+            // CommandBox
+            // 
+            this.CommandBox.Location = new System.Drawing.Point(164, 241);
+            this.CommandBox.Name = "CommandBox";
+            this.CommandBox.Size = new System.Drawing.Size(88, 22);
+            this.CommandBox.TabIndex = 35;
+            // 
             // SimulationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(332, 308);
+            this.ClientSize = new System.Drawing.Size(332, 354);
+            this.Controls.Add(this.CommandBox);
+            this.Controls.Add(this.CommandButton);
+            this.Controls.Add(this.CommandLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.distancePlus);
             this.Controls.Add(this.distanceCount);
@@ -475,6 +508,9 @@
         private System.Windows.Forms.Label distanceCount;
         private System.Windows.Forms.Button distancePlus;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label CommandLabel;
+        private System.Windows.Forms.Button CommandButton;
+        private System.Windows.Forms.TextBox CommandBox;
     }
 }
 

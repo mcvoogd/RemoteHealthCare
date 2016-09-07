@@ -6,126 +6,133 @@ namespace DataScreen.Forms
 {
     public partial class SimulationForm : Form
     {
-        public readonly Measurement Measurement;
-        private int _time;
-
-        public void RefreshText()
-        {
-            pulseCount.Text = "" + Measurement.Pulse;
-            rotationsCount.Text = "" + Measurement.Rotations;
-            speedCount.Text = "" + Measurement.Speed;
-            powerCount.Text = "" + Measurement.Power;
-            burnedCount.Text = "" + Measurement.Burned;
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            reachedPowerCount.Text = "" + Measurement.ReachedPower;
-            distanceCount.Text = "" + Measurement.Distance;
-        }
+        public readonly Measurement measurement;
+        private int Time;
 
         public SimulationForm()
         {
-            _time = 120;
-            Measurement = new Measurement(120, 100, 25, 50, 420, 666 ,new SimpleTime(_time/60,_time%60), 500);
+            Time = 120;
+            measurement = new Measurement(120, 100, 25, 50, 420, new SimpleTime(Time/60,Time%60), 666, 500);
             InitializeComponent();
-            RefreshText();
         }
 
         private void pulseMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.Pulse > 0) { Measurement.Pulse--; }
-            pulseCount.Text = "" + Measurement.Pulse;
+            if (measurement.Pulse > 0) { measurement.Pulse--; }
+            pulseCount.Text = "" + measurement.Pulse;
         }
 
         private void pulsePlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.Pulse < 230) { Measurement.Pulse++; }
-            pulseCount.Text = "" +  Measurement.Pulse;
+            if (measurement.Pulse < 230) { measurement.Pulse++; }
+            pulseCount.Text = "" +  measurement.Pulse;
         }
 
         private void rotationMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.Rotations  > 0) { Measurement.Rotations --; }
-            rotationsCount.Text = "" + Measurement.Rotations ;
+            if (measurement.Rotations  > 0) { measurement.Rotations --; }
+            rotationsCount.Text = "" + measurement.Rotations ;
         }
 
         private void rotationPlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.Rotations  < 240) { Measurement.Rotations ++; }
-            rotationsCount.Text = "" + Measurement.Rotations ;
+            if (measurement.Rotations  < 240) { measurement.Rotations ++; }
+            rotationsCount.Text = "" + measurement.Rotations ;
         }
 
         private void speedMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.Speed > 0) { Measurement.Speed--; }
-            speedCount.Text = "" + Measurement.Speed;
+            if (measurement.Speed > 0) { measurement.Speed--; }
+            speedCount.Text = "" + measurement.Speed;
         }
 
         private void speedPlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.Speed < 60) { Measurement.Speed++; }
-            speedCount.Text = "" + Measurement.Speed;
+            if (measurement.Speed < 60) { measurement.Speed++; }
+            speedCount.Text = "" + measurement.Speed;
         }
 
         private void powerMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.Power  > 0) { Measurement.Power --; }
-            powerCount.Text = "" + Measurement.Power ;
+            if (measurement.Power  > 0) { measurement.Power --; }
+            powerCount.Text = "" + measurement.Power ;
         }
 
         private void powerPlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.Power  < 400) { Measurement.Power ++; }
-            powerCount.Text = "" + Measurement.Power ;
+            if (measurement.Power  < 400) { measurement.Power ++; }
+            powerCount.Text = "" + measurement.Power ;
         }
 
         private void burnedMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.Burned > 0) { Measurement.Burned--; }
-            burnedCount.Text = "" + Measurement.Burned;
+            if (measurement.Burned > 0) { measurement.Burned--; }
+            burnedCount.Text = "" + measurement.Burned;
         }
 
         private void burnedPlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.Burned < 999) { Measurement.Burned++; }
-            burnedCount.Text = "" + Measurement.Burned;
+            if (measurement.Burned < 999) { measurement.Burned++; }
+            burnedCount.Text = "" + measurement.Burned;
         }
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            if (_time > 0) { _time--; }
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+            if (Time > 0) { Time--; }
+            timeCount.Text = string.Format("{0:00}:{1:00}", Time / 60, Time % 60);
+            measurement.Time = new SimpleTime(Time / 60, Time % 60);
         }
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            if (_time < 999) { _time++; }
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+            if (Time < 999) { Time++; }
+            timeCount.Text = string.Format("{0:00}:{1:00}", Time / 60, Time % 60);
+            measurement.Time = new SimpleTime(Time / 60, Time % 60);
         }
 
         private void reachedPowerMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.ReachedPower > 0) { Measurement.ReachedPower--; }
-            reachedPowerCount.Text = "" + Measurement.ReachedPower;
+            if (measurement.ReachedPower > 0) { measurement.ReachedPower--; }
+            reachedPowerCount.Text = "" + measurement.ReachedPower;
         }
 
         private void reachedPowerPlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.ReachedPower < 999) { Measurement.ReachedPower++; }
-            reachedPowerCount.Text = "" + Measurement.ReachedPower;
+            if (measurement.ReachedPower < 999) { measurement.ReachedPower++; }
+            reachedPowerCount.Text = "" + measurement.ReachedPower;
         }
 
         private void distanceMin_Click(object sender, EventArgs e)
         {
-            if (Measurement.Distance > 0) { Measurement.Distance--; }
-            distanceCount.Text = "" + Measurement.Distance;
+            if (measurement.Distance > 0) { measurement.Distance--; }
+            distanceCount.Text = "" + measurement.Distance;
         }
 
         private void distancePlus_Click(object sender, EventArgs e)
         {
-            if (Measurement.Distance < 999) { Measurement.Distance++; }
-            distanceCount.Text = "" + Measurement.Distance;
+            if (measurement.Distance < 999) { measurement.Distance++; }
+            distanceCount.Text = "" + measurement.Distance;
         }
+
+        private void CommandButton_Click(object sender, EventArgs e)
+        {
+            String command = this.CommandBox.Text;
+            string input = command.Substring(0, 2);
+            switch (input)
+            {
+                case "PW":
+                    power = Int32.Parse(System.Text.RegularExpressions.Regex.Match(command, @"\d+").Value);
+                    break;
+
+                case "PD":
+                    distance = Int32.Parse(System.Text.RegularExpressions.Regex.Match(command, @"\d+").Value);
+                    break;
+
+                default:
+                    Console.WriteLine("Command not recognized");
+                    break;
+
+            }
 
         private void verzendButton_Click(object sender, EventArgs e)
         {

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using DataScreen.Forms;
 
-namespace DataScreen
+namespace DataScreen.Classes
 {
     class DataReceiver
     {
@@ -26,7 +22,7 @@ namespace DataScreen
                 try
                 {
 
-                    _serialPort.WriteLine(Program.STATUS_COMMAND);
+                    _serialPort.WriteLine(Program.StatusCommand);
                     Console.WriteLine("Reading...");
                     string temp = _serialPort.ReadLine();
 
@@ -41,24 +37,27 @@ namespace DataScreen
             }
         }
 
-        public static void SendCommand(string command, SerialPort serialPort)
+        public static string SendCommand(string command, SerialPort serialPort)
         {
             if (serialPort != null && serialPort.IsOpen)
             {
                 serialPort.WriteLine(command);
+                return serialPort.ReadLine();
             }
             else
             {
                 Console.WriteLine("Failed to send command");
+                return null;
             }
         }
 
-        public static void ReceiveCommand(string command, SerialPort serialPort)
+        public static string ReceiveCommand(SerialPort serialPort)
         {
             if (serialPort != null && serialPort.IsOpen)
             {
-                
+                return serialPort.ReadLine();
             }
+            return null;
         }
     }
 }

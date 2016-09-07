@@ -1,30 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataScreen.Forms;
 
-namespace DataScreen
+namespace DataScreen.Classes
 {
     static class Program
     {
-        public const string STATUS_COMMAND = "ST";
+        public const string StatusCommand = "ST";
+        public const string ActivateCommands = "CM";
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-
-            DataWindow dataScreen;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(dataScreen = new DataWindow());
 
-
+            new SimulationForm().Show();
+            Application.Run(new DataWindow());
         }
     }
 }

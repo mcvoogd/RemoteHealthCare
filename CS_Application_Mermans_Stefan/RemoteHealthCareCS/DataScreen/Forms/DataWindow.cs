@@ -59,6 +59,7 @@ namespace DataScreen.Forms
                     if (SelectedComm == SimulatorText)
                     {
                         new SimulationForm().Show();
+                        
                     }
                     else
                     {

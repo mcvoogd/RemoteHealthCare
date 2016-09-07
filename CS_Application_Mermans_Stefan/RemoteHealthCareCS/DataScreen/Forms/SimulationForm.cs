@@ -4,16 +4,16 @@ using System.Windows.Forms;
 
 namespace DataScreen.Forms
 {
-    public partial class SimulationForm : Form, IStandardErgometer
+    public partial class SimulationForm : Form
     {
-        public int Pulse { get; set; }
-        public int Rotations { get; set; }
-        public int Speed { get; set; }
-        public int Power { get; set; }
-        public int Burned { get; set; }
-        public int Time { get; set; }
-        public int Reachedpower { get; set; }
-        public int Distance { get; set; }
+        public int Pulse;
+        public int Rotations;
+        public int Speed;
+        public int Power;
+        public int Burned;
+        public int Time;
+        public int Reachedpower;
+        public int Distance;
 
         public SimulationForm()
         {
@@ -130,21 +130,11 @@ namespace DataScreen.Forms
             //        "Hartslag = " + pulse + "\n" +
             //        "Rotaties = " + rotations + "\n" +
             //        "Snelheid = " + speed + "\n" +
-            //        "Vermogen = " + power + "\n" +
+           //        "Vermogen = " + power + "\n" +
             //        "Verbrande energie = " + burned + "\n" +
             //        "Tijd in minuten = " + time + "\n" +
             //        "Gehaald vermogen = " + reachedPower
             //        );
         }
-
-        public void Connect()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Disconnect()
-        {
-            throw new NotImplementedException();
-        }
-    }
+   }
 }

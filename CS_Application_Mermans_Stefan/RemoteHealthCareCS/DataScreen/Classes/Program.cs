@@ -15,7 +15,6 @@ namespace DataScreen.Classes
         [STAThread]
         private static void Main()
         {
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

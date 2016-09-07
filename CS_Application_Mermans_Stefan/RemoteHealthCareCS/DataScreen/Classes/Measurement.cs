@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace DataScreen.Classes
 {
      public class Measurement
-    {
+     {
         public int Pulse { get; set; }
         public int Rotations { get; set; }
         public int Speed { get; set; }
@@ -17,6 +17,7 @@ namespace DataScreen.Classes
         public int Burned { get; set; }
         public SimpleTime Time { get; set; }
         public int ReachedPower { get; set; }
+         public readonly string OrigionString;
 
 
         public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower)
@@ -29,9 +30,23 @@ namespace DataScreen.Classes
             this.Burned = burned;
             this.Time = time;
             this.ReachedPower = reachedpower;
-            
+
         }
-     }
+
+        public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower, string origin)
+        {
+            this.Pulse = pulse;
+            this.Rotations = rotations;
+            this.Speed = speed;
+            this.Distance = distance;
+            this.Power = power;
+            this.Burned = burned;
+            this.Time = time;
+            this.ReachedPower = reachedpower;
+            this.OrigionString = origin;    
+        }
+
+    }
 
     public struct SimpleTime
     {
@@ -42,6 +57,11 @@ namespace DataScreen.Classes
         {
             Minutes = min;
             Seconds = sec;
+        }
+
+        public override string ToString()
+        {
+            return $"{Minutes:00}:{Seconds:00}";
         }
     }
 }

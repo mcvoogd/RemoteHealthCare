@@ -14,13 +14,12 @@ namespace DataScreen.Forms
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
         public string[] PortStrings { get; }
-        public List<string> DataList { get; set; }
-       
+        public bool Connected { get; set; }
+
         public DataWindow()
         {
+            Connected = false;
             InitializeComponent();
-
-            DataList = new List<string>();
 
             PortStrings = SerialPort.GetPortNames();
             foreach (string port in PortStrings)
@@ -52,14 +51,18 @@ namespace DataScreen.Forms
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            if (SerialPort == null || !SerialPort.IsOpen)
+            if ((SerialPort == null || !SerialPort.IsOpen) && !Connected)
             {
                 if (SelectedComm != null)
                 {
                     if (SelectedComm == SimulatorText)
                     {
-                        new SimulationForm().Show();
-                        
+                        var simulationFOrm = new SimulationForm();
+                        simulationFOrm.Show();
+                        var dataReceiver = new DataReceiver(this,simulationFOrm);
+                        var dataReceiverThread = new Thread(dataReceiver.Run);
+                        dataReceiverThread.Start();
+                        Connected = true;
                     }
                     else
                     {
@@ -74,6 +77,7 @@ namespace DataScreen.Forms
                         var dataReceiver = new DataReceiver(SerialPort, this);
                         var dataReceiverThread = new Thread(dataReceiver.Run);
                         dataReceiverThread.Start();
+                        Connected = true;
                     }
                 }
                 else
@@ -96,6 +100,7 @@ namespace DataScreen.Forms
             else
             {
                 SerialPort.Close();
+                Connected = false;
             }
         }
 

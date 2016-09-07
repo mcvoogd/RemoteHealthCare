@@ -123,6 +123,29 @@ namespace DataScreen
 
         }
 
+        private void CommandButton_Click(object sender, EventArgs e)
+        {
+            String command = this.CommandBox.Text;
+            MessageBox.Show(command);
+            string input = command.Substring(0, 2);
+            switch(input)
+            {
+                case "PW":
+                    power = Int32.Parse(System.Text.RegularExpressions.Regex.Match(command, @"\d+").Value);
+                    MessageBox.Show(power + "");
+                    break;
+
+                case "PD":
+                    distance = Int32.Parse(System.Text.RegularExpressions.Regex.Match(command, @"\d+").Value);
+                    MessageBox.Show(distance + "");
+                    break;
+
+                default:
+                    Console.WriteLine("Command not recognized");
+                    break;
+
+            }
+        }
 
         private void verzendButton_Click(object sender, EventArgs e)
         {
@@ -136,6 +159,5 @@ namespace DataScreen
             //        "Gehaald vermogen = " + reachedPower
             //        );
         }
-
     }
 }

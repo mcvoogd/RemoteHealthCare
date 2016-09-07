@@ -41,6 +41,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // connectButton
@@ -163,11 +164,21 @@
             this.label8.TabIndex = 12;
             this.label8.Text = "Bereikt vermogen";
             // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(9, 243);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(103, 17);
+            this.statusLabel.TabIndex = 13;
+            this.statusLabel.Text = "niet verbonden";
+            // 
             // DataWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(994, 253);
+            this.ClientSize = new System.Drawing.Size(994, 269);
+            this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -203,5 +214,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label statusLabel;
     }
 }

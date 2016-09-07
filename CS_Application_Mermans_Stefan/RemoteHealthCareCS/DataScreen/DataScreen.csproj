@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Measurement.cs" />
     <Compile Include="Forms\ControlPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,7 +60,6 @@
     <Compile Include="Forms\DataWindow.Designer.cs">
       <DependentUpon>DataWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\StandardErgometer.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
@@ -82,6 +82,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SimulationForm.resx">
+      <DependentUpon>SimulationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

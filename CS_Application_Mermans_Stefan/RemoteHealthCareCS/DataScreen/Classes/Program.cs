@@ -19,8 +19,14 @@ namespace DataScreen.Classes
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            var loginForm = new LoginForm();
+            var dataWindow = new DataWindow();
+            while (loginForm.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
             new SimulationForm().Show();
-            Application.Run(new DataWindow());
+            Application.Run(dataWindow);
         }
     }
 }

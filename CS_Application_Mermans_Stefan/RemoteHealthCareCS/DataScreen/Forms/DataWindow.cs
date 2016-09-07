@@ -119,7 +119,6 @@ namespace DataScreen.Forms
             {
                 Console.WriteLine("Not connected");
             }
-            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

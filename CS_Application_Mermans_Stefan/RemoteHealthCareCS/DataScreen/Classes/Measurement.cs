@@ -19,7 +19,6 @@ namespace DataScreen.Classes
         public int ReachedPower { get; set; }
          public readonly string OrigionString;
 
-
         public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower)
         {
             this.Pulse = pulse;
@@ -30,7 +29,6 @@ namespace DataScreen.Classes
             this.Burned = burned;
             this.Time = time;
             this.ReachedPower = reachedpower;
-
         }
 
         public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower, string origin)
@@ -45,8 +43,8 @@ namespace DataScreen.Classes
             this.ReachedPower = reachedpower;
             this.OrigionString = origin;    
         }
-
     }
+
 
     public struct SimpleTime
     {

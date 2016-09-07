@@ -25,7 +25,6 @@ namespace DataScreen.Classes
             {
                 return;
             }
-            new SimulationForm().Show();
             Application.Run(dataWindow);
         }
     }

@@ -9,6 +9,8 @@ namespace DataScreen.Forms
 {
     public partial class DataWindow : Form, IStandardErgometer
     {
+        private const string SimulatorText = "Simulator";
+
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
         public string[] PortStrings { get; }
@@ -34,6 +36,7 @@ namespace DataScreen.Forms
             {
                 comboBox1.Items.Add(port);
             }
+            comboBox1.Items.Add(SimulatorText);
         }
 
         private delegate void SetTextCallback(string text);
@@ -62,15 +65,22 @@ namespace DataScreen.Forms
             {
                 if (SelectedComm != null)
                 {
-                    SerialPort = new SerialPort(SelectedComm);
-                    SerialPort.Open();
+                    if (SelectedComm == SimulatorText)
+                    {
+                        new SimulationForm().Show();
+                    }
+                    else
+                    {
+                        SerialPort = new SerialPort(SelectedComm);
+                        SerialPort.Open();
 
-                    // Try to activate the command untill confirmation is received. DANGEROUS!
-                    while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN"){}
+                        // Try to activate the command untill confirmation is received. DANGEROUS!
+                        while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN") { }
 
-                    var dataReceiver = new DataReceiver(SerialPort,this);
-                    var dataReceiverThread = new Thread(dataReceiver.Run);
-                    dataReceiverThread.Start();
+                        var dataReceiver = new DataReceiver(SerialPort, this);
+                        var dataReceiverThread = new Thread(dataReceiver.Run);
+                        dataReceiverThread.Start();
+                    }
                 }
                 else
                 {

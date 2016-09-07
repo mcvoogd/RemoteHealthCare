@@ -25,7 +25,7 @@ namespace DataScreen.Classes
             {
                 try
                 {
-
+                    Console.WriteLine("Sending");
                     _serialPort.WriteLine(Program.StatusCommand);
                     Console.WriteLine("Reading...");
                     string temp = _serialPort.ReadLine();
@@ -43,17 +43,15 @@ namespace DataScreen.Classes
             }
         }
 
-        public static string SendCommand(string command, SerialPort serialPort)
+        public static void SendCommand(string command, SerialPort serialPort)
         {
             if (serialPort != null && serialPort.IsOpen)
             {
                 serialPort.WriteLine(command);
-                return serialPort.ReadLine();
             }
             else
             {
                 Console.WriteLine("Failed to send command");
-                return null;
             }
         }
 

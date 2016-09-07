@@ -59,6 +59,7 @@ namespace DataScreen.Forms
                     if (SelectedComm == SimulatorText)
                     {
                         new SimulationForm().Show();
+                        
                     }
                     else
                     {
@@ -66,7 +67,9 @@ namespace DataScreen.Forms
                         SerialPort.Open();
 
                         // Try to activate the command untill confirmation is received. DANGEROUS!
-                       // while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN") { }
+//                        while (DataReceiver.SendCommand(Program.ActivateCommands, SerialPort) != "RUN") { }
+//                        DataReceiver.SendCommand(Program.ResetCommand, SerialPort);
+                        DataReceiver.SendCommand(Program.ActivateCommands, SerialPort);
 
                         var dataReceiver = new DataReceiver(SerialPort, this);
                         var dataReceiverThread = new Thread(dataReceiver.Run);

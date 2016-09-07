@@ -1,6 +1,5 @@
 ﻿using DataScreen.Classes;
 using System;
-using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,9 +14,13 @@ namespace DataScreen.Forms
         public string SelectedComm { get; set; }
         public string[] PortStrings { get; }
         public bool Connected { get; set; }
+        private readonly SimulationForm _simulationForm;
+        private System.Threading.Thread _receiverThread;
 
         public DataWindow()
         {
+            _simulationForm = new SimulationForm();
+            _receiverThread = null;
             Connected = false;
             InitializeComponent();
 
@@ -57,12 +60,14 @@ namespace DataScreen.Forms
                 {
                     if (SelectedComm == SimulatorText)
                     {
-                        var simulationFOrm = new SimulationForm();
-                        simulationFOrm.Show();
-                        var dataReceiver = new DataReceiver(this,simulationFOrm);
-                        var dataReceiverThread = new Thread(dataReceiver.Run);
-                        dataReceiverThread.Start();
+                        var dataReceiver = new DataReceiver(this,_simulationForm);
+                        _receiverThread = new Thread(dataReceiver.Run);
+
+                        _receiverThread.Start();
                         Connected = true;
+                        _simulationForm.Show();
+
+                        statusLabel.Text = "Simulating";
                     }
                     else
                     {
@@ -75,9 +80,10 @@ namespace DataScreen.Forms
                         DataReceiver.SendCommand(Program.ActivateCommands, SerialPort);
 
                         var dataReceiver = new DataReceiver(SerialPort, this);
-                        var dataReceiverThread = new Thread(dataReceiver.Run);
-                        dataReceiverThread.Start();
+                        _receiverThread = new Thread(dataReceiver.Run);
+                        _receiverThread.Start();
                         Connected = true;
+                        statusLabel.Text = $"Verbonden met: {SerialPort.PortName}";
                     }
                 }
                 else
@@ -93,14 +99,25 @@ namespace DataScreen.Forms
 
         private void disconnectButton_Click(object sender, EventArgs e)
         {
-            if (SerialPort == null || !SerialPort.IsOpen)
+            if (Connected)
             {
-                Console.WriteLine("Not connected");
+                if ((SerialPort == null || !SerialPort.IsOpen) && _receiverThread != null)
+                {
+                    _receiverThread.Abort();
+                    _receiverThread = null;
+                    Connected = false;
+                    statusLabel.Text = "niet verbonden";
+                }
+                else
+                {
+                    SerialPort.Close();
+                    Connected = false;
+                    statusLabel.Text = "niet verbonden";
+                }
             }
             else
             {
-                SerialPort.Close();
-                Connected = false;
+                Console.WriteLine("Not connected");
             }
         }
 

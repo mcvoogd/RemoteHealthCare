@@ -11,7 +11,7 @@ namespace DataScreen.Classes
     {
         private readonly SerialPort _serialPort;
         private readonly DataWindow _dataWindow;
-        private SimulationForm _simulation;
+        private readonly SimulationForm _simulation;
         public readonly List<Measurement> Measurements;
 
         public DataReceiver(SerialPort serialPort, DataWindow dataWindow)
@@ -41,7 +41,7 @@ namespace DataScreen.Classes
                         Console.WriteLine("Sending");
                         _serialPort.WriteLine(Program.StatusCommand);
                         Console.WriteLine("Reading...");
-                        string temp = _serialPort.ReadLine();
+                        var temp = _serialPort.ReadLine();
 
                         Measurements.Add(ParseMeasurement(temp));
 
@@ -92,7 +92,7 @@ namespace DataScreen.Classes
             return null;
         }
 
-        public static Measurement ParseMeasurement(String inputString)
+        public static Measurement ParseMeasurement(string inputString)
         {
             string stringholder = inputString;
             inputString = inputString.Trim();
@@ -103,15 +103,14 @@ namespace DataScreen.Classes
             //splitString[8] = "0";
             int[] lijstje = new[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
             int teller = 0;
-            foreach (String s in splitString)
+            foreach (string s in splitString)
             {
-                lijstje[teller] = Int32.Parse(s);
+                lijstje[teller] = int.Parse(s);
                 teller++;
             }
 
-            SimpleTime tempTime = new SimpleTime(Int32.Parse(simpleTimeString[0]), Int32.Parse(simpleTimeString[1]));
-            
-            Measurement tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7], stringholder);
+            var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
+            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7], stringholder);
 
             return tempMeasurement;
         }

@@ -9,6 +9,16 @@ namespace DataScreen.Forms
         public readonly Measurement Measurement;
         private int _time;
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
         public void RefreshText()
         {
             pulseCount.Text = "" + Measurement.Pulse;
@@ -129,7 +139,7 @@ namespace DataScreen.Forms
 
         private void verzendButton_Click(object sender, EventArgs e)
         {
-            // TODO implent
+            // TODO remove
         }
    }
 }

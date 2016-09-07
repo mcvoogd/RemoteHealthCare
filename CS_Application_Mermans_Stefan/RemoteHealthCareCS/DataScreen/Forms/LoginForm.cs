@@ -22,6 +22,10 @@ namespace DataScreen.Forms
             {
                 this.DialogResult = DialogResult.OK;
             }
+            else if (usernameTextBox.Text == "guest" && passwordTextBox.Text == "guest")
+            {
+                this.DialogResult = DialogResult.OK;
+            }
             else
             {
                 wrongLogin.Visible = true;

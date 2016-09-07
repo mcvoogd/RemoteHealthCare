@@ -54,17 +54,17 @@ namespace DataScreen.Classes
                 }
                 else
                 {
-                    Measurements.Add(_simulation.measurement);
+                    Measurements.Add(_simulation.Measurement);
                     
                     _dataWindow.SetText(
-                    $"{_simulation.measurement.Pulse}   " +
-                    $"{_simulation.measurement.Rotations}   " +
-                    $"{_simulation.measurement.Speed}   " +
-                    $"{_simulation.measurement.Distance}   " +
-                    $"{_simulation.measurement.Power}   " +
-                    $"{_simulation.measurement.Burned}   " +
-                    $"{_simulation.measurement.Time}   " +
-                    $"{_simulation.measurement.ReachedPower}\n");
+                    $"{_simulation.Measurement.Pulse}\t" +
+                    $"{_simulation.Measurement.Rotations}\t" +
+                    $"{_simulation.Measurement.Speed}\t" +
+                    $"{_simulation.Measurement.Distance}\t" +
+                    $"{_simulation.Measurement.Power}\t" +
+                    $"{_simulation.Measurement.Burned}\t" +
+                    $"{_simulation.Measurement.Time}\t" +
+                    $"{_simulation.Measurement.ReachedPower}\n");
 
                     Thread.Sleep(1000);
                 }
@@ -95,12 +95,12 @@ namespace DataScreen.Classes
         public static Measurement ParseMeasurement(String inputString)
         {
             string stringholder = inputString;
-            inputString.Trim();
+            inputString = inputString.Trim();
             string[] splitString = inputString.Split(new char[0]);
             string[] simpleTimeString = splitString[6].Split(':');
             
             splitString[6] = "0";
-            splitString[8] = "0";
+            //splitString[8] = "0";
             int[] lijstje = new[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
             int teller = 0;
             foreach (String s in splitString)

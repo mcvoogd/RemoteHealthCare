@@ -113,5 +113,10 @@ namespace DataScreen.Forms
             if (measurement.Distance < 999) { measurement.Distance++; }
             distanceCount.Text = "" + measurement.Distance;
         }
+
+        private void verzendButton_Click(object sender, EventArgs e)
+        {
+            // TODO implent
+        }
    }
 }

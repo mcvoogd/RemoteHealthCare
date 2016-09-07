@@ -7,22 +7,13 @@ using System.Windows.Forms;
 
 namespace DataScreen.Forms
 {
-    public partial class DataWindow : Form, IStandardErgometer
+    public partial class DataWindow : Form
     {
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
         public string[] PortStrings { get; }
         public List<string> DataList { get; set; }
-
-        public int Pulse { get; set; }
-        public int Rotations { get; set; }
-        public int Speed { get; set; }
-        public int Power { get; set; }
-        public int Burned { get; set; }
-        public int Time { get; set; }
-        public int Reachedpower { get; set; }
-        public int Distance { get; set; }
-
+       
         public DataWindow()
         {
             InitializeComponent();
@@ -103,16 +94,6 @@ namespace DataScreen.Forms
         private void controlPanelButton_Click(object sender, EventArgs e)
         {
             new ControlPanel();
-        }
-
-        public void Connect()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Disconnect()
-        {
-            throw new NotImplementedException();
         }
     }
 }

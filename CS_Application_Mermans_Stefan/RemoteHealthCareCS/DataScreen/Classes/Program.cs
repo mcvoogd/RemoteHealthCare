@@ -8,6 +8,8 @@ namespace DataScreen.Classes
     {
         public const string StatusCommand = "ST";
         public const string ActivateCommands = "CM";
+        public const string ResetCommand = "RS";
+        public const string test = "Pw(10000)";
 
         /// <summary>
         /// The main entry point for the application.

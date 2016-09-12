@@ -42,11 +42,12 @@ namespace VRConnectorForm
 
                 string request = "{\"id\" : \"session/list\"}";
 
-                byte[] buffer = Encoding.Default.GetBytes(request);
-                byte[] bufferPrepend = BitConverter.GetBytes(buffer.Length);
-
-                NetworkStream.Write(bufferPrepend,0,bufferPrepend.Length);
-                NetworkStream.Write(buffer, 0, buffer.Length);
+                sendMessage(request);
+//                byte[] buffer = Encoding.Default.GetBytes(request);
+//                byte[] bufferPrepend = BitConverter.GetBytes(buffer.Length);
+//
+//                NetworkStream.Write(bufferPrepend,0,bufferPrepend.Length);
+//                NetworkStream.Write(buffer, 0, buffer.Length);
 
                 byte[] receiveBuffer = new byte[128];
                 byte[] bufferBytes = new byte[0];
@@ -120,6 +121,15 @@ namespace VRConnectorForm
                 tempArray[i] = array[count + i];
             }
             return tempArray;
+        }
+
+        public void sendMessage(string request)
+        {
+            byte[] buffer = Encoding.Default.GetBytes(request);
+            byte[] bufferPrepend = BitConverter.GetBytes(buffer.Length);
+
+            NetworkStream.Write(bufferPrepend, 0, bufferPrepend.Length);
+            NetworkStream.Write(buffer, 0, buffer.Length);
         }
     }
 }

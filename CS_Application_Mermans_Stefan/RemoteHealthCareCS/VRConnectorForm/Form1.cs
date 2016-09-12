@@ -15,7 +15,6 @@ namespace VRConnectorForm
     {
         private int _selectedIndex;
 
-
         Connection connection;
         public Form1()
         {
@@ -54,6 +53,14 @@ namespace VRConnectorForm
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedIndex = listBox1.SelectedIndex;
+        }
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            string request = "{\"id\" : \"session/list\"}";
+
+            connection.sendMessage(request);
         }
     }
 }

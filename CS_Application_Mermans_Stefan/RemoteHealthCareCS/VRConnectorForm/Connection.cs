@@ -12,6 +12,7 @@ namespace VRConnectorForm
     {
         public string VRServerIP { get; set; }
         public int VRServerPort { get; set; }
+        public string TunnelID { get; set; }
         private TcpClient Client;
         public NetworkStream NetworkStream { get; set; }
         public JsonRawData JsonRawData { get; set; }
@@ -63,6 +64,11 @@ namespace VRConnectorForm
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
+                                    Console.WriteLine("Connected! " + red.data.id);
+                                    this.TunnelID = red.data.id;
+                                    string req =
+                                        "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" : \" "+red.data.id +"\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : [ 1, 1, 1 ], \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"filename\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
+                                    sendMessage(req);
                                     break;
                                 default : break;
                              }

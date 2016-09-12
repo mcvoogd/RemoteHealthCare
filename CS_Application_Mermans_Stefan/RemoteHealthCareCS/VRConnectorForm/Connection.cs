@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 
 namespace VRConnectorForm
 {
-    delegate void FillConnectionList();
+    public delegate void FillConnectionList();
 
-    class Connection
+    public class Connection
     {
         public string VRServerIP { get; set; }
         public int VRServerPort { get; set; }

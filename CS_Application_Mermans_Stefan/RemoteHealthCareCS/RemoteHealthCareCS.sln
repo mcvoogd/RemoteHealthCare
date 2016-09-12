@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataScreen", "DataScreen\DataScreen.csproj", "{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRconnector", "VRconnector\VRconnector.csproj", "{9CB7A086-8555-4AC0-8ECF-897A35C5E02F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRConnectorConsole", "VRConnectorConsole\VRConnectorConsole.csproj", "{14AA5E41-0789-4A5F-8CED-1B07EDB14F5E}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7059E93-B080-4B22-A9AA-C09FFB69EC3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CB7A086-8555-4AC0-8ECF-897A35C5E02F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CB7A086-8555-4AC0-8ECF-897A35C5E02F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CB7A086-8555-4AC0-8ECF-897A35C5E02F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CB7A086-8555-4AC0-8ECF-897A35C5E02F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14AA5E41-0789-4A5F-8CED-1B07EDB14F5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14AA5E41-0789-4A5F-8CED-1B07EDB14F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14AA5E41-0789-4A5F-8CED-1B07EDB14F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU

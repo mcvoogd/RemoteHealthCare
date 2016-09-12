@@ -17,7 +17,7 @@ namespace VRConnectorConsole
             thread.Start();
 
             Console.Read();
-            thread.Abort();
+            thread.Interrupt();
         }
     }
 }

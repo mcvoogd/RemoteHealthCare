@@ -57,7 +57,7 @@ namespace VRConnectorForm
                             var result = GetMessageFromBuffer(bufferBytes, packetLength);
 
                             dynamic red = JsonConvert.DeserializeObject(result);
-
+                           
                             switch ((String)red.id)
                             {
                                 case "session/list" :
@@ -69,6 +69,12 @@ namespace VRConnectorForm
                                     Console.WriteLine("Connected! id :  " + red.data.id);
                                     this.TunnelID = red.data.id;                                  
                                   break;
+                                case "tunnel/send":
+                                    Console.WriteLine(red + "<- recieved ID");
+                                    break;
+                                case "scene/node/add":
+                                    Console.WriteLine(red.data.id);
+                                    break;
                                 default : break;
                              }
                           

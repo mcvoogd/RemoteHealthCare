@@ -27,18 +27,23 @@ namespace VRconnector
                 Client = new TcpClient(VRServerIP, VRServerPort);
                 stream = Client.GetStream();
 
-                string request = "{'id' : 'session/list' }";
+                Console.WriteLine("Stream started");
+
+                string request = "0x00 0x00 0x00 0x18 {'id' : 'session/list'}";
 
                 byte[] buffer = Encoding.Default.GetBytes(request);
                 
                 stream.Write(buffer, 0, buffer.Length);
 
+                Console.WriteLine("Wrote request");
+
                 StringBuilder message = new StringBuilder();
                 int numberOfBytesRead = 0;
-                byte[] receiveBuffer = new byte[1024];
+                byte[] receiveBuffer = new byte[512];
 
                 do
                 {
+                    Console.WriteLine("Reading");
                     numberOfBytesRead = stream.Read(receiveBuffer, 0, receiveBuffer.Length);
                     if (numberOfBytesRead <= 0)
                         break;

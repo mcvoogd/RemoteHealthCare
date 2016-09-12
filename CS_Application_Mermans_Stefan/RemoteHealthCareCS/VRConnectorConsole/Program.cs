@@ -12,6 +12,9 @@ namespace VRConnectorConsole
         {
             Connection connection = new Connection("84.24.41.72",6666);
             connection.StartConnection();
+
+            Console.Read();
+            connection.stopConnection();
         }
     }
 }

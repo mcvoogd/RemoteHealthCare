@@ -26,11 +26,6 @@ namespace VRConnectorForm
             FillConnectionList = form.FillConnectionList;
         }
 
-        public void SendCommand(string command)
-        {
-            
-        }
-
         public void StartConnection()
         {
             try
@@ -63,8 +58,16 @@ namespace VRConnectorForm
                         if (bufferBytes.Length >= packetLength + 4)
                         {
                             var result = GetMessageFromBuffer(bufferBytes, packetLength);
-                            var res = JsonConvert.DeserializeObject<JsonRawData>(result);
-                            JsonRawData = res;
+                            Console.WriteLine(JsonConvert.DeserializeObject(result));
+                            try
+                            {
+                                var res = JsonConvert.DeserializeObject<JsonRawData>(result);
+                                JsonRawData = res;
+                            }
+                            catch (Exception)
+                            {
+                                Console.WriteLine("Error converting json, DUH");
+                            }
 
                             Form.Invoke(FillConnectionList);
 

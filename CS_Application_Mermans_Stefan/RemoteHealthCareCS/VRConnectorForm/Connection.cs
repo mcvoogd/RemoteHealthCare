@@ -26,11 +26,6 @@ namespace VRConnectorForm
             FillConnectionList = form.FillConnectionList;
         }
 
-        public void SendCommand(string command)
-        {
-            
-        }
-
         public void StartConnection()
         {
             try
@@ -43,12 +38,6 @@ namespace VRConnectorForm
                 string request = "{\"id\" : \"session/list\"}";
 
                 sendMessage(request);
-//                byte[] buffer = Encoding.Default.GetBytes(request);
-//                byte[] bufferPrepend = BitConverter.GetBytes(buffer.Length);
-//
-//                NetworkStream.Write(bufferPrepend,0,bufferPrepend.Length);
-//                NetworkStream.Write(buffer, 0, buffer.Length);
-
                 byte[] receiveBuffer = new byte[128];
                 byte[] bufferBytes = new byte[0];
 
@@ -62,13 +51,24 @@ namespace VRConnectorForm
 
                         if (bufferBytes.Length >= packetLength + 4)
                         {
-                            var result = GetMessageFromBuffer(bufferBytes, packetLength);
-                            var res = JsonConvert.DeserializeObject<JsonRawData>(result);
-                            JsonRawData = res;
+                            var result = GetMessageFromBuffer(bufferBytes, packetLength);// TODO parse data and remove from buffer
 
-                            Form.Invoke(FillConnectionList);
+                            dynamic red = JsonConvert.DeserializeObject(result);
 
-                            bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
+                            switch ((String)red.id)
+                            {
+                                case "session/list" :
+                                    var res = JsonConvert.DeserializeObject<JsonRawData>(result);
+                                    JsonRawData = res;
+                                    Form.Invoke(FillConnectionList);
+                                    break;
+                                case "tunnel/create":
+                                    break;
+                                default : break;
+                             }
+                          
+                           
+                             bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
                         }
                     }
                 } while (Client.Connected);

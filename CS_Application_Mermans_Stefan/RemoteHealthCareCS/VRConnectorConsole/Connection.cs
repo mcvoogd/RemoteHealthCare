@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace VRconnector
+namespace VRConnectorConsole
 {
     class Connection
     {
@@ -20,33 +17,45 @@ namespace VRconnector
             this.VRServerPort = port;
         }
 
+        public void stopConnection()
+        {
+            NetworkStream.Close();
+            Client.Close();
+        }
+
         public bool StartConnection()
         {
             try
             {
+                Console.WriteLine("Connecting...");
                 Client = new TcpClient(VRServerIP, VRServerPort);
+                Console.WriteLine("Connected: " + Client.Connected);
                 NetworkStream = Client.GetStream();
+                NetworkStream.ReadTimeout = 1000;
+
 
                 string request = "{'id' : 'session/list' }";
 
                 byte[] buffer = Encoding.Default.GetBytes(request);
-                
+
                 NetworkStream.Write(buffer, 0, buffer.Length);
 
                 StringBuilder message = new StringBuilder();
                 int numberOfBytesRead = 0;
-                byte[] receiveBuffer = new byte[1024];
+                byte[] receiveBuffer = new byte[4];
 
                 do
                 {
-                    numberOfBytesRead = stream.Read(receiveBuffer, 0, receiveBuffer.Length);
+                    Console.WriteLine("loop");
+                    numberOfBytesRead = NetworkStream.Read(receiveBuffer, 0, receiveBuffer.Length);
+                    Console.WriteLine("read");
                     if (numberOfBytesRead <= 0)
                         break;
                     message.AppendFormat("{0}", Encoding.ASCII.GetString(receiveBuffer, 0, numberOfBytesRead));
 
                 } while (Client.Connected);
 
-
+                Console.WriteLine("response");
                 string response = message.ToString();
                 Console.WriteLine(response);
             }

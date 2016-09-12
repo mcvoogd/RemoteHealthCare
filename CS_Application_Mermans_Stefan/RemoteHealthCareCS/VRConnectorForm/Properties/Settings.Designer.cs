@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VRconnector.Properties
+namespace VRConnectorForm.Properties
 {
 
 

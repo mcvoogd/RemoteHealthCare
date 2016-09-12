@@ -17,13 +17,13 @@ namespace VRConnectorConsole
             this.VRServerPort = port;
         }
 
-        public void stopConnection()
-        {
-            NetworkStream.Close();
-            Client.Close();
-        }
+//        public void stopConnection()
+//        {
+//            NetworkStream.Close();
+//            Client.Close();
+//        }
 
-        public bool StartConnection()
+        public void StartConnection()
         {
             try
             {
@@ -31,39 +31,39 @@ namespace VRConnectorConsole
                 Client = new TcpClient(VRServerIP, VRServerPort);
                 Console.WriteLine("Connected: " + Client.Connected);
                 NetworkStream = Client.GetStream();
-                NetworkStream.ReadTimeout = 1000;
 
-
-                string request = "{'id' : 'session/list' }";
+                string request = "{\"id\" : \"session/list\"}";
 
                 byte[] buffer = Encoding.Default.GetBytes(request);
+                byte[] bufferPrepend = BitConverter.GetBytes(buffer.Length);
 
+                NetworkStream.Write(bufferPrepend,0,bufferPrepend.Length);
                 NetworkStream.Write(buffer, 0, buffer.Length);
 
                 StringBuilder message = new StringBuilder();
                 int numberOfBytesRead = 0;
-                byte[] receiveBuffer = new byte[4];
+                byte[] receiveBuffer = new byte[1024];
 
                 do
                 {
                     Console.WriteLine("loop");
                     numberOfBytesRead = NetworkStream.Read(receiveBuffer, 0, receiveBuffer.Length);
-                    Console.WriteLine("read");
+                    Console.WriteLine("numberofBytes:" + numberOfBytesRead);
                     if (numberOfBytesRead <= 0)
                         break;
                     message.AppendFormat("{0}", Encoding.ASCII.GetString(receiveBuffer, 0, numberOfBytesRead));
+                    Console.WriteLine("response");
+                    string response = message.ToString();
+                    Console.WriteLine(response);
 
                 } while (Client.Connected);
 
-                Console.WriteLine("response");
-                string response = message.ToString();
-                Console.WriteLine(response);
+                
             }
             catch (Exception)
             {
                 Console.WriteLine("Error while connecting");
             }
-            return Client.Connected;
         }
 
         public bool IsConnected()

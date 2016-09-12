@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace VRConnectorConsole
@@ -11,10 +12,12 @@ namespace VRConnectorConsole
         static void Main(string[] args)
         {
             Connection connection = new Connection("84.24.41.72",6666);
-            connection.StartConnection();
+
+            var thread = new Thread(connection.StartConnection);
+            thread.Start();
 
             Console.Read();
-            connection.stopConnection();
+            thread.Abort();
         }
     }
 }

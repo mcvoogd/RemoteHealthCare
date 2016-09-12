@@ -19,7 +19,7 @@ namespace VRConnectorForm
         public Form1()
         {
             InitializeComponent();
-            _connection = new Connection("84.24.41.72", 6666,this);
+            _connection = new Connection("84.24.41.72", 6666, this);
             var thread = new Thread(_connection.StartConnection);
             thread.Start();
         }
@@ -28,12 +28,15 @@ namespace VRConnectorForm
         {
             listBox1.Items.Clear();
             string clientId = _connection.JsonRawData.data[_selectedIndex].id;
-            string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \""+ clientId + "\", \"key\" : \"NotConCat\" } }";
-            _connection.sendMessage(request);
-
-            TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection);
-            tunnelCommandForm.Show();
-        }
+            if (clientId != null)
+            {
+                string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
+                                 "\", \"key\" : \"NotConCat\" } }";
+                _connection.sendMessage(request);
+                TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection);
+                tunnelCommandForm.Show();
+            }
+    }
 
         public void FillConnectionList()
         {

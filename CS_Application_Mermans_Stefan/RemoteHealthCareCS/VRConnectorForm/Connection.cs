@@ -54,7 +54,7 @@ namespace VRConnectorForm
 
                         if (bufferBytes.Length >= packetLength + 4)
                         {
-                            var result = GetMessageFromBuffer(bufferBytes, packetLength);// TODO parse data and remove from buffer
+                            var result = GetMessageFromBuffer(bufferBytes, packetLength);
 
                             dynamic red = JsonConvert.DeserializeObject(result);
 
@@ -66,14 +66,10 @@ namespace VRConnectorForm
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
-                                    Console.WriteLine("Connected! id :  " + red.data.id);
+                                    Console.WriteLine("Connected! id :  " + red.data.id + " Name user : ");
                                     this.TunnelID = red.data.id;
-                                    this.UserName = red.data.clientinfo.user;
-                                   
-                                    //                                    string req =
-                                    //                                        "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\""+red.data.id +"\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
-                                    //                                    sendMessage(req);
-                                    break;
+                                    //this.UserName = red.data.clientinfo.user;
+                                  break;
                                 default : break;
                              }
                           

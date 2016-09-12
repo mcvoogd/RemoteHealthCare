@@ -64,11 +64,11 @@ namespace VRConnectorForm
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
-                                    Console.WriteLine("Connected! " + red.data.id);
+                                    Console.WriteLine("Connected! id :  " + red.data.id);
                                     this.TunnelID = red.data.id;
-                                    string req =
-                                        "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" : \" "+red.data.id +"\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : [ 1, 1, 1 ], \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"filename\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
-                                    sendMessage(req);
+//                                    string req =
+//                                        "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\""+red.data.id +"\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
+//                                    sendMessage(req);
                                     break;
                                 default : break;
                              }

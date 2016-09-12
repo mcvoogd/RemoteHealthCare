@@ -13,12 +13,14 @@ namespace VRConnectorForm
     public partial class TunnelCommandForm : Form
     {
         private Connection _connection;
+        private string Name { get; set; }
 
-        public TunnelCommandForm(Connection connection)
+        public TunnelCommandForm(Connection connection, String name)
         {
             InitializeComponent();
-            TunnelId.Text = "Connected Tunnel : " + connection.TunnelID; //TODO : no tunnelID is set when initializing tunnelform.
-          //  Console.WriteLine(connection.TunnelID + " <- ID");
+            this.Name = name;
+            ;
+            ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
         }
 
@@ -27,7 +29,7 @@ namespace VRConnectorForm
             Console.WriteLine("Sending car");             
             string req =
                 "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\"" + _connection.TunnelID +
-                "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
+                "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"Name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
             _connection.sendMessage(req);
             Console.WriteLine(_connection.TunnelID);
 
@@ -35,8 +37,27 @@ namespace VRConnectorForm
 
         private void StatisticsButton_Click_1(object sender, EventArgs e)
         {
-            TunnelId.Text = _connection.TunnelID;
-            NameLabel.Text = _connection.UserName;
+            if (TunnelId.Text == "")
+            {
+                TunnelId.Text = "User ID : " + _connection.TunnelID;
+                NameLabel.Text = "User : " + Name;
+            }
+            else
+            {
+                TunnelId.Text = "";
+                NameLabel.Text = "";
+
+            }
+        }
+
+        private void NameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TunnelCommandForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

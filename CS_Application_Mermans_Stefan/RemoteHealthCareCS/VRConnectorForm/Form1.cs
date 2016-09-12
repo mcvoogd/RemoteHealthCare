@@ -26,16 +26,21 @@ namespace VRConnectorForm
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Clear();
-            string clientId = _connection.JsonRawData.data[_selectedIndex].id;
-            if (clientId != null)
+            if (_connection.JsonRawData.data.Count > 0)
             {
-                string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
-                                 "\", \"key\" : \"NotConCat\" } }";
-                _connection.sendMessage(request);
-                TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection);
-                tunnelCommandForm.Show();
+                listBox1.Items.Clear();
+                string clientId = _connection.JsonRawData.data[_selectedIndex].id;
+                string name = _connection.JsonRawData.data[_selectedIndex].clientinfo.user;
+                if (clientId != null)
+                {
+                    string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
+                                     "\", \"key\" : \"NotConCat\" } }";
+                    _connection.sendMessage(request);
+                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name);
+                    tunnelCommandForm.Show();
+                }
             }
+        
     }
 
         public void FillConnectionList()

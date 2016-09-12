@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RemoteHealthCareCS")]
+[assembly: AssemblyTitle("VRconnector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RemoteHealthCareCS")]
+[assembly: AssemblyProduct("VRconnector")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8fa18feb-2478-47e6-94f8-f5cf95a7e691")]
+[assembly: Guid("9cb7a086-8555-4ac0-8ecf-897a35c5e02f")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -26,6 +26,11 @@ namespace VRConnectorForm
             FillConnectionList = form.FillConnectionList;
         }
 
+        public void SendCommand(string command)
+        {
+            
+        }
+
         public void StartConnection()
         {
             try
@@ -56,13 +61,12 @@ namespace VRConnectorForm
 
                         if (bufferBytes.Length >= packetLength + 4)
                         {
-                            var result = GetMessageFromBuffer(bufferBytes, packetLength);// TODO parse data and remove from buffer
+                            var result = GetMessageFromBuffer(bufferBytes, packetLength);
                             var res = JsonConvert.DeserializeObject<JsonRawData>(result);
                             JsonRawData = res;
 
                             Form.Invoke(FillConnectionList);
 
-                            Console.WriteLine(res.data[0].clientinfo.user);
                             bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
                         }
                     }

@@ -14,9 +14,8 @@ namespace VRConnectorForm
     public partial class Form1 : Form
     {
         private int _selectedIndex;
-        private string _tunnelID;
-
         private Connection _connection;
+
         public Form1()
         {
             InitializeComponent();
@@ -32,15 +31,12 @@ namespace VRConnectorForm
             string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \""+ clientId + "\", \"key\" : \"NotConCat\" } }";
             _connection.sendMessage(request);
 
-            TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_tunnelID,_connection);
+            TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection);
             tunnelCommandForm.Show();
         }
 
-
-
         public void FillConnectionList()
         {
-            Console.WriteLine("FILLING!");
             for (int i = 0; i < _connection.JsonRawData.data.Count; i++)
             {
                 listBox1.Items.Add(_connection.JsonRawData.data[i].clientinfo.user);

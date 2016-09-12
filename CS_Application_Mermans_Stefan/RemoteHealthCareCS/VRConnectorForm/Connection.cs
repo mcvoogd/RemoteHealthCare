@@ -7,12 +7,14 @@ using Newtonsoft.Json;
 namespace VRConnectorForm
 {
     public delegate void FillConnectionList();
+    
 
     public class Connection
     {
         public string VRServerIP { get; set; }
         public int VRServerPort { get; set; }
         public string TunnelID { get; set; }
+        public string UserName { get; set; }
         private TcpClient Client;
         public NetworkStream NetworkStream { get; set; }
         public JsonRawData JsonRawData { get; set; }
@@ -66,9 +68,11 @@ namespace VRConnectorForm
                                 case "tunnel/create":
                                     Console.WriteLine("Connected! id :  " + red.data.id);
                                     this.TunnelID = red.data.id;
-//                                    string req =
-//                                        "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\""+red.data.id +"\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
-//                                    sendMessage(req);
+                                    this.UserName = red.data.clientinfo.user;
+                                   
+                                    //                                    string req =
+                                    //                                        "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\""+red.data.id +"\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
+                                    //                                    sendMessage(req);
                                     break;
                                 default : break;
                              }

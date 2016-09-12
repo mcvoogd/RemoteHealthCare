@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DrawMeasurements.cs" />
     <Compile Include="Classes\Measurement.cs" />
     <Compile Include="Forms\ControlPanel.cs">
       <SubType>Form</SubType>
@@ -61,6 +63,12 @@
       <DependentUpon>DataWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Program.cs" />
+    <Compile Include="Forms\GraphPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GraphPanel.Designer.cs">
+      <DependentUpon>GraphPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +87,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DataWindow.resx">
       <DependentUpon>DataWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GraphPanel.resx">
+      <DependentUpon>GraphPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

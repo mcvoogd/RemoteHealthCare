@@ -60,13 +60,14 @@ namespace VRConnectorForm
                                 case "session/list" :
                                     var res = JsonConvert.DeserializeObject<JsonRawData>(result);
                                     JsonRawData = res;
+                                    Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
                                     break;
                                 default : break;
                              }
                           
-                             Form.Invoke(FillConnectionList);
+                           
                              bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
                         }
                     }

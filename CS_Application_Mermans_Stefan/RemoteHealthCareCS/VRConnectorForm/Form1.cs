@@ -13,7 +13,8 @@ namespace VRConnectorForm
 {
     public partial class Form1 : Form
     {
-        
+        private int _selectedIndex;
+
         Connection connection;
         public Form1()
         {
@@ -35,7 +36,7 @@ namespace VRConnectorForm
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-
+            Console.WriteLine(connection.JsonRawData.data[_selectedIndex].id);
         }
 
 
@@ -47,6 +48,11 @@ namespace VRConnectorForm
             {
                 listBox1.Items.Add(connection.JsonRawData.data[i].clientinfo.user);
             }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedIndex = listBox1.SelectedIndex;
         }
 
         private void Refresh_Click(object sender, EventArgs e)

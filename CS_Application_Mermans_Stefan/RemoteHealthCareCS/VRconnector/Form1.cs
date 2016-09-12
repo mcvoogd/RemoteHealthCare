@@ -15,6 +15,11 @@ namespace VRconnector
         public Form1()
         {
             InitializeComponent();
+
+            Connection connection = new Connection("84.24.41.72",6666);
+            Console.WriteLine("Connecting: " + connection.StartConnection());
+            
+            connection.sendCommand();
         }
     }
 }

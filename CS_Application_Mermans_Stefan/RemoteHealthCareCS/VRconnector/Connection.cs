@@ -12,6 +12,7 @@ namespace VRconnector
         public string VRServerIP { get; set; }
         public int VRServerPort { get; set; }
         private TcpClient Client;
+        public NetworkStream NetworkStream { get; set; }
 
         public Connection(string IP, int port)
         {
@@ -20,7 +21,27 @@ namespace VRconnector
          
         }
 
-        public Boolean StartConnection()
+        static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+
+        public void sendCommand()
+        {
+            string data = "{'id' : 'session/list'}";
+
+            Client.GetStream();
+            Client.Client.Send(GetBytes(data));
+
+            byte[] buffer = new byte[27];
+            Console.WriteLine("Receiving");
+            Client.Client.Receive(buffer);
+            Console.WriteLine(buffer);
+        }
+
+        public bool StartConnection()
         {
             try
             {
@@ -33,7 +54,7 @@ namespace VRconnector
             return Client.Connected;
         }
 
-        public Boolean IsConnected()
+        public bool IsConnected()
         {
             return Client != null ? Client.Connected : Client.Connected;
         }

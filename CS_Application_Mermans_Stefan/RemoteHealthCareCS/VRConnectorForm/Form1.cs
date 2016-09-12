@@ -30,8 +30,10 @@ namespace VRConnectorForm
             listBox1.Items.Clear();
             string clientId = _connection.JsonRawData.data[_selectedIndex].id;
             string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \""+ clientId + "\", \"key\" : \"NotConCat\" } }";
-            TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(/*TODO GET THE TUNNEL ID DAMMIT*/,_connection);
             _connection.sendMessage(request);
+
+            TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_tunnelID,_connection);
+            tunnelCommandForm.Show();
         }
 
 

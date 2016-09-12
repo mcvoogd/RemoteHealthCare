@@ -19,11 +19,13 @@ namespace VRConnectorForm
         {
             InitializeComponent();
             TunnelId.Text = tunnelId;
+            _connection = connection;
         }
 
         private void sedCommandButton_Click(object sender, EventArgs e)
         {
-            string message = "{ \"id\" : \"tunnel/send\",\"data\" :{ \"dest\" : \""+ _tunnelId + "\",\"data\" : \"id\" : \"scene/node/add\", \"data\" : { \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : [ 1, 1, 1 ], \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"filename\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } }}";
+            Console.WriteLine("Sending car");
+            string message = "{\"id\": \"tunnel/send\",\"data\": {\"dest\": \"_tunnelId \",\"data\": {\"id\": \"scene/node/add\",\"data\": {\"name\": \"car\",\"components\": {\"transform\": {\"position\": [ 0, 0, 0 ],\"scale\": [ 1, 1, 1 ],\"rotation\": [ 0, 0, 0 ]},\"model\": { \"file\": \"data/NetworkEngine/models/cars/white/car_white.obj\" }}}}}}";
             _connection.sendMessage(message);
         }
     }

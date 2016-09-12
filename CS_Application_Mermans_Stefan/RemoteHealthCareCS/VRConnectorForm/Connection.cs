@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace VRConnectorConsole
+namespace VRConnectorForm
 {
+    delegate void FillConnectionList();
+
     class Connection
     {
         public string VRServerIP { get; set; }
         public int VRServerPort { get; set; }
         private TcpClient Client;
         public NetworkStream NetworkStream { get; set; }
-        private List<string> _resultsList = new List<string>();
-
-        public Connection(string IP, int port)
+        public JsonRawData JsonRawData { get; set; }
+        public Form1 Form { get; set; }
+        public FillConnectionList FillConnectionList;
+      
+        public Connection(string IP, int port, Form1 form)
         {
             this.VRServerIP = IP;
             this.VRServerPort = port;
+            Form = form;
+            FillConnectionList = form.FillConnectionList;
         }
 
         public void StartConnection()
@@ -52,7 +57,10 @@ namespace VRConnectorConsole
                         if (bufferBytes.Length >= packetLength + 4)
                         {
                             var result = GetMessageFromBuffer(bufferBytes, packetLength);// TODO parse data and remove from buffer
-                            JsonRawData res = JsonConvert.DeserializeObject<JsonRawData>(result);
+                            var res = JsonConvert.DeserializeObject<JsonRawData>(result);
+                            JsonRawData = res;
+
+                            Form.Invoke(FillConnectionList);
 
                             Console.WriteLine(res.data[0].clientinfo.user);
                             bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));

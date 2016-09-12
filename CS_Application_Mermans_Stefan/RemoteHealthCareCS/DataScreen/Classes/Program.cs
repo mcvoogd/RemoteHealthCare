@@ -18,16 +18,16 @@ namespace DataScreen.Classes
         [STAThread]
         private static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-            //var loginForm = new LoginForm();
-            //var dataWindow = new DataWindow();
-            //while (loginForm.ShowDialog() != DialogResult.OK)
-            //{
-            //    return;
-            //}
-            //Application.Run(dataWindow);
+            var loginForm = new LoginForm();
+            var dataWindow = new DataWindow();
+            while (loginForm.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            Application.Run(dataWindow);
 
 //            List<Measurement> measurements = new List<Measurement>();
 //            measurements.Add(new Measurement(105, 10, 40, 75, 135, new SimpleTime(50, 10), 165, 195));

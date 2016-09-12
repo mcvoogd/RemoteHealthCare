@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace VRConnectorConsole
 {
@@ -16,8 +17,8 @@ namespace VRConnectorConsole
             var thread = new Thread(connection.StartConnection);
             thread.Start();
 
-            Console.Read();
-            thread.Interrupt();
+            Form1 form1 = new Form1();
+            form1.Show();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace VRconnector
 
                 do
                 {
-                    numberOfBytesRead = stream.Read(receiveBuffer, 0, receiveBuffer.Length);
+                    numberOfBytesRead = NetworkStream.Read(receiveBuffer, 0, receiveBuffer.Length);
                     if (numberOfBytesRead <= 0)
                         break;
                     message.AppendFormat("{0}", Encoding.ASCII.GetString(receiveBuffer, 0, numberOfBytesRead));

@@ -14,8 +14,6 @@ namespace VRConnectorForm
     public partial class Form1 : Form
     {
         
-
-
         Connection connection;
         public Form1()
         {
@@ -49,6 +47,14 @@ namespace VRConnectorForm
             {
                 listBox1.Items.Add(connection.JsonRawData.data[i].clientinfo.user);
             }
+        }
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            string request = "{\"id\" : \"session/list\"}";
+
+            connection.sendMessage(request);
         }
     }
 }

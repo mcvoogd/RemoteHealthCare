@@ -9,14 +9,17 @@ namespace VRConnectorForm.VRobjects
 {
     class Terrain
     {
+        private readonly string _tunnelId;
+        private readonly Connection _connection;
+
         public Terrain(string tunnelId, Connection connection)
         {
-            
+            _tunnelId = tunnelId;
         }
 
-        private void addTerrain(int[] size, int[] height, string tunnelId)
+        public void AddTerrain(int[] size, int[] height)
         {
-            RequestCreater.TunnelSend(new
+            var request = RequestCreater.TunnelSend(new
             {
                 id = "scene/terrain/add",
                 data = new
@@ -24,12 +27,42 @@ namespace VRConnectorForm.VRobjects
                     size = size, 
                     heights = height
                 }
-            }, tunnelId);
+            }, _tunnelId);
+           _connection.sendMessage(request);
         }
 
-        private void updateTerrain(string command)
+        public void UpdateTerrain(string command)
         {
-            
+            var request = RequestCreater.TunnelSend(new
+            {
+                id = "scene/terrain/update",
+                data = command
+            },_tunnelId);
+            _connection.sendMessage(request);
         }
+
+        public void DeleteTerrain(string command)
+        {
+            var request = RequestCreater.TunnelSend(new
+            {
+                id = "scene/terrain/delete",
+                data = command
+            }, _tunnelId);
+            _connection.sendMessage(request);
+        }
+
+        public void GetHeight(int[][] positions)
+        {
+            var request = RequestCreater.TunnelSend(new
+            {
+                id = "scene/terrain/getheight",
+                data = new
+                {
+                    positions = positions
+                }
+            }, _tunnelId);
+           _connection.sendMessage(request);
+        }
+
     }
 }

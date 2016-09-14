@@ -12,14 +12,14 @@ namespace DataScreen.Classes
         public int Pulse { get; set; }
         public int Rotations { get; set; }
         public int Speed { get; set; }
-        public double Distance { get; set; }
+        public int Distance { get; set; }
         public int Power { get; set; }
         public int Burned { get; set; }
         public SimpleTime Time { get; set; }
         public int ReachedPower { get; set; }
-        public readonly string OrigionString;
+         public readonly string OrigionString;
 
-        public Measurement(int pulse, int rotations, int speed, int power, double distance, int burned, SimpleTime time, int reachedpower)
+        public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower)
         {
             this.Pulse = pulse;
             this.Rotations = rotations;
@@ -31,7 +31,7 @@ namespace DataScreen.Classes
             this.ReachedPower = reachedpower;
         }
 
-        public Measurement(int pulse, int rotations, int speed, int power, double distance, int burned, SimpleTime time, int reachedpower, string origin)
+        public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower, string origin)
         {
             this.Pulse = pulse;
             this.Rotations = rotations;

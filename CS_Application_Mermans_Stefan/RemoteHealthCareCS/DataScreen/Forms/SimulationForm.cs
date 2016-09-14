@@ -182,10 +182,6 @@ namespace DataScreen.Forms
 
             
         }
-
-        private void verzendButton_Click(object sender, EventArgs e)
-        {
-            // TODO remove
-        }
-   }
+        
+    }
 }

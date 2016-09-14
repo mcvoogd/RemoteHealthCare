@@ -6,12 +6,15 @@ using Newtonsoft.Json;
 
 namespace VRConnectorForm
 {
-    delegate void FillConnectionList();
+    public delegate void FillConnectionList();
+    
 
-    class Connection
+    public class Connection
     {
         public string VRServerIP { get; set; }
         public int VRServerPort { get; set; }
+        public string TunnelID { get; set; }
+        public string UserName { get; set; }
         private TcpClient Client;
         public NetworkStream NetworkStream { get; set; }
         public JsonRawData JsonRawData { get; set; }
@@ -51,10 +54,10 @@ namespace VRConnectorForm
 
                         if (bufferBytes.Length >= packetLength + 4)
                         {
-                            var result = GetMessageFromBuffer(bufferBytes, packetLength);// TODO parse data and remove from buffer
+                            var result = GetMessageFromBuffer(bufferBytes, packetLength);
 
                             dynamic red = JsonConvert.DeserializeObject(result);
-
+                           
                             switch ((String)red.id)
                             {
                                 case "session/list" :
@@ -63,6 +66,14 @@ namespace VRConnectorForm
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
+                                    Console.WriteLine("Connected! id :  " + red.data.id);
+                                    this.TunnelID = red.data.id;                                  
+                                  break;
+                                case "tunnel/send":
+                                    Console.WriteLine(red + "<- recieved ID");
+                                    break;
+                                case "scene/node/add":
+                                    Console.WriteLine(red.data.id);
                                     break;
                                 default : break;
                              }

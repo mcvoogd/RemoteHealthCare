@@ -14,33 +14,40 @@ namespace VRConnectorForm
     public partial class Form1 : Form
     {
         private int _selectedIndex;
-        private string _tunnelID;
+        private Connection _connection;
 
-        Connection connection;
         public Form1()
         {
             InitializeComponent();
-            connection = new Connection("84.24.41.72", 6666,this);
-            var thread = new Thread(connection.StartConnection);
+            _connection = new Connection("84.24.41.72", 6666, this);
+            var thread = new Thread(_connection.StartConnection);
             thread.Start();
         }
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Clear();
-            string clientId = connection.JsonRawData.data[_selectedIndex].id;
-            string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \""+ clientId + "\", \"key\" : \"NotConCat\" } }";
-            connection.sendMessage(request);
-        }
-
-
+            if (_connection.JsonRawData.data.Count > 0)
+            {
+                listBox1.Items.Clear();
+                string clientId = _connection.JsonRawData.data[_selectedIndex].id;
+                string name = _connection.JsonRawData.data[_selectedIndex].clientinfo.user;
+                if (clientId != null)
+                {
+                    string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
+                                     "\", \"key\" : \"NotConCat\" } }";
+                    _connection.sendMessage(request);
+                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name);
+                    tunnelCommandForm.Show();
+                }
+            }
+        
+    }
 
         public void FillConnectionList()
         {
-            Console.WriteLine("FILLING!");
-            for (int i = 0; i < connection.JsonRawData.data.Count; i++)
+            for (int i = 0; i < _connection.JsonRawData.data.Count; i++)
             {
-                listBox1.Items.Add(connection.JsonRawData.data[i].clientinfo.user);
+                listBox1.Items.Add(_connection.JsonRawData.data[i].clientinfo.user);
             }
         }
 
@@ -54,7 +61,7 @@ namespace VRConnectorForm
             listBox1.Items.Clear();
             string request = "{\"id\" : \"session/list\"}";
 
-            connection.sendMessage(request);
+            _connection.sendMessage(request);
         }
     }
 }

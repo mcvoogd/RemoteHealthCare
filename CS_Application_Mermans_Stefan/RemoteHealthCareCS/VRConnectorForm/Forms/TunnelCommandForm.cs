@@ -72,8 +72,6 @@ namespace VRConnectorForm.Forms
         {
           Node auto = new Node("car", _connection.TunnelID);
               
-            _connection.sendMessage(RequestCreater.AddNode(_connection.TunnelID, "car", "data/NetworkEngine/models/cars/white/car_white.obj",
-                50, 0, 0));
-        }
+         }
     }
 }

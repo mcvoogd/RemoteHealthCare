@@ -66,6 +66,7 @@
     <Compile Include="Forms\TunnelCommandForm.Designer.cs">
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="VRobjects\Node.cs" />
     <Compile Include="VRobjects\Terrain.cs" />
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

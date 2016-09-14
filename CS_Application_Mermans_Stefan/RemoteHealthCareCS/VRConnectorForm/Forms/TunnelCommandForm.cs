@@ -69,8 +69,18 @@ namespace VRConnectorForm.Forms
         private void addTerrainButton_Click(object sender, EventArgs e)
         {
             Terrain terrain = new Terrain(_connection.TunnelID,_connection);
-            var terrainNode = new Node("Terrain node", _connection.TunnelID, -128, 0.5, -128);
+            var terrainNode = new Node("Terrain node", _connection.TunnelID, -128, 1, -128);
             _connection.sendMessage(terrainNode.SendString);
+        }
+
+        private void addLayerButton_Click(object sender, EventArgs e)
+        {
+            _connection.sendMessage(RequestCreater.SceneNodeAddLayer(
+               _connection.TerrainId,
+               "data/NetworkEngine/textures/terrain/adesert_cracks_d.jpg",
+               "data/NetworkEngine/textures/terrain/adesert_cracks_d.jpg",
+               0, 10, 1,
+               _connection.TunnelID));
         }
 
         //"data/NetworkEngine/models/cars/white/car_white.obj"

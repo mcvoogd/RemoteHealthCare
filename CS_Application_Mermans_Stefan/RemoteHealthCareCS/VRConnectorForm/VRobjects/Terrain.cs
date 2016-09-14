@@ -12,6 +12,7 @@ namespace VRConnectorForm.VRobjects
     {
         private readonly string _tunnelId;
         private readonly Connection _connection;
+        public string UUID { get;}
 
         public Terrain(string tunnelId, Connection connection)
         {

@@ -38,6 +38,7 @@ namespace VRConnectorForm.Forms
             this.SendAuto = new System.Windows.Forms.Button();
             this.MoveCar = new System.Windows.Forms.Button();
             this.addTerrainButton = new System.Windows.Forms.Button();
+            this.addLayerButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // sedCommandButton
@@ -83,7 +84,7 @@ namespace VRConnectorForm.Forms
             // CreateAuto
             // 
             this.CreateAuto.Location = new System.Drawing.Point(12, 91);
-            this.CreateAuto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CreateAuto.Margin = new System.Windows.Forms.Padding(4);
             this.CreateAuto.Name = "CreateAuto";
             this.CreateAuto.Size = new System.Drawing.Size(128, 25);
             this.CreateAuto.TabIndex = 5;
@@ -94,7 +95,7 @@ namespace VRConnectorForm.Forms
             // SendAuto
             // 
             this.SendAuto.Location = new System.Drawing.Point(12, 123);
-            this.SendAuto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SendAuto.Margin = new System.Windows.Forms.Padding(4);
             this.SendAuto.Name = "SendAuto";
             this.SendAuto.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SendAuto.Size = new System.Drawing.Size(128, 25);
@@ -106,7 +107,7 @@ namespace VRConnectorForm.Forms
             // MoveCar
             // 
             this.MoveCar.Location = new System.Drawing.Point(12, 163);
-            this.MoveCar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MoveCar.Margin = new System.Windows.Forms.Padding(2);
             this.MoveCar.Name = "MoveCar";
             this.MoveCar.Size = new System.Drawing.Size(128, 22);
             this.MoveCar.TabIndex = 7;
@@ -118,17 +119,28 @@ namespace VRConnectorForm.Forms
             // 
             this.addTerrainButton.Location = new System.Drawing.Point(303, 80);
             this.addTerrainButton.Name = "addTerrainButton";
-            this.addTerrainButton.Size = new System.Drawing.Size(75, 23);
+            this.addTerrainButton.Size = new System.Drawing.Size(125, 23);
             this.addTerrainButton.TabIndex = 8;
             this.addTerrainButton.Text = "AddTerrain";
             this.addTerrainButton.UseVisualStyleBackColor = true;
             this.addTerrainButton.Click += new System.EventHandler(this.addTerrainButton_Click);
+            // 
+            // addLayerButton
+            // 
+            this.addLayerButton.Location = new System.Drawing.Point(303, 110);
+            this.addLayerButton.Name = "addLayerButton";
+            this.addLayerButton.Size = new System.Drawing.Size(125, 23);
+            this.addLayerButton.TabIndex = 9;
+            this.addLayerButton.Text = "addLayer";
+            this.addLayerButton.UseVisualStyleBackColor = true;
+            this.addLayerButton.Click += new System.EventHandler(this.addLayerButton_Click);
             // 
             // TunnelCommandForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 444);
+            this.Controls.Add(this.addLayerButton);
             this.Controls.Add(this.addTerrainButton);
             this.Controls.Add(this.MoveCar);
             this.Controls.Add(this.SendAuto);
@@ -154,5 +166,6 @@ namespace VRConnectorForm.Forms
         private Button SendAuto;
         private Button MoveCar;
         private Button addTerrainButton;
+        private Button addLayerButton;
     }
 }

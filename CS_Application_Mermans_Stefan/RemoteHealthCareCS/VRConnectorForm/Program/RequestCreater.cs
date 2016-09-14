@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace VRConnectorForm.Program
 {
@@ -91,6 +92,8 @@ namespace VRConnectorForm.Program
         public static string SceneNodeAddLayer(string uuid, string diffuseValue, string normalValue, int minHeightValue, int maxHeightValue,
             int fadeDistValue, string tunnelID)
         {
+            Console.WriteLine("Terrain id" + uuid);
+
             return TunnelSend(new
                 {
                     id = "scene/node/addlayer",

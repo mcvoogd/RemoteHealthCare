@@ -72,7 +72,7 @@ namespace VRConnectorForm.VRobjects
                         },
                        terrain = new
                        {
-                           smoothnormals = true
+//                           smoothnormals = true
                        }
                     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
@@ -29,6 +30,7 @@ namespace VRConnectorForm
             FillConnectionList = form.FillConnectionList;
         }
 
+      
         public void StartConnection()
         {
             try
@@ -57,7 +59,7 @@ namespace VRConnectorForm
                             var result = GetMessageFromBuffer(bufferBytes, packetLength);
 
                             dynamic red = JsonConvert.DeserializeObject(result);
-                           
+                            Console.WriteLine(red.id);
                             switch ((String)red.id)
                             {
                                 case "session/list" :
@@ -71,14 +73,21 @@ namespace VRConnectorForm
                                   break;
                                 case "tunnel/send":
                                     Console.WriteLine(red + "<- recieved ID");
+                                    switch ((string) red.data.data.id)
+                                    {
+                                        case "scene/node/add":
+                                            Console.WriteLine(red.data.data.data.uuid + "<-- UUID OBJECT : ");
+                                            break;
+                                    }
                                     break;
-                                case "scene/node/add":
-                                    Console.WriteLine(red.data.id);
+                                case "scene/get":
+                                    Console.WriteLine(red.data);
                                     break;
+                                    
                                 default : break;
                              }
                           
-                           
+                                
                              bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
                         }
                     }
@@ -94,7 +103,6 @@ namespace VRConnectorForm
         private string GetMessageFromBuffer(byte[] array, int count)
         {
             var message = new StringBuilder();
-
             message.AppendFormat("{0}", Encoding.ASCII.GetString(array,4,count));
             return message.ToString();
         }

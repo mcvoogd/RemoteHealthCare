@@ -18,12 +18,14 @@ namespace VRConnectorForm.Forms
         private string name { get; set; }
         private string ID { get; set; }
         private Node auto;
+        private Skybox skybox;
 
         public TunnelCommandForm(Connection connection, string name)
         {
             InitializeComponent();
             this.name = name;   
             _connection = connection;
+            skybox = new Skybox("skybox", _connection.TunnelID);
         }
 
         private void sedCommandButton_Click(object sender, EventArgs e)
@@ -71,6 +73,14 @@ namespace VRConnectorForm.Forms
             Terrain terrain = new Terrain(_connection.TunnelID,_connection);
             var terrainNode = new Node("Terrain node", _connection.TunnelID, -128, 0.5, -128);
             _connection.sendMessage(terrainNode.SendString);
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            int time = SetTime.Value;
+            Console.WriteLine(time);
+            _connection.sendMessage(skybox.SetTime(time));
+            _connection.sendMessage(skybox.Update());
         }
 
         //"data/NetworkEngine/models/cars/white/car_white.obj"

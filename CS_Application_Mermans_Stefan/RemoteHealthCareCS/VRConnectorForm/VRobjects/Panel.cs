@@ -94,7 +94,7 @@ namespace VRConnectorForm.VRobjects
             }, tunnelID);
         }
 
-        public void drawText(string textValue, int[] positie, double sizeValue, int[] kleur, string fontValue)
+        public void DrawText(string textValue, int[] positie, double sizeValue, int[] kleur, string fontValue)
         {
             RequestCreater.TunnelSend(new
             {

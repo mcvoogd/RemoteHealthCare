@@ -18,7 +18,7 @@ namespace VRConnectorForm.VRobjects
             this.TunnelID = TunnelID;
         }
 
-        public dynamic SetTime(int Time)
+        public string SetTime(int Time)
         {
             return RequestCreater.TunnelSend(new
             {
@@ -30,7 +30,7 @@ namespace VRConnectorForm.VRobjects
             }, TunnelID);
         }
 
-        public dynamic Update()
+        public string Update()
         {
             return RequestCreater.TunnelSend(new
             {

@@ -36,8 +36,7 @@ namespace VRConnectorForm.Forms
                     tunnelCommandForm.Show();
                 }
             }
-        
-    }
+        }
 
         public void FillConnectionList()
         {

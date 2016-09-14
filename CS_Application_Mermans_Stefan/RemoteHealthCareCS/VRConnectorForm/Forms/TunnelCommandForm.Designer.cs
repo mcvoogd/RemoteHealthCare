@@ -34,7 +34,7 @@ namespace VRConnectorForm.Forms
             this.TunnelId = new System.Windows.Forms.Label();
             this.NameLabel = new System.Windows.Forms.Label();
             this.StatisticsButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.CreateAuto = new System.Windows.Forms.Button();
             this.GetScene = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -79,16 +79,16 @@ namespace VRConnectorForm.Forms
             this.StatisticsButton.UseVisualStyleBackColor = true;
             this.StatisticsButton.Click += new System.EventHandler(this.StatisticsButton_Click_1);
             // 
-            // button1
+            // CreateAuto
             // 
-            this.button1.Location = new System.Drawing.Point(24, 176);
-            this.button1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(256, 48);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Send Panel";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.CreateAuto.Location = new System.Drawing.Point(24, 176);
+            this.CreateAuto.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.CreateAuto.Name = "CreateAuto";
+            this.CreateAuto.Size = new System.Drawing.Size(256, 48);
+            this.CreateAuto.TabIndex = 5;
+            this.CreateAuto.Text = "Send Panel";
+            this.CreateAuto.UseVisualStyleBackColor = true;
+            this.CreateAuto.Click += new System.EventHandler(this.button1_Click);
             // 
             // GetScene
             // 
@@ -119,7 +119,7 @@ namespace VRConnectorForm.Forms
             this.ClientSize = new System.Drawing.Size(1397, 861);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.GetScene);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.CreateAuto);
             this.Controls.Add(this.StatisticsButton);
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.TunnelId);
@@ -138,7 +138,7 @@ namespace VRConnectorForm.Forms
         private System.Windows.Forms.Label TunnelId;
         private System.Windows.Forms.Label NameLabel;
         private System.Windows.Forms.Button StatisticsButton;
-        private Button button1;
+        private Button CreateAuto;
         private Button GetScene;
         private Button button3;
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
+using System.Security.AccessControl;
 using System.Text;
 using Newtonsoft.Json;
 using VRConnectorForm.Forms;
@@ -9,7 +10,7 @@ using VRConnectorForm.Forms;
 namespace VRConnectorForm.Program
 {
     public delegate void FillConnectionList();
-    
+
 
     public class Connection
     {
@@ -22,7 +23,8 @@ namespace VRConnectorForm.Program
         public JsonRawData JsonRawData { get; set; }
         public Form1 Form { get; set; }
         public FillConnectionList FillConnectionList;
-      
+        public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
+
         public Connection(string IP, int port, Form1 form)
         {
             this.VRServerIP = IP;
@@ -31,7 +33,7 @@ namespace VRConnectorForm.Program
             FillConnectionList = form.FillConnectionList;
         }
 
-      
+
         public void StartConnection()
         {
             try
@@ -53,7 +55,7 @@ namespace VRConnectorForm.Program
                     bufferBytes = ConCat(bufferBytes, receiveBuffer, numberOfBytesRead);
                     if (bufferBytes.Length >= 4)
                     {
-                        var packetLength = BitConverter.ToInt32(bufferBytes,0);
+                        var packetLength = BitConverter.ToInt32(bufferBytes, 0);
 
                         if (bufferBytes.Length >= packetLength + 4)
                         {
@@ -61,31 +63,29 @@ namespace VRConnectorForm.Program
 
                             dynamic red = JsonConvert.DeserializeObject(result);
                             Console.WriteLine(red.id);
-                            switch ((String)red.id)
+                            switch ((String) red.id)
                             {
-                                case "session/list" :
+                                case "session/list":
                                     var res = JsonConvert.DeserializeObject<JsonRawData>(result);
                                     JsonRawData = res;
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
-                                    Console.WriteLine("Connected! id :  " + red.data.id);
-                                    this.TunnelID = red.data.id;                                  
-                                  break;
+                                    this.TunnelID = red.data.id;
+                                    break;
                                 case "tunnel/send":
-                                    Console.WriteLine(red + "<- recieved ID");
                                     switch ((string) red.data.data.id)
                                     {
                                         case "scene/node/add":
-                                            Console.WriteLine(red.data.data.data.uuid + "<-- UUID OBJECT : ");
+                                            string tempNaam = red.data.data.data.name;
+                                            string tempUuid = red.data.data.data.uuid;
+                                                if(!VRobjecten.ContainsKey(tempNaam))
+                                                VRobjecten.Add(tempNaam, tempUuid);
                                             break;
                                     }
                                     break;
                                 case "scene/get":
-                                    Console.WriteLine(red.data);
                                     break;
-                                    
-                                default : break;
                              }
                           
                                 

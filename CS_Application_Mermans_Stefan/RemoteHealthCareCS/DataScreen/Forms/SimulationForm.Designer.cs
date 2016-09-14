@@ -45,8 +45,6 @@
             this.powerPlus = new System.Windows.Forms.Button();
             this.powerCount = new System.Windows.Forms.Label();
             this.burnedLabel = new System.Windows.Forms.Label();
-            this.burnedMin = new System.Windows.Forms.Button();
-            this.burnedPlus = new System.Windows.Forms.Button();
             this.burnedCount = new System.Windows.Forms.Label();
             this.tijdLabel = new System.Windows.Forms.Label();
             this.timeMin = new System.Windows.Forms.Button();
@@ -231,39 +229,17 @@
             // burnedLabel
             // 
             this.burnedLabel.AutoSize = true;
-            this.burnedLabel.Location = new System.Drawing.Point(9, 104);
+            this.burnedLabel.Location = new System.Drawing.Point(9, 152);
             this.burnedLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.burnedLabel.Name = "burnedLabel";
             this.burnedLabel.Size = new System.Drawing.Size(94, 13);
             this.burnedLabel.TabIndex = 16;
             this.burnedLabel.Text = "Verbrande energie";
             // 
-            // burnedMin
-            // 
-            this.burnedMin.Location = new System.Drawing.Point(123, 104);
-            this.burnedMin.Margin = new System.Windows.Forms.Padding(2);
-            this.burnedMin.Name = "burnedMin";
-            this.burnedMin.Size = new System.Drawing.Size(26, 19);
-            this.burnedMin.TabIndex = 17;
-            this.burnedMin.Text = "-";
-            this.burnedMin.UseVisualStyleBackColor = true;
-            this.burnedMin.Click += new System.EventHandler(this.burnedMin_Click);
-            // 
-            // burnedPlus
-            // 
-            this.burnedPlus.Location = new System.Drawing.Point(196, 104);
-            this.burnedPlus.Margin = new System.Windows.Forms.Padding(2);
-            this.burnedPlus.Name = "burnedPlus";
-            this.burnedPlus.Size = new System.Drawing.Size(26, 19);
-            this.burnedPlus.TabIndex = 18;
-            this.burnedPlus.Text = "+";
-            this.burnedPlus.UseVisualStyleBackColor = true;
-            this.burnedPlus.Click += new System.EventHandler(this.burnedPlus_Click);
-            // 
             // burnedCount
             // 
             this.burnedCount.AutoSize = true;
-            this.burnedCount.Location = new System.Drawing.Point(159, 107);
+            this.burnedCount.Location = new System.Drawing.Point(159, 152);
             this.burnedCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.burnedCount.Name = "burnedCount";
             this.burnedCount.Size = new System.Drawing.Size(25, 13);
@@ -273,7 +249,7 @@
             // tijdLabel
             // 
             this.tijdLabel.AutoSize = true;
-            this.tijdLabel.Location = new System.Drawing.Point(9, 127);
+            this.tijdLabel.Location = new System.Drawing.Point(9, 104);
             this.tijdLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.tijdLabel.Name = "tijdLabel";
             this.tijdLabel.Size = new System.Drawing.Size(77, 13);
@@ -282,7 +258,7 @@
             // 
             // timeMin
             // 
-            this.timeMin.Location = new System.Drawing.Point(123, 127);
+            this.timeMin.Location = new System.Drawing.Point(123, 104);
             this.timeMin.Margin = new System.Windows.Forms.Padding(2);
             this.timeMin.Name = "timeMin";
             this.timeMin.Size = new System.Drawing.Size(26, 19);
@@ -293,7 +269,7 @@
             // 
             // timePlus
             // 
-            this.timePlus.Location = new System.Drawing.Point(196, 127);
+            this.timePlus.Location = new System.Drawing.Point(196, 104);
             this.timePlus.Margin = new System.Windows.Forms.Padding(2);
             this.timePlus.Name = "timePlus";
             this.timePlus.Size = new System.Drawing.Size(26, 19);
@@ -305,7 +281,7 @@
             // timeCount
             // 
             this.timeCount.AutoSize = true;
-            this.timeCount.Location = new System.Drawing.Point(153, 130);
+            this.timeCount.Location = new System.Drawing.Point(153, 107);
             this.timeCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.timeCount.Name = "timeCount";
             this.timeCount.Size = new System.Drawing.Size(37, 13);
@@ -315,7 +291,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 153);
+            this.label1.Location = new System.Drawing.Point(9, 130);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
@@ -324,7 +300,7 @@
             // 
             // reachedPowerMin
             // 
-            this.reachedPowerMin.Location = new System.Drawing.Point(123, 150);
+            this.reachedPowerMin.Location = new System.Drawing.Point(123, 127);
             this.reachedPowerMin.Margin = new System.Windows.Forms.Padding(2);
             this.reachedPowerMin.Name = "reachedPowerMin";
             this.reachedPowerMin.Size = new System.Drawing.Size(26, 19);
@@ -335,7 +311,7 @@
             // 
             // reachedPowerPlus
             // 
-            this.reachedPowerPlus.Location = new System.Drawing.Point(196, 150);
+            this.reachedPowerPlus.Location = new System.Drawing.Point(196, 127);
             this.reachedPowerPlus.Margin = new System.Windows.Forms.Padding(2);
             this.reachedPowerPlus.Name = "reachedPowerPlus";
             this.reachedPowerPlus.Size = new System.Drawing.Size(26, 19);
@@ -347,7 +323,7 @@
             // reachedPowerCount
             // 
             this.reachedPowerCount.AutoSize = true;
-            this.reachedPowerCount.Location = new System.Drawing.Point(159, 153);
+            this.reachedPowerCount.Location = new System.Drawing.Point(159, 130);
             this.reachedPowerCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.reachedPowerCount.Name = "reachedPowerCount";
             this.reachedPowerCount.Size = new System.Drawing.Size(25, 13);
@@ -378,7 +354,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(233, 207);
+            this.ClientSize = new System.Drawing.Size(618, 207);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.distanceCount);
             this.Controls.Add(this.reachedPowerCount);
@@ -390,8 +366,6 @@
             this.Controls.Add(this.timeMin);
             this.Controls.Add(this.tijdLabel);
             this.Controls.Add(this.burnedCount);
-            this.Controls.Add(this.burnedPlus);
-            this.Controls.Add(this.burnedMin);
             this.Controls.Add(this.burnedLabel);
             this.Controls.Add(this.powerCount);
             this.Controls.Add(this.powerPlus);
@@ -436,8 +410,6 @@
         private System.Windows.Forms.Button powerPlus;
         private System.Windows.Forms.Label powerCount;
         private System.Windows.Forms.Label burnedLabel;
-        private System.Windows.Forms.Button burnedMin;
-        private System.Windows.Forms.Button burnedPlus;
         private System.Windows.Forms.Label burnedCount;
         private System.Windows.Forms.Label tijdLabel;
         private System.Windows.Forms.Button timeMin;

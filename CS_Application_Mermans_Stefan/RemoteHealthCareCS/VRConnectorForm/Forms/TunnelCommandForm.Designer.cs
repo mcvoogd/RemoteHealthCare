@@ -37,14 +37,15 @@ namespace VRConnectorForm.Forms
             this.button1 = new System.Windows.Forms.Button();
             this.GetScene = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.addTerrainButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // sedCommandButton
             // 
-            this.sedCommandButton.Location = new System.Drawing.Point(24, 114);
-            this.sedCommandButton.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.sedCommandButton.Location = new System.Drawing.Point(12, 59);
+            this.sedCommandButton.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.sedCommandButton.Name = "sedCommandButton";
-            this.sedCommandButton.Size = new System.Drawing.Size(256, 48);
+            this.sedCommandButton.Size = new System.Drawing.Size(128, 25);
             this.sedCommandButton.TabIndex = 1;
             this.sedCommandButton.Text = "SendCommand";
             this.sedCommandButton.UseVisualStyleBackColor = true;
@@ -53,27 +54,28 @@ namespace VRConnectorForm.Forms
             // TunnelId
             // 
             this.TunnelId.AutoSize = true;
-            this.TunnelId.Location = new System.Drawing.Point(747, 67);
-            this.TunnelId.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.TunnelId.Location = new System.Drawing.Point(374, 35);
+            this.TunnelId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TunnelId.Name = "TunnelId";
-            this.TunnelId.Size = new System.Drawing.Size(0, 32);
+            this.TunnelId.Size = new System.Drawing.Size(0, 17);
             this.TunnelId.TabIndex = 2;
             // 
             // NameLabel
             // 
             this.NameLabel.AutoSize = true;
-            this.NameLabel.Location = new System.Drawing.Point(747, 129);
+            this.NameLabel.Location = new System.Drawing.Point(374, 67);
+            this.NameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(0, 32);
+            this.NameLabel.Size = new System.Drawing.Size(0, 17);
             this.NameLabel.TabIndex = 3;
             this.NameLabel.Click += new System.EventHandler(this.NameLabel_Click);
             // 
             // StatisticsButton
             // 
-            this.StatisticsButton.Location = new System.Drawing.Point(24, 50);
-            this.StatisticsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.StatisticsButton.Location = new System.Drawing.Point(12, 26);
+            this.StatisticsButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.StatisticsButton.Name = "StatisticsButton";
-            this.StatisticsButton.Size = new System.Drawing.Size(256, 48);
+            this.StatisticsButton.Size = new System.Drawing.Size(128, 25);
             this.StatisticsButton.TabIndex = 4;
             this.StatisticsButton.Text = "Statistics";
             this.StatisticsButton.UseVisualStyleBackColor = true;
@@ -81,10 +83,10 @@ namespace VRConnectorForm.Forms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(24, 176);
-            this.button1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.button1.Location = new System.Drawing.Point(12, 91);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(256, 48);
+            this.button1.Size = new System.Drawing.Size(128, 25);
             this.button1.TabIndex = 5;
             this.button1.Text = "Send Panel";
             this.button1.UseVisualStyleBackColor = true;
@@ -92,10 +94,10 @@ namespace VRConnectorForm.Forms
             // 
             // GetScene
             // 
-            this.GetScene.Location = new System.Drawing.Point(24, 238);
-            this.GetScene.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.GetScene.Location = new System.Drawing.Point(12, 123);
+            this.GetScene.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.GetScene.Name = "GetScene";
-            this.GetScene.Size = new System.Drawing.Size(256, 48);
+            this.GetScene.Size = new System.Drawing.Size(128, 25);
             this.GetScene.TabIndex = 6;
             this.GetScene.Text = "Get Scene";
             this.GetScene.UseVisualStyleBackColor = true;
@@ -103,20 +105,31 @@ namespace VRConnectorForm.Forms
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(24, 300);
-            this.button3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.button3.Location = new System.Drawing.Point(12, 155);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(256, 48);
+            this.button3.Size = new System.Drawing.Size(128, 25);
             this.button3.TabIndex = 7;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // addTerrainButton
+            // 
+            this.addTerrainButton.Location = new System.Drawing.Point(163, 38);
+            this.addTerrainButton.Name = "addTerrainButton";
+            this.addTerrainButton.Size = new System.Drawing.Size(116, 23);
+            this.addTerrainButton.TabIndex = 8;
+            this.addTerrainButton.Text = "AddTerrain";
+            this.addTerrainButton.UseVisualStyleBackColor = true;
+            this.addTerrainButton.Click += new System.EventHandler(this.addTerrainButton_Click);
+            // 
             // TunnelCommandForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1397, 861);
+            this.ClientSize = new System.Drawing.Size(698, 444);
+            this.Controls.Add(this.addTerrainButton);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.GetScene);
             this.Controls.Add(this.button1);
@@ -124,7 +137,7 @@ namespace VRConnectorForm.Forms
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.TunnelId);
             this.Controls.Add(this.sedCommandButton);
-            this.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.Name = "TunnelCommandForm";
             this.Text = "TunnelCommandForm";
             this.Load += new System.EventHandler(this.TunnelCommandForm_Load);
@@ -141,5 +154,6 @@ namespace VRConnectorForm.Forms
         private Button button1;
         private Button GetScene;
         private Button button3;
+        private Button addTerrainButton;
     }
 }

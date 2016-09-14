@@ -61,7 +61,7 @@ namespace VRConnectorForm.Program
 
                             dynamic red = JsonConvert.DeserializeObject(result);
                             Console.WriteLine(red.id);
-                            switch ((String)red.id)
+                            switch ((string)red.id)
                             {
                                 case "session/list" :
                                     var res = JsonConvert.DeserializeObject<JsonRawData>(result);
@@ -84,8 +84,9 @@ namespace VRConnectorForm.Program
                                 case "scene/get":
                                     Console.WriteLine(red.data);
                                     break;
-                                    
-                                default : break;
+                                default:
+                                    Console.WriteLine("Id: " + red.id);
+                                    break;
                              }
                           
                                 

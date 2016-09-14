@@ -73,5 +73,10 @@ namespace VRConnectorForm.Forms
           Node auto = new Node("car", _connection.TunnelID);
               
          }
+
+        private void addTerrainButton_Click(object sender, EventArgs e)
+        {
+            Terrain terrain = new Terrain(_connection.TunnelID,_connection);
+        }
     }
 }

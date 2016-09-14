@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using VRConnectorForm.Program;
 using VRConnectorForm.VRobjects;
@@ -9,6 +10,7 @@ namespace VRConnectorForm.Forms
     {
         private Connection _connection;
         private new string Name { get; set; }
+        
 
         public TunnelCommandForm(Connection connection, String name)
         {
@@ -55,23 +57,19 @@ namespace VRConnectorForm.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string req = "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\"" + _connection.TunnelID +
-  "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"panel\", \"components\" : {\"panel\" : { \"size\" : [ 1, 1 ], \"resolution\" : [ 512, 512 ], \"background\" : [ 1, 1, 1, 1] }}}}}}";
-            _connection.sendMessage(req);
         }
 
         private void GetScene_Click(object sender, EventArgs e)
         {
-            string req = "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\"" + _connection.TunnelID +
-  "\", \"data\" : { \"id\":\"scene/get\"}}}";
-            _connection.sendMessage(req);
-
+        
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-          Node auto = new Node("car", _connection.TunnelID);
-              
-         }
+            Node auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 25, 0, 0);
+            Console.WriteLine(auto.SendString);
+            _connection.sendMessage(auto.SendString);
+            
+        }
     }
 }

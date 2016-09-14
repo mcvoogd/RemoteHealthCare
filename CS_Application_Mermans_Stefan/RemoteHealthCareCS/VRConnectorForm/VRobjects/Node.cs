@@ -10,15 +10,15 @@ namespace VRConnectorForm.VRobjects
     public class Node
     {
         public string Naam { get; set; }
-        public string Uuid { get; set; }
+        public string Uuid { get; set; } = null;
         public readonly string SendString;
         public readonly string TunnelID;
 
-        public Node(string naam, string tunnelId, string filename, int x, int y, int z)
+        public Node(string naam, string tunnelId, string filename, int x, int y, int z, double scale)
         {
             this.Naam = naam;
             this.TunnelID = tunnelId;
-            SendString = AddModelNode(tunnelId, Naam, filename, x, y, z);
+            SendString = AddModelNode(tunnelId, Naam, filename, x, y, z, scale);
         }
 
         public Node(string name, string tunnelId, double x, double y, double z)
@@ -28,7 +28,7 @@ namespace VRConnectorForm.VRobjects
             SendString = AddTerrainNode(TunnelID, "Terrain node", x, y, z);
         }
 
-        private dynamic AddModelNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
+        private dynamic AddModelNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
             {
@@ -80,20 +80,21 @@ namespace VRConnectorForm.VRobjects
             }, TunnelID);
         }
 
-        public string MoveNode(int x, int y, int z,  int timeValue)
+        public string MoveNode(int x, int y, int z, int timeValue)
         {
-            string temp;
-            Connection.VRobjecten.TryGetValue(Naam, out temp);
-            Uuid = temp;
-              
+            if (Uuid == null)
+            {          
+                string temp;
+                Connection.VRobjecten.TryGetValue(Naam, out temp);
+                Uuid = temp;
+            }            
             return RequestCreater.TunnelSend(
                 new
                 {
                     id = "scene/node/moveto",
                     data = new
                     {
-                        id = Uuid,
-                        stop = "stop",
+                        id = Uuid,                      
                         position = new []{x,y,z},
                         rotate = "none",
                         interpolate = "linear",

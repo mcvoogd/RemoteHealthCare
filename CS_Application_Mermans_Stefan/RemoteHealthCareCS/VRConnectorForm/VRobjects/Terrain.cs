@@ -33,7 +33,6 @@ namespace VRConnectorForm.VRobjects
                     heights = mapHeight
                 }
             }, _tunnelId);
-//            Console.WriteLine(request);
            _connection.sendMessage(request);
         }
 

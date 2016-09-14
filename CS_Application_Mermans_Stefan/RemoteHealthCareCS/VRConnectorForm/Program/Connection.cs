@@ -79,6 +79,7 @@ namespace VRConnectorForm.Program
                                     switch ((string) red.data.data.id)
                                     {
                                         case "scene/node/add":
+                                            Console.WriteLine(red.data.data.data);
                                             string tempNaam = red.data.data.data.name;
                                             string tempUuid = red.data.data.data.uuid;
                                             if (!VRobjecten.ContainsKey(tempNaam))

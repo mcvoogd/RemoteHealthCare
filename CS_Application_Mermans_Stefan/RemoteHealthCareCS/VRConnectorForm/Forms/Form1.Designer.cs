@@ -36,20 +36,19 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 31;
-            this.listBox1.Location = new System.Drawing.Point(24, 81);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.listBox1.Location = new System.Drawing.Point(9, 34);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(1594, 655);
+            this.listBox1.Size = new System.Drawing.Size(487, 277);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(24, 25);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.connectButton.Location = new System.Drawing.Point(9, 10);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(150, 45);
+            this.connectButton.Size = new System.Drawing.Size(56, 19);
             this.connectButton.TabIndex = 1;
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
@@ -57,9 +56,10 @@
             // 
             // Refresh
             // 
-            this.Refresh.Location = new System.Drawing.Point(200, 25);
+            this.Refresh.Location = new System.Drawing.Point(75, 10);
+            this.Refresh.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.Refresh.Name = "Refresh";
-            this.Refresh.Size = new System.Drawing.Size(227, 45);
+            this.Refresh.Size = new System.Drawing.Size(85, 19);
             this.Refresh.TabIndex = 2;
             this.Refresh.Text = "Refresh";
             this.Refresh.UseVisualStyleBackColor = true;
@@ -67,13 +67,13 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1646, 761);
+            this.ClientSize = new System.Drawing.Size(502, 319);
             this.Controls.Add(this.Refresh);
             this.Controls.Add(this.connectButton);
             this.Controls.Add(this.listBox1);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

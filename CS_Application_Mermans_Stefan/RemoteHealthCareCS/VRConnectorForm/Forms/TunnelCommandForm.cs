@@ -16,16 +16,16 @@ namespace VRConnectorForm.Forms
     {
         private Connection _connection;
         private string name { get; set; }
-        private string ID { get; set; }
-        private Node auto;
-        private Skybox skybox;
+        private Node auto = null;
+        private Node house = null;
+        private Skybox skybox = null;
+       
 
         public TunnelCommandForm(Connection connection, string name)
         {
             InitializeComponent();
             this.name = name;   
             _connection = connection;
-            skybox = new Skybox("skybox", _connection.TunnelID);
         }
 
         private void sedCommandButton_Click(object sender, EventArgs e)
@@ -34,7 +34,6 @@ namespace VRConnectorForm.Forms
                 "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\"" + _connection.TunnelID +
                 "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
             _connection.sendMessage(req);
-            Console.WriteLine(_connection.TunnelID);
         }
 
         private void StatisticsButton_Click_1(object sender, EventArgs e)
@@ -54,12 +53,13 @@ namespace VRConnectorForm.Forms
 
         private void CreateAuto_Click(object sender, EventArgs e)
         {
-             auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 20, 0, 0);
+             auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 5, 0,10 , 0.025);
             _connection.nodes.Add(auto);         
         }
 
         private void SendAuto_Click(object sender, EventArgs e)
         {
+            if(auto != null)
             _connection.sendMessage(auto.SendString);
         }
 
@@ -77,10 +77,24 @@ namespace VRConnectorForm.Forms
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            int time = SetTime.Value;
-            Console.WriteLine(time);
+            if(skybox == null)
+            skybox = new Skybox("skybox", _connection.TunnelID);
+            double time = (float)SetTime.Value/4.0f;
             _connection.sendMessage(skybox.SetTime(time));
-            _connection.sendMessage(skybox.Update());
+
+           
+            //_connection.sendMessage(skybox.Update());
+        }
+
+        private void CreateHouse_Click(object sender, EventArgs e)
+        {
+             house = new Node("house", _connection.TunnelID, "data/NetworkEngine/models/houses/set1/house3.obj", 10,0, -50, 7);
+        }
+
+        private void SendHouse_Click(object sender, EventArgs e)
+        {
+            if(house != null)
+            _connection.sendMessage(house.SendString);
         }
 
         //"data/NetworkEngine/models/cars/white/car_white.obj"

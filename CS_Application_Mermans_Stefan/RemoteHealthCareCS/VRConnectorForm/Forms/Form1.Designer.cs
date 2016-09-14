@@ -1,6 +1,6 @@
-﻿namespace VRConnectorForm.Program
+﻿namespace VRConnectorForm.Forms
 {
-    partial class Form1
+    partial class Form1 
     {
         /// <summary>
         /// Required designer variable.
@@ -84,7 +84,7 @@
 
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button connectButton;
-        private System.Windows.Forms.Button Refresh;
+        private new System.Windows.Forms.Button Refresh;
     }
 }
 

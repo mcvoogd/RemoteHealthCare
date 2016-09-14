@@ -62,7 +62,7 @@ namespace DataScreen.Classes
                     $"{_simulation.Measurement.Speed}\t" +
                     $"{(int)_simulation.Measurement.Distance}\t" +
                     $"{_simulation.Measurement.Power}\t     " +
-                    $"{_simulation.Measurement.Burned}\t   " +
+                    $"{(int)_simulation.Measurement.Burned}\t   " +
                     $"{_simulation.Measurement.Time}\t " +
                     $"{_simulation.Measurement.ReachedPower}\n");
 

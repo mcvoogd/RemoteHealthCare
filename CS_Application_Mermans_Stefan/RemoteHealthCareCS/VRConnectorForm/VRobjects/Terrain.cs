@@ -18,11 +18,11 @@ namespace VRConnectorForm.VRobjects
             _tunnelId = tunnelId;
             _connection = connection;
 
-            int[] heightmap = HeightMapGenerator.GenerateHeightmap();
+            double[] heightmap = HeightMapGenerator.GenerateHeightmap();
             AddTerrain(new []{256,256},heightmap);
         }
 
-        public void AddTerrain(int[] mapSize, int[] mapHeight)
+        public void AddTerrain(int[] mapSize, double[] mapHeight)
         {
             var request = RequestCreater.TunnelSend(new
             {
@@ -74,30 +74,25 @@ namespace VRConnectorForm.VRobjects
 
     internal static class HeightMapGenerator
     {
-        public static int[] GenerateHeightmap()
+        public static double[] GenerateHeightmap()
         {
             var heightMap = Image.FromFile("C:/Projects/VisualRemoteHealthCare/CS_Application_Mermans_Stefan/RemoteHealthCareCS/VRConnectorForm/res/map.jpg");
             var bitHeigthMap = new Bitmap(heightMap, 256, 256);
-            var pixels = new int[256 * 256];
+            var pixels = new double[256 * 256];
             for (int countRow = 0; countRow < 256; countRow++)
             {
                 for (int countCollum = 0; countCollum < 256; countCollum++)
                 {
-                    Color c = bitHeigthMap.GetPixel(countRow, countCollum);
-                    pixels[countRow * countCollum] = colorToInt(c);
+                    Color c = bitHeigthMap.GetPixel(countCollum, countRow);
+                    pixels[countRow + 256 * countCollum] = colorToInt(c);
                 }
             }
             return pixels;
         }
 
-        private static int colorToInt(Color c)
+        private static double colorToInt(Color c)
         {
-            return Convert.ToInt32(colorToHex(c), 16);
-        }
-
-        private static string colorToHex(Color c)
-        {
-            return c.R.ToString("X2");
+            return (double)c.B / 100;
         }
     }
 }

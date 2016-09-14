@@ -37,14 +37,15 @@ namespace VRConnectorForm.Forms
             this.CreateAuto = new System.Windows.Forms.Button();
             this.SendAuto = new System.Windows.Forms.Button();
             this.MoveCar = new System.Windows.Forms.Button();
+            this.addTerrainButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // sedCommandButton
             // 
-            this.sedCommandButton.Location = new System.Drawing.Point(24, 114);
-            this.sedCommandButton.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.sedCommandButton.Location = new System.Drawing.Point(12, 59);
+            this.sedCommandButton.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.sedCommandButton.Name = "sedCommandButton";
-            this.sedCommandButton.Size = new System.Drawing.Size(256, 48);
+            this.sedCommandButton.Size = new System.Drawing.Size(128, 25);
             this.sedCommandButton.TabIndex = 1;
             this.sedCommandButton.Text = "SendCommand";
             this.sedCommandButton.UseVisualStyleBackColor = true;
@@ -53,26 +54,27 @@ namespace VRConnectorForm.Forms
             // TunnelId
             // 
             this.TunnelId.AutoSize = true;
-            this.TunnelId.Location = new System.Drawing.Point(747, 67);
-            this.TunnelId.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.TunnelId.Location = new System.Drawing.Point(374, 35);
+            this.TunnelId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TunnelId.Name = "TunnelId";
-            this.TunnelId.Size = new System.Drawing.Size(0, 32);
+            this.TunnelId.Size = new System.Drawing.Size(0, 17);
             this.TunnelId.TabIndex = 2;
             // 
             // NameLabel
             // 
             this.NameLabel.AutoSize = true;
-            this.NameLabel.Location = new System.Drawing.Point(747, 129);
+            this.NameLabel.Location = new System.Drawing.Point(374, 67);
+            this.NameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(0, 32);
+            this.NameLabel.Size = new System.Drawing.Size(0, 17);
             this.NameLabel.TabIndex = 3;
             // 
             // StatisticsButton
             // 
-            this.StatisticsButton.Location = new System.Drawing.Point(24, 50);
-            this.StatisticsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.StatisticsButton.Location = new System.Drawing.Point(12, 26);
+            this.StatisticsButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.StatisticsButton.Name = "StatisticsButton";
-            this.StatisticsButton.Size = new System.Drawing.Size(256, 48);
+            this.StatisticsButton.Size = new System.Drawing.Size(128, 25);
             this.StatisticsButton.TabIndex = 4;
             this.StatisticsButton.Text = "Statistics";
             this.StatisticsButton.UseVisualStyleBackColor = true;
@@ -80,10 +82,10 @@ namespace VRConnectorForm.Forms
             // 
             // CreateAuto
             // 
-            this.CreateAuto.Location = new System.Drawing.Point(24, 176);
-            this.CreateAuto.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.CreateAuto.Location = new System.Drawing.Point(12, 91);
+            this.CreateAuto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.CreateAuto.Name = "CreateAuto";
-            this.CreateAuto.Size = new System.Drawing.Size(256, 48);
+            this.CreateAuto.Size = new System.Drawing.Size(128, 25);
             this.CreateAuto.TabIndex = 5;
             this.CreateAuto.Text = "Create Auto";
             this.CreateAuto.UseVisualStyleBackColor = true;
@@ -91,11 +93,11 @@ namespace VRConnectorForm.Forms
             // 
             // SendAuto
             // 
-            this.SendAuto.Location = new System.Drawing.Point(24, 238);
-            this.SendAuto.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.SendAuto.Location = new System.Drawing.Point(12, 123);
+            this.SendAuto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SendAuto.Name = "SendAuto";
             this.SendAuto.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SendAuto.Size = new System.Drawing.Size(256, 48);
+            this.SendAuto.Size = new System.Drawing.Size(128, 25);
             this.SendAuto.TabIndex = 6;
             this.SendAuto.Text = "Send Auto";
             this.SendAuto.UseVisualStyleBackColor = true;
@@ -103,19 +105,31 @@ namespace VRConnectorForm.Forms
             // 
             // MoveCar
             // 
-            this.MoveCar.Location = new System.Drawing.Point(24, 315);
+            this.MoveCar.Location = new System.Drawing.Point(12, 163);
+            this.MoveCar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MoveCar.Name = "MoveCar";
-            this.MoveCar.Size = new System.Drawing.Size(256, 43);
+            this.MoveCar.Size = new System.Drawing.Size(128, 22);
             this.MoveCar.TabIndex = 7;
             this.MoveCar.Text = "Move Car";
             this.MoveCar.UseVisualStyleBackColor = true;
             this.MoveCar.Click += new System.EventHandler(this.MoveCar_Click);
             // 
+            // addTerrainButton
+            // 
+            this.addTerrainButton.Location = new System.Drawing.Point(303, 80);
+            this.addTerrainButton.Name = "addTerrainButton";
+            this.addTerrainButton.Size = new System.Drawing.Size(75, 23);
+            this.addTerrainButton.TabIndex = 8;
+            this.addTerrainButton.Text = "AddTerrain";
+            this.addTerrainButton.UseVisualStyleBackColor = true;
+            this.addTerrainButton.Click += new System.EventHandler(this.addTerrainButton_Click);
+            // 
             // TunnelCommandForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1397, 861);
+            this.ClientSize = new System.Drawing.Size(698, 444);
+            this.Controls.Add(this.addTerrainButton);
             this.Controls.Add(this.MoveCar);
             this.Controls.Add(this.SendAuto);
             this.Controls.Add(this.CreateAuto);
@@ -123,7 +137,7 @@ namespace VRConnectorForm.Forms
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.TunnelId);
             this.Controls.Add(this.sedCommandButton);
-            this.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.Name = "TunnelCommandForm";
             this.Text = "TunnelCommandForm";
             this.ResumeLayout(false);
@@ -139,5 +153,6 @@ namespace VRConnectorForm.Forms
         private Button CreateAuto;
         private Button SendAuto;
         private Button MoveCar;
+        private Button addTerrainButton;
     }
 }

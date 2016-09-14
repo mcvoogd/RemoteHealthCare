@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using VRConnectorForm.Program;
+using VRConnectorForm.VRobjects;
 
 namespace VRConnectorForm.Forms
 {
@@ -69,9 +70,8 @@ namespace VRConnectorForm.Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
-            _connection.sendMessage(RequestCreater.AddNode(_connection.TunnelID, "car", "data/NetworkEngine/models/cars/white/car_white.obj",
-                50, 0, 0));
-        }
+          Node auto = new Node("car", _connection.TunnelID);
+              
+         }
     }
 }

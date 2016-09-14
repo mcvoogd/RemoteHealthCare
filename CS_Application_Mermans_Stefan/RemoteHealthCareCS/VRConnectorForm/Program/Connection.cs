@@ -26,6 +26,7 @@ namespace VRConnectorForm.Program
         public FillConnectionList FillConnectionList;
         public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
         public List<Node> nodes = new List<Node>();
+        public string TerrainId { get ; private set; } // TODO store somewhere else
 
         public Connection(string IP, int port, Form1 form)
         {
@@ -76,13 +77,22 @@ namespace VRConnectorForm.Program
                                     this.TunnelID = red.data.id;
                                     break;
                                 case "tunnel/send":
+//                                    Console.WriteLine("------------------\n" + red + "----------------------\n");
                                     switch ((string) red.data.data.id)
                                     {
                                         case "scene/node/add":
                                             Console.WriteLine(red.data.data.data);
                                             string tempNaam = red.data.data.data.name;
                                             string tempUuid = red.data.data.data.uuid;
-                                            if (!VRobjecten.ContainsKey(tempNaam))
+                                            Console.WriteLine(tempNaam);
+                                            if (tempNaam == "Terrain node")
+                                            {
+                                                TerrainId = red.data.data.data.uuid;
+                                                Console.WriteLine("SWITCH" + tempNaam + ": " + red.data.data.data.uuid);
+                                                // Sets the id of the terrain, the storage of this id should probably be moved somewhere else.
+                                                // This may not even be necessary at all if the terrain node is stored in VRobjecten
+                                                // TODO move
+                                            } else if (!VRobjecten.ContainsKey(tempNaam))
                                             {
                                                 VRobjecten.Add(tempNaam, tempUuid);
                                                 if(getNodeINList(tempNaam) != null)
@@ -93,7 +103,10 @@ namespace VRConnectorForm.Program
                                     break;
                                 case "scene/get":
                                     break;
-                             }
+                                default:
+                                    Console.WriteLine("DEFAULT: " + red.data.id);
+                                    break;
+                            }
                           
                                 
                              bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));

@@ -66,6 +66,13 @@ namespace VRConnectorForm.Forms
             _connection.sendMessage(auto.MoveNode(20,0,50,20));
         }
 
+        private void addTerrainButton_Click(object sender, EventArgs e)
+        {
+            Terrain terrain = new Terrain(_connection.TunnelID,_connection);
+            var terrainNode = new Node("Terrain node", _connection.TunnelID, -128, 0.5, -128);
+            _connection.sendMessage(terrainNode.SendString);
+        }
+
         //"data/NetworkEngine/models/cars/white/car_white.obj"
 
     }

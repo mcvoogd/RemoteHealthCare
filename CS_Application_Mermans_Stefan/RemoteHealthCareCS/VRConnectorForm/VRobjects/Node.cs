@@ -21,6 +21,13 @@ namespace VRConnectorForm.VRobjects
             SendString = AddModelNode(tunnelId, Naam, filename, x, y, z);
         }
 
+        public Node(string name, string tunnelId, double x, double y, double z)
+        {
+            Naam = name;
+            TunnelID = tunnelId;
+            SendString = AddTerrainNode(TunnelID, "Terrain node", x, y, z);
+        }
+
         private dynamic AddModelNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
@@ -47,7 +54,7 @@ namespace VRConnectorForm.VRobjects
             }, TunnelID);
         }
 
-        private dynamic AddTerrainNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
+        private dynamic AddTerrainNode(string tunnelID, string Name, double x, double y, double z, double ScaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
             {

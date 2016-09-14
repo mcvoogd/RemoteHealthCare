@@ -17,7 +17,7 @@ namespace DataScreen.Classes
         public int Burned { get; set; }
         public SimpleTime Time { get; set; }
         public int ReachedPower { get; set; }
-         public readonly string OrigionString;
+        public readonly string OrigionString;
 
         public Measurement(int pulse, int rotations, int speed, int power, int distance, int burned, SimpleTime time, int reachedpower)
         {

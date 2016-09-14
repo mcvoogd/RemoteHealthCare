@@ -19,7 +19,7 @@ namespace VRConnectorForm.Forms
         private Node auto = null;
         private Node house = null;
         private Skybox skybox = null;
-       
+        private bool send = false;
 
         public TunnelCommandForm(Connection connection, string name)
         {
@@ -29,27 +29,36 @@ namespace VRConnectorForm.Forms
         }
 
         private void sedCommandButton_Click(object sender, EventArgs e)
-        {    
-            //dummy button    
+        {
+            if (!send)
+            {
+                send = true;
+                _connection.sendMessage( RequestCreater.GetScene(_connection.TunnelID));
+            }
+            else
+            {
+                _connection.sendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanID, _connection.TunnelID));
+            }
         }
 
         private void StatisticsButton_Click_1(object sender, EventArgs e)
         {
-            _connection.sendMessage(
-                RequestCreater.TunnelSend(new
-                {
-                    id = "scene/node/addlayer",
-                    data = new
+            
+                _connection.sendMessage(
+                    RequestCreater.TunnelSend(new
                     {
-                        id = _connection.TerrainId,
-                        normal = "data/NetworkEngine/textures/terrain/adesert_mntn4_n.jpg",
-                        diffuse = "data/NetworkEngine/textures/terrain/adesert_mntn4_d.jpg",
-                        minHeight = 0,
-                        maxHeight = 30,
-                        fadeDist = 1
-                    }
-                }, _connection.TunnelID));
-        }
+                        id = "scene/node/addlayer",
+                        data = new
+                        {
+                            id = _connection.TerrainId,
+                            normal = "data/NetworkEngine/textures/terrain/adesert_mntn4_n.jpg",
+                            diffuse = "data/NetworkEngine/textures/terrain/adesert_mntn4_d.jpg",
+                            minHeight = 0,
+                            maxHeight = 30,
+                            fadeDist = 1
+                        }
+                    }, _connection.TunnelID));
+   }
 
         private void CreateAuto_Click(object sender, EventArgs e)
         {
@@ -92,6 +101,56 @@ namespace VRConnectorForm.Forms
         {
             if(house != null)
             _connection.sendMessage(house.SendString);
+        }
+
+        private void CreateRoute_Click(object sender, EventArgs e)
+        {
+            _connection.sendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "route/add",
+                data = new
+                {
+                    nodes = new[]
+                    {
+                        new {pos = new[] {0,0,0} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {50,0,0} , dir = new[] {5,0,5}},
+                        new {pos = new[] {50,0,50}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {0,0,50}, dir = new[] {-5,0,-5}}
+                     }
+                }
+            }, _connection.TunnelID));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _connection.sendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/road/add",
+                data = new
+                {
+                    route = _connection.RouteID
+                }
+            }, _connection.TunnelID));
+        }
+
+        private void FollowRoad_Click(object sender, EventArgs e)
+        {
+            _connection.sendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "route/follow",
+                data = new
+                {
+                    route = _connection.RouteID,
+                    node = auto.Uuid,
+                    speed = 1.0,
+                    offset = 0.0,
+                    rotate = "XYZ",
+                    followHeight = false,
+                    rotateOffset = new[] { 0, 145, 0 },
+                    positionOffset = new[] { 0, 0, 0 },
+
+                }
+            }, _connection.TunnelID));
         }
     }
 }

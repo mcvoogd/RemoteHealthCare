@@ -1,4 +1,4 @@
-﻿namespace VRConnectorForm
+﻿namespace VRConnectorForm.Program
 {
     partial class Form1
     {

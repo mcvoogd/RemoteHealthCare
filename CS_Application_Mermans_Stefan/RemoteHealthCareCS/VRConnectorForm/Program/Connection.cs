@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace VRConnectorForm
+namespace VRConnectorForm.Program
 {
     public delegate void FillConnectionList();
     

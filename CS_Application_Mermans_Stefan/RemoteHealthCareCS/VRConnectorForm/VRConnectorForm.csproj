@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program\Client.cs" />
     <Compile Include="Program\Connection.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>

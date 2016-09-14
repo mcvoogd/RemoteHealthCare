@@ -32,14 +32,13 @@ namespace DataScreen.Forms
             burnedCount.Text = "" + Measurement.Burned;
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
-            distanceCount.Text = "" + Measurement.Distance;
+            distanceCount.Text = "" + (int)Measurement.Distance;
         }
 
         public SimulationForm()
         {
-
             _time = 120;
-            Measurement = new Measurement(120, 100, 25, 50, (int)(_time*(25/3.6)), 666 ,new SimpleTime(_time/60,_time%60), 500);
+            Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), (int)(10/3.6 * 120) ,new SimpleTime(_time/60,_time%60), 500);
             InitializeComponent();
             RefreshText();
         }
@@ -92,34 +91,28 @@ namespace DataScreen.Forms
             powerCount.Text = "" + Measurement.Power ;
         }
 
-        private void burnedMin_Click(object sender, EventArgs e)
-        {
-            if (Measurement.Burned > 0) { Measurement.Burned--; }
-            burnedCount.Text = "" + Measurement.Burned;
-        }
-
-        private void burnedPlus_Click(object sender, EventArgs e)
-        {
-            if (Measurement.Burned < 999) { Measurement.Burned++; }
-            burnedCount.Text = "" + Measurement.Burned;
-        }
-
         private void timeMin_Click(object sender, EventArgs e)
         {
             if (_time > 0) { _time--; }
             Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = (int)(_time * (25 / 3.6));
+            Measurement.Distance = _time * (Measurement.Speed / 3.6);
+            Measurement.Burned = (int)(10 / 3.6 * _time);
+
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            distanceCount.Text = "" + Measurement.Distance;
+            distanceCount.Text = "" + (int)Measurement.Distance;
+            burnedCount.Text = "" + (int)Measurement.Burned;
         }
 
         private void timePlus_Click(object sender, EventArgs e)
         {
             if (_time < 5999) { _time++; }
             Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = (int)(_time * (25 / 3.6));
+            Measurement.Distance = _time * (Measurement.Speed / 3.6);
+            Measurement.Burned = (int)(10 / 3.6 * _time);
+
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            distanceCount.Text = "" + Measurement.Distance;
+            distanceCount.Text = "" + (int)Measurement.Distance;
+            burnedCount.Text = "" + (int)Measurement.Burned;
         }
 
         private void reachedPowerMin_Click(object sender, EventArgs e)
@@ -132,18 +125,6 @@ namespace DataScreen.Forms
         {
             if (Measurement.ReachedPower < 999) { Measurement.ReachedPower++; }
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
-        }
-
-        private void distanceMin_Click(object sender, EventArgs e)
-        {
-            if (Measurement.Distance > 0) { Measurement.Distance--; }
-            distanceCount.Text = "" + Measurement.Distance;
-        }
-
-        private void distancePlus_Click(object sender, EventArgs e)
-        {
-            if (Measurement.Distance < 999) { Measurement.Distance++; }
-            distanceCount.Text = "" + Measurement.Distance;
         }
 
         public void updateSim()
@@ -160,31 +141,29 @@ namespace DataScreen.Forms
                 {
                     _time++;
                     Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-                    Measurement.Distance += (int)(Measurement.Speed / 3.6);
-
+                    Measurement.Distance += Measurement.Speed / 3.6;
+                    Measurement.Burned += (int)(10 / 3.6);
                 }
 
                 Random random = new Random();
 
-                switch((int)(random.NextDouble()*2))
-                    {
-                        case 0:
+                switch ((int)(random.NextDouble() * 2))
+                {
+                    case 0:
+                        if(Measurement.Pulse < 230)
                             Measurement.Pulse++;
-                            break;
-                        case 1:
+                        break;
+                    case 1:
+                        if(Measurement.Pulse > 0)
                             Measurement.Pulse--;
-                            break;
-                    }
+                        break;
+                }
 
                 RefreshText();
             }
 
             
         }
-
-        private void verzendButton_Click(object sender, EventArgs e)
-        {
-            // TODO remove
-        }
-   }
+        
+    }
 }

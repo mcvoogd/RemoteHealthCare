@@ -137,7 +137,7 @@ namespace DataScreen.Classes
         {
             for (int i = 0; i < measurements.Count - 1; i++)
             {
-                Point point = new Point(measurements[i].Distance, i);
+                Point point = new Point((int)measurements[i].Distance, i);
 
                 switch (sortGraph)
                 {

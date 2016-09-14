@@ -17,14 +17,12 @@ namespace VRConnectorForm.Forms
         private Connection _connection;
         private string name { get; set; }
         private string ID { get; set; }
+        private Node auto;
 
-        public TunnelCommandForm(Connection connection, String name, String ID)
+        public TunnelCommandForm(Connection connection, string name)
         {
             InitializeComponent();
-            this.name = name;
-            this.ID = ID;
-            ;
-            ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
+            this.name = name;   
             _connection = connection;
         }
 
@@ -41,7 +39,7 @@ namespace VRConnectorForm.Forms
         {
             if (TunnelId.Text == "")
             {
-                TunnelId.Text = "User ID : " + ID;
+                TunnelId.Text = "User ID : " + _connection.TunnelID;
                 NameLabel.Text = "User : " + name;
             }
             else
@@ -52,31 +50,23 @@ namespace VRConnectorForm.Forms
             }
         }
 
-        private void NameLabel_Click(object sender, EventArgs e)
+        private void CreateAuto_Click(object sender, EventArgs e)
         {
-
+             auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 20, 0, 0);
+            _connection.nodes.Add(auto);
         }
 
-        private void TunnelCommandForm_Load(object sender, EventArgs e)
+        private void SendAuto_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void GetScene_Click(object sender, EventArgs e)
-        {
-        
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Node auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 25, 0, 0);
-            Console.WriteLine(auto.SendString);
             _connection.sendMessage(auto.SendString);
-            
         }
+
+        private void MoveCar_Click(object sender, EventArgs e)
+        {
+            _connection.sendMessage(auto.MoveNode(20,0,50,20));
+        }
+
+        //"data/NetworkEngine/models/cars/white/car_white.obj"
+
     }
 }

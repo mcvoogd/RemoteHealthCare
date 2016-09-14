@@ -25,14 +25,14 @@ namespace VRConnectorForm.Forms
             if (_connection.JsonRawData.data.Count > 0)
             {
                 listBox1.Items.Clear();
-                string clientId = clients[_selectedIndex].ID;
+                string clientID = clients[_selectedIndex].ID;
                 string name = clients[_selectedIndex].name;
-                if (clientId != null)
+                if (clientID != null)
                 {
-                    string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
+                    string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientID +
                                      "\", \"key\" : \"NotConCat\" } }";
                     _connection.sendMessage(request);
-                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name, clientId);
+                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name);
                     tunnelCommandForm.Show();
                 }
             }
@@ -44,7 +44,9 @@ namespace VRConnectorForm.Forms
             {
                 clients.Add(new Client(_connection.JsonRawData.data[i].id, _connection.JsonRawData.data[i].clientinfo.user));
             }
+
             clients.Sort();
+
             for (int i = 0; i < clients.Count; i++)
             {
                 listBox1.Items.Add(clients[i].name);

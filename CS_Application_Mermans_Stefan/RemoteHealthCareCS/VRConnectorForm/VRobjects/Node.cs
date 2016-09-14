@@ -7,7 +7,7 @@ using VRConnectorForm.Program;
 
 namespace VRConnectorForm.VRobjects
 {
-    class Node
+    public class Node
     {
         public string Naam { get; set; }
         public string Uuid { get; set; }
@@ -18,10 +18,10 @@ namespace VRConnectorForm.VRobjects
         {
             this.Naam = naam;
             this.TunnelID = tunnelId;
-            SendString = AddNode(tunnelId, Naam, filename, x, y, z);
+            SendString = AddModelNode(tunnelId, Naam, filename, x, y, z);
         }
 
-        private dynamic AddNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
+        private dynamic AddModelNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
             {
@@ -41,6 +41,32 @@ namespace VRConnectorForm.VRobjects
                         {
                             file = FileName
                         }
+                    }
+
+                }
+            }, TunnelID);
+        }
+
+        private dynamic AddTerrainNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
+        {
+            return RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/add",
+                data = new
+                {
+                    name = Name,
+                    components = new
+                    {
+                        transform = new
+                        {
+                            position = new[] { x, y, z },
+                            scale = ScaleValue,
+                            rotation = new[] { xR, yR, zR }
+                        },
+                       terrain = new
+                       {
+                           smoothnormals = true
+                       }
                     }
 
                 }

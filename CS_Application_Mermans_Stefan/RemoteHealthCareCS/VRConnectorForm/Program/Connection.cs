@@ -6,6 +6,7 @@ using System.Security.AccessControl;
 using System.Text;
 using Newtonsoft.Json;
 using VRConnectorForm.Forms;
+using VRConnectorForm.VRobjects;
 
 namespace VRConnectorForm.Program
 {
@@ -24,6 +25,7 @@ namespace VRConnectorForm.Program
         public Form1 Form { get; set; }
         public FillConnectionList FillConnectionList;
         public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
+        public List<Node> nodes = new List<Node>();
 
         public Connection(string IP, int port, Form1 form)
         {
@@ -71,7 +73,9 @@ namespace VRConnectorForm.Program
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
+                                    //Console.WriteLine(red.data.id);
                                     this.TunnelID = red.data.id;
+                                    Console.WriteLine("TUNNEL ID :  "+ TunnelID);
                                     break;
                                 case "tunnel/send":
                                     switch ((string) red.data.data.id)
@@ -79,8 +83,12 @@ namespace VRConnectorForm.Program
                                         case "scene/node/add":
                                             string tempNaam = red.data.data.data.name;
                                             string tempUuid = red.data.data.data.uuid;
-                                                if(!VRobjecten.ContainsKey(tempNaam))
+                                            if (!VRobjecten.ContainsKey(tempNaam))
+                                            {
                                                 VRobjecten.Add(tempNaam, tempUuid);
+                                                if(getNodeINList(tempNaam) != null)
+                                                getNodeINList(tempNaam).Uuid = tempUuid;
+                                            }
                                             break;
                                     }
                                     break;
@@ -130,6 +138,18 @@ namespace VRConnectorForm.Program
         public bool IsConnected()
         {
             return Client != null ? Client.Connected : false;
+        }
+
+        public Node getNodeINList(string naam)
+        {
+            foreach (Node node in nodes)
+            {
+                if (node.Naam.Equals(naam))
+                {
+                    return node;
+                }
+            }
+            return null;
         }
 
         // Remove the first message from a byte array

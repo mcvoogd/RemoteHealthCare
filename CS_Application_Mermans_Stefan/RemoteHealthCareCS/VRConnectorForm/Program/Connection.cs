@@ -65,7 +65,7 @@ namespace VRConnectorForm.Program
                             var result = GetMessageFromBuffer(bufferBytes, packetLength);
 
                             dynamic red = JsonConvert.DeserializeObject(result);
-                            Console.WriteLine(red.id);
+                            
                             switch ((String) red.id)
                             {
                                 case "session/list":

@@ -93,10 +93,7 @@ namespace DataScreen.Forms
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            if (_time > 0) { _time--; }
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = _time * (Measurement.Speed / 3.6);
-            Measurement.Burned = 10.0 / 3600.0 * _time * 70.0;
+            updateMeshMin();
 
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
             distanceCount.Text = "" + (int)Measurement.Distance;
@@ -105,10 +102,7 @@ namespace DataScreen.Forms
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            if (_time < 5999) { _time++; }
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = _time * (Measurement.Speed / 3.6);
-            Measurement.Burned = 10.0 / 3600.0 * _time * 70.0;
+            updateMeshPlus();
 
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
             distanceCount.Text = "" + (int)Measurement.Distance;
@@ -137,13 +131,7 @@ namespace DataScreen.Forms
             }
             else
             {
-                if (_time < 5999)
-                {
-                    _time++;
-                    Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-                    Measurement.Distance += Measurement.Speed / 3.6;
-                    Measurement.Burned += 10.0 / 3600.0 * 70.0;
-                }
+                updateMeshPlus();
 
                 Random random = new Random();
 
@@ -163,6 +151,34 @@ namespace DataScreen.Forms
             }
 
             
+        }
+
+        public void updateMeshPlus()
+        {
+            if (_time < 5999)
+            {
+                _time++;
+                Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+                Measurement.Distance += Measurement.Speed / 3.6;
+                Measurement.Burned += 10.0 / 3600.0 * 70.0;
+            }
+        }
+
+        public void updateMeshMin()
+        {
+            if (_time > 0)
+            {
+                _time--;
+                Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+
+                Measurement.Burned -= 10.0 / 3600.0 * 70.0;
+                Measurement.Distance -= Measurement.Speed / 3.6;
+
+                if (Measurement.Distance < 0)
+                    Measurement.Distance = 0;
+                if (Measurement.Burned < 0)
+                    Measurement.Burned = 0;
+            }
         }
         
     }

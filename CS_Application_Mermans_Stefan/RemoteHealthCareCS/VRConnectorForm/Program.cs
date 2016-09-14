@@ -14,7 +14,6 @@ namespace VRConnectorForm
         [STAThread]
         static void Main()
         {
-            // SOme test text
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

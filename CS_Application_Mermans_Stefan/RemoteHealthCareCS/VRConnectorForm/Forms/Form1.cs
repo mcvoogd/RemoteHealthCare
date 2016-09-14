@@ -9,8 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VRConnectorForm.Forms;
+using VRConnectorForm.Program;
 
-namespace VRConnectorForm
+namespace VRConnectorForm.Forms
 {
     public partial class Form1 : Form
     {

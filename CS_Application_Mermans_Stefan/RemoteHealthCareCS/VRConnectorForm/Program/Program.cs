@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using VRConnectorForm.Forms;
 
 namespace VRConnectorForm.Program
 {
@@ -13,6 +14,7 @@ namespace VRConnectorForm.Program
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             Application.Run(new Form1());
         }
     }

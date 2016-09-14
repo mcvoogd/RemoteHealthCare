@@ -29,26 +29,26 @@ namespace VRConnectorForm.Forms
         }
 
         private void sedCommandButton_Click(object sender, EventArgs e)
-        {        
-            string req =
-                "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\"" + _connection.TunnelID +
-                "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"car\", \"components\" : { \"transform\" : { \"position\" : [ 0, 0, 0 ], \"scale\" : 0.025 , \"rotation\" : [ 0, 0, 0 ] }, \"model\" : { \"file\" : \"data/NetworkEngine/models/cars/white/car_white.obj\" } } } } } }";
-            _connection.sendMessage(req);
+        {    
+            //dummy button    
         }
 
         private void StatisticsButton_Click_1(object sender, EventArgs e)
         {
-            if (TunnelId.Text == "")
-            {
-                TunnelId.Text = "User ID : " + _connection.TunnelID;
-                NameLabel.Text = "User : " + name;
-            }
-            else
-            {
-                TunnelId.Text = "";
-                NameLabel.Text = "";
-
-            }
+            _connection.sendMessage(
+                RequestCreater.TunnelSend(new
+                {
+                    id = "scene/node/addlayer",
+                    data = new
+                    {
+                        id = _connection.TerrainId,
+                        normal = "data/NetworkEngine/textures/terrain/adesert_mntn4_n.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/adesert_mntn4_d.jpg",
+                        minHeight = 0,
+                        maxHeight = 30,
+                        fadeDist = 1
+                    }
+                }, _connection.TunnelID));
         }
 
         private void CreateAuto_Click(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace VRConnectorForm.Forms
 
         private void addTerrainButton_Click(object sender, EventArgs e)
         {
-            Terrain terrain = new Terrain(_connection.TunnelID,_connection);
+           Terrain terrain = new Terrain(_connection.TunnelID,_connection);
             var terrainNode = new Node("Terrain node", _connection.TunnelID, -128, 0.5, -128);
             _connection.sendMessage(terrainNode.SendString);
         }
@@ -80,10 +80,7 @@ namespace VRConnectorForm.Forms
             if(skybox == null)
             skybox = new Skybox("skybox", _connection.TunnelID);
             double time = (float)SetTime.Value/4.0f;
-            _connection.sendMessage(skybox.SetTime(time));
-
-           
-            //_connection.sendMessage(skybox.Update());
+            _connection.sendMessage(skybox.SetTime(time));         
         }
 
         private void CreateHouse_Click(object sender, EventArgs e)
@@ -96,8 +93,5 @@ namespace VRConnectorForm.Forms
             if(house != null)
             _connection.sendMessage(house.SendString);
         }
-
-        //"data/NetworkEngine/models/cars/white/car_white.obj"
-
     }
 }

@@ -110,6 +110,13 @@ namespace VRConnectorForm.Program
                 , tunnelID);
         }
 
+        public static string GetScene(string tunnelID)
+        {
+            return RequestCreater.TunnelSend(new
+            {
+                id = "scene/get"
+            }, tunnelID);
+        }
         //public static string SceneNodeDelLayer()
     }
 }

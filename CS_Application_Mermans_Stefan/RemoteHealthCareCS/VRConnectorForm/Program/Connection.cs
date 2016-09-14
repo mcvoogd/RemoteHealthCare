@@ -88,7 +88,7 @@ namespace VRConnectorForm.Program
                                             if (tempNaam == "Terrain node")
                                             {
                                                 TerrainId = red.data.data.data.uuid;
-                                                Console.WriteLine("SWITCH" + tempNaam + ": " + red.data.data.data.uuid);
+                                                //Console.WriteLine("SWITCH" + tempNaam + ": " + red.data.data.data.uuid);
                                                 // Sets the id of the terrain, the storage of this id should probably be moved somewhere else.
                                                 // This may not even be necessary at all if the terrain node is stored in VRobjecten
                                                 // TODO move
@@ -99,12 +99,10 @@ namespace VRConnectorForm.Program
                                                 getNodeINList(tempNaam).Uuid = tempUuid;
                                             }
                                             break;
+                                        case "scene/get":
+                                            Console.WriteLine(red.data.data.data);
+                                            break;
                                     }
-                                    break;
-                                case "scene/get":
-                                    break;
-                                default:
-                                    Console.WriteLine("DEFAULT: " + red.data.id);
                                     break;
                             }
                           

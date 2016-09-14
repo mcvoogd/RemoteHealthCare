@@ -49,7 +49,7 @@ namespace VRConnectorForm.Forms
             this.sedCommandButton.Location = new System.Drawing.Point(9, 48);
             this.sedCommandButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.sedCommandButton.Name = "sedCommandButton";
-            this.sedCommandButton.Size = new System.Drawing.Size(96, 20);
+            this.sedCommandButton.Size = new System.Drawing.Size(123, 20);
             this.sedCommandButton.TabIndex = 1;
             this.sedCommandButton.Text = "SendCommand";
             this.sedCommandButton.UseVisualStyleBackColor = true;
@@ -78,15 +78,15 @@ namespace VRConnectorForm.Forms
             this.StatisticsButton.Location = new System.Drawing.Point(9, 21);
             this.StatisticsButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.StatisticsButton.Name = "StatisticsButton";
-            this.StatisticsButton.Size = new System.Drawing.Size(96, 20);
+            this.StatisticsButton.Size = new System.Drawing.Size(123, 20);
             this.StatisticsButton.TabIndex = 4;
-            this.StatisticsButton.Text = "Statistics";
+            this.StatisticsButton.Text = "ChangeTerrainTexture";
             this.StatisticsButton.UseVisualStyleBackColor = true;
             this.StatisticsButton.Click += new System.EventHandler(this.StatisticsButton_Click_1);
             // 
             // CreateAuto
             // 
-            this.CreateAuto.Location = new System.Drawing.Point(110, 21);
+            this.CreateAuto.Location = new System.Drawing.Point(179, 21);
             this.CreateAuto.Name = "CreateAuto";
             this.CreateAuto.Size = new System.Drawing.Size(96, 21);
             this.CreateAuto.TabIndex = 5;
@@ -96,7 +96,7 @@ namespace VRConnectorForm.Forms
             // 
             // SendAuto
             // 
-            this.SendAuto.Location = new System.Drawing.Point(110, 48);
+            this.SendAuto.Location = new System.Drawing.Point(179, 45);
             this.SendAuto.Name = "SendAuto";
             this.SendAuto.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SendAuto.Size = new System.Drawing.Size(96, 20);
@@ -107,8 +107,8 @@ namespace VRConnectorForm.Forms
             // 
             // MoveCar
             // 
-            this.MoveCar.Location = new System.Drawing.Point(110, 73);
-            this.MoveCar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MoveCar.Location = new System.Drawing.Point(179, 70);
+            this.MoveCar.Margin = new System.Windows.Forms.Padding(2);
             this.MoveCar.Name = "MoveCar";
             this.MoveCar.Size = new System.Drawing.Size(96, 20);
             this.MoveCar.TabIndex = 7;
@@ -118,7 +118,7 @@ namespace VRConnectorForm.Forms
             // 
             // addTerrainButton
             // 
-            this.addTerrainButton.Location = new System.Drawing.Point(110, 109);
+            this.addTerrainButton.Location = new System.Drawing.Point(179, 106);
             this.addTerrainButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.addTerrainButton.Name = "addTerrainButton";
             this.addTerrainButton.Size = new System.Drawing.Size(96, 20);
@@ -130,7 +130,7 @@ namespace VRConnectorForm.Forms
             // SetTime
             // 
             this.SetTime.Location = new System.Drawing.Point(9, 306);
-            this.SetTime.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.SetTime.Margin = new System.Windows.Forms.Padding(1);
             this.SetTime.Maximum = 96;
             this.SetTime.Name = "SetTime";
             this.SetTime.Size = new System.Drawing.Size(316, 45);
@@ -139,7 +139,7 @@ namespace VRConnectorForm.Forms
             // 
             // CreateHouse
             // 
-            this.CreateHouse.Location = new System.Drawing.Point(110, 170);
+            this.CreateHouse.Location = new System.Drawing.Point(179, 167);
             this.CreateHouse.Name = "CreateHouse";
             this.CreateHouse.Size = new System.Drawing.Size(96, 20);
             this.CreateHouse.TabIndex = 10;
@@ -149,7 +149,7 @@ namespace VRConnectorForm.Forms
             // 
             // SendHouse
             // 
-            this.SendHouse.Location = new System.Drawing.Point(110, 196);
+            this.SendHouse.Location = new System.Drawing.Point(179, 193);
             this.SendHouse.Name = "SendHouse";
             this.SendHouse.Size = new System.Drawing.Size(96, 20);
             this.SendHouse.TabIndex = 11;

@@ -49,23 +49,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connection.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Program\Connection.cs" />
+    <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Program\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="TunnelCommandForm.cs">
+    <Compile Include="Program\Result.cs" />
+    <Compile Include="Program\RequestCreater.cs" />
+    <Compile Include="Forms\TunnelCommandForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TunnelCommandForm.Designer.cs">
+    <Compile Include="Forms\TunnelCommandForm.Designer.cs">
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Form1.resx">
+    <Compile Include="VRobjects\Node.cs" />
+    <Compile Include="VRobjects\Terrain.cs" />
+    <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -77,7 +80,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="TunnelCommandForm.resx">
+    <EmbeddedResource Include="Forms\TunnelCommandForm.resx">
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -93,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\Utilizing_Height_Map_05.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

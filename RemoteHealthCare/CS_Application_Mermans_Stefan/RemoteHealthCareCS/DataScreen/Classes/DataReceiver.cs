@@ -67,7 +67,6 @@ namespace DataScreen.Classes
                     $"{_simulation.Measurement.ReachedPower}\n");
 
                     Thread.Sleep(1000);
-                    _simulation.updateSim();
                 }
             }
         }

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using VRConnectorForm.Forms;
 
-namespace VRConnectorForm
+namespace VRConnectorForm.Program
 {
     static class Program
     {
@@ -16,6 +14,7 @@ namespace VRConnectorForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             Application.Run(new Form1());
         }
     }

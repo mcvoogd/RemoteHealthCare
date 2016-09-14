@@ -4,14 +4,10 @@ using System.Windows.Forms;
 
 namespace DataScreen.Forms
 {
-
-
     public partial class SimulationForm : Form
     {
         public readonly Measurement Measurement;
         private int _time;
-
-        delegate void SetTextCallBack();
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -37,9 +33,8 @@ namespace DataScreen.Forms
 
         public SimulationForm()
         {
-
             _time = 120;
-            Measurement = new Measurement(120, 100, 25, 50, (int)(_time*(25/3.6)), 666 ,new SimpleTime(_time/60,_time%60), 500);
+            Measurement = new Measurement(120, 100, 25, 50, 420, 666 ,new SimpleTime(_time/60,_time%60), 500);
             InitializeComponent();
             RefreshText();
         }
@@ -107,19 +102,15 @@ namespace DataScreen.Forms
         private void timeMin_Click(object sender, EventArgs e)
         {
             if (_time > 0) { _time--; }
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = (int)(_time * (25 / 3.6));
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            distanceCount.Text = "" + Measurement.Distance;
+            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
         }
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            if (_time < 5999) { _time++; }
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = (int)(_time * (25 / 3.6));
+            if (_time < 999) { _time++; }
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-            distanceCount.Text = "" + Measurement.Distance;
+            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
         }
 
         private void reachedPowerMin_Click(object sender, EventArgs e)
@@ -144,42 +135,6 @@ namespace DataScreen.Forms
         {
             if (Measurement.Distance < 999) { Measurement.Distance++; }
             distanceCount.Text = "" + Measurement.Distance;
-        }
-
-        public void updateSim()
-        {
-
-            if (this.timeCount.InvokeRequired)
-            {
-                SetTextCallBack d = new SetTextCallBack(updateSim);
-                this.Invoke(d);
-            }
-            else
-            {
-                if (_time < 5999)
-                {
-                    _time++;
-                    Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-                    Measurement.Distance += (int)(Measurement.Speed / 3.6);
-
-                }
-
-                Random random = new Random();
-
-                switch((int)(random.NextDouble()*2))
-                    {
-                        case 0:
-                            Measurement.Pulse++;
-                            break;
-                        case 1:
-                            Measurement.Pulse--;
-                            break;
-                    }
-
-                RefreshText();
-            }
-
-            
         }
 
         private void verzendButton_Click(object sender, EventArgs e)

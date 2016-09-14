@@ -115,7 +115,7 @@ namespace DataScreen.Forms
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            if (_time < 999) { _time++; }
+            if (_time < 5999) { _time++; }
             Measurement.Time = new SimpleTime(_time / 60, _time % 60);
             Measurement.Distance = (int)(_time * (25 / 3.6));
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
@@ -156,13 +156,27 @@ namespace DataScreen.Forms
             }
             else
             {
+                if (_time < 5999)
+                {
+                    _time++;
+                    Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+                    Measurement.Distance += (int)(Measurement.Speed / 3.6);
 
-                _time++;
-                Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-                Measurement.Distance += (int)(Measurement.Speed / 3.6);
+                }
 
-                timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
-                distanceCount.Text = "" + Measurement.Distance;
+                Random random = new Random();
+
+                switch((int)(random.NextDouble()*2))
+                    {
+                        case 0:
+                            Measurement.Pulse++;
+                            break;
+                        case 1:
+                            Measurement.Pulse--;
+                            break;
+                    }
+
+                RefreshText();
             }
 
             

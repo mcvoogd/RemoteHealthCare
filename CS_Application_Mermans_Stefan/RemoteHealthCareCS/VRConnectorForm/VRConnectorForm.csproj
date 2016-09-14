@@ -66,6 +66,7 @@
     <Compile Include="Forms\TunnelCommandForm.Designer.cs">
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="VRobjects\Terrain.cs" />
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,7 +97,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="VRobjects\" />
+    <Content Include="res\Utilizing_Height_Map_05.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

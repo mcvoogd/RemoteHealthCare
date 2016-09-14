@@ -15,6 +15,7 @@ namespace VRConnectorForm
     {
         private int _selectedIndex;
         private Connection _connection;
+        private List<Client> clients = new List<Client>();
 
         public Form1()
         {
@@ -29,14 +30,14 @@ namespace VRConnectorForm
             if (_connection.JsonRawData.data.Count > 0)
             {
                 listBox1.Items.Clear();
-                string clientId = _connection.JsonRawData.data[_selectedIndex].id;
-                string name = _connection.JsonRawData.data[_selectedIndex].clientinfo.user;
+                string clientId = clients[_selectedIndex].ID;
+                string name = clients[_selectedIndex].name;
                 if (clientId != null)
                 {
                     string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
                                      "\", \"key\" : \"NotConCat\" } }";
                     _connection.sendMessage(request);
-                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name);
+                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name, clientId);
                     tunnelCommandForm.Show();
                 }
             }
@@ -47,8 +48,14 @@ namespace VRConnectorForm
         {
             for (int i = 0; i < _connection.JsonRawData.data.Count; i++)
             {
-                listBox1.Items.Add(_connection.JsonRawData.data[i].clientinfo.user);
+                clients.Add(new Client(_connection.JsonRawData.data[i].id, _connection.JsonRawData.data[i].clientinfo.user));
             }
+            clients.Sort();
+            for (int i = 0; i < clients.Count; i++)
+            {
+                listBox1.Items.Add(clients[i].name);
+            }
+            
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -58,6 +65,7 @@ namespace VRConnectorForm
 
         private void Refresh_Click(object sender, EventArgs e)
         {
+            clients.Clear();
             listBox1.Items.Clear();
             string request = "{\"id\" : \"session/list\"}";
 

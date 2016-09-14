@@ -13,12 +13,14 @@ namespace VRConnectorForm
     public partial class TunnelCommandForm : Form
     {
         private Connection _connection;
-        private string Name { get; set; }
+        private string name { get; set; }
+        private string ID { get; set; }
 
-        public TunnelCommandForm(Connection connection, String name)
+        public TunnelCommandForm(Connection connection, String name, String ID)
         {
             InitializeComponent();
-            this.Name = name;
+            this.name = name;
+            this.ID = ID;
             ;
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
@@ -38,8 +40,8 @@ namespace VRConnectorForm
         {
             if (TunnelId.Text == "")
             {
-                TunnelId.Text = "User ID : " + _connection.TunnelID;
-                NameLabel.Text = "User : " + Name;
+                TunnelId.Text = "User ID : " + ID;
+                NameLabel.Text = "User : " + name;
             }
             else
             {
@@ -62,7 +64,7 @@ namespace VRConnectorForm
         private void button1_Click(object sender, EventArgs e)
         {
             string req = "{ \"id\" : \"tunnel/send\", \"data\" : {\"dest\" :\"" + _connection.TunnelID +
-  "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"panel\", \"components\" : {\"panel\" : { \"size\" : [ 1, 1 ], \"resolution\" : [ 512, 512 ], \"background\" : [ 1, 1, 1, 1] }}}}}}";
+            "\", \"data\" : { \"id\" : \"scene/node/add\", \"data\" : { \"name\" : \"panel\", \"components\" : {\"panel\" : { \"size\" : [ 1, 1 ], \"resolution\" : [ 512, 512 ], \"background\" : [ 1, 1, 1, 1] }}}}}}";
             _connection.sendMessage(req);
         }
     }

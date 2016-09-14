@@ -24,9 +24,9 @@ namespace VRConnectorForm
             return toSend;
         }
 
-        public static dynamic AddNode(string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
+        public static dynamic AddNode(string TunnelID, string Name, string FileName, int x, int y, int z, double ScaleValue = 0.025, double xR = 0, double yR = 0, double zR = 0)
         {
-            return new
+            return TunnelSend(new
             {
                 id = "scene/node/add",
                 data = new
@@ -47,9 +47,7 @@ namespace VRConnectorForm
                     }
 
                 }
-            };
-
-
+            }, TunnelID);
         }
     }
 }

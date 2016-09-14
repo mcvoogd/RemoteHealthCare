@@ -76,8 +76,8 @@ namespace VRConnectorForm
         private void button3_Click(object sender, EventArgs e)
         {
             
-            _connection.sendMessage(RequestCreater.TunnelSend(RequestCreater.AddNode("car", "data/NetworkEngine/models/cars/white/car_white.obj",
-                50, 0, 0), _connection.TunnelID));
+            _connection.sendMessage(RequestCreater.AddNode(_connection.TunnelID, "car", "data/NetworkEngine/models/cars/white/car_white.obj",
+                50, 0, 0));
         }
     }
 }

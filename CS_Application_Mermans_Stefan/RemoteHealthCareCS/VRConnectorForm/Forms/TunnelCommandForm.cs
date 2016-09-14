@@ -8,7 +8,7 @@ namespace VRConnectorForm.Forms
     public partial class TunnelCommandForm : Form
     {
         private Connection _connection;
-        private string Name { get; set; }
+        private new string Name { get; set; }
 
         public TunnelCommandForm(Connection connection, String name)
         {

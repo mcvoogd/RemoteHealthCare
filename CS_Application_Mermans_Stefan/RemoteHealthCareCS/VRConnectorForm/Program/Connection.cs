@@ -73,9 +73,7 @@ namespace VRConnectorForm.Program
                                     Form.Invoke(FillConnectionList);
                                     break;
                                 case "tunnel/create":
-                                    //Console.WriteLine(red.data.id);
                                     this.TunnelID = red.data.id;
-                                    Console.WriteLine("TUNNEL ID :  "+ TunnelID);
                                     break;
                                 case "tunnel/send":
                                     switch ((string) red.data.data.id)

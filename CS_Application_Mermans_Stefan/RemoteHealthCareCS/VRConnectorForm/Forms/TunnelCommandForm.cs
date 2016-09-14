@@ -53,7 +53,7 @@ namespace VRConnectorForm.Forms
         private void CreateAuto_Click(object sender, EventArgs e)
         {
              auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 20, 0, 0);
-            _connection.nodes.Add(auto);
+            _connection.nodes.Add(auto);         
         }
 
         private void SendAuto_Click(object sender, EventArgs e)
@@ -63,7 +63,7 @@ namespace VRConnectorForm.Forms
 
         private void MoveCar_Click(object sender, EventArgs e)
         {
-            _connection.sendMessage(auto.MoveNode(20,0,50,20));
+            _connection.sendMessage(auto.MoveNode(20, 0, 50, 20));
         }
 
         //"data/NetworkEngine/models/cars/white/car_white.obj"

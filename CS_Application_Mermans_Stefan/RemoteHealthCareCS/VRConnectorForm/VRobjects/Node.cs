@@ -78,7 +78,6 @@ namespace VRConnectorForm.VRobjects
             string temp;
             Connection.VRobjecten.TryGetValue(Naam, out temp);
             Uuid = temp;
-            Console.WriteLine("UUID : " + Uuid);    
               
             return RequestCreater.TunnelSend(
                 new
@@ -87,6 +86,7 @@ namespace VRConnectorForm.VRobjects
                     data = new
                     {
                         id = Uuid,
+                        stop = "stop",
                         position = new []{x,y,z},
                         rotate = "none",
                         interpolate = "linear",

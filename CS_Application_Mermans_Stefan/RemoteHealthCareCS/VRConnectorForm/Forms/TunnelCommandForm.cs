@@ -94,6 +94,7 @@ namespace VRConnectorForm.Forms
 
         private void CreateHouse_Click(object sender, EventArgs e)
         {
+            if(house == null)
              house = new Node("house", _connection.TunnelID, "data/NetworkEngine/models/houses/set1/house3.obj", 10,0, -50, 7);
         }
 

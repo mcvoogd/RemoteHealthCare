@@ -27,6 +27,8 @@ namespace VRConnectorForm.Program
         public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
         public List<Node> nodes = new List<Node>();
         public string TerrainId { get ; private set; } // TODO store somewhere else
+        public string GroundPlanID { get; set; } //TODO SAME AS ABOVE.
+        public string RouteID { get; set; }
 
         public Connection(string IP, int port, Form1 form)
         {
@@ -100,8 +102,17 @@ namespace VRConnectorForm.Program
                                             }
                                             break;
                                         case "scene/get":
-                                            Console.WriteLine(red.data.data.data);
+                                            GroundPlanID =
+                                                red.data.data.data.children[red.data.data.data.children.Count - 1].uuid;                                    
                                             break;
+                                        case "scene/node/delete":
+                                            Console.WriteLine("Deleted.");
+                                            break;
+                                        case "route/add":
+                                            RouteID = red.data.data.data.uuid;
+                                            break;
+
+
                                     }
                                     break;
                             }

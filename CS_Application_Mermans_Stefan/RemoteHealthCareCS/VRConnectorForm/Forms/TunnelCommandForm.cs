@@ -62,7 +62,7 @@ namespace VRConnectorForm.Forms
 
         private void CreateAuto_Click(object sender, EventArgs e)
         {
-             auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 5, 0,10 , 0.025);
+             auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 0, 0, 0 , 0.025);
             _connection.nodes.Add(auto);         
         }
 
@@ -145,9 +145,9 @@ namespace VRConnectorForm.Forms
                     node = auto.Uuid,
                     speed = 1.0,
                     offset = 0.0,
-                    rotate = "XYZ",
+                    rotate = "XZ",
                     followHeight = false,
-                    rotateOffset = new[] { 0, 145, 0 },
+                    rotateOffset = new[] { 0, Math.PI/2, 0 },
                     positionOffset = new[] { 0, 0, 0 },
 
                 }

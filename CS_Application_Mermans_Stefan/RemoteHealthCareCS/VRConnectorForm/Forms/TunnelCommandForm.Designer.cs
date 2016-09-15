@@ -113,7 +113,7 @@ namespace VRConnectorForm.Forms
             // MoveCar
             // 
             this.MoveCar.Location = new System.Drawing.Point(477, 167);
-            this.MoveCar.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.MoveCar.Margin = new System.Windows.Forms.Padding(5);
             this.MoveCar.Name = "MoveCar";
             this.MoveCar.Size = new System.Drawing.Size(256, 48);
             this.MoveCar.TabIndex = 7;
@@ -134,7 +134,7 @@ namespace VRConnectorForm.Forms
             // 
             // SetTime
             // 
-            this.SetTime.Location = new System.Drawing.Point(24, 730);
+            this.SetTime.Location = new System.Drawing.Point(24, 608);
             this.SetTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SetTime.Maximum = 96;
             this.SetTime.Name = "SetTime";

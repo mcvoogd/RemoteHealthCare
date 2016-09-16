@@ -9,25 +9,25 @@ namespace VRConnectorForm.VRobjects
 {
     class Skybox
     {
-        public string name { get; set; }
-        public string TunnelID { get; set; }
+        public string Name { get; set; }
+        public string TunnelId { get; set; }
 
-        public Skybox(string name, string TunnelID)
+        public Skybox(string name, string tunnelId)
         {
-            this.name = name;
-            this.TunnelID = TunnelID;
+            Name = name;
+            TunnelId = tunnelId;
         }
 
-        public string SetTime(double Time)
+        public string SetTime(double time)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/skybox/settime",
                 data = new
                 {
-                    time = Time
+                    time = time
                 }
-            }, TunnelID);
+            }, TunnelId);
         }
 
         public string Update()
@@ -36,7 +36,7 @@ namespace VRConnectorForm.VRobjects
             {
                 id = "scene/skybox/update",
                 
-            }, TunnelID);
+            }, TunnelId);
         }
     }
 }

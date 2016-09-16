@@ -11,17 +11,17 @@ namespace VRConnectorForm.VRobjects
     {
         public string Uuid { get; set; }
         public string ToSend { get; set; }
-        public string tunnelID { get; }
+        public string TunnelId { get; }
 
-        public Panel(string Name, int scaleValue, int x, int y, int z, int xR, int yR, int zR, int size1, int size2 ,int width, int height, int bckground1, int bckground2, int bckground3, int bckground4, string tunnelID)
+        public Panel(string name, int scaleValue, int x, int y, int z, int xR, int yR, int zR, int size1, int size2 ,int width, int height, int bckground1, int bckground2, int bckground3, int bckground4, string tunnelId)
         {
-            this.tunnelID = tunnelID;
+            this.TunnelId = tunnelId;
             ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/node/add",
                 data = new
                 {
-                    name = Name,
+                    name = name,
                     components = new
                     {
                         transform = new
@@ -39,7 +39,7 @@ namespace VRConnectorForm.VRobjects
                     }
 
                 }
-            }, tunnelID);
+            }, tunnelId);
         }
 
         public void ClearPanel()
@@ -51,7 +51,7 @@ namespace VRConnectorForm.VRobjects
                 {
                     id = Uuid
                 }
-            }, tunnelID);
+            }, TunnelId);
         }
 
         public void SwapPanel()
@@ -63,7 +63,7 @@ namespace VRConnectorForm.VRobjects
                 {
                     id = Uuid
                 }
-            }, tunnelID);
+            }, TunnelId);
         }
 
         //0,0 10,10, 0,0,0,1 == x1, y1, x2,y2, r,g,b,a
@@ -78,7 +78,7 @@ namespace VRConnectorForm.VRobjects
                     width = widthValue,
                     lines = lineArray
                 }
-            }, tunnelID);
+            }, TunnelId);
         }
 
         public void SetClearColor(int[] kleur)
@@ -91,7 +91,7 @@ namespace VRConnectorForm.VRobjects
                     id = Uuid,
                     color = kleur
                 }
-            }, tunnelID);
+            }, TunnelId);
         }
 
         public void DrawText(string textValue, int[] positie, double sizeValue, int[] kleur, string fontValue)
@@ -108,7 +108,7 @@ namespace VRConnectorForm.VRobjects
                     color = kleur,
                     font = fontValue
                 }
-            }, tunnelID);
+            }, TunnelId);
         }
 
     }

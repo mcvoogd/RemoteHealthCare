@@ -5,30 +5,30 @@ namespace VRConnectorForm.Program
 {
     static class RequestCreater
     {
-        public static string TunnelSend(dynamic Command, string tunnelID )
+        public static string TunnelSend(dynamic command, string tunnelId )
         {
             string toSend = JsonConvert.SerializeObject(new
             {
                 id = "tunnel/send",
                 data = new
                 {
-                    dest = tunnelID,
-                    data = Command
+                    dest = tunnelId,
+                    data = command
                 }
             });
 
             return toSend;
         }
 
-        public static string SceneNodeUpdate(string Uuid, int x, int y, int z, int sx, int sy, int sz, int rx, int ry,
-            int rz, string nameValue, int speedValue, string tunnelID)
+        public static string SceneNodeUpdate(string uuid, int x, int y, int z, int sx, int sy, int sz, int rx, int ry,
+            int rz, string nameValue, int speedValue, string tunnelId)
         {
             return TunnelSend(new
             {
                 id = "scene/node/update",
                 data = new
                 {
-                    id = Uuid,
+                    id = uuid,
                     transform = new
                     {
                         position = new [] {x,y,z},
@@ -42,10 +42,10 @@ namespace VRConnectorForm.Program
                     }
                     
                 }
-            }, tunnelID);
+            }, tunnelId);
         }
 
-        public static string SceneNodeMoveTo(string Uuid, int x, int y, int z, int timeValue, string tunnelID)
+        public static string SceneNodeMoveTo(string uuid, int x, int y, int z, int timeValue, string tunnelId)
         {
 
             return RequestCreater.TunnelSend(
@@ -54,7 +54,7 @@ namespace VRConnectorForm.Program
                     id = "scene/node/moveto",
                     data = new
                     {
-                        id = Uuid,
+                        id = uuid,
                         stop = "stop",
                         position = new[] { x, y, z },
                         rotate = "none",
@@ -62,22 +62,22 @@ namespace VRConnectorForm.Program
                         followheight = false,
                         time = timeValue
                     }
-                }, tunnelID);
+                }, tunnelId);
         }
 
-        public static string SceneNodeDelete(string Uuid, string tunnelID)
+        public static string SceneNodeDelete(string uuid, string tunnelId)
         {
             return TunnelSend(new
             {
                 id = "scene/node/delete",
                 data = new
                 {
-                    id = Uuid
+                    id = uuid
                 }
-            }, tunnelID);
+            }, tunnelId);
         }
 
-        public static string SceneNodeFind(string name, string tunnelID)
+        public static string SceneNodeFind(string name, string tunnelId)
         {
             return TunnelSend(new
             {
@@ -86,11 +86,11 @@ namespace VRConnectorForm.Program
                 {
                     name = name
                 }
-            }, tunnelID);
+            }, tunnelId);
         }
 
         public static string SceneNodeAddLayer(string uuid, string diffuseValue, string normalValue, int minHeightValue, int maxHeightValue,
-            int fadeDistValue, string tunnelID)
+            int fadeDistValue, string tunnelId)
         {
             Console.WriteLine("Terrain id" + uuid);
 
@@ -107,15 +107,15 @@ namespace VRConnectorForm.Program
                         fadeDist = fadeDistValue
                     }
                 }
-                , tunnelID);
+                , tunnelId);
         }
 
-        public static string GetScene(string tunnelID)
+        public static string GetScene(string tunnelId)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/get"
-            }, tunnelID);
+            }, tunnelId);
         }
         //public static string SceneNodeDelLayer()
     }

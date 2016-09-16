@@ -15,36 +15,36 @@ namespace VRConnectorForm.Forms
     public partial class TunnelCommandForm : Form
     {
         private Connection _connection;
-        private string name { get; set; }
-        private Node auto = null;
-        private Node house = null;
-        private Skybox skybox = null;
-        private bool send = false;
+        public string Name { get; set; }
+        private Node _auto = null;
+        private Node _house = null;
+        private Skybox _skybox = null;
+        private bool _send = false;
 
         public TunnelCommandForm(Connection connection, string name)
         {
             InitializeComponent();
-            this.name = name;   
+            Name = name;   
             _connection = connection;
         }
 
         private void sedCommandButton_Click(object sender, EventArgs e)
         {
-            if (!send)
+            if (!_send)
             {
-                send = true;
-                _connection.sendMessage( RequestCreater.GetScene(_connection.TunnelID));
+                _send = true;
+                _connection.SendMessage( RequestCreater.GetScene(_connection.TunnelId));
             }
             else
             {
-                _connection.sendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanID, _connection.TunnelID));
+                _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
             }
         }
 
         private void StatisticsButton_Click_1(object sender, EventArgs e)
         {
             
-                _connection.sendMessage(
+                _connection.SendMessage(
                     RequestCreater.TunnelSend(new
                     {
                         id = "scene/node/addlayer",
@@ -57,56 +57,56 @@ namespace VRConnectorForm.Forms
                             maxHeight = 30,
                             fadeDist = 1
                         }
-                    }, _connection.TunnelID));
+                    }, _connection.TunnelId));
    }
 
         private void CreateAuto_Click(object sender, EventArgs e)
         {
-             auto = new Node("car", _connection.TunnelID, "data/NetworkEngine/models/cars/white/car_white.obj", 0, 0, 0 , 0.025);
-            _connection.nodes.Add(auto);         
+             _auto = new Node("car", _connection.TunnelId, "data/NetworkEngine/models/cars/white/car_white.obj", 0, 0, 0 , 0.025);
+            _connection.Nodes.Add(_auto);         
         }
 
         private void SendAuto_Click(object sender, EventArgs e)
         {
-            if(auto != null)
-            _connection.sendMessage(auto.SendString);
+            if(_auto != null)
+            _connection.SendMessage(_auto.SendString);
         }
 
         private void MoveCar_Click(object sender, EventArgs e)
         {
-            _connection.sendMessage(auto.MoveNode(20, 0, 50, 20));
+            _connection.SendMessage(_auto.MoveNode(20, 0, 50, 20));
         }
 
         private void addTerrainButton_Click(object sender, EventArgs e)
         {
-           Terrain terrain = new Terrain(_connection.TunnelID,_connection);
-            var terrainNode = new Node("Terrain node", _connection.TunnelID, -128, 0.5, -128);
-            _connection.sendMessage(terrainNode.SendString);
+           Terrain terrain = new Terrain(_connection.TunnelId,_connection);
+            var terrainNode = new Node("Terrain node", _connection.TunnelId, -128, 0.5, -128);
+            _connection.SendMessage(terrainNode.SendString);
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if(skybox == null)
-            skybox = new Skybox("skybox", _connection.TunnelID);
+            if(_skybox == null)
+            _skybox = new Skybox("skybox", _connection.TunnelId);
             double time = (float)SetTime.Value/4.0f;
-            _connection.sendMessage(skybox.SetTime(time));         
+            _connection.SendMessage(_skybox.SetTime(time));         
         }
 
         private void CreateHouse_Click(object sender, EventArgs e)
         {
-            if(house == null)
-             house = new Node("house", _connection.TunnelID, "data/NetworkEngine/models/houses/set1/house3.obj", 10,0, -50, 7);
+            if(_house == null)
+             _house = new Node("house", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", 10,0, -50, 7);
         }
 
         private void SendHouse_Click(object sender, EventArgs e)
         {
-            if(house != null)
-            _connection.sendMessage(house.SendString);
+            if(_house != null)
+            _connection.SendMessage(_house.SendString);
         }
 
         private void CreateRoute_Click(object sender, EventArgs e)
         {
-            _connection.sendMessage(RequestCreater.TunnelSend(new
+            _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "route/add",
                 data = new
@@ -119,30 +119,30 @@ namespace VRConnectorForm.Forms
                         new {pos = new[] {0,0,50}, dir = new[] {-5,0,-5}}
                      }
                 }
-            }, _connection.TunnelID));
+            }, _connection.TunnelId));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _connection.sendMessage(RequestCreater.TunnelSend(new
+            _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/road/add",
                 data = new
                 {
-                    route = _connection.RouteID
+                    route = _connection.RouteId
                 }
-            }, _connection.TunnelID));
+            }, _connection.TunnelId));
         }
 
         private void FollowRoad_Click(object sender, EventArgs e)
         {
-            _connection.sendMessage(RequestCreater.TunnelSend(new
+            _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "route/follow",
                 data = new
                 {
-                    route = _connection.RouteID,
-                    node = auto.Uuid,
+                    route = _connection.RouteId,
+                    node = _auto.Uuid,
                     speed = 1.0,
                     offset = 0.0,
                     rotate = "XZ",
@@ -151,7 +151,7 @@ namespace VRConnectorForm.Forms
                     positionOffset = new[] { 0, 0, 0 },
 
                 }
-            }, _connection.TunnelID));
+            }, _connection.TunnelId));
         }
     }
 }

@@ -34,7 +34,7 @@ namespace VRConnectorForm.VRobjects
                     heights = mapHeight
                 }
             }, _tunnelId);
-           _connection.sendMessage(request);
+           _connection.SendMessage(request);
         }
 
         public void UpdateTerrain(string command)
@@ -44,7 +44,7 @@ namespace VRConnectorForm.VRobjects
                 id = "scene/terrain/update",
                 data = command
             },_tunnelId);
-            _connection.sendMessage(request);
+            _connection.SendMessage(request);
         }
 
         public void DeleteTerrain(string command)
@@ -54,7 +54,7 @@ namespace VRConnectorForm.VRobjects
                 id = "scene/terrain/delete",
                 data = command
             }, _tunnelId);
-            _connection.sendMessage(request);
+            _connection.SendMessage(request);
         }
 
         public void GetHeight(int[][,] positions)
@@ -67,7 +67,7 @@ namespace VRConnectorForm.VRobjects
                     positions = positions
                 }
             }, _tunnelId);
-           _connection.sendMessage(request);
+           _connection.SendMessage(request);
         }
 
     }

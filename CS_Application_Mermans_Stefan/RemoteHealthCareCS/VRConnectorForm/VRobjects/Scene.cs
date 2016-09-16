@@ -9,15 +9,15 @@ namespace VRConnectorForm.VRobjects
 {
     class Scene
     {
-        public string name { get; set; }
-        public string TunnelID { get; set; }
+        public string Name { get; set; }
+        public string TunnelId { get; set; }
         public string Filename { get; set; }
 
-        public Scene(string name, string TunnelID, string Filename)
+        public Scene(string name, string tunnelId, string filename)
         {
-            this.name = name;
-            this.TunnelID = TunnelID;
-            this.Filename = Filename;
+            Name = name;
+            TunnelId = tunnelId;
+            Filename = filename;
         }
 
         public dynamic GetScene()
@@ -26,49 +26,49 @@ namespace VRConnectorForm.VRobjects
             {
                 id = "scene/get"
 
-            }, TunnelID);
+            }, TunnelId);
         }
 
-        public dynamic SaveScene(string Filename, bool Overwrite = true)
+        public dynamic SaveScene(string filename, bool overwrite = true)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/save",
                 data = new
                 {
-                    filename = Filename,
-                    overwrite = Overwrite
+                    filename = filename,
+                    overwrite = overwrite
                     }
 
-                }, TunnelID);
+                }, TunnelId);
         }
 
-        public dynamic LoadScene(string Filename)
+        public dynamic LoadScene(string filename)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/load",
                 data = new
                 {
-                    filename = Filename
+                    filename = filename
                 }
 
-            }, TunnelID);
+            }, TunnelId);
         }
 
-        public dynamic RaycastScene(int[] Start, int[] Direction, bool Physics)
+        public dynamic RaycastScene(int[] start, int[] direction, bool physics)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/raycast",
                 data = new
                 {
-                    start = Start,
-                    direction = Direction,
-                    physics = Physics
+                    start = start,
+                    direction = direction,
+                    physics = physics
                 }
 
-            }, TunnelID);
+            }, TunnelId);
         }
     }
 }

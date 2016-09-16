@@ -9,13 +9,13 @@ namespace VRConnectorForm.VRobjects
 {
     class Road
     {
-        public string name { get; set; }
-        public string TunnelID { get; set; }
+        public string Name { get; set; }
+        public string TunnelId { get; set; }
 
-        public Road(string name, string TunnelID)
+        public Road(string name, string tunnelId)
         {
-            this.name = name;
-            this.TunnelID = TunnelID;
+            Name = name;
+            TunnelId = tunnelId;
         }
 
         public dynamic Add(string uuid)
@@ -27,7 +27,7 @@ namespace VRConnectorForm.VRobjects
                 {
                     route = uuid
                 }
-            }, TunnelID);
+            }, TunnelId);
         }
 
         public dynamic Delete()
@@ -36,7 +36,7 @@ namespace VRConnectorForm.VRobjects
             {
                 id = "scene/road/delete",
 
-            }, TunnelID);
+            }, TunnelId);
         }
     }
 }

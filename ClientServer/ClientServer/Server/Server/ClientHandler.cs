@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Server.Connection
+namespace Server.Server
 {
     class ClientHandler
     {
@@ -40,16 +37,19 @@ namespace Server.Connection
 
             while (_client.Connected)
             {
-                var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
-                _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
-
-                if (message.Length < 4) continue;
-                var packetLength = BitConverter.ToInt32(message, 0);
-
-                if (message.Length < packetLength + 4) continue;
-                var resultMessage = GetMessageFromBuffer(message, packetLength);
-
-                dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                var buffer = new byte[] {1, 2, 3, 4};
+                _sslStream.Write(buffer);
+                _sslStream.Flush();
+//                var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
+//                _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
+//
+//                if (message.Length < 4) continue;
+//                var packetLength = BitConverter.ToInt32(message, 0);
+//
+//                if (message.Length < packetLength + 4) continue;
+//                var resultMessage = GetMessageFromBuffer(message, packetLength);
+//
+//                dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
 
                 // TODO receive messages from the client
                 //                throw new NotImplementedException();

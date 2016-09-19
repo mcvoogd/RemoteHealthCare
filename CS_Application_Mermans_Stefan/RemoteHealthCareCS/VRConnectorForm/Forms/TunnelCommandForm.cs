@@ -21,11 +21,10 @@ namespace VRConnectorForm.Forms
         private Skybox _skybox = null;
         private bool _send = false;
 
-        public TunnelCommandForm(Connection connection, String name, String ID)
+        public TunnelCommandForm(Connection connection, String name)
         {
             InitializeComponent();
-            this.name = name;
-            this.ID = ID;
+            Name = name;
             ;
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
@@ -116,10 +115,10 @@ namespace VRConnectorForm.Forms
                 {
                     nodes = new[]
                     {
-                        new {pos = new[] {0,0,0} , dir = new[] {5, 0, -5 }},
-                        new {pos = new[] {50,0,0} , dir = new[] {5,0,5}},
-                        new {pos = new[] {50,0,50}, dir = new[] {-5,0,5}},
-                        new {pos = new[] {0,0,50}, dir = new[] {-5,0,-5}}
+                        new {pos = new[] {100,0, 100} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {100,0,-100} , dir = new[] {5,0,5}},
+                        new {pos = new[] {-100,0,-100}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {-100,0,100}, dir = new[] {-5,0,-5}}
                      }
                 }
             }, _connection.TunnelId));

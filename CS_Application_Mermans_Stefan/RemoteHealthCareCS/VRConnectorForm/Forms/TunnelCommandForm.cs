@@ -18,11 +18,10 @@ namespace VRConnectorForm.Forms
         private string name { get; set; }
         private string ID { get; set; }
 
-        public TunnelCommandForm(Connection connection, String name, String ID)
+        public TunnelCommandForm(Connection connection, String name)
         {
             InitializeComponent();
             this.name = name;
-            this.ID = ID;
             ;
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;

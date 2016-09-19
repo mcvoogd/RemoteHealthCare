@@ -32,7 +32,7 @@ namespace VRConnectorForm.Forms
                     string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
                                      "\", \"key\" : \"NotConCat\" } }";
                     _connection.sendMessage(request);
-                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name, clientId);
+                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name);
                     tunnelCommandForm.Show();
                 }
             }

@@ -22,7 +22,7 @@ namespace Server.Server
             _client = tcpClient;
             _sslStream = new SslStream(_client.GetStream());
 
-            serverCertificate = X509Certificate.CreateFromCertFile("C:/Projects/VisualRemoteHealthCare/ClientServer/ClientServer/CSR.cr");
+            serverCertificate = X509Certificate.CreateFromCertFile(@"D:\Projects\RemoteHealthCare\ClientServer\ClientServer\cert.pem");
 
             _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
 

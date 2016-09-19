@@ -21,10 +21,13 @@ namespace VRConnectorForm.Forms
         private Skybox _skybox = null;
         private bool _send = false;
 
-        public TunnelCommandForm(Connection connection, string name)
+        public TunnelCommandForm(Connection connection, String name, String ID)
         {
             InitializeComponent();
-            Name = name;   
+            this.name = name;
+            this.ID = ID;
+            ;
+            ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
         }
 

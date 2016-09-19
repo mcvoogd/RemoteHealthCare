@@ -96,7 +96,11 @@ namespace Server.TinyDataBase
             {
                 return true;
             }
-            return first.Seconds > second.Seconds ? true : false ;
+            if (first.Minutes == second.Minutes)
+            {
+                return first.Seconds > second.Seconds ? true : false;
+            }
+            return false;
         }
 
         public static bool operator <(SimpleTime first, SimpleTime second)
@@ -105,7 +109,11 @@ namespace Server.TinyDataBase
             {
                 return true;
             }
-            return first.Seconds < second.Seconds ? true : false;
+            if (first.Minutes == second.Minutes)
+            {
+                return first.Seconds < second.Seconds ? true : false;
+            }
+            return false;
         }
 
         public static bool operator ==(SimpleTime first, SimpleTime second)

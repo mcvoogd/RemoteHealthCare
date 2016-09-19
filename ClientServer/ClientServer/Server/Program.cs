@@ -30,7 +30,8 @@ namespace Server
             lijst.AddMeasurement(m1);
 
             List<Measurement> temp = lijst.GetMeasurementsBetweenTimes(new SimpleTime(10, 00), new SimpleTime(12, 00));
-            Console.WriteLine(temp[0] + "\n-------------------------\n" + temp[1]);
+            Console.WriteLine("Times between : 10:00 & 12:00\n---------------------------");
+            Console.WriteLine(temp[0] + "\n-------------------------\n");
 
         }
     }

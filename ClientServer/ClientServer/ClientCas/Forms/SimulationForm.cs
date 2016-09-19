@@ -1,9 +1,12 @@
 ﻿using DataScreen.Classes;
 using System;
 using System.Windows.Forms;
+using static DataScreen.Classes.Measurement;
 
 namespace DataScreen.Forms
 {
+
+
     public partial class SimulationForm : Form
     {
         public readonly Measurement Measurement;

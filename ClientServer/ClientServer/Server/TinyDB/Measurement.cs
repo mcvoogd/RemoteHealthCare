@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.TinyDataBase
+namespace Server.TinyDB
 {
     public class Measurement : IComparable<Measurement>
     {
@@ -76,6 +76,25 @@ namespace Server.TinyDataBase
 
     public struct SimpleTime
     {
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is SimpleTime && Equals((SimpleTime) obj);
+        }
+
+        public bool Equals(SimpleTime other)
+        {
+            return Minutes == other.Minutes && Seconds == other.Seconds;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Minutes*397) ^ Seconds;
+            }
+        }
+
         public readonly int Minutes;
         public readonly int Seconds;
 
@@ -118,21 +137,11 @@ namespace Server.TinyDataBase
 
         public static bool operator ==(SimpleTime first, SimpleTime second)
         {
-            if (first.Minutes == second.Minutes && first.Seconds == second.Seconds)
-            {
-                return true;
-            }
-            return false;
+            return first.Minutes == second.Minutes && first.Seconds == second.Seconds;
         }
         public static bool operator !=(SimpleTime first, SimpleTime second)
         {
-            if (first.Minutes == second.Minutes && first.Seconds == second.Seconds)
-            {
-                return false;
-            }
-            return true;
+            return first.Minutes != second.Minutes || first.Seconds != second.Seconds;
         }
-
-        
     }
 }

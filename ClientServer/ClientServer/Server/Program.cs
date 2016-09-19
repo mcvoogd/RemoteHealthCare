@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Server.TinyDataBase;
+using Server.TinyDB;
 
 namespace Server
 {
@@ -24,12 +24,12 @@ namespace Server
             Measurement m = new Measurement(0, 0, 0, 0, 0, 0, new SimpleTime(10, 10), 0);
             Measurement m1 = new Measurement(0, 0, 0, 0, 0, 0, new SimpleTime(9, 10), 0);
 
-            TinyDataBase.TinyDataBase lijst = new TinyDataBase.TinyDataBase();
+            var lijst = new TinyDB.TinyDataBase();
 
             lijst.AddMeasurement(m);
             lijst.AddMeasurement(m1);
 
-            List<Measurement> temp = lijst.GetMeasurementsBetweenTimes(new SimpleTime(10, 00), new SimpleTime(12, 00));
+            var temp = lijst.GetMeasurementsBetweenTimes(new SimpleTime(10, 00), new SimpleTime(12, 00));
             Console.WriteLine("Times between : 10:00 & 12:00\n---------------------------");
             Console.WriteLine(temp[0] + "\n-------------------------\n");
 

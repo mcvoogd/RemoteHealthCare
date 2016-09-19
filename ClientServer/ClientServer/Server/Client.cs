@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Server.TinyDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Server
 {
     class Client
     {
         protected string name { get; set; }
-        //portected tinyDatabase clientData { get; set; }
+        protected TinyDataBase clientData { get; set; }
         protected string tunnelID { get; set; }
         protected string uniqueID { get; set; }
         protected status clientStatus { get; set; }

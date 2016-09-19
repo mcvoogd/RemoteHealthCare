@@ -32,12 +32,15 @@ namespace Server.Server
                     Console.WriteLine("Connected to a client");
 
                     var clienthandler = new ClientHandler(tcpClient);
+                    Console.WriteLine("Clienthandler");
                     var clientHandlerThread = new Thread(clienthandler.HandleClient);
+                    Console.WriteLine("Starting thread...");
                     clientHandlerThread.Start();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // TODO handle exception
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Exception!");
                 }
             }
         }

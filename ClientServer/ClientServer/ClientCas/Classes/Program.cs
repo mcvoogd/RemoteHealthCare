@@ -8,6 +8,8 @@ namespace ClientCas
 {
     static class Program
     {
+        public static string StatusCommand { get; internal set; }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

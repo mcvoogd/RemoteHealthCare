@@ -15,14 +15,15 @@ namespace Server.Server
 
         private byte[] _messageBuffer;
 
-        private static X509Certificate serverCertificate = null;
+        private static X509Certificate2 serverCertificate = null;
 
         public ClientHandler(TcpClient tcpClient)
         {
             _client = tcpClient;
             _sslStream = new SslStream(_client.GetStream());
 
-            serverCertificate = X509Certificate.CreateFromCertFile(@"D:\Projects\RemoteHealthCare\ClientServer\ClientServer\cert.pem");
+            serverCertificate = new X509Certificate2(@"D:\Projects\RemoteHealthCare\ClientServer\ClientServer\RemoteHealthCare.pfx", "RemoteHealthCare");
+//            serverCertificate = X509Certificate.CreateFromSignedFile(@"D:\Projects\RemoteHealthCare\ClientServer\ClientServer\cert.pem");
 
             _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
 

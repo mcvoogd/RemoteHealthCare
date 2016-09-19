@@ -10,7 +10,7 @@ namespace VRConnectorForm.Forms
     {
         private int _selectedIndex;
         private Connection _connection;
-        private List<Client> clients = new List<Client>();
+        private List<Client> _clients = new List<Client>();
 
         public Form1()
         {
@@ -25,14 +25,14 @@ namespace VRConnectorForm.Forms
             if (_connection.JsonRawData.data.Count > 0)
             {
                 listBox1.Items.Clear();
-                string clientId = clients[_selectedIndex].ID;
-                string name = clients[_selectedIndex].name;
+                var clientId = _clients[_selectedIndex].Id;
+                var name = _clients[_selectedIndex].Name;
                 if (clientId != null)
                 {
                     string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
                                      "\", \"key\" : \"NotConCat\" } }";
-                    _connection.sendMessage(request);
-                    TunnelCommandForm tunnelCommandForm = new TunnelCommandForm(_connection, name);
+                    _connection.SendMessage(request);
+                    var tunnelCommandForm = new TunnelCommandForm(_connection, name);
                     tunnelCommandForm.Show();
                 }
             }
@@ -42,12 +42,14 @@ namespace VRConnectorForm.Forms
         {
             for (int i = 0; i < _connection.JsonRawData.data.Count; i++)
             {
-                clients.Add(new Client(_connection.JsonRawData.data[i].id, _connection.JsonRawData.data[i].clientinfo.user));
+                _clients.Add(new Client(_connection.JsonRawData.data[i].id, _connection.JsonRawData.data[i].clientinfo.user));
             }
-            clients.Sort();
-            for (int i = 0; i < clients.Count; i++)
+
+            _clients.Sort();
+
+            for (int i = 0; i < _clients.Count; i++)
             {
-                listBox1.Items.Add(clients[i].name);
+                listBox1.Items.Add(_clients[i].Name);
             }
             
         }
@@ -59,11 +61,11 @@ namespace VRConnectorForm.Forms
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            clients.Clear();
+            _clients.Clear();
             listBox1.Items.Clear();
             string request = "{\"id\" : \"session/list\"}";
 
-            _connection.sendMessage(request);
+            _connection.SendMessage(request);
         }
     }
 }

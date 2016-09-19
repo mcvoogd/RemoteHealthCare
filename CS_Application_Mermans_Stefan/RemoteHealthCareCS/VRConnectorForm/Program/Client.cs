@@ -8,18 +8,18 @@ namespace VRConnectorForm.Program
 {
     class Client : IComparable<Client>
     {
-        public string name { get; set; }
-        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Id { get; set; }
 
-        public Client(String ID, String name)
+        public Client(string id, string name)
         {
-            this.ID = ID;
-            this.name = name;
+            Id = id;
+            Name = name;
         }
 
         public int CompareTo(Client other)
         {
-            return this.name.CompareTo(other.name);
+            return Name.CompareTo(other.Name);
         }
     }
 }

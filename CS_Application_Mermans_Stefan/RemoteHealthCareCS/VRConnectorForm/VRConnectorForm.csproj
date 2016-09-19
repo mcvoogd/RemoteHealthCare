@@ -68,6 +68,7 @@
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </Compile>
     <Compile Include="VRobjects\Node.cs" />
+    <Compile Include="VRobjects\Panel.cs" />
     <Compile Include="VRobjects\Road.cs" />
     <Compile Include="VRobjects\Scene.cs" />
     <Compile Include="VRobjects\Skybox.cs" />
@@ -102,7 +103,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\Utilizing_Height_Map_05.jpg" />
+    <Content Include="res\map.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

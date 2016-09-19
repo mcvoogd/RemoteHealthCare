@@ -29,7 +29,7 @@ namespace DataScreen.Forms
             rotationsCount.Text = "" + Measurement.Rotations;
             speedCount.Text = "" + Measurement.Speed;
             powerCount.Text = "" + Measurement.Power;
-            burnedCount.Text = "" + Measurement.Burned;
+            burnedCount.Text = "" + (int)Measurement.Burned;
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
             distanceCount.Text = "" + (int)Measurement.Distance;
@@ -38,7 +38,7 @@ namespace DataScreen.Forms
         public SimulationForm()
         {
             _time = 120;
-            Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), (int)(10/3.6 * 120) ,new SimpleTime(_time/60,_time%60), 500);
+            Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0 *_time * 70.0 ,new SimpleTime(_time/60,_time%60), 500);
             InitializeComponent();
             RefreshText();
         }
@@ -93,10 +93,7 @@ namespace DataScreen.Forms
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            if (_time > 0) { _time--; }
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = _time * (Measurement.Speed / 3.6);
-            Measurement.Burned = (int)(10 / 3.6 * _time);
+            updateMeshMin();
 
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
             distanceCount.Text = "" + (int)Measurement.Distance;
@@ -105,10 +102,7 @@ namespace DataScreen.Forms
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            if (_time < 5999) { _time++; }
-            Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-            Measurement.Distance = _time * (Measurement.Speed / 3.6);
-            Measurement.Burned = (int)(10 / 3.6 * _time);
+            updateMeshPlus();
 
             timeCount.Text = string.Format("{0:00}:{1:00}", _time / 60, _time % 60);
             distanceCount.Text = "" + (int)Measurement.Distance;
@@ -137,13 +131,7 @@ namespace DataScreen.Forms
             }
             else
             {
-                if (_time < 5999)
-                {
-                    _time++;
-                    Measurement.Time = new SimpleTime(_time / 60, _time % 60);
-                    Measurement.Distance += Measurement.Speed / 3.6;
-                    Measurement.Burned += (int)(10 / 3.6);
-                }
+                updateMeshPlus();
 
                 Random random = new Random();
 
@@ -163,6 +151,34 @@ namespace DataScreen.Forms
             }
 
             
+        }
+
+        public void updateMeshPlus()
+        {
+            if (_time < 5999)
+            {
+                _time++;
+                Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+                Measurement.Distance += Measurement.Speed / 3.6;
+                Measurement.Burned += 10.0 / 3600.0 * 70.0;
+            }
+        }
+
+        public void updateMeshMin()
+        {
+            if (_time > 0)
+            {
+                _time--;
+                Measurement.Time = new SimpleTime(_time / 60, _time % 60);
+
+                Measurement.Burned -= 10.0 / 3600.0 * 70.0;
+                Measurement.Distance -= Measurement.Speed / 3.6;
+
+                if (Measurement.Distance < 0)
+                    Measurement.Distance = 0;
+                if (Measurement.Burned < 0)
+                    Measurement.Burned = 0;
+            }
         }
         
     }

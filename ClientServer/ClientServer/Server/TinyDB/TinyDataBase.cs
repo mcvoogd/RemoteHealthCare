@@ -13,16 +13,8 @@ namespace Server.TinyDB
 
         public List<Measurement> GetMeasurementsBetweenTimes(SimpleTime startTime, SimpleTime endTime)
         {
-            List<Measurement> temp = new List<Measurement>();
-            foreach(Measurement m in _measurements)
-            {
-                if (m.Time > startTime && m.Time < endTime)
-                {
-                    temp.Add(m);
-                }   
-            }
-
-            temp.Sort(); //implemented comparable?
+            var temp = _measurements.Where(m => m.Time > startTime && m.Time < endTime).ToList();
+            temp.Sort();
             return temp;
         }
 
@@ -36,31 +28,14 @@ namespace Server.TinyDB
 
         public List<Measurement> GetMeasurementsAfterTime(SimpleTime time)
         {
-            List<Measurement> temp = new List<Measurement>();
-
-            foreach (Measurement m in _measurements)
-            {
-                if (m.Time > time)
-                {
-                    temp.Add(m);
-                }
-            }
-
+            var temp = _measurements.Where(m => m.Time > time).ToList();
             temp.Sort();
             return temp;
         }
 
         public List<Measurement> GetMeasurementsBeforeTime(SimpleTime time)
         {
-            List<Measurement> temp = new List<Measurement>();
-
-            foreach(Measurement m in _measurements)
-            {
-                if (m.Time < time)
-                {
-                    temp.Add(m);
-                }
-            }
+            var temp = _measurements.Where(m => m.Time < time).ToList();
 
             temp.Sort();
             return temp;

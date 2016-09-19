@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "default", "Server\Server.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCas", "ClientCas\ClientCas.csproj", "{FAA03A4B-1944-4F69-9DC8-76EF96F29A38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCas", "ClientCas\ClientCas.csproj", "{FAA03A4B-1944-4F69-9DC8-76EF96F29A38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

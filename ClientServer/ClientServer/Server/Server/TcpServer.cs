@@ -7,7 +7,7 @@ namespace Server.Server
 {
     public class TcpServer
     {
-        private TcpListener _tcpListener;
+        private readonly TcpListener _tcpListener;
 
         public IPAddress IpAddress { get; set; }
 

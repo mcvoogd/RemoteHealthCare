@@ -1,14 +1,15 @@
-﻿using ClientCas.Classes;
-using System;
+﻿using System;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
+using ClientCas.Classes;
+using DataScreen.Forms;
 
-namespace DataScreen.Forms
+namespace ClientCas.Forms
 {
     public partial class DataWindow : Form
     {
-        private const string SimulatorText = "Simulator";
+        private const string SIMULATOR_TEXT = "Simulator";
 
         public SerialPort SerialPort { get; set; }
         public string SelectedComm { get; set; }
@@ -29,7 +30,7 @@ namespace DataScreen.Forms
             {
                 comboBox1.Items.Add(port);
             }
-            comboBox1.Items.Add(SimulatorText);
+            comboBox1.Items.Add(SIMULATOR_TEXT);
         }
 
         private delegate void SetTextCallback(string text);
@@ -58,7 +59,7 @@ namespace DataScreen.Forms
             {
                 if (SelectedComm != null)
                 {
-                    if (SelectedComm == SimulatorText)
+                    if (SelectedComm == SIMULATOR_TEXT)
                     {
                         var dataReceiver = new DataReceiver(this,_simulationForm);
                         _receiverThread = new Thread(dataReceiver.Run);

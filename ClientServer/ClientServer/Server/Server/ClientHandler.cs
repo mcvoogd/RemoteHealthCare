@@ -22,8 +22,7 @@ namespace Server.Server
             _client = tcpClient;
             _sslStream = new SslStream(_client.GetStream());
 
-            serverCertificate = new X509Certificate2(@"D:\Projects\RemoteHealthCare\ClientServer\ClientServer\RemoteHealthCare.pfx", "RemoteHealthCare");
-//            serverCertificate = X509Certificate.CreateFromSignedFile(@"D:\Projects\RemoteHealthCare\ClientServer\ClientServer\cert.pem");
+            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
 
             _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
 

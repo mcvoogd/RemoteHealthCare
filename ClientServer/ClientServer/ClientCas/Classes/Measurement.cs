@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace DataScreen.Classes
+namespace ClientCas.Classes
 {
     public class Measurement : IComparable<Measurement>
     {
@@ -73,7 +68,7 @@ namespace DataScreen.Classes
                    $"\nReachedPower : {ReachedPower}";
         }
 
-        public dynamic getMessageToSend()
+        public dynamic GetMessageToSend()
         {
             dynamic toSend = new
             {

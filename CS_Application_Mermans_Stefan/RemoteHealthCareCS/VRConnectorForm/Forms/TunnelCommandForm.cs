@@ -82,7 +82,7 @@ namespace VRConnectorForm.Forms
         private void addTerrainButton_Click(object sender, EventArgs e)
         {
            Terrain terrain = new Terrain(_connection.TunnelId,_connection);
-            var terrainNode = new Node("Terrain node", _connection.TunnelId, -100, 0.5, -100);
+            var terrainNode = new Node("Terrain node", _connection.TunnelId, -100, -0.1, -100);
             _connection.SendMessage(terrainNode.SendString);
         }
 
@@ -115,13 +115,13 @@ namespace VRConnectorForm.Forms
                 {
                     nodes = new[]
                     {
+
+                        new {pos = new[] {11,10,-14} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {72,10,-14} , dir = new[] {5,0,5}},
+                        new {pos = new[] {72,10,26}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {11,10,26}, dir = new[] {-5,0,5}}
+
                         //grid is 200x200
-
-                        new {pos = new[] {-14,10,-35} , dir = new[] {5, 0, -5 }},
-                        new {pos = new[] {35,10,-35} , dir = new[] {5,0,5}},
-                        new {pos = new[] {35,10,31}, dir = new[] {-5,0,5}},
-                        new {pos = new[] {-14,10,31}, dir = new[] {-5,0,5}}
-
                         //new {pos = new[] {-77,0, -74} , dir = new[] {5, 0, -5 }},
                         //new {pos = new[] {-66,0,-74} , dir = new[] {5,0,5}},
                         //new {pos = new[] {-41,0,-65}, dir = new[] {-5,0,5}},
@@ -185,7 +185,7 @@ namespace VRConnectorForm.Forms
                     speed = 1.0,
                     offset = 0.0,
                     rotate = "XZ",
-                    followHeight = false,
+                    followHeight = true,
                     rotateOffset = new[] { 0, Math.PI/2, 0 },
                     positionOffset = new[] { 0, 0, 0 },
 

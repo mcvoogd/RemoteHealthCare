@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRConnectorForm", "VRConnec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRconnector_Menno_Martijn", "VRconnector_Menno_Martijn\VRconnector_Menno_Martijn.csproj", "{66B66A8D-AC0F-4631-9058-B087726C90B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRFrom_Gijs", "VRFrom_Gijs\VRFrom_Gijs.csproj", "{0FD72657-FD99-4192-AC1A-45E88DCB8C2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{66B66A8D-AC0F-4631-9058-B087726C90B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66B66A8D-AC0F-4631-9058-B087726C90B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66B66A8D-AC0F-4631-9058-B087726C90B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD72657-FD99-4192-AC1A-45E88DCB8C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD72657-FD99-4192-AC1A-45E88DCB8C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD72657-FD99-4192-AC1A-45E88DCB8C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD72657-FD99-4192-AC1A-45E88DCB8C2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

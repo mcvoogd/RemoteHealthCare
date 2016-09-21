@@ -1,6 +1,7 @@
 ﻿using DataScreen.Classes;
 using System;
 using System.Windows.Forms;
+using DataScreen.Classes.ClientCas.Classes;
 
 namespace DataScreen.Forms
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
 using System.Threading;
+using DataScreen.Classes.ClientCas.Classes;
 using DataScreen.Forms;
 
 namespace DataScreen.Classes

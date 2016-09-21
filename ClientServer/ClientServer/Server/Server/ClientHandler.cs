@@ -45,28 +45,28 @@ namespace Server.Server
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
-
-            
+            var message = new byte[128];
+            var sizeBuffer = new byte[0];
 
             while (_tcpClient.Connected)
             {
-                var message = new byte[128];
-                var sizeBuffer = new byte[4];
-                try
+                 try
                 {
                     var numberOfBytesRead = stream.Read(message, 0, message.Length);
                     _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
-                    if (message.Length < 4) continue;
-                    var packetLength = BitConverter.ToInt32(message, 0);
+                    if (_messageBuffer.Length <= 4) continue;
+                    var packetLength = BitConverter.ToInt32(_messageBuffer, 0);
 
-                    if (message.Length < packetLength + 4) continue;
-                    var resultMessage = GetMessageFromBuffer(message, packetLength);
+                    if (_messageBuffer.Length < packetLength + 4) continue;
+                    var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                     dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
                     //Console.WriteLine(readMessage.ToString());
                     if (readMessage == null)
                     {
                         Console.WriteLine("Readmessage = null.");
+                        Console.WriteLine("Length: " + packetLength);
+                        Console.WriteLine("Data: '" + resultMessage + "'");
                     }
                     else
                     {

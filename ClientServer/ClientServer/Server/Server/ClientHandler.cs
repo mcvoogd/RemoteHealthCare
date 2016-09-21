@@ -154,6 +154,7 @@ namespace Server.Server
             return message.ToString();
         }
 
+        #region Ssl security displays
         static void DisplaySecurityLevel(SslStream stream)
         {
             Console.WriteLine($"Cipher: {stream.CipherAlgorithm} strength {stream.CipherStrength}");
@@ -200,5 +201,6 @@ namespace Server.Server
                 Console.WriteLine("Remote certificate is null.");
             }
         }
+        #endregion
     }
 }

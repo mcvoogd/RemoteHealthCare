@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -46,19 +47,31 @@ namespace Server.Server
                 var buffer = new byte[] {1, 2, 3, 4};
                 _sslStream.Write(buffer);
                 _sslStream.Flush();
-//                var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
-//                _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
-//
-//                if (message.Length < 4) continue;
-//                var packetLength = BitConverter.ToInt32(message, 0);
-//
-//                if (message.Length < packetLength + 4) continue;
-//                var resultMessage = GetMessageFromBuffer(message, packetLength);
-//
-//                dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
+                _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
-                // TODO receive messages from the client
-                //                throw new NotImplementedException();
+                if (message.Length < 4) continue;
+                var packetLength = BitConverter.ToInt32(message, 0);
+
+                if (message.Length < packetLength + 4) continue;
+                var resultMessage = GetMessageFromBuffer(message, packetLength);
+
+                dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+
+                string id = readMessage.id;
+                dynamic data = readMessage.data;
+
+                switch (id)
+                {
+                    case "measurement/add": 
+                        break;
+                    case "login/request":
+                        string username = data.username;
+                        string password = data.password;
+                        Console.WriteLine($"Username : {username}, \nPassword : {password}");
+                        break;
+                }
+
             }
         }
 

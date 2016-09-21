@@ -61,12 +61,8 @@ namespace Server.Server
                     if (_messageBuffer.Length < packetLength + 4) continue;
                     var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                     dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                    //Console.WriteLine(readMessage.ToString());
                     if (readMessage == null)
                     {
-                        Console.WriteLine("Readmessage = null.");
-                        Console.WriteLine("Length: " + packetLength);
-                        Console.WriteLine("Data: '" + resultMessage + "'");
                     }
                     else
                     {
@@ -78,23 +74,51 @@ namespace Server.Server
                             case "measurement/add":
                                 _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
                                 Console.WriteLine("Added measurement!");
+                                SendMessage(new
+                                {
+                                    id = "measurement/add",
+                                    data = new
+                                    {
+                                        ack = true
+                                    }
+                                });
                                 break;
                             case "login/request":
-                                Console.WriteLine("LOGINGEN!");
-                                HandleLogin(data);
+                                if (HandleLogin(data))
+                                {
+                                    SendMessage(new
+                                    {
+                                        id = "login/request",
+                                        data = new
+                                        {
+                                            login = true
+                                        }
+                                    });
+                                }
                                 break;
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine("hoi..");
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine(e.StackTrace);
+                    if (!_tcpClient.Connected)
+                    {
+                        Console.WriteLine("Client disconnected.");
+                    }
                 }
           }
         }
 
+        public void SendMessage(dynamic message)
+        {
+            if (stream == null) return;
+            message = JsonConvert.SerializeObject(message);
+            var buffer = Encoding.Default.GetBytes(message);
+            var bufferPrepend = BitConverter.GetBytes(buffer.Length);
+
+            stream.Write(bufferPrepend, 0, bufferPrepend.Length);
+            stream.Write(buffer, 0, buffer.Length);
+        }
         public Measurement ParseMeasurement(dynamic inputString)
         {
             string stringholder = inputString;
@@ -117,7 +141,7 @@ namespace Server.Server
             return tempMeasurement;
         }
 
-        public void HandleLogin(dynamic data)
+        public bool HandleLogin(dynamic data)
         {
             string username = data.username;
             string password = data.password;
@@ -128,13 +152,16 @@ namespace Server.Server
             {
                 Console.WriteLine("Found existing");
                 _database.GetClientById(clientid, out _client);
+                return true;
             }
             else
             {
                 _client = new Client(username, null, clientid, new TinyDataBase());
                 Console.WriteLine($"Created client : {username} ,\n{clientid}");
                 _database.AddClient(_client);
+                return true;
             }
+            return false;
         }
 
         // Combine two byte arrays into one.

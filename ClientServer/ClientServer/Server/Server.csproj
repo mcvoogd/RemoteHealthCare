@@ -62,8 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigDatabase.cs" />
-    <Compile Include="Client.cs" />
+    <Compile Include="BigDB\BigDatabase.cs" />
+    <Compile Include="BigDB\Client.cs" />
     <Compile Include="Server\ClientHandler.cs" />
     <Compile Include="Server\TcpServer.cs" />
     <Compile Include="TinyDB\Measurement.cs" />

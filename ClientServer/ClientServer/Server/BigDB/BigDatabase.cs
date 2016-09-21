@@ -33,17 +33,17 @@ namespace BigDB
             //Maybe add a clienthandler on the else.
         }
 
-        public void printFile()
-        {
-            StreamWriter file = new StreamWriter("C:/Users/Menno/Documents/clientlist/clients.txt", true);
-            file.WriteLine(ClientRegister.Count());
-            foreach (Client c in ClientRegister)
-            {
-                Console.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
-                file.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
-            }
-            file.Dispose();
-        }
+        //public void printFile()
+        //{
+        //    StreamWriter file = new StreamWriter("C:/Users/Menno/Documents/clientlist/clients.txt", true);
+        //    file.WriteLine(ClientRegister.Count());
+        //    foreach (Client c in ClientRegister)
+        //    {
+        //        Console.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
+        //        file.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
+        //    }
+        //    file.Dispose();
+        //}
 
         private void WriteToJsonFile<T>(string filePath, Client objectToWrite, bool append = false)
         {
@@ -61,7 +61,7 @@ namespace BigDB
             }
         }
 
-        public Client ReadFromJsonFile<Client>(string filePath)
+        public Client ReadFromJsonFile(string filePath)
         {
             TextReader reader = null;
             try

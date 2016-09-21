@@ -67,6 +67,27 @@ namespace Server.TinyDB
                    $"\nTime : {Time}" +
                    $"\nReachedPower : {ReachedPower}";
         }
+
+        public dynamic getMessageToSend()
+        {
+            dynamic toSend = new
+            {
+                id = "measurement/add",
+                data = new
+                {
+                    pulse = Pulse,
+                    rotations = Rotations,
+                    speed = Speed,
+                    distance = Distance,
+                    power = Power,
+                    burned = Burned,
+                    time = Time,
+                    reachedpower = ReachedPower
+                }
+            };
+
+            return toSend;
+        }
     }
 
 

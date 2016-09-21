@@ -27,6 +27,16 @@ namespace Server.TinyDB
             }
         }
 
+        public List<Measurement> GetMeasurements()
+        {
+            return _measurements;
+        }
+
+        public bool Contains(Measurement m)
+        {
+            return _measurements.Contains(m);
+        }
+
         public List<Measurement> GetMeasurementsAfterTime(SimpleTime time)
         {
             var temp = _measurements.Where(m => m.Time > time).ToList();

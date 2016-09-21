@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
 using System.Threading;
 using DataScreen.Forms;
-using DataScreen.Classes;
-using static DataScreen.Classes.Measurement;
+using static ClientCas.Classes.Measurement;
 
 namespace ClientCas.Classes
 {

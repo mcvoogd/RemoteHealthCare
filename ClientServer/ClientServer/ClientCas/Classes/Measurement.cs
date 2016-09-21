@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace DataScreen.Classes
+namespace ClientCas.Classes
 {
     public class Measurement : IComparable<Measurement>
     {
@@ -92,71 +87,78 @@ namespace DataScreen.Classes
             };
 
             return toSend;
+        }
+    }
 
 
+    public struct SimpleTime
+    {
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is SimpleTime && Equals((SimpleTime)obj);
         }
 
-
-        public struct SimpleTime
+        public bool Equals(SimpleTime other)
         {
-            public readonly int Minutes;
-            public readonly int Seconds;
+            return Minutes == other.Minutes && Seconds == other.Seconds;
+        }
 
-            public SimpleTime(int min, int sec)
+        public override int GetHashCode()
+        {
+            unchecked
             {
-                Minutes = min;
-                Seconds = sec;
+                return (Minutes * 397) ^ Seconds;
             }
+        }
 
-            public override string ToString()
-            {
-                return $"{Minutes:00}:{Seconds:00}";
-            }
+        public readonly int Minutes;
+        public readonly int Seconds;
 
-            public static bool operator >(SimpleTime first, SimpleTime second)
-            {
-                if (first.Minutes > second.Minutes)
-                {
-                    return true;
-                }
-                if (first.Minutes == second.Minutes)
-                {
-                    return first.Seconds > second.Seconds ? true : false;
-                }
-                return false;
-            }
+        public SimpleTime(int min, int sec)
+        {
+            Minutes = min;
+            Seconds = sec;
+        }
 
-            public static bool operator <(SimpleTime first, SimpleTime second)
-            {
-                if (first.Minutes < second.Minutes)
-                {
-                    return true;
-                }
-                if (first.Minutes == second.Minutes)
-                {
-                    return first.Seconds < second.Seconds ? true : false;
-                }
-                return false;
-            }
+        public override string ToString()
+        {
+            return $"{Minutes:00}:{Seconds:00}";
+        }
 
-            public static bool operator ==(SimpleTime first, SimpleTime second)
+        public static bool operator >(SimpleTime first, SimpleTime second)
+        {
+            if (first.Minutes > second.Minutes)
             {
-                if (first.Minutes == second.Minutes && first.Seconds == second.Seconds)
-                {
-                    return true;
-                }
-                return false;
-            }
-            public static bool operator !=(SimpleTime first, SimpleTime second)
-            {
-                if (first.Minutes == second.Minutes && first.Seconds == second.Seconds)
-                {
-                    return false;
-                }
                 return true;
             }
+            if (first.Minutes == second.Minutes)
+            {
+                return first.Seconds > second.Seconds ? true : false;
+            }
+            return false;
+        }
 
+        public static bool operator <(SimpleTime first, SimpleTime second)
+        {
+            if (first.Minutes < second.Minutes)
+            {
+                return true;
+            }
+            if (first.Minutes == second.Minutes)
+            {
+                return first.Seconds < second.Seconds ? true : false;
+            }
+            return false;
+        }
 
+        public static bool operator ==(SimpleTime first, SimpleTime second)
+        {
+            return first.Minutes == second.Minutes && first.Seconds == second.Seconds;
+        }
+        public static bool operator !=(SimpleTime first, SimpleTime second)
+        {
+            return first.Minutes != second.Minutes || first.Seconds != second.Seconds;
         }
     }
 }

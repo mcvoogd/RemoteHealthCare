@@ -15,7 +15,7 @@ namespace Server
             ClientRegister = new List<Client>();
         }
 
-        public void put (Client client)
+        public void Put (Client client)
         {
             var alreadyThere = false;
             foreach (var c in ClientRegister)

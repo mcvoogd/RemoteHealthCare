@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using BigDB;
+using Server.BigDB;
 using Newtonsoft.Json;
 using Server.TinyDB;
 
@@ -15,6 +16,8 @@ namespace Server.Server
     {
         private readonly TcpClient _tcpClient;
         private readonly SslStream _sslStream;
+        private readonly Stream stream;
+
         private readonly BigDatabase _database;
         private Client _client = null;
         private byte[] _messageBuffer;
@@ -24,16 +27,17 @@ namespace Server.Server
         public ClientHandler(TcpClient tcpClient, BigDatabase databaseValue)
         {
             _tcpClient = tcpClient;
-            _sslStream = new SslStream(_tcpClient.GetStream());
+            //_sslStream = new SslStream(_tcpClient.GetStream());
+            stream = _tcpClient.GetStream();
             this._database = databaseValue;
-            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
-
-            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
-
-            DisplaySecurityLevel(_sslStream);
-            DisplaySecurityServices(_sslStream);
-            DisplayCertificateInformation(_sslStream);
-            DisplayStreamProperties(_sslStream);
+//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
+//
+//            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
+//
+//            DisplaySecurityLevel(_sslStream);
+//            DisplaySecurityServices(_sslStream);
+//            DisplayCertificateInformation(_sslStream);
+//            DisplayStreamProperties(_sslStream);
 
             _messageBuffer = new byte[0];
         }
@@ -41,43 +45,80 @@ namespace Server.Server
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
-
             var message = new byte[128];
-            var sizeBuffer = new byte[4];
+            var sizeBuffer = new byte[0];
 
             while (_tcpClient.Connected)
             {
-                var buffer = new byte[] {1, 2, 3, 4};
-                _sslStream.Write(buffer);
-                _sslStream.Flush();
-                var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
-                _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
-
-                if (message.Length < 4) continue;
-                var packetLength = BitConverter.ToInt32(message, 0);
-
-                if (message.Length < packetLength + 4) continue;
-                var resultMessage = GetMessageFromBuffer(message, packetLength);
-
-                dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-
-                string id = readMessage.id;
-                dynamic data = readMessage.data;
-
-                switch (id)
+                 try
                 {
-                    case "measurement/add":
-                       _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
-                        Console.WriteLine("Added measurement!");
-                        break;
-                    case "login/request":
-                        HandleLogin(data);
-                        break;
-                }
+                    var numberOfBytesRead = stream.Read(message, 0, message.Length);
+                    _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
-            }
+                    if (_messageBuffer.Length <= 4) continue;
+                    var packetLength = BitConverter.ToInt32(_messageBuffer, 0);
+
+                    if (_messageBuffer.Length < packetLength + 4) continue;
+                    var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
+                    dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                    if (readMessage == null)
+                    {
+                    }
+                    else
+                    {
+                        string id = readMessage.id;
+                        dynamic data = readMessage.data;
+
+                        switch (id)
+                        {
+                            case "measurement/add":
+                                _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
+                                Console.WriteLine("Added measurement!");
+                                SendMessage(new
+                                {
+                                    id = "measurement/add",
+                                    data = new
+                                    {
+                                        ack = true
+                                    }
+                                });
+                                break;
+                            case "login/request":
+                                if (HandleLogin(data))
+                                {
+                                    SendMessage(new
+                                    {
+                                        id = "login/request",
+                                        data = new
+                                        {
+                                            login = true
+                                        }
+                                    });
+                                }
+                                break;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    if (!_tcpClient.Connected)
+                    {
+                        Console.WriteLine("Client disconnected.");
+                    }
+                }
+          }
         }
 
+        public void SendMessage(dynamic message)
+        {
+            if (stream == null) return;
+            message = JsonConvert.SerializeObject(message);
+            var buffer = Encoding.Default.GetBytes(message);
+            var bufferPrepend = BitConverter.GetBytes(buffer.Length);
+
+            stream.Write(bufferPrepend, 0, bufferPrepend.Length);
+            stream.Write(buffer, 0, buffer.Length);
+        }
         public Measurement ParseMeasurement(dynamic inputString)
         {
             string stringholder = inputString;
@@ -100,21 +141,27 @@ namespace Server.Server
             return tempMeasurement;
         }
 
-        public void HandleLogin(dynamic data)
+        public bool HandleLogin(dynamic data)
         {
             string username = data.username;
             string password = data.password;
-            int clientid = data.clientid;
+            string clientid = data.clientid;
             Console.WriteLine($"Username : {username}, \nPassword : {password}, \nID : {clientid}");
-            if (_database.GetClientById(_client.uniqueID) != null)
+            if (!_database.GetClientById(clientid).Name.Equals("fout."))
+
             {
+                Console.WriteLine("Found existing");
                 _database.GetClientById(clientid, out _client);
+                return true;
             }
             else
             {
                 _client = new Client(username, null, clientid, new TinyDataBase());
+                Console.WriteLine($"Created client : {username} ,\n{clientid}");
                 _database.AddClient(_client);
+                return true;
             }
+            return false;
         }
 
         // Combine two byte arrays into one.
@@ -128,10 +175,19 @@ namespace Server.Server
         }
 
         // Gets the first message from the buffer that isn't idicating the size
-        private static string GetMessageFromBuffer(byte[] array, int count)
+        private string GetMessageFromBuffer(byte[] array, int count)
         {
+            var newArray = new byte[array.Length - (count + 4)];
+
             var message = new StringBuilder();
             message.AppendFormat("{0}", Encoding.ASCII.GetString(array, 4, count));
+
+            for (int i = 0; i < newArray.Length; i++)
+            {
+                newArray[i] = array[i + count + 4];
+            }
+            _messageBuffer = newArray;
+
             return message.ToString();
         }
 

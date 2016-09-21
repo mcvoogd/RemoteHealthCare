@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -40,20 +41,42 @@ namespace Client.Connection
 
                 Login(username,password);
 
-                while (true)
+                while (tcpClient.Connected)
                 {
-                   
-                    Console.WriteLine("Reading...");
-                    var numberOfBytesRead = _stream.Read(message, 0, message.Length);
-                    messageBuffer = ConCat(messageBuffer, message, numberOfBytesRead);
-                    
-                    if (message.Length < 4) continue;
-                    var packetLength = BitConverter.ToInt32(message, 0);
-                    
-                    if (message.Length < packetLength + 4) continue;
-                    var resultMessage = GetMessageFromBuffer(message, packetLength);
-                    
-                    dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                    try
+                    {
+                        var numberOfBytesRead = _stream.Read(message, 0, message.Length);
+                        messageBuffer = ConCat(messageBuffer, message, numberOfBytesRead);
+
+                        if (messageBuffer.Length <= 4) continue;
+                        var packetLength = BitConverter.ToInt32(messageBuffer, 0);
+
+                        if (messageBuffer.Length < packetLength + 4) continue;
+                        var resultMessage = GetMessageFromBuffer(messageBuffer, packetLength);
+                        dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                        if (readMessage == null)
+                        {
+                        }
+                        else
+                        {
+                            string id = readMessage.id;
+                            dynamic data = readMessage.data;
+
+                            switch (id)
+                            {
+                                case "login/request": Thread sendStatistics = new Thread(this.sendStatistics);
+                                    sendStatistics.Start();
+                                    break;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        if (!tcpClient.Connected)
+                        {
+                            Console.WriteLine("Client disconnected.");
+                        }
+                    }
                 }
             }
             catch (AuthenticationException e)
@@ -69,13 +92,33 @@ namespace Client.Connection
             }
         }
 
+        public void sendStatistics()
+        {
+            SendMessage(new
+            {
+                id = "measurement/add",
+                clientid = _connectionId,
+                data = new
+                {
+                    pulse = "80",
+                    rotations = "130",
+                    speed = "35",
+                    distance = "1.23",
+                    power = "45",
+                    burned = "23.4",
+                    time = "09.12",
+                    reachedpower = "30"
+                }
+            });
+        }
+
         private void Login(string username, string password)
         {
             if (_stream == null) return;
 
-            _connectionId = calcXor(username, password);
+            _connectionId = CalcXor(username, password);
 
-            SendMessage(JsonConvert.SerializeObject(new
+            SendMessage(new
             {
                 id = "login/request",
                 data = new
@@ -84,15 +127,15 @@ namespace Client.Connection
                     clientid = _connectionId,
                     password
                 }
-            }));
+            });
         }
 
-        public string calcXor(string a, string b)
+        public string CalcXor(string a, string b)
         {
-            char[] charAArray = a.ToCharArray();
-            char[] charBArray = b.ToCharArray();
-            char[] result = new char[6];
-            int len = 0;
+            var charAArray = a.ToCharArray();
+            var charBArray = b.ToCharArray();
+            var result = new char[6];
+            var len = 0;
 
             // Set length to be the length of the shorter string
             if (a.Length > b.Length)
@@ -105,14 +148,15 @@ namespace Client.Connection
                 result[i] = (char) (charAArray[i] ^ charBArray[i]);
             }
 
-            Console.WriteLine("Xor: " + new string(result));
-            return "CLIENTIDDAMMIT";
+          //  Console.WriteLine("Xor: " + new string(result));
+            return a + b;
         }
 
-        public void SendMessage(string message)
+        public void SendMessage(dynamic message)
         {
             if(_stream == null) return;
 
+            message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
 

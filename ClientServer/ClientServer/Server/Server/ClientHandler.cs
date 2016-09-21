@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using BigDB;
+using Server.BigDB;
 using Newtonsoft.Json;
 using Server.TinyDB;
 
@@ -45,95 +45,114 @@ namespace Server.Server
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
-
-            
-
+            var message = new byte[128];
+            var sizeBuffer = new byte[0];
+            int teller = 0;
             while (_tcpClient.Connected)
             {
-                var message = new byte[128];
-                var sizeBuffer = new byte[4];
-                try
+                 try
                 {
                     var numberOfBytesRead = stream.Read(message, 0, message.Length);
                     _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
-                    if (message.Length < 4) continue;
-                    var packetLength = BitConverter.ToInt32(message, 0);
+                    if (_messageBuffer.Length <= 4) continue;
+                    var packetLength = BitConverter.ToInt32(_messageBuffer, 0);
 
-                    if (message.Length < packetLength + 4) continue;
-                    var resultMessage = GetMessageFromBuffer(message, packetLength);
+                    if (_messageBuffer.Length < packetLength + 4) continue;
+                    var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                     dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                    //Console.WriteLine(readMessage.ToString());
-                    if (readMessage == null)
+                   
+                    var id = readMessage.id;
+                    dynamic data = readMessage.data;
+                    
+                    switch ((string)id)
                     {
-                        Console.WriteLine("Readmessage = null.");
-                    }
-                    else
-                    {
-                        string id = readMessage.id;
-                        dynamic data = readMessage.data;
+                        case "measurement/add":
+                            _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
+                            Console.WriteLine("Added measurement!");
+                            SendMessage(new
+                            {
+                                id = "measurement/add",
+                                data = new
+                                {
+                                    ack = true
+                                }
+                            });
+                            teller++;
+                            Console.Write("\t"+ teller);
+                            break;
+                        case "login/request":
+                            if (HandleLogin(data))
+                            {
+                                SendMessage(new
+                                {
+                                    id = "login/request",
+                                    data = new
+                                    {
+                                        login = true
+                                    }
+                                });
+                            }
+                            break;
 
-                        switch (id)
-                        {
-                            case "measurement/add":
-                                _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
-                                Console.WriteLine("Added measurement!");
-                                break;
-                            case "login/request":
-                                Console.WriteLine("LOGINGEN!");
-                                HandleLogin(data);
-                                break;
-                        }
+                        default:
+                            Console.WriteLine("Id: " + id);
+                            break;
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("hoi..");
-                    Console.WriteLine(e.Message);
+                    if (!_tcpClient.Connected)
+                    {
+                        Console.WriteLine("Client disconnected.");
+                    }
                     Console.WriteLine(e.StackTrace);
                 }
           }
         }
 
+        public void SendMessage(dynamic message)
+        {
+            if (stream == null) return;
+            message = JsonConvert.SerializeObject(message);
+            var buffer = Encoding.Default.GetBytes(message);
+            var bufferPrepend = BitConverter.GetBytes(buffer.Length);
+
+            stream.Write(bufferPrepend, 0, bufferPrepend.Length);
+            stream.Write(buffer, 0, buffer.Length);
+        }
         public Measurement ParseMeasurement(dynamic inputString)
         {
-            string stringholder = inputString;
-            inputString = inputString.Trim();
-            string[] splitString = inputString.Split(new char[0]);
-            var simpleTimeString = splitString[6].Split(':');
-
-            splitString[6] = "0";
-            var lijstje = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            var teller = 0;
-            foreach (var s in splitString)
-            {
-                lijstje[teller] = int.Parse(s);
-                teller++;
-            }
-
-            var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
-            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7], stringholder);
+            var tempString = (string) inputString.time;
+            string[] temp = tempString.Split('.');
+            var tempTime = new SimpleTime(int.Parse(temp[0]), int.Parse(temp[1]));
+            var tempMeasurement = new Measurement((int)inputString.pulse, (int)inputString.rotations, (int)inputString.speed, (int)inputString.power,
+                (double)inputString.distance,(double)inputString.burned,tempTime, (int) inputString.reachedpower);
 
             return tempMeasurement;
         }
 
-        public void HandleLogin(dynamic data)
+        public bool HandleLogin(dynamic data)
         {
             string username = data.username;
             string password = data.password;
             string clientid = data.clientid;
             Console.WriteLine($"Username : {username}, \nPassword : {password}, \nID : {clientid}");
-            if (!_database.GetClientById(clientid).name.Equals("fout."))
+            if (!_database.GetClientById(clientid).Name.Equals("fout."))
+
             {
                 Console.WriteLine("Found existing");
                 _database.GetClientById(clientid, out _client);
+                return true;
             }
             else
             {
                 _client = new Client(username, null, clientid, new TinyDataBase());
                 Console.WriteLine($"Created client : {username} ,\n{clientid}");
                 _database.AddClient(_client);
+                return true;
             }
+            return false;
         }
 
         // Combine two byte arrays into one.
@@ -147,10 +166,19 @@ namespace Server.Server
         }
 
         // Gets the first message from the buffer that isn't idicating the size
-        private static string GetMessageFromBuffer(byte[] array, int count)
+        private string GetMessageFromBuffer(byte[] array, int count)
         {
+            var newArray = new byte[array.Length - (count + 4)];
+
             var message = new StringBuilder();
             message.AppendFormat("{0}", Encoding.ASCII.GetString(array, 4, count));
+
+            for (int i = 0; i < newArray.Length; i++)
+            {
+                newArray[i] = array[i + count + 4];
+            }
+            _messageBuffer = newArray;
+
             return message.ToString();
         }
 

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
 using Client.Connection;
+using Client.Forms;
 
 namespace DataScreen.Forms
 {
     public partial class LoginForm : Form
     {
-
-        public LoginForm()
+        private RemoteHealthcare RemoteHealthcare;
+        public LoginForm(RemoteHealthcare RemoteHealthcare)
         {
             InitializeComponent();
+            this.RemoteHealthcare = RemoteHealthcare;
             //passwordTextBox.MouseHover += new EventHandler(passwordTextBox_MouseHover);
             //passwordTextBox.MouseLeave += new EventHandler(passwordTextBox_MouseLeave);
         }
@@ -22,8 +24,10 @@ namespace DataScreen.Forms
         private void loginButton_Click(object sender, EventArgs e)
         {
             Connector connector = new Connector();
-            connector.Connect(severIpTextBox.Text,usernameTextBox.Text,passwordTextBox.Text);   
-//            wrongLogin.Visible = true;
+            connector.Connect(severIpTextBox.Text,usernameTextBox.Text,passwordTextBox.Text);
+            Visible = false;
+            RemoteHealthcare.Visible = true;
+            //            wrongLogin.Visible = true;
         }
 
 //        ToolTip toolTipCaps = new ToolTip();

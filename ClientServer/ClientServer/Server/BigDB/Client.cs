@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Server.TinyDB;
 
 
-namespace BigDB
+namespace Server.BigDB
 {
     class Client
     {
 
-        public string name { get; set; }
+        public string Name { get; set; }
         public TinyDataBase TinyDataBaseBase { get; set; }
         public string tunnelID { get; set; }
         public string uniqueID { get; set; }
@@ -20,14 +20,14 @@ namespace BigDB
 
         public Client(string name, string tunnelID, string uniqueID, TinyDataBase tinyDataBase)
         {
-            this.name = name;
+            this.Name = name;
             this.tunnelID = tunnelID;
             this.uniqueID = uniqueID;
             this.TinyDataBaseBase = tinyDataBase;
             clientStatus = status.CONNECTED;
         }
 
-        protected status getStatus() { return clientStatus; }
-        protected void setStatus(status newStatus) { clientStatus = newStatus; }
+        protected status GetStatus() { return clientStatus; }
+        protected void SetStatus(status newStatus) { clientStatus = newStatus; }
     }
 }

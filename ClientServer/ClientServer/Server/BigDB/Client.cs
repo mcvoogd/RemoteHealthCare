@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 using Server.TinyDB;
 
 
-namespace BigDB
+namespace Server.BigDB
 {
     class Client
     {
 
-        public string name { get; set; }
-        public TinyDataBase clientData { get; set; }
-        public string tunnelID { get; set; }
-        public string uniqueID { get; set; }
-        protected status clientStatus { get; set; }
+        public string Name { get; set; }
+        public TinyDataBase TinyDataBaseBase { get; set; }
+        public string TunnelId { get; set; }
+        public int UniqueId { get; set; }
+        protected status ClientStatus { get; set; }
         protected enum status { NOT_CONNECTED, CONNECTED, READY_TO_GO, BIKING, FINISHED };
 
-        public Client(string name, string tunnelID, string uniqueID, TinyDataBase clientData)
+        public Client(string name, string tunnelId, int uniqueId, TinyDataBase tinyDataBase)
         {
-            this.name = name;
-            this.tunnelID = tunnelID;
-            this.uniqueID = uniqueID;
-            this.clientData = clientData;
-            clientStatus = status.CONNECTED;
+            this.Name = name;
+            this.TunnelId = tunnelId;
+            this.UniqueId = uniqueId;
+            this.TinyDataBaseBase = tinyDataBase;
+            ClientStatus = status.CONNECTED;
         }
 
-        protected status getStatus() { return clientStatus; }
-        protected void setStatus(status newStatus) { clientStatus = newStatus; }
+        protected status GetStatus() { return ClientStatus; }
+        protected void SetStatus(status newStatus) { ClientStatus = newStatus; }
     }
 }

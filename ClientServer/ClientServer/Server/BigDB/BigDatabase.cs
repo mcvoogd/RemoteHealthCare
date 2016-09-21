@@ -6,69 +6,128 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace BigDB
+namespace Server.BigDB
 {
     class BigDatabase
     {
-        public List<Client> ClientRegister { get; set; }
+        public List<Client> Clients { get; set; }
 
         public BigDatabase()
         {
-            ClientRegister = new List<Client>();
+            Clients = new List<Client>();
         }
 
-        public void addClientToRegister(Client client)
+        public void AddClient(Client client)
         {
             var alreadyThere = false;
-            foreach (var c in ClientRegister)
+            foreach (var c in Clients)
             {
-                if (c.Equals(client))
+                if (!c.Equals(client)) continue;
+                alreadyThere = true;
+                break;
+            }
+
+            if (!alreadyThere) { Clients.Add(client); }
+        }
+
+        #region saving and loading clients
+
+        public void SaveClientRegister(string filePath, List<Client> clients)
+        {
+            WriteToJsonFile<Client>(filePath, clients);
+        }
+
+        public void LoadClientRegister(string filePath)
+        {
+            ReadFromJsonFile(filePath);
+            foreach (Client c in Clients)
+            {
+                Console.WriteLine("{0}, {1}, {2}", c.Name, c.TunnelId, c.UniqueId);
+            }
+        } 
+
+        #endregion
+
+        #region GetClientById methods
+
+        public Client GetClientById(int id)
+        {
+            foreach (var client in Clients)
+            {
+                if (client.UniqueId.Equals(id))
                 {
-                    alreadyThere = true;
-                    break;
+                    return client;
                 }
             }
-
-            if (!alreadyThere) { ClientRegister.Add(client); }
-            //Maybe add a clienthandler on the else.
+            return null;
         }
 
-        //public void printFile()
-        //{
-        //    StreamWriter file = new StreamWriter("C:/Users/Menno/Documents/clientlist/clients.txt", true);
-        //    file.WriteLine(ClientRegister.Count());
-        //    foreach (Client c in ClientRegister)
-        //    {
-        //        Console.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
-        //        file.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
-        //    }
-        //    file.Dispose();
-        //}
+        public bool GetClientById(int id, out Client clientOut)
+        {
+            foreach (var client in Clients)
+            {
+                if (!client.UniqueId.Equals(id)) continue;
+                clientOut = client;
+                return true;
+            }
+            clientOut = null;
+            return false;
+        }
 
-        private void WriteToJsonFile<T>(string filePath, Client objectToWrite, bool append = false)
+        #endregion
+
+        #region JsonWrite and Read methods
+
+        private void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
         {
             TextWriter writer = null;
-            try
+
+            if (File.Exists(filePath))
             {
-                var contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite);
-                writer = new StreamWriter(filePath, append);
-                writer.Write(contentsToWriteToFile);
+                File.Delete(filePath);
+                try
+                {
+                    var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
+                    writer = new StreamWriter(filePath, append);
+                    writer.WriteLine(contentsToWriteToFile);
+                }
+                finally
+                {
+                    if (writer != null)
+                        writer.Close();
+                }
             }
-            finally
+            else
             {
-                if (writer != null)
-                    writer.Close();
+                try
+                {
+                    var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
+                    writer = new StreamWriter(filePath, append);
+                    writer.WriteLine(contentsToWriteToFile);
+                }
+                finally
+                {
+                    if (writer != null)
+                        writer.Close();
+                }
             }
         }
 
-        public Client ReadFromJsonFile(string filePath)
+        private void ReadFromJsonFile(string filePath)
         {
             TextReader reader = null;
             try
             {
                 reader = new StreamReader(filePath);
                 var fileContents = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<Client>(fileContents);
+                List<Client> c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
+                foreach (Client toAdd in c)
+                {
+                    if (!Clients.Contains(toAdd))
+                    {
+                        Clients.AddRange(c);
+                    }
+                }
             }
             finally
             {
@@ -77,26 +136,6 @@ namespace BigDB
             }
         }
 
-        //Okay, so the for loop works because of a bug... Not going to fix it right now but it's there
-        //public void readFile()
-        //{
-        //    StreamReader file = new StreamReader("C:/Users/Menno/Documents/clientlist/clients.txt", true);
-        //    Console.WriteLine(file.ReadLine());
-        //    string counterString = file.ReadLine();
-        //    int counterInt;
-        //    int.TryParse(counterString, out counterInt);
-        //    Console.WriteLine(counterInt);
-        //    for (int i = 0; i < counterInt; i++)
-        //    {
-        //        string allInfo = file.ReadLine();
-        //        Console.WriteLine(allInfo);
-        //        string[] allString = allInfo.Split('-');
-        //        clientRegister.Add(new Client(allString[0], allString[1], allString[2], null));
-        //    }
-        //    foreach(Client c in clientRegister)
-        //    {
-        //        Console.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
-        //    }
-        //}
+        #endregion
     }
 }

@@ -5,24 +5,27 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Server.BigDB;
 using Newtonsoft.Json;
+using Server.TinyDB;
 
 namespace Server.Server
 {
     class ClientHandler
     {
-        private TcpClient _client;
-        private SslStream _sslStream;
-
+        private readonly TcpClient _tcpClient;
+        private readonly SslStream _sslStream;
+        private readonly BigDatabase _database;
+        private Client _client = null;
         private byte[] _messageBuffer;
 
         private static X509Certificate2 serverCertificate = null;
 
-        public ClientHandler(TcpClient tcpClient)
+        public ClientHandler(TcpClient tcpClient, BigDatabase databaseValue)
         {
-            _client = tcpClient;
-            _sslStream = new SslStream(_client.GetStream());
-
+            _tcpClient = tcpClient;
+            _sslStream = new SslStream(_tcpClient.GetStream());
+            this._database = databaseValue;
             serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
 
             _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
@@ -42,7 +45,7 @@ namespace Server.Server
             var message = new byte[128];
             var sizeBuffer = new byte[4];
 
-            while (_client.Connected)
+            while (_tcpClient.Connected)
             {
                 var buffer = new byte[] {1, 2, 3, 4};
                 _sslStream.Write(buffer);
@@ -63,15 +66,54 @@ namespace Server.Server
 
                 switch (id)
                 {
-                    case "measurement/add": 
+                    case "measurement/add":
+                       _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
+                        Console.WriteLine("Added measurement!");
                         break;
                     case "login/request":
-                        string username = data.username;
-                        string password = data.password;
-                        Console.WriteLine($"Username : {username}, \nPassword : {password}");
+                        HandleLogin(data);
                         break;
                 }
 
+            }
+        }
+
+        public Measurement ParseMeasurement(dynamic inputString)
+        {
+            string stringholder = inputString;
+            inputString = inputString.Trim();
+            string[] splitString = inputString.Split(new char[0]);
+            var simpleTimeString = splitString[6].Split(':');
+
+            splitString[6] = "0";
+            var lijstje = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            var teller = 0;
+            foreach (var s in splitString)
+            {
+                lijstje[teller] = int.Parse(s);
+                teller++;
+            }
+
+            var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
+            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7], stringholder);
+
+            return tempMeasurement;
+        }
+
+        public void HandleLogin(dynamic data)
+        {
+            string username = data.username;
+            string password = data.password;
+            int clientid = data.clientid;
+            Console.WriteLine($"Username : {username}, \nPassword : {password}, \nID : {clientid}");
+            if (_database.GetClientById(_client.UniqueId) != null)
+            {
+                _database.GetClientById(clientid, out _client);
+            }
+            else
+            {
+                _client = new Client(username, null, clientid, new TinyDataBase());
+                _database.AddClient(_client);
             }
         }
 
@@ -95,33 +137,32 @@ namespace Server.Server
 
         static void DisplaySecurityLevel(SslStream stream)
         {
-            Console.WriteLine("Cipher: {0} strength {1}", stream.CipherAlgorithm, stream.CipherStrength);
-            Console.WriteLine("Hash: {0} strength {1}", stream.HashAlgorithm, stream.HashStrength);
-            Console.WriteLine("Key exchange: {0} strength {1}", stream.KeyExchangeAlgorithm, stream.KeyExchangeStrength);
-            Console.WriteLine("Protocol: {0}", stream.SslProtocol);
+            Console.WriteLine($"Cipher: {stream.CipherAlgorithm} strength {stream.CipherStrength}");
+            Console.WriteLine($"Hash: {stream.HashAlgorithm} strength {stream.HashStrength}");
+            Console.WriteLine($"Key exchange: {stream.KeyExchangeAlgorithm} strength {stream.KeyExchangeStrength}");
+            Console.WriteLine($"Protocol: {stream.SslProtocol}");
         }
         static void DisplaySecurityServices(SslStream stream)
         {
-            Console.WriteLine("Is authenticated: {0} as server? {1}", stream.IsAuthenticated, stream.IsServer);
-            Console.WriteLine("IsSigned: {0}", stream.IsSigned);
-            Console.WriteLine("Is Encrypted: {0}", stream.IsEncrypted);
+            Console.WriteLine($"Is authenticated: {stream.IsAuthenticated} as server? {stream.IsServer}");
+            Console.WriteLine($"IsSigned: {stream.IsSigned}");
+            Console.WriteLine($"Is Encrypted: {stream.IsEncrypted}");
         }
         static void DisplayStreamProperties(SslStream stream)
         {
-            Console.WriteLine("Can read: {0}, write {1}", stream.CanRead, stream.CanWrite);
-            Console.WriteLine("Can timeout: {0}", stream.CanTimeout);
+            Console.WriteLine($"Can read: {stream.CanRead}, write {stream.CanWrite}");
+            Console.WriteLine($"Can timeout: {stream.CanTimeout}");
         }
         static void DisplayCertificateInformation(SslStream stream)
         {
-            Console.WriteLine("Certificate revocation list checked: {0}", stream.CheckCertRevocationStatus);
+            Console.WriteLine($"Certificate revocation list checked: {stream.CheckCertRevocationStatus}");
 
             X509Certificate localCertificate = stream.LocalCertificate;
             if (stream.LocalCertificate != null)
             {
-                Console.WriteLine("Local cert was issued to {0} and is valid from {1} until {2}.",
-                    localCertificate.Subject,
-                    localCertificate.GetEffectiveDateString(),
-                    localCertificate.GetExpirationDateString());
+                Console.WriteLine(
+                    $"Local cert was issued to {localCertificate.Subject} and is valid from {localCertificate.GetEffectiveDateString()} " +
+                    $"until {localCertificate.GetExpirationDateString()}.");
             }
             else
             {
@@ -131,10 +172,9 @@ namespace Server.Server
             X509Certificate remoteCertificate = stream.RemoteCertificate;
             if (stream.RemoteCertificate != null)
             {
-                Console.WriteLine("Remote cert was issued to {0} and is valid from {1} until {2}.",
-                    remoteCertificate.Subject,
-                    remoteCertificate.GetEffectiveDateString(),
-                    remoteCertificate.GetExpirationDateString());
+                Console.WriteLine(
+                    $"Remote cert was issued to {remoteCertificate.Subject} and is valid from " +
+                    $"{remoteCertificate.GetEffectiveDateString()} until {remoteCertificate.GetExpirationDateString()}.");
             }
             else
             {

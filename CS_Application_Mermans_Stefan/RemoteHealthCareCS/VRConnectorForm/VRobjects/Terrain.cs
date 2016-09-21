@@ -76,7 +76,7 @@ namespace VRConnectorForm.VRobjects
     {
         public static double[] GenerateHeightmap()
         {
-            var heightMap = Image.FromFile(@"..\..\res/map2.jpg");
+            var heightMap = Image.FromFile(@"..\..\res/map3.jpg");
             var bitHeigthMap = new Bitmap(heightMap, 256, 256);
             var pixels = new double[256 * 256];
             for (int countRow = 0; countRow < 256; countRow++)

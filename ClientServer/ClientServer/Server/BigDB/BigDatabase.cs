@@ -10,34 +10,55 @@ namespace BigDB
 {
     class BigDatabase
     {
-        public List<Client> ClientRegister { get; set; }
+        public List<Client> Clients { get; set; }
 
         public BigDatabase()
         {
-            ClientRegister = new List<Client>();
+            Clients = new List<Client>();
         }
 
-        public void addClientToRegister(Client client)
+        public void AddClient(Client client)
         {
             var alreadyThere = false;
-            foreach (var c in ClientRegister)
+            foreach (var c in Clients)
             {
-                if (c.Equals(client))
-                {
-                    alreadyThere = true;
-                    break;
-                }
+                if (!c.Equals(client)) continue;
+                alreadyThere = true;
+                break;
             }
 
-            if (!alreadyThere) { ClientRegister.Add(client); }
-            //Maybe add a clienthandler on the else.
+            if (!alreadyThere) { Clients.Add(client); }
         }
 
-        public void printFile()
+        public Client GetClientById(int id)
+        {
+            foreach (var client in Clients)
+            {
+                if (client.uniqueID.Equals(id))
+                {
+                    return client;
+                }
+            }
+            return null;
+        }
+
+        public bool GetClientById(int id, out Client clientOut)
+        {
+            foreach (var client in Clients)
+            {
+                if (!client.uniqueID.Equals(id)) continue;
+                clientOut = client;
+                return true;
+            }
+            clientOut = null;
+            return false;
+        }
+
+        public void PrintFile()
         {
             StreamWriter file = new StreamWriter("C:/Users/Menno/Documents/clientlist/clients.txt", true);
-            file.WriteLine(ClientRegister.Count());
-            foreach (Client c in ClientRegister)
+            file.WriteLine(Clients.Count());
+            foreach (Client c in Clients)
             {
                 Console.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
                 file.WriteLine("{0}-{1}-{2}", c.name, c.tunnelID, c.uniqueID);
@@ -61,14 +82,14 @@ namespace BigDB
             }
         }
 
-        public Client ReadFromJsonFile<Client>(string filePath)
+        public TClient ReadFromJsonFile<TClient>(string filePath)
         {
             TextReader reader = null;
             try
             {
                 reader = new StreamReader(filePath);
                 var fileContents = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<Client>(fileContents);
+                return JsonConvert.DeserializeObject<TClient>(fileContents);
             }
             finally
             {

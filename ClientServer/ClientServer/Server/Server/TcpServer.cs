@@ -2,13 +2,14 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using BigDB;
 
 namespace Server.Server
 {
     public class TcpServer
     {
         private readonly TcpListener _tcpListener;
-
+        private readonly BigDatabase _dataBase = new BigDatabase();
         public IPAddress IpAddress { get; set; }
 
         public TcpServer()
@@ -30,8 +31,8 @@ namespace Server.Server
                     var tcpClientTask = _tcpListener.AcceptTcpClientAsync();
                     var tcpClient = tcpClientTask.Result;
                     Console.WriteLine("Connected to a client");
-
-                    var clienthandler = new ClientHandler(tcpClient);
+                    
+                    var clienthandler = new ClientHandler(tcpClient, _dataBase);
                     Console.WriteLine("Clienthandler");
                     var clientHandlerThread = new Thread(clienthandler.HandleClient);
                     Console.WriteLine("Starting thread...");

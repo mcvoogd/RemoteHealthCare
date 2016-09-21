@@ -52,8 +52,11 @@ namespace Client.Connection
                         var packetLength = BitConverter.ToInt32(messageBuffer, 0);
 
                         if (messageBuffer.Length < packetLength + 4) continue;
+
                         var resultMessage = GetMessageFromBuffer(messageBuffer, packetLength);
                         dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                        Console.WriteLine("Read: " + resultMessage);
+
                         if (readMessage == null)
                         {
                         }
@@ -64,7 +67,8 @@ namespace Client.Connection
 
                             switch (id)
                             {
-                                case "login/request": Thread sendStatistics = new Thread(this.sendStatistics);
+                                case "login/request":
+                                    Thread sendStatistics = new Thread(this.sendStatistics);
                                     sendStatistics.Start();
                                     break;
                             }
@@ -94,22 +98,27 @@ namespace Client.Connection
 
         public void sendStatistics()
         {
-            SendMessage(new
+            while (true)
             {
-                id = "measurement/add",
-                clientid = _connectionId,
-                data = new
+//                Console.WriteLine("Sending message");
+                SendMessage(new
                 {
-                    pulse = "80",
-                    rotations = "130",
-                    speed = "35",
-                    distance = "1.23",
-                    power = "45",
-                    burned = "23.4",
-                    time = "09.12",
-                    reachedpower = "30"
-                }
-            });
+                    id = "measurement/add",
+                    clientid = _connectionId,
+                    data = new
+                    {
+                        pulse = "80",
+                        rotations = "130",
+                        speed = "35",
+                        distance = "1.23",
+                        power = "45",
+                        burned = "23.4",
+                        time = "09.12",
+                        reachedpower = "30"
+                    }
+                });
+                Thread.Sleep(10000);
+            }
         }
 
         private void Login(string username, string password)
@@ -162,6 +171,7 @@ namespace Client.Connection
 
             _stream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _stream.Write(buffer, 0, buffer.Length);
+            _stream.Flush();
         }
 
         public static bool ValidateServerCertificate(

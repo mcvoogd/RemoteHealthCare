@@ -73,7 +73,7 @@ namespace Client.Connection
         {
             if (_stream == null) return;
 
-            _connectionId = calcXor(username, password);
+            _connectionId = CalcXor(username, password);
 
             SendMessage(JsonConvert.SerializeObject(new
             {
@@ -87,12 +87,12 @@ namespace Client.Connection
             }));
         }
 
-        public string calcXor(string a, string b)
+        public string CalcXor(string a, string b)
         {
-            char[] charAArray = a.ToCharArray();
-            char[] charBArray = b.ToCharArray();
-            char[] result = new char[6];
-            int len = 0;
+            var charAArray = a.ToCharArray();
+            var charBArray = b.ToCharArray();
+            var result = new char[6];
+            var len = 0;
 
             // Set length to be the length of the shorter string
             if (a.Length > b.Length)

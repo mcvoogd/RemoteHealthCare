@@ -47,7 +47,7 @@ namespace Server.Server
             Console.WriteLine("Handling client");
             var message = new byte[128];
             var sizeBuffer = new byte[0];
-
+            int teller = 0;
             while (_tcpClient.Connected)
             {
                  try
@@ -61,50 +61,52 @@ namespace Server.Server
                     if (_messageBuffer.Length < packetLength + 4) continue;
                     var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                     dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                    if (readMessage == null)
+                   
+                    var id = readMessage.id;
+                    dynamic data = readMessage.data;
+                    
+                    switch ((string)id)
                     {
-                    }
-                    else
-                    {
-                        string id = readMessage.id;
-                        dynamic data = readMessage.data;
-
-                        switch (id)
-                        {
-                            case "measurement/add":
-                                _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
-                                Console.WriteLine("Added measurement!");
+                        case "measurement/add":
+                            _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
+                            Console.WriteLine("Added measurement!");
+                            SendMessage(new
+                            {
+                                id = "measurement/add",
+                                data = new
+                                {
+                                    ack = true
+                                }
+                            });
+                            teller++;
+                            Console.Write("\t"+ teller);
+                            break;
+                        case "login/request":
+                            if (HandleLogin(data))
+                            {
                                 SendMessage(new
                                 {
-                                    id = "measurement/add",
+                                    id = "login/request",
                                     data = new
                                     {
-                                        ack = true
+                                        login = true
                                     }
                                 });
-                                break;
-                            case "login/request":
-                                if (HandleLogin(data))
-                                {
-                                    SendMessage(new
-                                    {
-                                        id = "login/request",
-                                        data = new
-                                        {
-                                            login = true
-                                        }
-                                    });
-                                }
-                                break;
-                        }
+                            }
+                            break;
+
+                        default:
+                            Console.WriteLine("Id: " + id);
+                            break;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     if (!_tcpClient.Connected)
                     {
                         Console.WriteLine("Client disconnected.");
                     }
+                    Console.WriteLine(e.StackTrace);
                 }
           }
         }
@@ -121,22 +123,11 @@ namespace Server.Server
         }
         public Measurement ParseMeasurement(dynamic inputString)
         {
-            string stringholder = inputString;
-            inputString = inputString.Trim();
-            string[] splitString = inputString.Split(new char[0]);
-            var simpleTimeString = splitString[6].Split(':');
-
-            splitString[6] = "0";
-            var lijstje = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            var teller = 0;
-            foreach (var s in splitString)
-            {
-                lijstje[teller] = int.Parse(s);
-                teller++;
-            }
-
-            var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
-            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7], stringholder);
+            var tempString = (string) inputString.time;
+            string[] temp = tempString.Split('.');
+            var tempTime = new SimpleTime(int.Parse(temp[0]), int.Parse(temp[1]));
+            var tempMeasurement = new Measurement((int)inputString.pulse, (int)inputString.rotations, (int)inputString.speed, (int)inputString.power,
+                (double)inputString.distance,(double)inputString.burned,tempTime, (int) inputString.reachedpower);
 
             return tempMeasurement;
         }

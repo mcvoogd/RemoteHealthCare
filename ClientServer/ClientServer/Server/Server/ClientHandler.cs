@@ -147,10 +147,19 @@ namespace Server.Server
         }
 
         // Gets the first message from the buffer that isn't idicating the size
-        private static string GetMessageFromBuffer(byte[] array, int count)
+        private string GetMessageFromBuffer(byte[] array, int count)
         {
+            var newArray = new byte[array.Length - (count + 4)];
+
             var message = new StringBuilder();
             message.AppendFormat("{0}", Encoding.ASCII.GetString(array, 4, count));
+
+            for (int i = 0; i < newArray.Length; i++)
+            {
+                newArray[i] = array[i + count + 4];
+            }
+            _messageBuffer = newArray;
+
             return message.ToString();
         }
 

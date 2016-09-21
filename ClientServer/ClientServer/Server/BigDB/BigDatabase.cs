@@ -42,7 +42,7 @@ namespace Server.BigDB
             ReadFromJsonFile(filePath);
             foreach (Client c in Clients)
             {
-                Console.WriteLine("{0}, {1}, {2}", c.Name, c.TunnelId, c.UniqueId);
+                Console.WriteLine("{0}, {1}, {2}", c.Name, c.tunnelID, c.uniqueID);
             }
         } 
 
@@ -50,23 +50,23 @@ namespace Server.BigDB
 
         #region GetClientById methods
 
-        public Client GetClientById(int id)
+        public Client GetClientById(string id)
         {
             foreach (var client in Clients)
             {
-                if (client.UniqueId.Equals(id))
+                if (client.uniqueID.Equals(id))
                 {
                     return client;
                 }
             }
-            return null;
+            return new Client("fout.", null,null,null);
         }
 
-        public bool GetClientById(int id, out Client clientOut)
+        public bool GetClientById(string id, out Client clientOut)
         {
             foreach (var client in Clients)
             {
-                if (!client.UniqueId.Equals(id)) continue;
+                if (!client.uniqueID.Equals(id)) continue;
                 clientOut = client;
                 return true;
             }

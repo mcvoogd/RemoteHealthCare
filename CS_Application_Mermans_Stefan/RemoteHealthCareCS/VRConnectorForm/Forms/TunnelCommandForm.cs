@@ -21,7 +21,7 @@ namespace VRConnectorForm.Forms
         private Skybox _skybox = null;
         private bool _send = false;
 
-        public TunnelCommandForm(Connection connection, String name)
+        public TunnelCommandForm(Connection connection, string name)
         {
             InitializeComponent();
             Name = name;
@@ -116,46 +116,12 @@ namespace VRConnectorForm.Forms
                     nodes = new[]
                     {
 
-                        new {pos = new[] {11,10,-14} , dir = new[] {5, 0, -5 }},
-                        new {pos = new[] {72,10,-14} , dir = new[] {5,0,5}},
-                        new {pos = new[] {72,10,26}, dir = new[] {-5,0,5}},
-                        new {pos = new[] {11,10,26}, dir = new[] {-5,0,5}}
+                        new {pos = new[] {11,-1,-14} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {72,-1,-14} , dir = new[] {5,0,5}},
+                        new {pos = new[] {72,-1,26}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {11,-1,26}, dir = new[] {-5,0,5}}
 
-                        //grid is 200x200
-                        //new {pos = new[] {-77,0, -74} , dir = new[] {5, 0, -5 }},
-                        //new {pos = new[] {-66,0,-74} , dir = new[] {5,0,5}},
-                        //new {pos = new[] {-41,0,-65}, dir = new[] {-5,0,5}},
-                        //new {pos = new[] {-9,0,-69}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {44,0,-69}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {64,0,-59}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {67,0,-50}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {69,0,-26}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {59,0,-13}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {34,0,-13}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {14,0,-13}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-13,0,-21}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-35,0,-19}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-7,0,0}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {28,0,2}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {51,0,2}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {65,0,4}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {73,0,11}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {71,0,21}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {62,0,35}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {9,0,38}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-14,0,32}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-36,0,38}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-23,0,58}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {0,0,65}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {16,0,74}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {6,0,84}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-40,0,84}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-59,0,76}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-87,0,47}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-87,0,35}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-68,0,6}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-69,0,-7}, dir = new[] {-5,0,-5}},
-                        //new {pos = new[] {-83,0,-48}, dir = new[] {-5,0,-5}}
+                        
                      }
                 }
             }, _connection.TunnelId));

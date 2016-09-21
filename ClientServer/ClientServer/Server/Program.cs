@@ -27,10 +27,10 @@ namespace Server
             //serverThread.Abort();
 
             BigDatabase testBase = new BigDatabase();
-            testBase.AddClient(new Client("Henk1", "0001", 1000, null));
-            testBase.AddClient(new Client("Henk2", "0002", 2000, null));
-            testBase.AddClient(new Client("Henk3", "0003", 3000, null));
-            testBase.AddClient(new Client("Henk4", "0004", 4000, null));
+            testBase.AddClient(new Client("Henk1", "0001", "1000", null));
+            testBase.AddClient(new Client("Henk2", "0002", "2000", null));
+            testBase.AddClient(new Client("Henk3", "0003", "3000", null));
+            testBase.AddClient(new Client("Henk4", "0004", "4000", null));
 
             testBase.SaveClientRegister("C:/Users/Menno/Documents/clientlist/clientregister.txt", testBase.Clients);
             Console.WriteLine("Wrote everything, now reading");

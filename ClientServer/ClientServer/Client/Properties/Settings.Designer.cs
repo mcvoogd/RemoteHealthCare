@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientCas.Properties
+namespace Client.Properties
 {
 
 

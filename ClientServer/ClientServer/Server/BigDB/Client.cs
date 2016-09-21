@@ -13,21 +13,21 @@ namespace Server.BigDB
 
         public string Name { get; set; }
         public TinyDataBase TinyDataBaseBase { get; set; }
-        public string TunnelId { get; set; }
-        public int UniqueId { get; set; }
-        protected status ClientStatus { get; set; }
+        public string tunnelID { get; set; }
+        public string uniqueID { get; set; }
+        protected status clientStatus { get; set; }
         protected enum status { NOT_CONNECTED, CONNECTED, READY_TO_GO, BIKING, FINISHED };
 
-        public Client(string name, string tunnelId, int uniqueId, TinyDataBase tinyDataBase)
+        public Client(string name, string tunnelID, string uniqueID, TinyDataBase tinyDataBase)
         {
             this.Name = name;
-            this.TunnelId = tunnelId;
-            this.UniqueId = uniqueId;
+            this.tunnelID = tunnelID;
+            this.uniqueID = uniqueID;
             this.TinyDataBaseBase = tinyDataBase;
-            ClientStatus = status.CONNECTED;
+            clientStatus = status.CONNECTED;
         }
 
-        protected status GetStatus() { return ClientStatus; }
-        protected void SetStatus(status newStatus) { ClientStatus = newStatus; }
+        protected status GetStatus() { return clientStatus; }
+        protected void SetStatus(status newStatus) { clientStatus = newStatus; }
     }
 }

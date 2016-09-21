@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -15,6 +16,8 @@ namespace Server.Server
     {
         private readonly TcpClient _tcpClient;
         private readonly SslStream _sslStream;
+        private readonly Stream stream;
+
         private readonly BigDatabase _database;
         private Client _client = null;
         private byte[] _messageBuffer;
@@ -24,16 +27,17 @@ namespace Server.Server
         public ClientHandler(TcpClient tcpClient, BigDatabase databaseValue)
         {
             _tcpClient = tcpClient;
-            _sslStream = new SslStream(_tcpClient.GetStream());
+            //_sslStream = new SslStream(_tcpClient.GetStream());
+            stream = _tcpClient.GetStream();
             this._database = databaseValue;
-            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
-
-            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
-
-            DisplaySecurityLevel(_sslStream);
-            DisplaySecurityServices(_sslStream);
-            DisplayCertificateInformation(_sslStream);
-            DisplayStreamProperties(_sslStream);
+//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
+//
+//            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
+//
+//            DisplaySecurityLevel(_sslStream);
+//            DisplaySecurityServices(_sslStream);
+//            DisplayCertificateInformation(_sslStream);
+//            DisplayStreamProperties(_sslStream);
 
             _messageBuffer = new byte[0];
         }
@@ -42,40 +46,53 @@ namespace Server.Server
         {
             Console.WriteLine("Handling client");
 
-            var message = new byte[128];
-            var sizeBuffer = new byte[4];
+            
 
             while (_tcpClient.Connected)
             {
-                var buffer = new byte[] {1, 2, 3, 4};
-                _sslStream.Write(buffer);
-                _sslStream.Flush();
-                var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
-                _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
-
-                if (message.Length < 4) continue;
-                var packetLength = BitConverter.ToInt32(message, 0);
-
-                if (message.Length < packetLength + 4) continue;
-                var resultMessage = GetMessageFromBuffer(message, packetLength);
-
-                dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-
-                string id = readMessage.id;
-                dynamic data = readMessage.data;
-
-                switch (id)
+                var message = new byte[128];
+                var sizeBuffer = new byte[4];
+                try
                 {
-                    case "measurement/add":
-                       _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
-                        Console.WriteLine("Added measurement!");
-                        break;
-                    case "login/request":
-                        HandleLogin(data);
-                        break;
-                }
+                    var numberOfBytesRead = stream.Read(message, 0, message.Length);
+                    _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
-            }
+                    if (message.Length < 4) continue;
+                    var packetLength = BitConverter.ToInt32(message, 0);
+
+                    if (message.Length < packetLength + 4) continue;
+                    var resultMessage = GetMessageFromBuffer(message, packetLength);
+                    dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
+                    //Console.WriteLine(readMessage.ToString());
+                    if (readMessage == null)
+                    {
+                        Console.WriteLine("Readmessage = null.");
+                    }
+                    else
+                    {
+                        string id = readMessage.id;
+                        dynamic data = readMessage.data;
+
+                        switch (id)
+                        {
+                            case "measurement/add":
+                                _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
+                                Console.WriteLine("Added measurement!");
+                                break;
+                            case "login/request":
+                                Console.WriteLine("LOGINGEN!");
+                                HandleLogin(data);
+                                break;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("hoi..");
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.StackTrace);
+                }
+          }
         }
 
         public Measurement ParseMeasurement(dynamic inputString)
@@ -104,15 +121,17 @@ namespace Server.Server
         {
             string username = data.username;
             string password = data.password;
-            int clientid = data.clientid;
+            string clientid = data.clientid;
             Console.WriteLine($"Username : {username}, \nPassword : {password}, \nID : {clientid}");
-            if (_database.GetClientById(_client.uniqueID) != null)
+            if (!_database.GetClientById(clientid).name.Equals("fout."))
             {
+                Console.WriteLine("Found existing");
                 _database.GetClientById(clientid, out _client);
             }
             else
             {
                 _client = new Client(username, null, clientid, new TinyDataBase());
+                Console.WriteLine($"Created client : {username} ,\n{clientid}");
                 _database.AddClient(_client);
             }
         }

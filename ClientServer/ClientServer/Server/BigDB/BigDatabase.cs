@@ -30,7 +30,7 @@ namespace BigDB
             if (!alreadyThere) { Clients.Add(client); }
         }
 
-        public Client GetClientById(int id)
+        public Client GetClientById(string id)
         {
             foreach (var client in Clients)
             {
@@ -39,10 +39,10 @@ namespace BigDB
                     return client;
                 }
             }
-            return null;
+            return new Client("fout.", null,null,null);
         }
 
-        public bool GetClientById(int id, out Client clientOut)
+        public bool GetClientById(string id, out Client clientOut)
         {
             foreach (var client in Clients)
             {

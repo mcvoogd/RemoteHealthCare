@@ -14,11 +14,11 @@ namespace BigDB
         public string name { get; set; }
         public TinyDataBase TinyDataBaseBase { get; set; }
         public string tunnelID { get; set; }
-        public int uniqueID { get; set; }
+        public string uniqueID { get; set; }
         protected status clientStatus { get; set; }
         protected enum status { NOT_CONNECTED, CONNECTED, READY_TO_GO, BIKING, FINISHED };
 
-        public Client(string name, string tunnelID, int uniqueID, TinyDataBase tinyDataBase)
+        public Client(string name, string tunnelID, string uniqueID, TinyDataBase tinyDataBase)
         {
             this.name = name;
             this.tunnelID = tunnelID;

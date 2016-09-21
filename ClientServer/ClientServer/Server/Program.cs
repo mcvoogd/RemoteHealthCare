@@ -17,10 +17,12 @@ namespace Server
             var serverThread = new Thread(tcpServer.Run);
             serverThread.Start();
 
-            Thread.Sleep(1000);
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            Thread.Sleep(100); // Wait 100 ms before display the stop command to make it look a bit better.
+            Console.WriteLine("Type 'Exit' anytime to stop the server...");
+            while (Console.ReadLine()?.ToLower() != "exit"){} // Constantly check user input for the exit command.
 
+            // Properly close the program by stopping all threads.
+            // It may in the future be better to properly disconnect the clients before just interrupting the server.
             serverThread.Interrupt();
             serverThread.Abort();
         }

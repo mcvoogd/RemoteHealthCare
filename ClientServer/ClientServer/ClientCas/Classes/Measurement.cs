@@ -68,7 +68,7 @@ namespace ClientCas.Classes
                    $"\nReachedPower : {ReachedPower}";
         }
 
-        public dynamic getMessageToSend()
+        public dynamic GetMessageToSend()
         {
             dynamic toSend = new
             {

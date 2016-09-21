@@ -1,7 +1,7 @@
-﻿using DataScreen.Classes;
-using System;
+﻿using System;
 using System.Windows.Forms;
-using static DataScreen.Classes.Measurement;
+using ClientCas.Classes;
+using static ClientCas.Classes.Measurement;
 
 namespace DataScreen.Forms
 {

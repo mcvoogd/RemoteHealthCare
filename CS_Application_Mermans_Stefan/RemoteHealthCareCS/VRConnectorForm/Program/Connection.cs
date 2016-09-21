@@ -29,9 +29,9 @@ namespace VRConnectorForm.Program
         public string GroundPlanId { get; set; } //TODO SAME AS ABOVE.
         public string RouteId { get; set; }
 
-        public Connection(string IP, int port, Form1 form)
+        public Connection(string ip, int port, Form1 form)
         {
-            VrServerIp = IP;
+            VrServerIp = ip;
             VrServerPort = port;
             Form = form;
             FillConnectionList = form.FillConnectionList;

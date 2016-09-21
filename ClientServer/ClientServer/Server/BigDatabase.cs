@@ -8,17 +8,17 @@ namespace Server
 {
     class BigDatabase
     {
-        List<Client> clientRegister { get; set; }
+        public List<Client> ClientRegister { get; set; }
 
         public BigDatabase()
         {
-            clientRegister = new List<Client>();
+            ClientRegister = new List<Client>();
         }
 
         public void put (Client client)
         {
-            bool alreadyThere = false;
-            foreach (Client c in clientRegister)
+            var alreadyThere = false;
+            foreach (var c in ClientRegister)
             {
                 if (c.Equals(client))
                 {
@@ -27,7 +27,7 @@ namespace Server
                 }
             }
 
-            if (!alreadyThere) { clientRegister.Add(client); }
+            if (!alreadyThere) { ClientRegister.Add(client); }
             //Maybe add a clienthandler on the else.
         }
     }

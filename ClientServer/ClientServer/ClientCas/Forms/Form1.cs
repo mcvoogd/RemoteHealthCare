@@ -31,7 +31,7 @@ namespace ClientCas
         private void connectButton_Click(object sender, EventArgs e)
         {
             Client client = new Client(this, ipTextBox.Text);
-            if (client.getConnection())
+            if (client.GetConnection())
             {
                 ipLabel.Visible = false;
                 ipTextBox.Visible = false;

@@ -1,4 +1,4 @@
-﻿namespace DataScreen.Forms
+﻿namespace ClientCas.Forms
 {
     partial class DataWindow
     {

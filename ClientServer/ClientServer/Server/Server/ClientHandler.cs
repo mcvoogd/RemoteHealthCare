@@ -79,7 +79,7 @@ namespace Server.Server
                                 }
                             });
                             teller++;
-                            Console.Write("\t"+ teller);
+                            Console.Write(teller);
                             break;
                         case "login/request":
                             if (HandleLogin(data))
@@ -138,21 +138,16 @@ namespace Server.Server
             string password = data.password;
             string clientid = data.clientid;
             Console.WriteLine($"Username : {username}, \nPassword : {password}, \nID : {clientid}");
-            if (!_database.GetClientById(clientid).Name.Equals("fout."))
-
-            {
-                Console.WriteLine("Found existing");
-                _database.GetClientById(clientid, out _client);
-                return true;
-            }
-            else
+            if (_database.GetClientById(clientid).Name.Equals("fout."))
             {
                 _client = new Client(username, null, clientid, new TinyDataBase());
                 Console.WriteLine($"Created client : {username} ,\n{clientid}");
                 _database.AddClient(_client);
                 return true;
             }
-            return false;
+            Console.WriteLine("Found existing");
+            _database.GetClientById(clientid, out _client);
+            return true;
         }
 
         // Combine two byte arrays into one.

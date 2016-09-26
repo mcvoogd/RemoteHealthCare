@@ -22,8 +22,6 @@ namespace Client
 
             var connector = new Connector();
             var remoteHealthcare = new RemoteHealthcare(connector.SendMessage, connector.ConnectionId) {Visible = false};
-            connector.Message = remoteHealthcare.Message;
-            connector.RemoteHealthcare = remoteHealthcare;
             var loginForm = new LoginForm(remoteHealthcare,connector.Connect);
 
             Application.Run(loginForm);

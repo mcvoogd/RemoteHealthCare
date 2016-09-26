@@ -14,20 +14,24 @@ using Newtonsoft.Json;
 
 namespace Client.Connection
 {
+    public delegate void Message(string message);
+
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
+        public Message Message { get; set; }
 
 //        private NetworkStream _stream;
         public int ConnectionId { get; set; }
         private byte[] messageBuffer = new byte[0];
-        public List<string> MessageList { get; set; }
+        private List<string> _messageList;
+        public RemoteHealthcare RemoteHealthcare;
 
         public Connector()
         {
             _sslStream = null;
-            MessageList = new List<string>();
+            _messageList = new List<string>();
         }
 
         public void Receiver()
@@ -64,13 +68,11 @@ namespace Client.Connection
                             switch (id)
                             {
                                 case "login/request":
-                                    Console.WriteLine("Login/request");
-//                                    var sendStatistics = new Thread(this.SendStatistics); // TODO uncomment
-//                                    sendStatistics.Start();
+
                                     break;
                                 case "message/send":
-                                    Console.WriteLine("CLIENT: message: " + data.message);
-                                    MessageList.Add(data.message);
+                                    _messageList.Add(data.message);
+                                    RemoteHealthcare.Message(data.message);
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -116,7 +118,7 @@ namespace Client.Connection
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
         }
-
+        //deprecated..
         public void SendStatistics()
         {
             while (true)

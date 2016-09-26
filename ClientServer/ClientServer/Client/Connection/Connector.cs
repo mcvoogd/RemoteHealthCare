@@ -9,26 +9,33 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Client.Forms;
 using Newtonsoft.Json;
 
 namespace Client.Connection
 {
+    public delegate void Message(string message);
+
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
+        public Message Message { get; set; }
 
 //        private NetworkStream _stream;
-        private string _connectionId;
+        public string ConnectionId { get; set; }
         private byte[] messageBuffer = new byte[0];
+        private List<string> _messageList;
+        public RemoteHealthcare RemoteHealthcare;
 
         public Connector()
         {
             _sslStream = null;
-            _connectionId = null;
+            ConnectionId = null;
+            _messageList = new List<string>();
         }
 
-        public void receiver()
+        public void Receiver()
         {
             var message = new byte[128];
             var sizeBuffer = new byte[4];
@@ -63,14 +70,28 @@ namespace Client.Connection
                             {
                                 case "login/request":
                                     Console.WriteLine("Login/request");
-                                    Thread sendStatistics = new Thread(this.SendStatistics);
-                                    sendStatistics.Start();
+//                                    var sendStatistics = new Thread(this.SendStatistics); // TODO uncomment
+//                                    sendStatistics.Start();
+                                    break;
+                                case "message/send":
+                                    Console.WriteLine("CLIENT: message: " + data.message);
+                                    _messageList.Add(data.message);
+                                    RemoteHealthcare.Message(data.message);
+                                    SendMessage(new
+                                    {
+                                        id = "message/received",
+                                        data = new
+                                        {
+                                            received = true
+                                        }
+                                    });
                                     break;
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception exception)
                     {
+                        Console.WriteLine(exception.StackTrace);
                         if (!_tcpClient.Connected)
                         {
                             Console.WriteLine("Client disconnected.");
@@ -97,6 +118,9 @@ namespace Client.Connection
             _sslStream = new SslStream(_tcpClient.GetStream(),false, new RemoteCertificateValidationCallback(ValidateServerCertificate),null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
             Login(username, password);
+
+            var receiveThread = new Thread(Receiver);
+            receiveThread.Start();
         }
 
         public void SendStatistics()
@@ -106,7 +130,7 @@ namespace Client.Connection
                 SendMessage(new
                 {
                     id = "measurement/add",
-                    clientid = _connectionId,
+                    clientid = ConnectionId,
                     data = new
                     {
                         pulse = "80",
@@ -126,7 +150,7 @@ namespace Client.Connection
         {
             if (_sslStream == null) return;
 
-            _connectionId = CalcXor(username, password);
+            ConnectionId = CalcXor(username, password);
 
             SendMessage(new
             {
@@ -134,7 +158,7 @@ namespace Client.Connection
                 data = new
                 {
                     username,
-                    clientid = _connectionId,
+                    clientid = ConnectionId,
                     password
                 }
             });

@@ -92,6 +92,14 @@ namespace Server.Server
                                         login = true
                                     }
                                 });
+                                SendMessage(new
+                                {
+                                    id = "message/send",
+                                    data = new
+                                    {
+                                        message = "A message from the server..."
+                                    }
+                                });
                             }
                             break;
 

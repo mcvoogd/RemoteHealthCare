@@ -6,13 +6,17 @@ using Client.Forms;
 
 namespace DataScreen.Forms
 {
+    public delegate void Connect(string serverIp, string username, string password);
     public partial class LoginForm : Form
     {
         private RemoteHealthcare RemoteHealthcare;
-        public LoginForm(RemoteHealthcare RemoteHealthcare)
+        private Connect _connect;
+
+        public LoginForm(RemoteHealthcare RemoteHealthcare, Connect connect)
         {
             InitializeComponent();
             this.RemoteHealthcare = RemoteHealthcare;
+            _connect = connect;
             //passwordTextBox.MouseHover += new EventHandler(passwordTextBox_MouseHover);
             //passwordTextBox.MouseLeave += new EventHandler(passwordTextBox_MouseLeave);
         }
@@ -24,10 +28,7 @@ namespace DataScreen.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            Connector connector = new Connector();
-            connector.Connect(severIpTextBox.Text,usernameTextBox.Text,passwordTextBox.Text);
-            var connectTthread = new Thread(connector.receiver);
-            connectTthread.Start();
+            _connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text);
             Visible = false;
             RemoteHealthcare.Visible = true;
             //            wrongLogin.Visible = true;

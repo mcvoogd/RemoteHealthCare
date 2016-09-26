@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
+using Client.Forms;
+using Client.Simulator;
+using DataScreen.Forms;
 
-
-namespace DataScreen.Classes
+namespace Client.Connection
 {
     class DataReceiver
     {
         private readonly SerialPort _serialPort;
-        private readonly DataWindow _dataWindow;
+        private readonly RemoteHealthcare _dataWindow;
         private readonly SimulationForm _simulation;
         public readonly List<Measurement> Measurements;
 
-        public DataReceiver(SerialPort serialPort, DataWindow dataWindow)
+        public DataReceiver(SerialPort serialPort, RemoteHealthcare dataWindow)
         {
             _dataWindow = dataWindow;
             _serialPort = serialPort;
@@ -21,7 +23,7 @@ namespace DataScreen.Classes
             _simulation = null;
         }
 
-        public DataReceiver(DataWindow dataWindow, SimulationForm simulation)
+        public DataReceiver(RemoteHealthcare dataWindow, SimulationForm simulation)
         {
             _dataWindow = dataWindow;
             _serialPort = null;
@@ -31,20 +33,20 @@ namespace DataScreen.Classes
 
         public void Run()
         {
-            while (_dataWindow.Connected && _dataWindow.Visible)
+            while (_dataWindow.Visible)
             {
                 if (_serialPort != null && _serialPort.IsOpen)
                 {
                     try
                     {
                         Console.WriteLine("Sending");
-                        _serialPort.WriteLine(Program.StatusCommand);
+                        _serialPort.WriteLine("ST\r\n");
                         Console.WriteLine("Reading...");
                         var temp = _serialPort.ReadLine();
 
                         Measurements.Add(ParseMeasurement(temp));
 
-                        _dataWindow.SetText(temp);
+                        //RemoteHealthcare.SetText(temp);
                     }
                     catch (Exception)
                     {
@@ -55,15 +57,15 @@ namespace DataScreen.Classes
                 {
                     Measurements.Add(_simulation.Measurement);
                     
-                    _dataWindow.SetText(
-                    $"{_simulation.Measurement.Pulse}\t" +
-                    $"{_simulation.Measurement.Rotations}\t" +
-                    $"{_simulation.Measurement.Speed}\t" +
-                    $"{(int)_simulation.Measurement.Distance}\t" +
-                    $"{_simulation.Measurement.Power}\t     " +
-                    $"{(int)_simulation.Measurement.Burned}\t   " +
-                    $"{_simulation.Measurement.Time}\t " +
-                    $"{_simulation.Measurement.ReachedPower}\n");
+//                    _dataWindow.SetText(
+//                    $"{_simulation.Measurement.Pulse}\t" +
+//                    $"{_simulation.Measurement.Rotations}\t" +
+//                    $"{_simulation.Measurement.Speed}\t" +
+//                    $"{(int)_simulation.Measurement.Distance}\t" +
+//                    $"{_simulation.Measurement.Power}\t     " +
+//                    $"{(int)_simulation.Measurement.Burned}\t   " +
+//                    $"{_simulation.Measurement.Time}\t " +
+//                    $"{_simulation.Measurement.ReachedPower}\n");
 
                     Thread.Sleep(1000);
                     _simulation.updateSim();
@@ -110,7 +112,7 @@ namespace DataScreen.Classes
             }
 
             var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
-            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7], stringholder);
+            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7]);
 
             return tempMeasurement;
         }

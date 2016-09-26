@@ -25,7 +25,7 @@ namespace Server
             // It may in the future be better to properly disconnect the clients before just interrupting the server.
             serverThread.Interrupt();
             serverThread.Abort();
-            System.Environment.Exit(0);
+           // Environment.Exit(0);
         }
     }
 }

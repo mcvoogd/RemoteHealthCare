@@ -35,8 +35,6 @@ namespace Client.Connection
 
             try
             {
-                _sslStream.AuthenticateAsClient("localhost"); // TODO not localhost
-
                 while (_tcpClient.Connected)
                 {
                     try
@@ -97,6 +95,7 @@ namespace Client.Connection
         {
             _tcpClient = new TcpClient(serverIp,6969);
             _sslStream = new SslStream(_tcpClient.GetStream(),false, new RemoteCertificateValidationCallback(ValidateServerCertificate),null);
+            _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
             Login(username, password);
         }
 
@@ -167,7 +166,8 @@ namespace Client.Connection
         {
             while (!_sslStream.CanWrite)
             {
-                Console.WriteLine("Can't write");
+                Console.WriteLine("Can write: {0}",_sslStream.CanWrite);
+                
             }
             if(_sslStream == null) return;
 

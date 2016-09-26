@@ -29,7 +29,8 @@ namespace Server.Server
             _tcpClient = tcpClient;
             _sslStream = new SslStream(_tcpClient.GetStream());
             this._database = databaseValue;
-            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "password");
+//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "password"); // not self-signed
+            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare"); // Our own self signed cert with pasword
 
             _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
 

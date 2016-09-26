@@ -9,26 +9,32 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Client.Forms;
 using Newtonsoft.Json;
 
 namespace Client.Connection
 {
+    public delegate void Message(string message);
+
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
+        public Message Message { get; set; }
 
 //        private NetworkStream _stream;
-        private string _connectionId;
+        public int ConnectionId { get; set; }
         private byte[] messageBuffer = new byte[0];
+        private List<string> _messageList;
+        public RemoteHealthcare RemoteHealthcare;
 
         public Connector()
         {
             _sslStream = null;
-            _connectionId = null;
+            _messageList = new List<string>();
         }
 
-        public void receiver()
+        public void Receiver()
         {
             var message = new byte[128];
             var sizeBuffer = new byte[4];
@@ -63,14 +69,28 @@ namespace Client.Connection
                             {
                                 case "login/request":
                                     Console.WriteLine("Login/request");
-                                    Thread sendStatistics = new Thread(this.SendStatistics);
-                                    sendStatistics.Start();
+//                                    var sendStatistics = new Thread(this.SendStatistics); // TODO uncomment
+//                                    sendStatistics.Start();
+                                    break;
+                                case "message/send":
+                                    Console.WriteLine("CLIENT: message: " + data.message);
+                                    _messageList.Add(data.message);
+                                    RemoteHealthcare.Message(data.message);
+                                    SendMessage(new
+                                    {
+                                        id = "message/received",
+                                        data = new
+                                        {
+                                            received = true
+                                        }
+                                    });
                                     break;
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception exception)
                     {
+                        Console.WriteLine(exception.StackTrace);
                         if (!_tcpClient.Connected)
                         {
                             Console.WriteLine("Client disconnected.");
@@ -97,6 +117,9 @@ namespace Client.Connection
             _sslStream = new SslStream(_tcpClient.GetStream(),false, new RemoteCertificateValidationCallback(ValidateServerCertificate),null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
             Login(username, password);
+
+            var receiveThread = new Thread(Receiver);
+            receiveThread.Start();
         }
 
         public void SendStatistics()
@@ -106,7 +129,7 @@ namespace Client.Connection
                 SendMessage(new
                 {
                     id = "measurement/add",
-                    clientid = _connectionId,
+                    clientid = ConnectionId,
                     data = new
                     {
                         pulse = "80",
@@ -126,40 +149,33 @@ namespace Client.Connection
         {
             if (_sslStream == null) return;
 
-            _connectionId = CalcXor(username, password);
-
+            ConnectionId = GetUniqueId(username, password);
+            Console.WriteLine($"CONNECTOR ID : {ConnectionId}");
             SendMessage(new
             {
                 id = "login/request",
                 data = new
                 {
                     username,
-                    clientid = _connectionId,
+                    clientid = ConnectionId,
                     password
                 }
             });
         }
 
-        public string CalcXor(string a, string b)
+        public int GetUniqueId(string username, string password)
         {
-            var charAArray = a.ToCharArray();
-            var charBArray = b.ToCharArray();
-            var result = new char[6];
-            var len = 0;
+            if (username == null && password == null) return 0;
+            var nameV = GetStringInNumbers(username);
+            var passwordV = GetStringInNumbers(password);
 
-            // Set length to be the length of the shorter string
-            if (a.Length > b.Length)
-                len = b.Length - 1;
-            else
-                len = a.Length - 1;
+            return nameV * 397 ^ passwordV;
+        }
 
-            for (int i = 0; i < len; i++)
-            {
-                result[i] = (char) (charAArray[i] ^ charBArray[i]);
-            }
-
-          //  Console.WriteLine("Xor: " + new string(result));
-            return a + b;
+        public int GetStringInNumbers(string text)
+        {
+            var nameArray = text.ToCharArray();
+            return nameArray.Sum(c => (int)c % 32);
         }
 
         public void SendMessage(dynamic message)

@@ -40,9 +40,9 @@ namespace Server.BigDB
         public void LoadClientRegister(string filePath)
         {
             ReadFromJsonFile(filePath);
-            foreach (Client c in Clients)
+            foreach (var c in Clients)
             {
-                Console.WriteLine("{0}, {1}, {2}", c.Name, c.tunnelID, c.uniqueID);
+                Console.WriteLine($"{c.Name}, {c.TunnelId}, {c.UniqueId}");
             }
         } 
 
@@ -50,23 +50,24 @@ namespace Server.BigDB
 
         #region GetClientById methods
 
-        public Client GetClientById(string id)
+        public Client GetClientById(int id)
         {
             foreach (var client in Clients)
             {
-                if (client.uniqueID.Equals(id))
-                {
-                    return client;
-                }
+                Console.WriteLine(client.UniqueId + " < ID FROM CLIENT" + " SEARCHING FOR : " + id);
+                if (!client.UniqueId.Equals(id)) continue;
+                Console.WriteLine("FOUND EXISTING");
+                return client;
             }
-            return new Client("fout.", null,null,null);
+            Console.WriteLine("DID NOT FIND EXISTING");
+            return new Client("fout.",null, null,0,null);
         }
 
-        public bool GetClientById(string id, out Client clientOut)
+        public bool GetClientById(int id, out Client clientOut)
         {
             foreach (var client in Clients)
             {
-                if (!client.uniqueID.Equals(id)) continue;
+                if (!client.UniqueId.Equals(id)) continue;
                 clientOut = client;
                 return true;
             }
@@ -93,8 +94,7 @@ namespace Server.BigDB
                 }
                 finally
                 {
-                    if (writer != null)
-                        writer.Close();
+                    writer?.Close();
                 }
             }
             else
@@ -107,8 +107,7 @@ namespace Server.BigDB
                 }
                 finally
                 {
-                    if (writer != null)
-                        writer.Close();
+                    writer?.Close();
                 }
             }
         }
@@ -120,8 +119,8 @@ namespace Server.BigDB
             {
                 reader = new StreamReader(filePath);
                 var fileContents = reader.ReadToEnd();
-                List<Client> c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
-                foreach (Client toAdd in c)
+                var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
+                foreach (var toAdd in c)
                 {
                     if (!Clients.Contains(toAdd))
                     {
@@ -131,8 +130,7 @@ namespace Server.BigDB
             }
             finally
             {
-                if (reader != null)
-                    reader.Close();
+                reader?.Close();
             }
         }
 

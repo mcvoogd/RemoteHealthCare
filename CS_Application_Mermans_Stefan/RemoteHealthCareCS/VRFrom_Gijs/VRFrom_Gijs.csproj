@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,6 +65,7 @@
     </Compile>
     <Compile Include="Program\Client.cs" />
     <Compile Include="Program\Connection.cs" />
+    <Compile Include="Program\Forest.cs" />
     <Compile Include="Program\Program.cs" />
     <Compile Include="Program\RequestCreater.cs" />
     <Compile Include="Program\Result.cs" />

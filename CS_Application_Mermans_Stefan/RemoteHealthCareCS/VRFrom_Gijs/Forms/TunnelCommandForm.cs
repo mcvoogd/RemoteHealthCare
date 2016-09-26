@@ -18,9 +18,12 @@ namespace VRFrom_Gijs.Forms
     {
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null;
+        private Node _bike = null, _tree = null;
         private Skybox _skybox = null;
         private bool _send = false;
+        private Random random = new Random();
+        private List<Point> points;
+        private Forest forest;
 
         public TunnelCommandForm(Connection connection, string name)
         {
@@ -33,16 +36,21 @@ namespace VRFrom_Gijs.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
+            forest = new Forest();
             deletePane();
             deletePane();
             
             createTerrain();
             paintTerrain();
 
+            createForest();
+
             createRoad();
             createBike();
-            followBike();
-            followRoad();
+            //followBike();
+            //followRoad();
+
+            createCity();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -99,10 +107,10 @@ namespace VRFrom_Gijs.Forms
                     nodes = new[]
                    {
 
-                        new {pos = new[] {11,-0.1,-14} , dir = new[] {5, 0, -5 }},
-                        new {pos = new[] {72,-0.1,-14} , dir = new[] {5,0,5}},
-                        new {pos = new[] {72,-0.1,26}, dir = new[] {-5,0,5}},
-                        new {pos = new[] {11,-0.1,26}, dir = new[] {-5,0,-5}}
+                        new {pos = new[] {-40,-0.1,-40} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {90,-0.1,-40} , dir = new[] {5,0,5}},
+                        new {pos = new[] {90,-0.1,80}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {-40,-0.1,80}, dir = new[] {-5,0,-5}}
 
 
                      }
@@ -178,6 +186,30 @@ namespace VRFrom_Gijs.Forms
             }, _connection.TunnelId));
         }
 
-       
+        private void createForest()
+        {
+            points = forest.getForest();
+
+
+            foreach (Point point in points)
+            {
+                Thread.Sleep(10);
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, 0, point.Y, getRandom());
+                _connection.Nodes.Add(_tree);
+
+                Thread.Sleep(10);
+                _connection.SendMessage(_tree.SendString);
+            }
+        }
+
+        private Double getRandom()
+        {
+            return random.NextDouble() * 0.6 + 1;
+        }
+
+        private void createCity()
+        {
+
+        }
     }
 }

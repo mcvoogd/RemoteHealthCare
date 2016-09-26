@@ -16,7 +16,7 @@ namespace Server.Server
     {
         private readonly TcpClient _tcpClient;
         private readonly SslStream _sslStream;
-        private readonly Stream stream;
+//        private readonly Stream stream;
 
         private readonly BigDatabase _database;
         private Client _client = null;
@@ -27,17 +27,17 @@ namespace Server.Server
         public ClientHandler(TcpClient tcpClient, BigDatabase databaseValue)
         {
             _tcpClient = tcpClient;
-            //_sslStream = new SslStream(_tcpClient.GetStream());
-            stream = _tcpClient.GetStream();
+            _sslStream = new SslStream(_tcpClient.GetStream());
             this._database = databaseValue;
-//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "RemoteHealthCare");
-//
-//            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
-//
-//            DisplaySecurityLevel(_sslStream);
-//            DisplaySecurityServices(_sslStream);
-//            DisplayCertificateInformation(_sslStream);
-//            DisplayStreamProperties(_sslStream);
+//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "password"); // not self-signed
+            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare"); // Our own self signed cert with pasword
+
+            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
+
+            DisplaySecurityLevel(_sslStream);
+            DisplaySecurityServices(_sslStream);
+            DisplayCertificateInformation(_sslStream);
+            DisplayStreamProperties(_sslStream);
 
             _messageBuffer = new byte[0];
         }
@@ -52,7 +52,7 @@ namespace Server.Server
             {
                  try
                 {
-                    var numberOfBytesRead = stream.Read(message, 0, message.Length);
+                    var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
                     _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
                     if (_messageBuffer.Length <= 4) continue;
@@ -113,13 +113,13 @@ namespace Server.Server
 
         public void SendMessage(dynamic message)
         {
-            if (stream == null) return;
+            if (_sslStream == null) return;
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
 
-            stream.Write(bufferPrepend, 0, bufferPrepend.Length);
-            stream.Write(buffer, 0, buffer.Length);
+            _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
+            _sslStream.Write(buffer, 0, buffer.Length);
         }
         public Measurement ParseMeasurement(dynamic inputString)
         {

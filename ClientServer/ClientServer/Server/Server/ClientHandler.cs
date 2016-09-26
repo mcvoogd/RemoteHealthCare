@@ -68,7 +68,7 @@ namespace Server.Server
                     switch ((string)id)
                     {
                         case "measurement/add":
-                            _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
+                            _client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             Console.WriteLine("Added measurement!");
                             SendMessage(new
                             {

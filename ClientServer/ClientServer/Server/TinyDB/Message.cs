@@ -8,42 +8,35 @@ namespace Server.TinyDB
 {
     class Message : IComparable<Message>
     {
-        private string _message;
-        private SimpleTime _time;
-        private string _sender;
-        private string _destination;
+        public string MessageValue { get; set; }
+        public SimpleTime Time { get; set; }
+        public string Sender { get; set; }
+        public string Destination { get; set; }
 
         public Message(string destination, string senderValue, SimpleTime time, string messageValue)
         {
-            this._destination = destination;
-            _sender = senderValue;
-            this._time = time;
-            this._message = messageValue;
-        }
-
-        public string GetSender()
-        {
-            return _sender;;
-        }
-
-        public string GetDestination()
-        {
-            return _destination;
+            this.Destination = destination;
+            Sender = senderValue;
+            this.Time = time;
+            this.MessageValue = messageValue;
         }
 
         public int CompareTo(Message other)
         {
-            throw new NotImplementedException();
+                if (this.Time == other.Time)
+                {
+                    return 0;
+                }
+                if (this.Time > other.Time)
+                {
+                    return 1;
+                }
+                if (this.Time < other.Time)
+                {
+                    return -1;
+                }
+                return 0;
+            }
         }
+ }
 
-        public string GetMessage()
-        {
-            return _message;
-        }
-
-        public SimpleTime GetTime()
-        {
-            return _time;
-        }
-    }
-}

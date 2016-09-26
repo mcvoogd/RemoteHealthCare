@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using Client.Connection;
 using Client.Forms;
@@ -25,6 +26,8 @@ namespace DataScreen.Forms
         {
             Connector connector = new Connector();
             connector.Connect(severIpTextBox.Text,usernameTextBox.Text,passwordTextBox.Text);
+            var connectTthread = new Thread(connector.receiver);
+            connectTthread.Start();
             Visible = false;
             RemoteHealthcare.Visible = true;
             //            wrongLogin.Visible = true;

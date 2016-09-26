@@ -11,21 +11,21 @@ namespace Client.Connection
     class DataReceiver
     {
         private readonly SerialPort _serialPort;
-        private readonly RemoteHealthcare _dataWindow;
+        private readonly RemoteHealthcare _remoteHealthcare;
         private readonly SimulationForm _simulation;
         public readonly List<Measurement> Measurements;
 
-        public DataReceiver(SerialPort serialPort, RemoteHealthcare dataWindow)
+        public DataReceiver(SerialPort serialPort, RemoteHealthcare remoteHealthcare)
         {
-            _dataWindow = dataWindow;
+            _remoteHealthcare = remoteHealthcare;
             _serialPort = serialPort;
             Measurements = new List<Measurement>();
             _simulation = null;
         }
 
-        public DataReceiver(RemoteHealthcare dataWindow, SimulationForm simulation)
+        public DataReceiver(RemoteHealthcare remoteHealthcare, SimulationForm simulation)
         {
-            _dataWindow = dataWindow;
+            _remoteHealthcare = remoteHealthcare;
             _serialPort = null;
             Measurements = new List<Measurement>();
             _simulation = simulation;
@@ -33,7 +33,7 @@ namespace Client.Connection
 
         public void Run()
         {
-            while (_dataWindow.Visible)
+            while (_remoteHealthcare.Visible)
             {
                 if (_serialPort != null && _serialPort.IsOpen)
                 {
@@ -57,7 +57,7 @@ namespace Client.Connection
                 {
                     Measurements.Add(_simulation.Measurement);
                     
-//                    _dataWindow.SetText(
+//                    _remoteHealthcare.SetText(
 //                    $"{_simulation.Measurement.Pulse}\t" +
 //                    $"{_simulation.Measurement.Rotations}\t" +
 //                    $"{_simulation.Measurement.Speed}\t" +

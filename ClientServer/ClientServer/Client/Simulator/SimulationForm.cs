@@ -40,6 +40,7 @@ namespace DataScreen.Forms
                 new SimpleTime(_time/60, _time%60), 500);
             InitializeComponent();
             RefreshText();
+            Visible = true;
         }
 
         private void pulseMin_Click(object sender, EventArgs e)

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Client.Connection;
+using DataScreen.Forms;
 
 namespace Client.Forms
 {
@@ -18,6 +21,7 @@ namespace Client.Forms
         private readonly SendMessage _sendMessage;
         private readonly int _connectionId;
         private string _message;
+        public string[] PortStrings { get; }
 
         public RemoteHealthcare(SendMessage sendMessage, int connectionId)
         {
@@ -27,6 +31,13 @@ namespace Client.Forms
             _message = null;
             InitializeComponent();
             this.Paint += RemoteHealthcare_Paint;
+
+            PortStrings = SerialPort.GetPortNames();
+            foreach (string port in PortStrings)
+            {
+                comportBox.Items.Add(port);
+            }
+            comportBox.Items.Add("Simulation");
         }
 
         public void Message(string message)
@@ -89,6 +100,15 @@ namespace Client.Forms
             else
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void comPortConnectButton_Click(object sender, EventArgs e)
+        {
+            if (comportBox.SelectedItem.ToString() == "Simulation")
+            {
+                var simulationForm = new SimulationForm();
+                var dataReceiver = new DataReceiver(this,simulationForm);
             }
         }
     }

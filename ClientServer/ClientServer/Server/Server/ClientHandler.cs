@@ -41,7 +41,7 @@ namespace Server.Server
 
             _messageBuffer = new byte[0];
         }
-
+        //RECIEVER
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
@@ -67,6 +67,11 @@ namespace Server.Server
                     
                     switch ((string)id)
                     {
+                        case "message/send":
+                            
+                            //_client.TinyDataBaseBase.ChatSystem.AddMessage();
+                            break;
+                            
                         case "measurement/add":
                             _client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             Console.WriteLine("Added measurement!");

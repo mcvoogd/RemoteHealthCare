@@ -15,7 +15,7 @@ namespace Server.TinyDB
             _messages = new List<Message>();
         }
 
-        public List<Message> GetMessagesBetweenTimes(SimpleTime startTime, SimpleTime endTime)
+        public List<Message> GetMessagesBetweenTimes(DateTime startTime, DateTime endTime)
         {
             var temp = _messages.Where(m => m.Time > startTime && m.Time < endTime).ToList();
             temp.Sort();
@@ -40,17 +40,16 @@ namespace Server.TinyDB
             return _messages.Contains(m);
         }
 
-        public List<Message> GetMessagesAfterTime(SimpleTime time)
+        public List<Message> GetMessagesAfterTime(DateTime time)
         {
             var temp = _messages.Where(m => m.Time > time).ToList();
             temp.Sort();
             return temp;
         }
 
-        public List<Message> GetMessagesBeforeTime(SimpleTime time)
+        public List<Message> GetMessagesBeforeTime(DateTime time)
         {
             var temp = _messages.Where(m => m.Time < time).ToList();
-
             temp.Sort();
             return temp;
         }

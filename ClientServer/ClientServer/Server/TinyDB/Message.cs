@@ -9,11 +9,11 @@ namespace Server.TinyDB
     class Message : IComparable<Message>
     {
         public string MessageValue { get; set; }
-        public SimpleTime Time { get; set; }
+        public DateTime Time { get; set; }
         public string Sender { get; set; }
         public string Destination { get; set; }
 
-        public Message(string destination, string senderValue, SimpleTime time, string messageValue)
+        public Message(string destination, string senderValue, DateTime time, string messageValue)
         {
             this.Destination = destination;
             Sender = senderValue;

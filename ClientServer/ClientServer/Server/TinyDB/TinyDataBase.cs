@@ -13,7 +13,5 @@ namespace Server.TinyDB
             ChatSystem = new ChatSystem();
             MeasurementSystem = new MeasurementSystem();
         }
-
-     
     }
 }

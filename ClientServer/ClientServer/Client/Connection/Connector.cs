@@ -68,12 +68,9 @@ namespace Client.Connection
                             switch (id)
                             {
                                 case "login/request":
-                                    Console.WriteLine("Login/request");
-//                                    var sendStatistics = new Thread(this.SendStatistics); // TODO uncomment
-//                                    sendStatistics.Start();
+
                                     break;
                                 case "message/send":
-                                    Console.WriteLine("CLIENT: message: " + data.message);
                                     _messageList.Add(data.message);
                                     RemoteHealthcare.Message(data.message);
                                     SendMessage(new
@@ -121,7 +118,7 @@ namespace Client.Connection
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
         }
-
+        //deprecated..
         public void SendStatistics()
         {
             while (true)

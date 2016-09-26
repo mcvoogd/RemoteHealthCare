@@ -14,6 +14,7 @@ namespace DataScreen.Forms
 
         public LoginForm(RemoteHealthcare RemoteHealthcare, Connect connect)
         {
+            this.FormClosing += LoginForm_FormClosing;
             InitializeComponent();
             this.RemoteHealthcare = RemoteHealthcare;
             _connect = connect;
@@ -21,9 +22,25 @@ namespace DataScreen.Forms
             //passwordTextBox.MouseLeave += new EventHandler(passwordTextBox_MouseLeave);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
+        private static void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private void loginButton_Click(object sender, EventArgs e)

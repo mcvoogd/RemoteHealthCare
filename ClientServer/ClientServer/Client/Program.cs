@@ -27,6 +27,7 @@ namespace Client
             var loginForm = new LoginForm(remoteHealthcare,connector.Connect);
 
             Application.Run(loginForm);
+            Application.Exit();
         }
     }
 }

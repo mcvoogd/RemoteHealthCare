@@ -54,13 +54,10 @@ namespace Server.BigDB
         {
             foreach (var client in Clients)
             {
-                Console.WriteLine(client.UniqueId + " < ID FROM CLIENT" + " SEARCHING FOR : " + id);
                 if (!client.UniqueId.Equals(id)) continue;
-                Console.WriteLine("FOUND EXISTING");
                 return client;
             }
-            Console.WriteLine("DID NOT FIND EXISTING");
-            return new Client("fout.",null, null,0,null);
+            return new Client("fout.","...ookfout", null,0,null);
         }
 
         public bool GetClientById(int id, out Client clientOut)

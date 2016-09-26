@@ -41,13 +41,12 @@ namespace Server.Server
 
             _messageBuffer = new byte[0];
         }
-
+        //RECIEVER
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
             var message = new byte[128];
             var sizeBuffer = new byte[0];
-            int teller = 0;
             while (_tcpClient.Connected)
             {
                  try
@@ -67,34 +66,30 @@ namespace Server.Server
                     
                     switch ((string)id)
                     {
+                        case "message/send":
+                            _client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(id));
+                            SendAck("message/received");
+                            break;
+
+                        case "client/new":
+                            //null == tunnelID. <VR>
+                            //0 for self generate ID.
+                            _client = new Client(data.username, data.password, null,0, new TinyDataBase());
+                            _database.AddClient(_client);
+                            SendAck("client/new");
+                            break;
+                            
                         case "measurement/add":
-                            _client.TinyDataBaseBase.AddMeasurement(ParseMeasurement(data));
-                            Console.WriteLine("Added measurement!");
-                            SendMessage(new
-                            {
-                                id = "measurement/add",
-                                data = new
-                                {
-                                    ack = true
-                                }
-                            });
-                            teller++;
-                            Console.Write(teller);
+                            _client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
+                            SendAck("measurement/add");
                             break;
                         case "login/request":
                             if (HandleLogin(data))
                             {
-                                SendMessage(new
-                                {
-                                    id = "login/request",
-                                    data = new
-                                    {
-                                        login = true
-                                    }
-                                });
+                               SendAck("login/request");
+                               Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
                             }
                             break;
-
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -111,6 +106,18 @@ namespace Server.Server
           }
         }
 
+        public void SendAck(string idV)
+        {
+            SendMessage(new
+            {
+                id = idV,
+                data = new
+                {
+                    ack = true
+                }
+            });
+        }
+
         public void SendMessage(dynamic message)
         {
             if (_sslStream == null) return;
@@ -121,31 +128,39 @@ namespace Server.Server
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
         }
-        public Measurement ParseMeasurement(dynamic inputString)
+
+        public Measurement ParseMeasurement(dynamic data)
         {
-            var tempString = (string) inputString.time;
-            string[] temp = tempString.Split('.');
+            var tempString = (string) data.time;
+            var temp = tempString.Split('.');
             var tempTime = new SimpleTime(int.Parse(temp[0]), int.Parse(temp[1]));
-            var tempMeasurement = new Measurement((int)inputString.pulse, (int)inputString.rotations, (int)inputString.speed, (int)inputString.power,
-                (double)inputString.distance,(double)inputString.burned,tempTime, (int) inputString.reachedpower);
+            var tempMeasurement = new Measurement((int)data.pulse, (int)data.rotations, (int)data.speed, (int)data.power,
+                (double)data.distance,(double)data.burned,tempTime, (int) data.reachedpower);
 
             return tempMeasurement;
+        }
+
+        public Message ParseMessage(dynamic data)
+        {
+            var toSend = new Message(data.clientid, data.clientid, System.DateTime.Now, data.data.message);
+            return toSend;
         }
 
         public bool HandleLogin(dynamic data)
         {
             string username = data.username;
             string password = data.password;
-            string clientid = data.clientid;
-            Console.WriteLine($"Username : {username}, \nPassword : {password}, \nID : {clientid}");
+            int clientid = data.clientid;
+            Console.WriteLine("\n");
+            Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
+            Console.WriteLine("\n");
             if (_database.GetClientById(clientid).Name.Equals("fout."))
             {
-                _client = new Client(username, null, clientid, new TinyDataBase());
-                Console.WriteLine($"Created client : {username} ,\n{clientid}");
+                //null == tunnelID. <VR>
+                _client = new Client(username, password, null, 0, new TinyDataBase());
                 _database.AddClient(_client);
                 return true;
             }
-            Console.WriteLine("Found existing");
             _database.GetClientById(clientid, out _client);
             return true;
         }

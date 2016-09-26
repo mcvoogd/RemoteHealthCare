@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Client.Connection;
 using Client.Forms;
 using DataScreen.Forms;
 
@@ -18,12 +19,15 @@ namespace Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var RemoteHealthcare = new RemoteHealthcare();
-            RemoteHealthcare.Visible = false;
-            var LoginForm = new LoginForm(RemoteHealthcare);
-            Application.Run(LoginForm);
 
+            var connector = new Connector();
+            var remoteHealthcare = new RemoteHealthcare(connector.SendMessage, connector.ConnectionId) {Visible = false};
+            connector.Message = remoteHealthcare.Message;
+            connector.RemoteHealthcare = remoteHealthcare;
+            var loginForm = new LoginForm(remoteHealthcare,connector.Connect);
 
+            Application.Run(loginForm);
+            Application.Exit();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace VRFrom_Gijs.Forms
 {
     public partial class TunnelCommandForm : Form
     {
+        public static AutoResetEvent blocker;
         private Connection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null;
@@ -29,6 +30,7 @@ namespace VRFrom_Gijs.Forms
         {
             InitializeComponent();
             Name = name;
+            blocker = new AutoResetEvent(false);
             ;
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
@@ -38,19 +40,25 @@ namespace VRFrom_Gijs.Forms
         {
             forest = new Forest();
             deletePane();
+            blocker.WaitOne(5000);
             deletePane();
-            
+            blocker.WaitOne(5000);
+
             createTerrain();
+            Thread.Sleep(1000);
             paintTerrain();
+            blocker.WaitOne(5000);
 
             createForest();
 
             createRoad();
             createBike();
-            //followBike();
-            //followRoad();
-
-            createCity();
+            blocker.WaitOne(5000);
+            createRoad();
+            blocker.WaitOne(5000);
+            followRoad();
+            blocker.WaitOne(5000);
+            followBike();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -63,6 +71,7 @@ namespace VRFrom_Gijs.Forms
 
         private void deletePane()
         {
+            
             if (!_send)
             {
                 _send = true;
@@ -71,9 +80,8 @@ namespace VRFrom_Gijs.Forms
             else
             {
                 _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
+                blocker.Set();
             }
-
-            Thread.Sleep(1000);
         }
 
         private void createTerrain()
@@ -86,11 +94,9 @@ namespace VRFrom_Gijs.Forms
 
         private void createBike()
         {
-            Thread.Sleep(2000);
-            _bike = new Node("bike", _connection.TunnelId, "data/NetworkEngine/models/bike/bike_anim.fbx", 0, 0, 0, 0.025);
+            _bike = new Node("bike", _connection.TunnelId, "data/NetworkEngine/models/bike/bike_anim.fbx", 0, 0, 0, 0.025, true);
             _connection.Nodes.Add(_bike);
 
-            Thread.Sleep(2000);
             _connection.SendMessage(_bike.SendString);
 
 
@@ -98,7 +104,6 @@ namespace VRFrom_Gijs.Forms
 
         private void createRoad()
         {
-            Thread.Sleep(2000);
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "route/add",
@@ -117,8 +122,7 @@ namespace VRFrom_Gijs.Forms
                 }
             }, _connection.TunnelId));
 
-            Thread.Sleep(2000);
-
+            Thread.Sleep(1000);
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/road/add",
@@ -131,7 +135,6 @@ namespace VRFrom_Gijs.Forms
 
         private void paintTerrain()
         {
-            Thread.Sleep(3000);
             _connection.SendMessage(
                 RequestCreater.TunnelSend(new
                 {
@@ -150,7 +153,6 @@ namespace VRFrom_Gijs.Forms
 
         private void followRoad()
         {
-            Thread.Sleep(2000);
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "route/follow",
@@ -167,11 +169,11 @@ namespace VRFrom_Gijs.Forms
 
                 }
             }, _connection.TunnelId));
+            blocker.Set();
         }
 
         private void followBike()
         {
-             Thread.Sleep(2000);
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/node/update",
@@ -179,8 +181,7 @@ namespace VRFrom_Gijs.Forms
                 {
                     id = _connection.cameraID,
                     parent = _bike.Uuid,
-                    transform = new { position = new[] { 0,100,0}, scale = 10.0, rotation = new[] { Math.PI / 2, 0, 0 } },
-
+                    transform = new { position = new[] { 0,100,0}, scale = 10.0, rotation = new[] { Math.PI / 2, 0, 0 } }
 
                 }
             }, _connection.TunnelId));

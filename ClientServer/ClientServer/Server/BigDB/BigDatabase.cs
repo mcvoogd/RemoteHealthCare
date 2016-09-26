@@ -42,7 +42,7 @@ namespace Server.BigDB
             ReadFromJsonFile(filePath);
             foreach (Client c in Clients)
             {
-                Console.WriteLine("{0}, {1}, {2}", c.Name, c.tunnelID, c.uniqueID);
+                Console.WriteLine("{0}, {1}, {2}", c.Name, c.TunnelId, c.UniqueId);
             }
         } 
 
@@ -54,7 +54,7 @@ namespace Server.BigDB
         {
             foreach (var client in Clients)
             {
-                if (client.uniqueID.Equals(id))
+                if (client.UniqueId.Equals(id))
                 {
                     return client;
                 }
@@ -66,7 +66,7 @@ namespace Server.BigDB
         {
             foreach (var client in Clients)
             {
-                if (!client.uniqueID.Equals(id)) continue;
+                if (!client.UniqueId.Equals(id)) continue;
                 clientOut = client;
                 return true;
             }
@@ -93,8 +93,7 @@ namespace Server.BigDB
                 }
                 finally
                 {
-                    if (writer != null)
-                        writer.Close();
+                    writer?.Close();
                 }
             }
             else
@@ -107,8 +106,7 @@ namespace Server.BigDB
                 }
                 finally
                 {
-                    if (writer != null)
-                        writer.Close();
+                    writer?.Close();
                 }
             }
         }
@@ -120,8 +118,8 @@ namespace Server.BigDB
             {
                 reader = new StreamReader(filePath);
                 var fileContents = reader.ReadToEnd();
-                List<Client> c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
-                foreach (Client toAdd in c)
+                var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
+                foreach (var toAdd in c)
                 {
                     if (!Clients.Contains(toAdd))
                     {
@@ -131,8 +129,7 @@ namespace Server.BigDB
             }
             finally
             {
-                if (reader != null)
-                    reader.Close();
+                reader?.Close();
             }
         }
 

@@ -27,7 +27,7 @@ namespace Server.TinyDB
             }
         }
 
-        public List<Measurement> GetMeasurements()
+        public List<Measurement> GetAllMeasurements()
         {
             return _measurements;
         }

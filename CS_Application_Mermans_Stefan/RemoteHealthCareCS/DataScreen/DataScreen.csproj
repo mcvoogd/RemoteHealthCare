@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\DrawMeasurements.cs" />
     <Compile Include="Classes\Measurement.cs" />
     <Compile Include="Forms\ControlPanel.cs">
       <SubType>Form</SubType>

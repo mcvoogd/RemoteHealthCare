@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Runtime.Remoting.Channels;
 using System.Threading.Tasks;
+using SysTimer = System.Timers.Timer;
+
+using System.Timers;
 using System.Windows.Forms;
 
 namespace Client.Forms
 {
     public delegate void SendMessage(dynamic message);
-
 
     public partial class RemoteHealthcare : Form
     {
@@ -25,7 +23,6 @@ namespace Client.Forms
             _connectionId = connectionId;
             _message = null;
             InitializeComponent();
-            this.Paint += RemoteHealthcare_Paint;
         }
 
         public void Message(string message)
@@ -47,17 +44,6 @@ namespace Client.Forms
                 }
             });
             messageTextBox.Text = "";
-        }
-
-        private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)
-        {
-            Console.WriteLine("PAINT");
-            if (_message != null)
-            {
-                Console.WriteLine("message: " + _message);
-                chatTextBox.Text += _message + "\n";
-                _message = null;
-            }
         }
     }
 }

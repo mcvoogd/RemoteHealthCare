@@ -14,24 +14,20 @@ using Newtonsoft.Json;
 
 namespace Client.Connection
 {
-    public delegate void Message(string message);
-
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-        public Message Message { get; set; }
 
 //        private NetworkStream _stream;
         public int ConnectionId { get; set; }
         private byte[] messageBuffer = new byte[0];
-        private List<string> _messageList;
-        public RemoteHealthcare RemoteHealthcare;
+        public List<string> MessageList { get; set; }
 
         public Connector()
         {
             _sslStream = null;
-            _messageList = new List<string>();
+            MessageList = new List<string>();
         }
 
         public void Receiver()
@@ -74,8 +70,7 @@ namespace Client.Connection
                                     break;
                                 case "message/send":
                                     Console.WriteLine("CLIENT: message: " + data.message);
-                                    _messageList.Add(data.message);
-                                    RemoteHealthcare.Message(data.message);
+                                    MessageList.Add(data.message);
                                     SendMessage(new
                                     {
                                         id = "message/received",

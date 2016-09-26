@@ -102,7 +102,7 @@ namespace Server.Server
                     {
                         Console.WriteLine("Client disconnected.");
                     }
-                   // Console.WriteLine(e.StackTrace);
+                    Console.WriteLine(e.StackTrace);
                 }
           }
         }

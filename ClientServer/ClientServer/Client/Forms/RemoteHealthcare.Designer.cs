@@ -161,7 +161,6 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RemoteHealthcare";
             this.Text = "RemoteHealthcare";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.RemoteHealthcare_Paint);
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
             this.dataBox.ResumeLayout(false);

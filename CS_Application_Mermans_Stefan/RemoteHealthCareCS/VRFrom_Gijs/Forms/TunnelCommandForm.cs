@@ -19,9 +19,12 @@ namespace VRFrom_Gijs.Forms
         public static AutoResetEvent blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null;
+        private Node _bike = null, _tree = null;
         private Skybox _skybox = null;
         private bool _send = false;
+        private Random random = new Random();
+        private List<Point> points;
+        private Forest forest;
 
         public TunnelCommandForm(Connection connection, string name)
         {
@@ -35,6 +38,7 @@ namespace VRFrom_Gijs.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
+            forest = new Forest();
             deletePane();
             blocker.WaitOne(5000);
             deletePane();
@@ -45,10 +49,14 @@ namespace VRFrom_Gijs.Forms
             paintTerrain();
             blocker.WaitOne(5000);
 
+            createForest();
+
+            createRoad();
             createBike();
             blocker.WaitOne(5000);
             createRoad();
             blocker.WaitOne(5000);
+
             followRoad();
             blocker.WaitOne(5000);
             followBike();
@@ -105,10 +113,10 @@ namespace VRFrom_Gijs.Forms
                     nodes = new[]
                    {
 
-                        new {pos = new[] {11,-0.1,-14} , dir = new[] {5, 0, -5 }},
-                        new {pos = new[] {72,-0.1,-14} , dir = new[] {5,0,5}},
-                        new {pos = new[] {72,-0.1,26}, dir = new[] {-5,0,5}},
-                        new {pos = new[] {11,-0.1,26}, dir = new[] {-5,0,-5}}
+                        new {pos = new[] {-40,-0.1,-40} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {90,-0.1,-40} , dir = new[] {5,0,5}},
+                        new {pos = new[] {90,-0.1,80}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {-40,-0.1,80}, dir = new[] {-5,0,-5}}
 
 
                      }
@@ -135,8 +143,8 @@ namespace VRFrom_Gijs.Forms
                     data = new
                     {
                         id = _connection.TerrainId,
-                        normal = "data/NetworkEngine/textures/terrain/moss_ground_d.jpg",
-                        diffuse = "data/NetworkEngine/textures/terrain/moss_ground_d.jpg",
+                        normal = "data/NetworkEngine/textures/terrain/grass_green2y_d.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/grass_green2y_d.jpg",
                         minHeight = 0,
                         maxHeight = 30,
                         fadeDist = 1
@@ -180,6 +188,30 @@ namespace VRFrom_Gijs.Forms
             }, _connection.TunnelId));
         }
 
-       
+        private void createForest()
+        {
+            points = forest.getForest();
+
+
+            foreach (Point point in points)
+            {
+                Thread.Sleep(10);
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, 0, point.Y, getRandom());
+                _connection.Nodes.Add(_tree);
+
+                Thread.Sleep(10);
+                _connection.SendMessage(_tree.SendString);
+            }
+        }
+
+        private Double getRandom()
+        {
+            return random.NextDouble() * 0.6 + 1;
+        }
+
+        private void createCity()
+        {
+
+        }
     }
 }

@@ -16,10 +16,10 @@ namespace Client.Forms
     public partial class RemoteHealthcare : Form
     {
         private readonly SendMessage _sendMessage;
-        private readonly string _connectionId;
+        private readonly int _connectionId;
         private string _message;
 
-        public RemoteHealthcare(SendMessage sendMessage, string connectionId)
+        public RemoteHealthcare(SendMessage sendMessage, int connectionId)
         {
             _sendMessage = sendMessage;
             _connectionId = connectionId;

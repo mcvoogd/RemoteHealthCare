@@ -23,7 +23,7 @@ namespace Client.Connection
         public Message Message { get; set; }
 
 //        private NetworkStream _stream;
-        public string ConnectionId { get; set; }
+        public int ConnectionId { get; set; }
         private byte[] messageBuffer = new byte[0];
         private List<string> _messageList;
         public RemoteHealthcare RemoteHealthcare;
@@ -31,7 +31,6 @@ namespace Client.Connection
         public Connector()
         {
             _sslStream = null;
-            ConnectionId = null;
             _messageList = new List<string>();
         }
 
@@ -150,8 +149,8 @@ namespace Client.Connection
         {
             if (_sslStream == null) return;
 
-            ConnectionId = CalcXor(username, password);
-
+            ConnectionId = GetUniqueId(username, password);
+            Console.WriteLine($"CONNECTOR ID : {ConnectionId}");
             SendMessage(new
             {
                 id = "login/request",
@@ -164,26 +163,19 @@ namespace Client.Connection
             });
         }
 
-        public string CalcXor(string a, string b)
+        public int GetUniqueId(string username, string password)
         {
-            var charAArray = a.ToCharArray();
-            var charBArray = b.ToCharArray();
-            var result = new char[6];
-            var len = 0;
+            if (username == null && password == null) return 0;
+            var nameV = GetStringInNumbers(username);
+            var passwordV = GetStringInNumbers(password);
 
-            // Set length to be the length of the shorter string
-            if (a.Length > b.Length)
-                len = b.Length - 1;
-            else
-                len = a.Length - 1;
+            return nameV * 397 ^ passwordV;
+        }
 
-            for (int i = 0; i < len; i++)
-            {
-                result[i] = (char) (charAArray[i] ^ charBArray[i]);
-            }
-
-          //  Console.WriteLine("Xor: " + new string(result));
-            return a + b;
+        public int GetStringInNumbers(string text)
+        {
+            var nameArray = text.ToCharArray();
+            return nameArray.Sum(c => (int)c % 32);
         }
 
         public void SendMessage(dynamic message)

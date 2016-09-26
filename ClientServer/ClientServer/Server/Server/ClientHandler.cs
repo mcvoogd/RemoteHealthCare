@@ -68,13 +68,14 @@ namespace Server.Server
                     switch ((string)id)
                     {
                         case "message/send":
-                           _client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(id));
-                           SendAck("message/received");
+                            _client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(id));
+                            SendAck("message/received");
                             break;
 
                         case "client/new":
                             //null == tunnelID. <VR>
-                            _client = new Client(data.username, data.password, null, new TinyDataBase());
+                            //0 for self generate ID.
+                            _client = new Client(data.username, data.password, null,0, new TinyDataBase());
                             _database.AddClient(_client);
                             SendAck("client/new");
                             break;
@@ -87,6 +88,7 @@ namespace Server.Server
                             if (HandleLogin(data))
                             {
                                SendAck("login/request");
+                               Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
                             }
                             break;
                         default:
@@ -100,7 +102,7 @@ namespace Server.Server
                     {
                         Console.WriteLine("Client disconnected.");
                     }
-                    Console.WriteLine(e.StackTrace);
+                   // Console.WriteLine(e.StackTrace);
                 }
           }
         }
@@ -149,11 +151,15 @@ namespace Server.Server
         {
             string username = data.username;
             string password = data.password;
-            string clientid = data.clientid;
+            int clientid = data.clientid;
+            Console.WriteLine("\n");
+            Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
+            Console.WriteLine("\n");
             if (_database.GetClientById(clientid).Name.Equals("fout."))
             {
                 //null == tunnelID. <VR>
-                _client = new Client(username, password, null, new TinyDataBase());
+                _client = new Client(username, password, null, 0, new TinyDataBase());
+                Console.WriteLine($"Added with : {clientid}");
                 _database.AddClient(_client);
                 return true;
             }

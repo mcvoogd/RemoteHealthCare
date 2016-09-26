@@ -40,9 +40,9 @@ namespace Server.BigDB
         public void LoadClientRegister(string filePath)
         {
             ReadFromJsonFile(filePath);
-            foreach (Client c in Clients)
+            foreach (var c in Clients)
             {
-                Console.WriteLine("{0}, {1}, {2}", c.Name, c.TunnelId, c.UniqueId);
+                Console.WriteLine($"{c.Name}, {c.TunnelId}, {c.UniqueId}");
             }
         } 
 
@@ -50,19 +50,17 @@ namespace Server.BigDB
 
         #region GetClientById methods
 
-        public Client GetClientById(string id)
+        public Client GetClientById(int id)
         {
             foreach (var client in Clients)
             {
-                if (client.UniqueId.Equals(id))
-                {
-                    return client;
-                }
+                if (!client.UniqueId.Equals(id)) continue;
+                return client;
             }
-            return new Client("fout.", null,null,null);
+            return new Client("fout.","...ookfout", null,0,null);
         }
 
-        public bool GetClientById(string id, out Client clientOut)
+        public bool GetClientById(int id, out Client clientOut)
         {
             foreach (var client in Clients)
             {

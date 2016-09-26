@@ -6,28 +6,46 @@ using Client.Forms;
 
 namespace DataScreen.Forms
 {
+    public delegate void Connect(string serverIp, string username, string password);
     public partial class LoginForm : Form
     {
         private RemoteHealthcare RemoteHealthcare;
-        public LoginForm(RemoteHealthcare RemoteHealthcare)
+        private Connect _connect;
+
+        public LoginForm(RemoteHealthcare RemoteHealthcare, Connect connect)
         {
+            this.FormClosing += LoginForm_FormClosing;
             InitializeComponent();
             this.RemoteHealthcare = RemoteHealthcare;
+            _connect = connect;
             //passwordTextBox.MouseHover += new EventHandler(passwordTextBox_MouseHover);
             //passwordTextBox.MouseLeave += new EventHandler(passwordTextBox_MouseLeave);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
+        private static void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            Connector connector = new Connector();
-            connector.Connect(severIpTextBox.Text,usernameTextBox.Text,passwordTextBox.Text);
-            var connectTthread = new Thread(connector.receiver);
-            connectTthread.Start();
+            _connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text);
             Visible = false;
             RemoteHealthcare.Visible = true;
             //            wrongLogin.Visible = true;

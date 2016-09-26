@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Security.AccessControl;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using VRFrom_Gijs.VrObjects;
 using VRFrom_Gijs.Forms;
@@ -11,6 +12,8 @@ using VRFrom_Gijs.Forms;
 namespace VRFrom_Gijs.Program
 {
     public delegate void FillConnectionList();
+
+    public delegate void Callbacks();
 
     public class Connection
     {
@@ -59,13 +62,15 @@ namespace VRFrom_Gijs.Program
                     bufferBytes = ConCat(bufferBytes, receiveBuffer, numberOfBytesRead);
 
                     if (bufferBytes.Length < 4) continue;
+
                     var packetLength = BitConverter.ToInt32(bufferBytes, 0);
 
                     if (bufferBytes.Length < packetLength + 4) continue;
 
                     var result = GetMessageFromBuffer(bufferBytes, packetLength);
+                   
                     dynamic red = JsonConvert.DeserializeObject(result);
-                            
+                    //Console.WriteLine(red);
                     switch ((string) red.id)
                     {
                         case "session/list":
@@ -110,9 +115,11 @@ namespace VRFrom_Gijs.Program
                                     RouteId = red.data.data.data.uuid;
                                     break;
                             }
+                            TunnelCommandForm.blocker.Set();
                             break;
                     }
                     bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
+
                 } while (_client.Connected);
             }
             catch (Exception)
@@ -120,6 +127,23 @@ namespace VRFrom_Gijs.Program
                 Console.WriteLine("Error while connecting");
             }
         }
+
+        //public static List<Session> getSessions()
+        //{
+        //    List<Session> sessions = new List<Session>();
+        //    AutoResetEvent blocker = new AutoResetEvent(false);
+        //    callbacks["session/list"] = (data) =>
+        //    {
+        //        foreach (var s in data)
+        //            if (s.features.ToObject<List<string>>().Contains("tunnel"))
+        //                sessions.Add(new Session() { id = s.id, ip = s.clientinfo.host, user = s.clientinfo.user, file = s.clientinfo.file });
+        //        blocker.Set();
+        //    };
+        //    send("session/list", null);
+        //    blocker.WaitOne(5000);
+        //    callbacks.Remove("session/list");
+        //    return sessions;
+        //}
 
         private static string GetMessageFromBuffer(byte[] array, int count)
         {

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Forms;
-
-namespace DataScreen.Forms
+namespace ClientCas.Forms
 {
     partial class LoginForm
     {
@@ -30,7 +29,6 @@ namespace DataScreen.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.username = new System.Windows.Forms.Label();
@@ -39,8 +37,6 @@ namespace DataScreen.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.wrongLogin = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.severIpTextBox = new System.Windows.Forms.TextBox();
-            this.serverIpLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,7 +82,7 @@ namespace DataScreen.Forms
             // loginButton
             // 
             this.loginButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loginButton.Location = new System.Drawing.Point(198, 272);
+            this.loginButton.Location = new System.Drawing.Point(199, 235);
             this.loginButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(133, 28);
@@ -108,7 +104,7 @@ namespace DataScreen.Forms
             this.wrongLogin.AutoSize = true;
             this.wrongLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wrongLogin.ForeColor = System.Drawing.Color.Red;
-            this.wrongLogin.Location = new System.Drawing.Point(6, 318);
+            this.wrongLogin.Location = new System.Drawing.Point(12, 294);
             this.wrongLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.wrongLogin.Name = "wrongLogin";
             this.wrongLogin.Size = new System.Drawing.Size(326, 17);
@@ -118,40 +114,22 @@ namespace DataScreen.Forms
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(20, 12);
+            this.pictureBox1.ErrorImage = global::ClientCas.Properties.Resources.logo1;
+            this.pictureBox1.Image = global::ClientCas.Properties.Resources.logo1;
+            this.pictureBox1.InitialImage = global::ClientCas.Properties.Resources.logo1;
+            this.pictureBox1.Location = new System.Drawing.Point(41, 22);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(318, 115);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.Size = new System.Drawing.Size(271, 105);
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
-            // 
-            // severIpTextBox
-            // 
-            this.severIpTextBox.Location = new System.Drawing.Point(199, 230);
-            this.severIpTextBox.Name = "severIpTextBox";
-            this.severIpTextBox.Size = new System.Drawing.Size(132, 22);
-            this.severIpTextBox.TabIndex = 9;
-            // 
-            // serverIpLabel
-            // 
-            this.serverIpLabel.AutoSize = true;
-            this.serverIpLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.serverIpLabel.Location = new System.Drawing.Point(16, 230);
-            this.serverIpLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.serverIpLabel.Name = "serverIpLabel";
-            this.serverIpLabel.Size = new System.Drawing.Size(85, 24);
-            this.serverIpLabel.TabIndex = 10;
-            this.serverIpLabel.Text = "Server Ip";
             // 
             // LoginForm
             // 
             this.AcceptButton = this.loginButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 344);
-            this.Controls.Add(this.serverIpLabel);
-            this.Controls.Add(this.severIpTextBox);
+            this.ClientSize = new System.Drawing.Size(357, 321);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.wrongLogin);
             this.Controls.Add(this.label1);
@@ -160,10 +138,10 @@ namespace DataScreen.Forms
             this.Controls.Add(this.username);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "LoginForm";
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -179,8 +157,5 @@ namespace DataScreen.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label wrongLogin;
         private PictureBox pictureBox1;
-        private TextBox severIpTextBox;
-        private Label serverIpLabel;
     }
 }
-

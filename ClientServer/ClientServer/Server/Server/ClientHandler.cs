@@ -47,7 +47,6 @@ namespace Server.Server
             Console.WriteLine("Handling client");
             var message = new byte[128];
             var sizeBuffer = new byte[0];
-            int teller = 0;
             while (_tcpClient.Connected)
             {
                  try
@@ -102,7 +101,7 @@ namespace Server.Server
                     {
                         Console.WriteLine("Client disconnected.");
                     }
-                   // Console.WriteLine(e.StackTrace);
+                    Console.WriteLine(e.StackTrace);
                 }
           }
         }
@@ -159,7 +158,6 @@ namespace Server.Server
             {
                 //null == tunnelID. <VR>
                 _client = new Client(username, password, null, 0, new TinyDataBase());
-                Console.WriteLine($"Added with : {clientid}");
                 _database.AddClient(_client);
                 return true;
             }

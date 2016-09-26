@@ -14,6 +14,7 @@ namespace Server.Server
 
         public TcpServer()
         {
+
             IpAddress = GetLocalIpAddress();
             _tcpListener = new TcpListener(IpAddress,6969);
             Console.WriteLine("IpAddress: {0}",IpAddress);

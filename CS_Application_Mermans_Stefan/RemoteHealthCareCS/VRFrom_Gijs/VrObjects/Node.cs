@@ -21,6 +21,13 @@ namespace VRFrom_Gijs.VrObjects
             SendString = AddModelNode(tunnelId, Naam, filename, x, y, z, scale);
         }
 
+        public Node(string naam, string tunnelId, string filename, int x, int y, int z, double scale, bool hasAnimation)
+        {
+            this.Naam = naam;
+            this.TunnelId = tunnelId;
+            SendString = AddMovingModelNode(tunnelId, Naam, filename, x, y, z, scale, 0, 0, 0, hasAnimation);
+        }
+
         public Node(string name, string tunnelId, double x, double y, double z)
         {
             Naam = name;
@@ -47,6 +54,35 @@ namespace VRFrom_Gijs.VrObjects
                         model = new
                         {
                             file = fileName
+                        }
+                    }
+
+                }
+            }, tunnelId);
+        }
+
+        private dynamic AddMovingModelNode(string tunnelId, string name, string fileName, int x, int y, int z, double scaleValue, double xR, double yR, double zR, bool hasAnimation)
+        {
+            return RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/add",
+                data = new
+                {
+                    name = name,
+                    components = new
+                    {
+                        transform = new
+                        {
+                            position = new[] { x, y, z },
+                            scale = scaleValue,
+                            rotation = new[] { xR, yR, zR }
+                        },
+                        model = new
+                        {
+                            file = fileName,
+                      //      animated = hasAnimation,
+                      //      animation = "bike_anim.fbx"
+
                         }
                     }
 
@@ -98,7 +134,7 @@ namespace VRFrom_Gijs.VrObjects
                         position = new []{x,y,z},
                         rotate = "none",
                         interpolate = "linear",
-                        followheight = false,
+                        followheight = true,
                         time = timeValue
                     }
                 }, TunnelId);

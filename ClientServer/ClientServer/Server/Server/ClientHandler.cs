@@ -30,9 +30,10 @@ namespace Server.Server
             _sslStream = new SslStream(_tcpClient.GetStream());
             this._database = databaseValue;
 //            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "password"); // not self-signed
-            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare"); // Our own self signed cert with pasword
+            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare");
+                // Our own self signed cert with pasword
 
-            _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
+            _sslStream.AuthenticateAsServer(serverCertificate, false, SslProtocols.Tls, false);
 
             DisplaySecurityLevel(_sslStream);
             DisplaySecurityServices(_sslStream);
@@ -41,6 +42,7 @@ namespace Server.Server
 
             _messageBuffer = new byte[0];
         }
+
         //RECIEVER
         public void HandleClient()
         {
@@ -49,7 +51,7 @@ namespace Server.Server
             var sizeBuffer = new byte[0];
             while (_tcpClient.Connected)
             {
-                 try
+                try
                 {
                     var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
                     _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
@@ -60,11 +62,11 @@ namespace Server.Server
                     if (_messageBuffer.Length < packetLength + 4) continue;
                     var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                     dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                   
+
                     var id = readMessage.id;
                     dynamic data = readMessage.data;
-                    
-                    switch ((string)id)
+
+                    switch ((string) id)
                     {
                         case "message/send":
                             _client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(id));
@@ -74,11 +76,11 @@ namespace Server.Server
                         case "client/new":
                             //null == tunnelID. <VR>
                             //0 for self generate ID.
-                            _client = new Client(data.username, data.password, null,0, new TinyDataBase());
+                            _client = new Client(data.username, data.password, null, 0, new TinyDataBase());
                             _database.AddClient(_client);
                             SendAck("client/new");
                             break;
-                            
+
                         case "measurement/add":
                             _client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             SendAck("measurement/add");
@@ -86,8 +88,8 @@ namespace Server.Server
                         case "login/request":
                             if (HandleLogin(data))
                             {
-                               SendAck("login/request");
-                               Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
+                                SendAck("login/request");
+                                Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
                             }
                             break;
                         default:
@@ -103,7 +105,7 @@ namespace Server.Server
                     }
                     Console.WriteLine(e.StackTrace);
                 }
-          }
+            }
         }
 
         public void SendAck(string idV)
@@ -132,12 +134,38 @@ namespace Server.Server
         public Measurement ParseMeasurement(dynamic data)
         {
             var tempString = (string) data.time;
-            var temp = tempString.Split('.');
-            var tempTime = new SimpleTime(int.Parse(temp[0]), int.Parse(temp[1]));
-            var tempMeasurement = new Measurement((int)data.pulse, (int)data.rotations, (int)data.speed, (int)data.power,
-                (double)data.distance,(double)data.burned,tempTime, (int) data.reachedpower);
+            var temp = tempString.Split(':');
 
-            return tempMeasurement;
+            SimpleTime tempTime;
+            try
+            {
+                tempTime = new SimpleTime(int.Parse(temp[0]), int.Parse(temp[1]));
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("parsing time fucks up!");
+                tempTime = new SimpleTime(0,0);
+            }
+
+            try
+            {
+                var tempMeasurement = new Measurement(
+                    (int)data.pulse,
+                    (int)data.rotations,
+                    (int)data.speed,
+                    (int)data.power,
+                    (double)data.distance,
+                    (double)data.burned,
+                    tempTime,
+                    (int)data.reachedpower);
+
+                return tempMeasurement;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Exception: {0}\nStack trace: {1}", exception.ToString(), exception.StackTrace);
+                return null;
+            }
         }
 
         public Message ParseMessage(dynamic data)

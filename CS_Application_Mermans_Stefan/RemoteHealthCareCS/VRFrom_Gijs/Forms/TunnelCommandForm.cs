@@ -49,7 +49,6 @@ namespace VRFrom_Gijs.Forms
             paintTerrain();
             blocker.WaitOne(5000);
 
-            createForest();
 
             createRoad();
             createBike();
@@ -60,6 +59,8 @@ namespace VRFrom_Gijs.Forms
             followRoad();
             blocker.WaitOne(5000);
             followBike();
+
+            createForest();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)

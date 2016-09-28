@@ -28,6 +28,7 @@ namespace Client.Connection
         private byte[] messageBuffer = new byte[0];
         private List<string> _messageList;
         public RemoteHealthcare RemoteHealthcare;
+        private int loginAccepted = 0;
 
         public Connector()
         {
@@ -69,7 +70,12 @@ namespace Client.Connection
                             switch (id)
                             {
                                 case "login/request":
-
+                                    if (data.ack == false)
+                                    {
+                                        loginAccepted = -1;
+                                        return;
+                                    }
+                                    loginAccepted = 1;
                                     break;
                                 case "message/send":
                                     _messageList.Add(data.message);
@@ -113,7 +119,7 @@ namespace Client.Connection
             }
         }
 
-        public void Connect(string serverIp, string username, string password)
+        public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp,6969);
             _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
@@ -122,6 +128,21 @@ namespace Client.Connection
 
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
+
+            while (loginAccepted != 0)
+            {
+                if (loginAccepted == 1)
+                {
+                    loginAccepted = 0;
+                    return true;
+                }
+                if (loginAccepted == -1)
+                {
+                    loginAccepted = 0;
+                    return false;
+                }
+            }
+            return false;
         }
 
         public void SendStatistics(Measurement measurement)

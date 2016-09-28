@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Server.BigDB;
 
@@ -14,7 +15,6 @@ namespace Server.Server
 
         public TcpServer()
         {
-
             IpAddress = GetLocalIpAddress();
             _tcpListener = new TcpListener(IpAddress,6969);
             Console.WriteLine("IpAddress: {0}",IpAddress);
@@ -38,13 +38,19 @@ namespace Server.Server
                     var clientHandlerThread = new Thread(clienthandler.HandleClient);
                     Console.WriteLine("Starting thread...");
                     clientHandlerThread.Start();
+                    
                 }
-                catch (Exception e)
-                {
+                catch (Exception e){
                     Console.WriteLine(e.Message);
                     Console.WriteLine("Exception!");
+                 
                 }
             }
+        }
+
+        public void SaveAllData()
+        {
+            _dataBase.SaveClients("C:\\Users\\kevin\\Desktop\\file.txt");
         }
 
         public static IPAddress GetLocalIpAddress()

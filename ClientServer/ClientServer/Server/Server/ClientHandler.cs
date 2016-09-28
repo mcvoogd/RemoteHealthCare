@@ -16,7 +16,6 @@ namespace Server.Server
     {
         private readonly TcpClient _tcpClient;
         private readonly SslStream _sslStream;
-//        private readonly Stream stream;
 
         private readonly BigDatabase _database;
         private Client _client = null;
@@ -29,7 +28,7 @@ namespace Server.Server
             _tcpClient = tcpClient;
             _sslStream = new SslStream(_tcpClient.GetStream());
             this._database = databaseValue;
-//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "password"); // not self-signed
+
             serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare"); // Our own self signed cert with pasword
 
             _sslStream.AuthenticateAsServer(serverCertificate,false,SslProtocols.Tls,false);
@@ -100,8 +99,9 @@ namespace Server.Server
                     if (!_tcpClient.Connected)
                     {
                         Console.WriteLine("Client disconnected.");
+                        
                     }
-                    Console.WriteLine(e.StackTrace);
+                 //   Console.WriteLine(e.StackTrace);
                 }
           }
         }

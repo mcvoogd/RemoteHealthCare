@@ -76,7 +76,7 @@ namespace VRFrom_Gijs.VrObjects
     {
         public static double[] GenerateHeightmap()
         {
-            var heightMap = Image.FromFile(@"..\..\res/testmap.jpg");
+            var heightMap = Image.FromFile(@"..\..\res/heightmaptest.jpg");
             var bitHeigthMap = new Bitmap(heightMap, 256, 256);
             var pixels = new double[256 * 256];
             for (int countRow = 0; countRow < 256; countRow++)
@@ -92,7 +92,7 @@ namespace VRFrom_Gijs.VrObjects
 
         private static double colorToInt(Color c)
         {
-            return (double)c.B / 5;
+            return (double)c.B / 10;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Client.Forms;
+using Client.Simulator;
 using Newtonsoft.Json;
 
 namespace Client.Connection
@@ -118,28 +119,25 @@ namespace Client.Connection
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
         }
-        //deprecated..
-        public void SendStatistics()
+
+        public void SendStatistics(Measurement measurement)
         {
-            while (true)
+            SendMessage(new
             {
-                SendMessage(new
+                id = "measurement/add",
+                clientid = ConnectionId,
+                data = new
                 {
-                    id = "measurement/add",
-                    clientid = ConnectionId,
-                    data = new
-                    {
-                        pulse = "80",
-                        rotations = "130",
-                        speed = "35",
-                        distance = "1.23",
-                        power = "45",
-                        burned = "23.4",
-                        time = "09.12",
-                        reachedpower = "30"
-                    }
-                });
-            }
+                    pulse = measurement.Pulse.ToString(),
+                    rotations = measurement.Rotations.ToString(),
+                    speed = measurement.Speed.ToString(),
+                    distance = measurement.Distance.ToString(),
+                    power = measurement.Power.ToString(),
+                    burned = measurement.Burned.ToString(),
+                    time = measurement.Time.ToString(),
+                    reachedpower = measurement.ReachedPower.ToString()
+                }
+            });
         }
 
         private void Login(string username, string password)
@@ -177,13 +175,9 @@ namespace Client.Connection
 
         public void SendMessage(dynamic message)
         {
-            while (!_sslStream.CanWrite)
-            {
-                Console.WriteLine("Can write: {0}",_sslStream.CanWrite);
-                
-            }
             if(_sslStream == null) return;
 
+            Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
@@ -191,6 +185,7 @@ namespace Client.Connection
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
             _sslStream.Flush();
+            Console.WriteLine("Message send");
         }
 
         // Gets the first message from the buffer that isn't idicating the size

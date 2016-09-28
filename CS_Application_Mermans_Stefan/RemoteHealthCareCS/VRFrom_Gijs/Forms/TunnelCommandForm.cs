@@ -45,22 +45,18 @@ namespace VRFrom_Gijs.Forms
             blocker.WaitOne(5000);
 
             createTerrain();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
             paintTerrain();
             blocker.WaitOne(5000);
 
 
             createRoad();
-            createBike();
-            blocker.WaitOne(5000);
-            createRoad();
-            blocker.WaitOne(5000);
-
-            followRoad();
-            blocker.WaitOne(5000);
-            followBike();
-
-            createForest();
+            //blocker.WaitOne(5000);
+            //createBike();
+            //blocker.WaitOne(5000);
+            //followRoad();
+            //blocker.WaitOne(5000);
+            //followBike();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -114,17 +110,18 @@ namespace VRFrom_Gijs.Forms
                     nodes = new[]
                    {
 
-                        new {pos = new[] {-40,-0.1,-40} , dir = new[] {5, 0, -5 }},
+                        new {pos = new[] {-20,-0.1,-40} , dir = new[] {5, 0, -5 }},
                         new {pos = new[] {90,-0.1,-40} , dir = new[] {5,0,5}},
-                        new {pos = new[] {90,-0.1,80}, dir = new[] {-5,0,5}},
-                        new {pos = new[] {-40,-0.1,80}, dir = new[] {-5,0,-5}}
+                        new {pos = new[] {75,-0.1,80}, dir = new[] {-5,0,5}},
+                        new {pos = new[] {-40,-0.1,70}, dir = new[] {-5,0,-5}}
 
 
                      }
                 }
             }, _connection.TunnelId));
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1500);
+
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/road/add",
@@ -144,8 +141,8 @@ namespace VRFrom_Gijs.Forms
                     data = new
                     {
                         id = _connection.TerrainId,
-                        normal = "data/NetworkEngine/textures/terrain/grass_green2y_d.jpg",
-                        diffuse = "data/NetworkEngine/textures/terrain/grass_green2y_d.jpg",
+                        normal = "data/NetworkEngine/textures/terrain/grass_rocky_n.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/grass_rocky_d.jpg",
                         minHeight = 0,
                         maxHeight = 30,
                         fadeDist = 1
@@ -176,6 +173,7 @@ namespace VRFrom_Gijs.Forms
 
         private void followBike()
         {
+
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/node/update",
@@ -183,7 +181,7 @@ namespace VRFrom_Gijs.Forms
                 {
                     id = _connection.cameraID,
                     parent = _bike.Uuid,
-                    transform = new { position = new[] { 0,100,0}, scale = 10.0, rotation = new[] { Math.PI / 2, 0, 0 } }
+                    transform = new { position = new[] {0,50,0}, scale = 75.0, rotation = new[] {0,-90,0} }
 
                 }
             }, _connection.TunnelId));
@@ -193,11 +191,10 @@ namespace VRFrom_Gijs.Forms
         {
             points = forest.getForest();
 
-
             foreach (Point point in points)
             {
                 Thread.Sleep(10);
-                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, 0, point.Y, getRandom());
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree1.obj", point.X, 0, point.Y, getRandom());
                 _connection.Nodes.Add(_tree);
 
                 Thread.Sleep(10);

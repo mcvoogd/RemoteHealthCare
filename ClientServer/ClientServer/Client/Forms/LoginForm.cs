@@ -49,6 +49,9 @@ namespace DataScreen.Forms
             {
                 Visible = false;
                 RemoteHealthcare.Visible = true;
+                RemoteHealthcare.name = usernameTextBox.Text;
+                Console.WriteLine("USERNAME: " + usernameTextBox.Text);
+                RemoteHealthcare.Invalidate();
             } else
             {
                 wrongLogin.Visible = true;

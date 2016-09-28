@@ -80,6 +80,7 @@ namespace Server.Server
                             
                         case "measurement/add":
                             _client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
+                            Console.WriteLine("Msrment added.");
                             SendAck("measurement/add");
                             break;
                         case "login/request":

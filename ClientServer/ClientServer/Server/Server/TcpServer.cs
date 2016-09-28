@@ -50,7 +50,8 @@ namespace Server.Server
 
         public void SaveAllData()
         {
-            _dataBase.SaveClients("C:\\Users\\kevin\\Desktop\\file.txt");
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\file.txt";
+            _dataBase.SaveClients(path);
         }
 
         public static IPAddress GetLocalIpAddress()

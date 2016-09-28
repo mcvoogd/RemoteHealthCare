@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
@@ -60,6 +63,8 @@
             this.clientListBox = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
             this.addClientButton = new System.Windows.Forms.Button();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -460,12 +465,32 @@
             this.addClientButton.Text = "+";
             this.addClientButton.UseVisualStyleBackColor = false;
             // 
+            // chart1
+            // 
+            this.chart1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(12, 389);
+            this.chart1.Name = "chart1";
+            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(875, 161);
+            this.chart1.TabIndex = 29;
+            this.chart1.Text = "chart1";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.addClientButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.clientListBox);
@@ -501,6 +526,7 @@
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dokter Console";
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -538,6 +564,7 @@
         private System.Windows.Forms.ListBox clientListBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button addClientButton;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 

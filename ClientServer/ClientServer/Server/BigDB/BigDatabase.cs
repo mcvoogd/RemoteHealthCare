@@ -35,10 +35,6 @@ namespace Server.BigDB
         public void LoadClients(string filePath)
         {
             ReadFromJsonFile(filePath);
-            foreach (var c in Clients)
-            {
-                Console.WriteLine($"{c.Name}, {c.TunnelId}, {c.UniqueId}");
-            }
         } 
 
         #endregion

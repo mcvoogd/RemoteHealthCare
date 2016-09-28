@@ -29,6 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.StripLine stripLine1 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
@@ -57,6 +66,12 @@
             this.avgpowerLabel = new System.Windows.Forms.Label();
             this.avgrpmLabel = new System.Windows.Forms.Label();
             this.avgkmhLabel = new System.Windows.Forms.Label();
+            this.clientListBox = new System.Windows.Forms.ListBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.addClientButton = new System.Windows.Forms.Button();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label10 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -217,185 +232,307 @@
             // 
             // timeLabel
             // 
-            this.timeLabel.AutoSize = true;
             this.timeLabel.BackColor = System.Drawing.Color.Transparent;
             this.timeLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.timeLabel.ForeColor = System.Drawing.Color.White;
             this.timeLabel.Location = new System.Drawing.Point(20, 298);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(129, 36);
+            this.timeLabel.Size = new System.Drawing.Size(130, 36);
             this.timeLabel.TabIndex = 12;
             this.timeLabel.Text = "00:00:00";
             this.timeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kmLabel
             // 
-            this.kmLabel.AutoSize = true;
             this.kmLabel.BackColor = System.Drawing.Color.Transparent;
             this.kmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.kmLabel.ForeColor = System.Drawing.Color.White;
-            this.kmLabel.Location = new System.Drawing.Point(194, 298);
+            this.kmLabel.Location = new System.Drawing.Point(171, 298);
             this.kmLabel.Name = "kmLabel";
-            this.kmLabel.Size = new System.Drawing.Size(72, 36);
+            this.kmLabel.Size = new System.Drawing.Size(118, 36);
             this.kmLabel.TabIndex = 13;
             this.kmLabel.Text = "00,0";
             this.kmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // avgkmLabel
             // 
-            this.avgkmLabel.AutoSize = true;
             this.avgkmLabel.BackColor = System.Drawing.Color.Transparent;
             this.avgkmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.avgkmLabel.ForeColor = System.Drawing.Color.White;
-            this.avgkmLabel.Location = new System.Drawing.Point(209, 348);
+            this.avgkmLabel.Location = new System.Drawing.Point(171, 348);
             this.avgkmLabel.Name = "avgkmLabel";
-            this.avgkmLabel.Size = new System.Drawing.Size(46, 23);
+            this.avgkmLabel.Size = new System.Drawing.Size(118, 23);
             this.avgkmLabel.TabIndex = 14;
             this.avgkmLabel.Text = "00,0";
             this.avgkmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // wattsLabel
             // 
-            this.wattsLabel.AutoSize = true;
             this.wattsLabel.BackColor = System.Drawing.Color.Transparent;
             this.wattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.wattsLabel.ForeColor = System.Drawing.Color.White;
-            this.wattsLabel.Location = new System.Drawing.Point(348, 298);
+            this.wattsLabel.Location = new System.Drawing.Point(320, 298);
             this.wattsLabel.Name = "wattsLabel";
-            this.wattsLabel.Size = new System.Drawing.Size(63, 36);
+            this.wattsLabel.Size = new System.Drawing.Size(118, 36);
             this.wattsLabel.TabIndex = 15;
             this.wattsLabel.Text = "000";
             this.wattsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // avgwattsLabel
             // 
-            this.avgwattsLabel.AutoSize = true;
             this.avgwattsLabel.BackColor = System.Drawing.Color.Transparent;
             this.avgwattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.avgwattsLabel.ForeColor = System.Drawing.Color.White;
-            this.avgwattsLabel.Location = new System.Drawing.Point(358, 348);
+            this.avgwattsLabel.Location = new System.Drawing.Point(320, 348);
             this.avgwattsLabel.Name = "avgwattsLabel";
-            this.avgwattsLabel.Size = new System.Drawing.Size(40, 23);
+            this.avgwattsLabel.Size = new System.Drawing.Size(118, 23);
             this.avgwattsLabel.TabIndex = 16;
             this.avgwattsLabel.Text = "000";
             this.avgwattsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rpmLabel
             // 
-            this.rpmLabel.AutoSize = true;
             this.rpmLabel.BackColor = System.Drawing.Color.Transparent;
             this.rpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rpmLabel.ForeColor = System.Drawing.Color.White;
-            this.rpmLabel.Location = new System.Drawing.Point(790, 298);
+            this.rpmLabel.Location = new System.Drawing.Point(762, 298);
             this.rpmLabel.Name = "rpmLabel";
-            this.rpmLabel.Size = new System.Drawing.Size(63, 36);
+            this.rpmLabel.Size = new System.Drawing.Size(118, 36);
             this.rpmLabel.TabIndex = 19;
             this.rpmLabel.Text = "000";
             this.rpmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kjLabel
             // 
-            this.kjLabel.AutoSize = true;
             this.kjLabel.BackColor = System.Drawing.Color.Transparent;
             this.kjLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.kjLabel.ForeColor = System.Drawing.Color.White;
-            this.kjLabel.Location = new System.Drawing.Point(643, 298);
+            this.kjLabel.Location = new System.Drawing.Point(615, 298);
             this.kjLabel.Name = "kjLabel";
-            this.kjLabel.Size = new System.Drawing.Size(63, 36);
+            this.kjLabel.Size = new System.Drawing.Size(118, 36);
             this.kjLabel.TabIndex = 18;
             this.kjLabel.Text = "000";
             this.kjLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kmhLabel
             // 
-            this.kmhLabel.AutoSize = true;
             this.kmhLabel.BackColor = System.Drawing.Color.Transparent;
             this.kmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.kmhLabel.ForeColor = System.Drawing.Color.White;
-            this.kmhLabel.Location = new System.Drawing.Point(491, 298);
+            this.kmhLabel.Location = new System.Drawing.Point(467, 298);
             this.kmhLabel.Name = "kmhLabel";
-            this.kmhLabel.Size = new System.Drawing.Size(72, 36);
+            this.kmhLabel.Size = new System.Drawing.Size(118, 36);
             this.kmhLabel.TabIndex = 17;
             this.kmhLabel.Text = "00,0";
             this.kmhLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // bpmLabel
             // 
-            this.bpmLabel.AutoSize = true;
             this.bpmLabel.BackColor = System.Drawing.Color.Transparent;
             this.bpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bpmLabel.ForeColor = System.Drawing.Color.White;
-            this.bpmLabel.Location = new System.Drawing.Point(1086, 298);
+            this.bpmLabel.Location = new System.Drawing.Point(1057, 298);
             this.bpmLabel.Name = "bpmLabel";
-            this.bpmLabel.Size = new System.Drawing.Size(63, 36);
+            this.bpmLabel.Size = new System.Drawing.Size(118, 36);
             this.bpmLabel.TabIndex = 21;
             this.bpmLabel.Text = "000";
             this.bpmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // powerLabel
             // 
-            this.powerLabel.AutoSize = true;
             this.powerLabel.BackColor = System.Drawing.Color.Transparent;
             this.powerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.powerLabel.ForeColor = System.Drawing.Color.White;
-            this.powerLabel.Location = new System.Drawing.Point(935, 298);
+            this.powerLabel.Location = new System.Drawing.Point(911, 298);
             this.powerLabel.Name = "powerLabel";
-            this.powerLabel.Size = new System.Drawing.Size(72, 36);
+            this.powerLabel.Size = new System.Drawing.Size(118, 36);
             this.powerLabel.TabIndex = 20;
             this.powerLabel.Text = "00%";
             this.powerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // avgbpmLabel
             // 
-            this.avgbpmLabel.AutoSize = true;
             this.avgbpmLabel.BackColor = System.Drawing.Color.Transparent;
             this.avgbpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.avgbpmLabel.ForeColor = System.Drawing.Color.White;
-            this.avgbpmLabel.Location = new System.Drawing.Point(1098, 348);
+            this.avgbpmLabel.Location = new System.Drawing.Point(1057, 348);
             this.avgbpmLabel.Name = "avgbpmLabel";
-            this.avgbpmLabel.Size = new System.Drawing.Size(40, 23);
+            this.avgbpmLabel.Size = new System.Drawing.Size(118, 23);
             this.avgbpmLabel.TabIndex = 23;
             this.avgbpmLabel.Text = "000";
             this.avgbpmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // avgpowerLabel
             // 
-            this.avgpowerLabel.AutoSize = true;
             this.avgpowerLabel.BackColor = System.Drawing.Color.Transparent;
             this.avgpowerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.avgpowerLabel.ForeColor = System.Drawing.Color.White;
-            this.avgpowerLabel.Location = new System.Drawing.Point(947, 348);
+            this.avgpowerLabel.Location = new System.Drawing.Point(911, 348);
             this.avgpowerLabel.Name = "avgpowerLabel";
-            this.avgpowerLabel.Size = new System.Drawing.Size(46, 23);
+            this.avgpowerLabel.Size = new System.Drawing.Size(118, 23);
             this.avgpowerLabel.TabIndex = 22;
             this.avgpowerLabel.Text = "00%";
             this.avgpowerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // avgrpmLabel
             // 
-            this.avgrpmLabel.AutoSize = true;
             this.avgrpmLabel.BackColor = System.Drawing.Color.Transparent;
             this.avgrpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.avgrpmLabel.ForeColor = System.Drawing.Color.White;
-            this.avgrpmLabel.Location = new System.Drawing.Point(801, 348);
+            this.avgrpmLabel.Location = new System.Drawing.Point(762, 348);
             this.avgrpmLabel.Name = "avgrpmLabel";
-            this.avgrpmLabel.Size = new System.Drawing.Size(40, 23);
+            this.avgrpmLabel.Size = new System.Drawing.Size(118, 23);
             this.avgrpmLabel.TabIndex = 24;
             this.avgrpmLabel.Text = "000";
             this.avgrpmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // avgkmhLabel
             // 
-            this.avgkmhLabel.AutoSize = true;
             this.avgkmhLabel.BackColor = System.Drawing.Color.Transparent;
             this.avgkmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.avgkmhLabel.ForeColor = System.Drawing.Color.White;
-            this.avgkmhLabel.Location = new System.Drawing.Point(503, 348);
+            this.avgkmhLabel.Location = new System.Drawing.Point(467, 348);
             this.avgkmhLabel.Name = "avgkmhLabel";
-            this.avgkmhLabel.Size = new System.Drawing.Size(46, 23);
+            this.avgkmhLabel.Size = new System.Drawing.Size(118, 23);
             this.avgkmhLabel.TabIndex = 25;
             this.avgkmhLabel.Text = "00,0";
             this.avgkmhLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // clientListBox
+            // 
+            this.clientListBox.BackColor = System.Drawing.Color.Black;
+            this.clientListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clientListBox.Font = new System.Drawing.Font("Good Times", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clientListBox.ForeColor = System.Drawing.Color.White;
+            this.clientListBox.FormattingEnabled = true;
+            this.clientListBox.ItemHeight = 18;
+            this.clientListBox.Items.AddRange(new object[] {
+            "Kevin",
+            "Martijn",
+            "Menno",
+            "Stefan",
+            "Gijs",
+            "Cas",
+            "Kevin",
+            "Martijn",
+            "Menno",
+            "Stefan",
+            "Gijs",
+            "Cas",
+            "Kevin",
+            "Martijn",
+            "Menno",
+            "Stefan",
+            "Gijs",
+            "Cas"});
+            this.clientListBox.Location = new System.Drawing.Point(12, 104);
+            this.clientListBox.Name = "clientListBox";
+            this.clientListBox.Size = new System.Drawing.Size(284, 144);
+            this.clientListBox.TabIndex = 26;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Good Times", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(8, 78);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(293, 23);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "Clients                 ";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // addClientButton
+            // 
+            this.addClientButton.BackColor = System.Drawing.Color.White;
+            this.addClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.addClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.addClientButton.Font = new System.Drawing.Font("Good Times", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addClientButton.ForeColor = System.Drawing.Color.Black;
+            this.addClientButton.Location = new System.Drawing.Point(270, 72);
+            this.addClientButton.Name = "addClientButton";
+            this.addClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.addClientButton.Size = new System.Drawing.Size(26, 26);
+            this.addClientButton.TabIndex = 28;
+            this.addClientButton.Text = "+";
+            this.addClientButton.UseVisualStyleBackColor = false;
+            // 
+            // chart1
+            // 
+            this.chart1.BackColor = System.Drawing.Color.Transparent;
+            customLabel1.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisX.CustomLabels.Add(customLabel1);
+            chartArea1.AxisX.InterlacedColor = System.Drawing.Color.White;
+            chartArea1.AxisX.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisX.LineWidth = 2;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            stripLine1.BackColor = System.Drawing.Color.White;
+            stripLine1.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisX.StripLines.Add(stripLine1);
+            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.AxisX2.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisY.LineWidth = 2;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY2.LineColor = System.Drawing.Color.White;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.BackSecondaryColor = System.Drawing.Color.White;
+            chartArea1.BorderColor = System.Drawing.Color.White;
+            chartArea1.Name = "ChartArea1";
+            chartArea1.ShadowColor = System.Drawing.Color.White;
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.BorderColor = System.Drawing.Color.White;
+            legend1.ForeColor = System.Drawing.Color.White;
+            legend1.HeaderSeparatorColor = System.Drawing.Color.White;
+            legend1.ItemColumnSeparatorColor = System.Drawing.Color.White;
+            legend1.Name = "Legend1";
+            legend1.TitleForeColor = System.Drawing.Color.White;
+            legend1.TitleSeparatorColor = System.Drawing.Color.White;
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(12, 382);
+            this.chart1.Name = "chart1";
+            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            series1.BorderWidth = 2;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.LabelBackColor = System.Drawing.Color.White;
+            series1.LabelForeColor = System.Drawing.Color.White;
+            series1.Legend = "Legend1";
+            series1.MarkerColor = System.Drawing.Color.White;
+            series1.Name = "Series1";
+            dataPoint1.LabelBackColor = System.Drawing.Color.White;
+            dataPoint2.LabelBackColor = System.Drawing.Color.White;
+            dataPoint3.LabelBackColor = System.Drawing.Color.White;
+            dataPoint4.LabelBackColor = System.Drawing.Color.White;
+            series1.Points.Add(dataPoint1);
+            series1.Points.Add(dataPoint2);
+            series1.Points.Add(dataPoint3);
+            series1.Points.Add(dataPoint4);
+            series1.SmartLabelStyle.CalloutLineColor = System.Drawing.Color.White;
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(875, 178);
+            this.chart1.TabIndex = 29;
+            this.chart1.Text = "chart1";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Good Times", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label10.Location = new System.Drawing.Point(920, 9);
+            this.label10.MaximumSize = new System.Drawing.Size(220, 65);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(185, 42);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "Martijn de Voogd";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mainForm
             // 
@@ -403,6 +540,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.addClientButton);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.clientListBox);
             this.Controls.Add(this.avgkmhLabel);
             this.Controls.Add(this.avgrpmLabel);
             this.Controls.Add(this.avgbpmLabel);
@@ -435,6 +577,7 @@
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dokter Console";
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -469,6 +612,11 @@
         private System.Windows.Forms.Label avgpowerLabel;
         private System.Windows.Forms.Label avgrpmLabel;
         private System.Windows.Forms.Label avgkmhLabel;
+        private System.Windows.Forms.ListBox clientListBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button addClientButton;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label label10;
     }
 }
 

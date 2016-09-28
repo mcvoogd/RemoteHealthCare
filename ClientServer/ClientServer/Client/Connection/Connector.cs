@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Client.Forms;
+using Client.Simulator;
 using Newtonsoft.Json;
 
 namespace Client.Connection
@@ -27,6 +28,7 @@ namespace Client.Connection
         private byte[] messageBuffer = new byte[0];
         private List<string> _messageList;
         public RemoteHealthcare RemoteHealthcare;
+        private int loginAccepted = 0;
 
         public Connector()
         {
@@ -68,7 +70,12 @@ namespace Client.Connection
                             switch (id)
                             {
                                 case "login/request":
-
+                                    if (data.ack == false)
+                                    {
+                                        loginAccepted = -1;
+                                        return;
+                                    }
+                                    loginAccepted = 1;
                                     break;
                                 case "message/send":
                                     _messageList.Add(data.message);
@@ -81,6 +88,10 @@ namespace Client.Connection
                                             received = true
                                         }
                                     });
+                                    break;
+                                case "client/disconnect":
+                                    _sslStream.Close();
+                                    _tcpClient.Close();
                                     break;
                             }
                         }
@@ -108,7 +119,7 @@ namespace Client.Connection
             }
         }
 
-        public void Connect(string serverIp, string username, string password)
+        public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp,6969);
             _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
@@ -117,29 +128,40 @@ namespace Client.Connection
 
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
-        }
-        //deprecated..
-        public void SendStatistics()
-        {
-            while (true)
+
+            while (loginAccepted == 0){}
+
+            if (loginAccepted == 1)
             {
-                SendMessage(new
-                {
-                    id = "measurement/add",
-                    clientid = ConnectionId,
-                    data = new
-                    {
-                        pulse = "80",
-                        rotations = "130",
-                        speed = "35",
-                        distance = "1.23",
-                        power = "45",
-                        burned = "23.4",
-                        time = "09.12",
-                        reachedpower = "30"
-                    }
-                });
+                loginAccepted = 0;
+                return true;
             }
+            if (loginAccepted == -1)
+            {
+                loginAccepted = 0;
+                return false;
+            }
+            return false;
+        }
+
+        public void SendStatistics(Measurement measurement)
+        {
+            SendMessage(new
+            {
+                id = "measurement/add",
+                clientid = ConnectionId,
+                data = new
+                {
+                    pulse = measurement.Pulse.ToString(),
+                    rotations = measurement.Rotations.ToString(),
+                    speed = measurement.Speed.ToString(),
+                    distance = measurement.Distance.ToString(),
+                    power = measurement.Power.ToString(),
+                    burned = measurement.Burned.ToString(),
+                    time = measurement.Time.ToString(),
+                    reachedpower = measurement.ReachedPower.ToString()
+                }
+            });
         }
 
         private void Login(string username, string password)
@@ -177,13 +199,9 @@ namespace Client.Connection
 
         public void SendMessage(dynamic message)
         {
-            while (!_sslStream.CanWrite)
-            {
-                Console.WriteLine("Can write: {0}",_sslStream.CanWrite);
-                
-            }
-            if(_sslStream == null) return;
-
+            if(_sslStream == null || !_tcpClient.Connected) return;
+            
+            Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
@@ -191,6 +209,7 @@ namespace Client.Connection
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
             _sslStream.Flush();
+            Console.WriteLine("Message send");
         }
 
         // Gets the first message from the buffer that isn't idicating the size

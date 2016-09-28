@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Server.TinyDB
 {
-    class TinyDataBase
+    public class TinyDataBase
     {
         public MeasurementSystem MeasurementSystem { get; set; }
         public ChatSystem ChatSystem { get; set; }

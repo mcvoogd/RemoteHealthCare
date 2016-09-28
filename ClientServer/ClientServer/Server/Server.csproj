@@ -65,6 +65,7 @@
     <Compile Include="BigDB\BigDatabase.cs" />
     <Compile Include="BigDB\Client.cs" />
     <Compile Include="Server\ClientHandler.cs" />
+    <Compile Include="Server\Encryptor.cs" />
     <Compile Include="Server\TcpServer.cs" />
     <Compile Include="TinyDB\ChatSystem.cs" />
     <Compile Include="TinyDB\Measurement.cs" />
@@ -90,7 +91,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ClientData\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

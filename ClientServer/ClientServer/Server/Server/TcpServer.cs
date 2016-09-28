@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Server.BigDB;
 
@@ -11,13 +14,15 @@ namespace Server.Server
         private readonly TcpListener _tcpListener;
         private readonly BigDatabase _dataBase = new BigDatabase();
         public IPAddress IpAddress { get; set; }
+        public List<Thread> threads = new List<Thread>();
+        public List<ClientHandler> ClientHandlers = new List<ClientHandler>();
 
         public TcpServer()
         {
-
             IpAddress = GetLocalIpAddress();
             _tcpListener = new TcpListener(IpAddress,6969);
             Console.WriteLine("IpAddress: {0}",IpAddress);
+            LoadAllData();
         }
 
         public void Run()
@@ -32,19 +37,53 @@ namespace Server.Server
                     var tcpClientTask = _tcpListener.AcceptTcpClientAsync();
                     var tcpClient = tcpClientTask.Result;
                     Console.WriteLine("Connected to a client");
-                    
+
                     var clienthandler = new ClientHandler(tcpClient, _dataBase);
+                    ClientHandlers.Add(clienthandler);
+
                     Console.WriteLine("Clienthandler");
                     var clientHandlerThread = new Thread(clienthandler.HandleClient);
                     Console.WriteLine("Starting thread...");
                     clientHandlerThread.Start();
+                    threads.Add(clientHandlerThread);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e){
                     Console.WriteLine(e.Message);
                     Console.WriteLine("Exception!");
+                 
                 }
             }
+        }
+
+        public void SaveAllData()
+        {
+            const string path = @"..\..\ClientData\file.txt";
+            const string path2 = @"..\..\ClientData\EncryptedFile.txt";
+
+            _dataBase.SaveClients(path);
+            Encryptor.EncryptFile(path, path2);
+        }
+
+        public void LoadAllData()
+        {
+            const string path2 = @"..\..\ClientData\file.txt";
+            const string path = @"..\..\ClientData\EncryptedFile.txt";
+    
+            if (File.Exists(path))
+            {
+                Encryptor.DecryptFile(path, path2);
+                if (File.Exists(path2))
+                {
+                    _dataBase.LoadClients(path2);
+                    Console.WriteLine("Loaded ClientData.");
+                   // File.Delete(path2);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nothing loaded, no file found.");
+            }
+
         }
 
         public static IPAddress GetLocalIpAddress()

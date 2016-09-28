@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VRFrom_Gijs.Program;
 using VRFrom_Gijs.VrObjects;
+using Panel = VRFrom_Gijs.VrObjects.Panel;
 
 
 namespace VRFrom_Gijs.Forms
@@ -20,6 +21,8 @@ namespace VRFrom_Gijs.Forms
         private Connection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _fence = null, _rock = null;
+        private Node _bike = null, _tree = null;
+        private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
@@ -53,13 +56,21 @@ namespace VRFrom_Gijs.Forms
             createForest();
             blocker.WaitOne(5000); 
             
+            createPanel();
+            blocker.WaitOne(5000);
+
+
+            createBike();
+            blocker.WaitOne(5000);
             createRoad();
-            //blocker.WaitOne(5000);
-            //createBike();
-            //blocker.WaitOne(5000);
-            //followRoad();
-            //blocker.WaitOne(5000);
-            //followBike();
+            blocker.WaitOne(5000);
+            followRoad();
+            blocker.WaitOne(5000);
+            followBike();
+            blocker.WaitOne(5000);
+            followCamera();
+            blocker.WaitOne(5000);
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -214,10 +225,45 @@ namespace VRFrom_Gijs.Forms
                 {
                     id = _connection.cameraID,
                     parent = _bike.Uuid,
-                    transform = new { position = new[] {0,50,0}, scale = 75.0, rotation = new[] {0,-90,0} }
+                    transform = new { position = new[] {0,50,0}, scale = 75.0, rotation = new[] {0,90,0} }
 
                 }
             }, _connection.TunnelId));
+        }
+
+        private void createPanel()
+        {
+            _panel = new Panel("panel", 0, 0, 0, 0, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 0, 0, _connection.TunnelId);
+            _connection.SendMessage(_panel.ToSend);
+        }
+
+        private void followCamera()
+        {
+            _panel.makeUuid();
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _panel.Uuid,
+                    parent = _connection.cameraID,
+                    transform = new { position = new[] { 0, 1.5, -1 }, scale = 1.0, rotation = new[] { 0, 0, 0 } }
+
+                }
+            }, _connection.TunnelId));
+        }
+
+        private void drawPanel()
+        {
+            string textValue = "Satan is love";
+            int[] position = {100,100};
+            double sizeValue = 32;
+            double[] color = {0, 0, 0, 1};
+            string fontValue = "calibri";
+
+            _panel.SwapPanel();
+            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.SwapPanel();
         }
 
         private void createForest()

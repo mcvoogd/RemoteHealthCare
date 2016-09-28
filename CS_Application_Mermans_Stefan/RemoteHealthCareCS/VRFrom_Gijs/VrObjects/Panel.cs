@@ -14,13 +14,14 @@ namespace VRFrom_Gijs.VrObjects
         public string TunnelId { get; }
         public string name { get; set; }
 
-        public Panel(string name, int scaleValue, int x, int y, int z, int xR, int yR, int zR, double size1, double size2 ,int width, int height, double bckground1, double bckground2, double bckground3, double bckground4, string tunnelId)
+        public Panel(string name, int scaleValue, double x, double y, double z, int xR, int yR, int zR, double size1, double size2 ,int width, int height, float bckground1, float bckground2, float bckground3, float bckground4, string tunnelId, string parentID)
         {
             this.TunnelId = tunnelId;
             this.name = name;
             ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/node/add",
+                parent = parentID,
                 data = new
                 {
                     name = name,
@@ -56,7 +57,7 @@ namespace VRFrom_Gijs.VrObjects
 
         public void ClearPanel()
         {
-            RequestCreater.TunnelSend(new
+            ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/clear",
                 data = new
@@ -66,9 +67,9 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void SwapPanel()
+        public string SwapPanel()
         {
-            RequestCreater.TunnelSend(new
+          string send =  RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/swap",
                 data = new
@@ -76,12 +77,13 @@ namespace VRFrom_Gijs.VrObjects
                     id = Uuid
                 }
             }, TunnelId);
+            return send;
         }
 
         //0,0 10,10, 0,0,0,1 == x1, y1, x2,y2, r,g,b,a
-        public void DrawLines(int widthValue, int[] lineArray)
+        public string DrawLines(int widthValue, int[] lineArray)
         {
-            RequestCreater.TunnelSend(new
+            string send = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/drawlines",
                 data = new
@@ -91,11 +93,12 @@ namespace VRFrom_Gijs.VrObjects
                     lines = lineArray
                 }
             }, TunnelId);
+            return send;
         }
 
-        public void SetClearColor(double[] kleur)
+        public string SetClearColor(double[] kleur)
         {
-            RequestCreater.TunnelSend(new
+           string send = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/setclearcolor",
                 data = new
@@ -104,13 +107,14 @@ namespace VRFrom_Gijs.VrObjects
                     color = kleur
                 }
             }, TunnelId);
+            return send;
         }
 
-        public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
+        public string DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
         {
-            RequestCreater.TunnelSend(new
+           string send = RequestCreater.TunnelSend(new
             {
-                id = "scene/panel/setclearcolor",
+                id = "scene/panel/drawtext",
                 data = new
                 {
                     id = Uuid,
@@ -121,6 +125,7 @@ namespace VRFrom_Gijs.VrObjects
                     font = fontValue
                 }
             }, TunnelId);
+            return send;
         }
 
     }

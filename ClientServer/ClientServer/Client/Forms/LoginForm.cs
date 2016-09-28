@@ -6,7 +6,7 @@ using Client.Forms;
 
 namespace DataScreen.Forms
 {
-    public delegate void Connect(string serverIp, string username, string password);
+    public delegate bool Connect(string serverIp, string username, string password);
     public partial class LoginForm : Form
     {
         private RemoteHealthcare RemoteHealthcare;
@@ -45,9 +45,15 @@ namespace DataScreen.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            _connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text);
-            Visible = false;
-            RemoteHealthcare.Visible = true;
+            if(_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
+            {
+                Visible = false;
+                RemoteHealthcare.Visible = true;
+            } else
+            {
+                wrongLogin.Visible = true;
+            }
+            
             //            wrongLogin.Visible = true;
         }
 

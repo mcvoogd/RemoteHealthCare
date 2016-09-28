@@ -64,11 +64,13 @@ namespace Server.Server
         public void LoadAllData()
         {
             const string path = @"..\..\ClientData\file.txt";
-
             if (File.Exists(path))
-            { 
-                _dataBase.LoadClients(@"..\..\ClientData\file.txt");
-                Console.WriteLine("Loaded ClientData.");
+            {
+                if (File.Exists(path))
+                {
+                    _dataBase.LoadClients(path);
+                    Console.WriteLine("Loaded ClientData.");
+                }
             }
             else
             {

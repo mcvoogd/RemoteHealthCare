@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace VRFrom_Gijs.Program
 {
     class Forest
     {
-        private List<Point> points = new List<Point>();
+        private List<Punt> points = new List<Punt>();
 
         public Forest()
         {
-            
+            points.Add(new Punt(30, 72, 2));
+            points.Add(new Punt(34, 73, 2));
+            points.Add(new Punt(32, 70, 2));
         }
 
-        public List<Point> getForest()
+        public List<Punt> getForest()
         {
             return points;
         }

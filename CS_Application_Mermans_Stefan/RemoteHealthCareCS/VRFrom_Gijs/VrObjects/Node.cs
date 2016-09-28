@@ -35,6 +35,21 @@ namespace VRFrom_Gijs.VrObjects
             SendString = AddTerrainNode(TunnelId, "Terrain node", x, y, z);
         }
 
+        public Node(string name, string tunnelId, double x, double y, double z, bool hasWater)
+        {
+            if (hasWater)
+            {
+                Console.WriteLine("Creating Water Node");
+                Naam = name;
+                TunnelId = tunnelId;
+                SendString = WaterNode(TunnelId, "Water node", x, y, z);
+            }
+            else
+            {
+               new Node(name, tunnelId, x, y, z);
+            }
+        }
+
         private dynamic AddModelNode(string tunnelId, string name, string fileName, int x, int y, int z, double scaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
@@ -138,6 +153,33 @@ namespace VRFrom_Gijs.VrObjects
                         time = timeValue
                     }
                 }, TunnelId);
+        }
+
+        public string WaterNode(string tunnelId, string Name, double x, double y, double z, double scaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
+        {
+            return RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/add",
+                data = new
+                {
+                    name = Name,
+                    components = new
+                    {
+                        transform = new
+                        {
+                            position = new[] { x, y, z },
+                            scale = scaleValue,
+                            rotation = new[] { xR, yR, zR }
+                        },
+                        water = new
+                        {
+                            size = new[] { 120, 120 },
+                            resolution = 0.1
+                        }
+                    }
+
+                }
+            }, TunnelId);
         }
 
 

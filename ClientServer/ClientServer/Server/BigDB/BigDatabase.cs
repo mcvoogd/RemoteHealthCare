@@ -48,7 +48,7 @@ namespace Server.BigDB
                 if (!client.UniqueId.Equals(id)) continue;
                 return client;
             }
-            return new Client("fout.","...ookfout", null,0,null);
+            return null;
         }
 
         public bool GetClientById(int id, out Client clientOut)

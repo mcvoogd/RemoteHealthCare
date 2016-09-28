@@ -215,14 +215,14 @@ namespace Server.Server
             string password = data.password;
             int clientid = data.clientid;
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
-            if (_database.GetClientById(clientid).Name.Equals("fout."))
+            if (_database.GetClientById(clientid) == null)
             {
-                //null == tunnelID. <VR>
-//                _client = new Client(username, password, null, 0, new TinyDataBase());
-//                _database.AddClient(_client);
+                _client = new Client(username, password, null, 0, new TinyDataBase());
+                _database.AddClient(_client);
                 Console.WriteLine("Did not exist");
-                return false;
+                return true;
             }
+            //null == tunnelID. <VR>
             _database.GetClientById(clientid, out _client);
             return true;
         }

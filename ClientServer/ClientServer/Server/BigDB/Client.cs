@@ -16,7 +16,7 @@ namespace Server.BigDB
         public TinyDataBase TinyDataBaseBase { get; set; }
         public string TunnelId { get; set; }
         public int UniqueId { get; set; }
-        public string Password { get; set; }
+        private string Password { get; set; }
         protected Status ClientStatus { get; set; }
         protected enum Status { NOT_CONNECTED, CONNECTED, READY_TO_GO, BIKING, FINISHED };
 

@@ -30,14 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine1 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
+            System.Windows.Forms.DataVisualization.Charting.StripLine stripLine2 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 55D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(7D, 23D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(23D, 97D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
@@ -402,10 +407,10 @@
             // 
             this.clientListBox.BackColor = System.Drawing.Color.Black;
             this.clientListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clientListBox.Font = new System.Drawing.Font("Good Times", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clientListBox.Font = new System.Drawing.Font("Arial Unicode MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clientListBox.ForeColor = System.Drawing.Color.White;
             this.clientListBox.FormattingEnabled = true;
-            this.clientListBox.ItemHeight = 18;
+            this.clientListBox.ItemHeight = 25;
             this.clientListBox.Items.AddRange(new object[] {
             "Kevin",
             "Martijn",
@@ -427,7 +432,7 @@
             "Cas"});
             this.clientListBox.Location = new System.Drawing.Point(12, 104);
             this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(284, 144);
+            this.clientListBox.Size = new System.Drawing.Size(284, 150);
             this.clientListBox.TabIndex = 26;
             // 
             // label9
@@ -461,9 +466,10 @@
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.Transparent;
-            customLabel1.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisX.CustomLabels.Add(customLabel1);
             chartArea1.AxisX.InterlacedColor = System.Drawing.Color.White;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Arial Unicode MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
             chartArea1.AxisX.LineColor = System.Drawing.Color.White;
             chartArea1.AxisX.LineWidth = 2;
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.White;
@@ -473,10 +479,18 @@
             chartArea1.AxisX.StripLines.Add(stripLine1);
             chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
             chartArea1.AxisX2.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisY.InterlacedColor = System.Drawing.Color.White;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Arial Unicode MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
             chartArea1.AxisY.LineColor = System.Drawing.Color.White;
             chartArea1.AxisY.LineWidth = 2;
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.White;
             chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.White;
+            chartArea1.AxisY.MinorTickMark.LineColor = System.Drawing.Color.White;
+            stripLine2.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.StripLines.Add(stripLine2);
             chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
             chartArea1.AxisY2.LineColor = System.Drawing.Color.White;
             chartArea1.BackColor = System.Drawing.Color.Transparent;
@@ -487,24 +501,28 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.White;
+            legend1.Font = new System.Drawing.Font("Good Times", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             legend1.ForeColor = System.Drawing.Color.White;
             legend1.HeaderSeparatorColor = System.Drawing.Color.White;
+            legend1.IsTextAutoFit = false;
             legend1.ItemColumnSeparatorColor = System.Drawing.Color.White;
             legend1.Name = "Legend1";
             legend1.TitleForeColor = System.Drawing.Color.White;
             legend1.TitleSeparatorColor = System.Drawing.Color.White;
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(12, 382);
+            this.chart1.Location = new System.Drawing.Point(-32, 385);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            this.chart1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             series1.BorderWidth = 2;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Font = new System.Drawing.Font("Arial Unicode MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             series1.LabelBackColor = System.Drawing.Color.White;
             series1.LabelForeColor = System.Drawing.Color.White;
             series1.Legend = "Legend1";
             series1.MarkerColor = System.Drawing.Color.White;
-            series1.Name = "Series1";
+            series1.Name = "Power (Watts)";
             dataPoint1.LabelBackColor = System.Drawing.Color.White;
             dataPoint2.LabelBackColor = System.Drawing.Color.White;
             dataPoint3.LabelBackColor = System.Drawing.Color.White;
@@ -513,11 +531,22 @@
             series1.Points.Add(dataPoint2);
             series1.Points.Add(dataPoint3);
             series1.Points.Add(dataPoint4);
+            series1.Points.Add(dataPoint5);
             series1.SmartLabelStyle.CalloutLineColor = System.Drawing.Color.White;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Km/h";
+            series2.Points.Add(dataPoint6);
+            series2.Points.Add(dataPoint7);
+            series2.Points.Add(dataPoint8);
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(875, 178);
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(884, 178);
             this.chart1.TabIndex = 29;
             this.chart1.Text = "chart1";
+            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // label10
             // 

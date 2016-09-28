@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VRFrom_Gijs.Program;
 using VRFrom_Gijs.VrObjects;
+using Panel = VRFrom_Gijs.VrObjects.Panel;
 
 
 namespace VRFrom_Gijs.Forms
@@ -20,6 +21,7 @@ namespace VRFrom_Gijs.Forms
         private Connection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null;
+        private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
@@ -50,13 +52,13 @@ namespace VRFrom_Gijs.Forms
             blocker.WaitOne(5000);
 
 
-            blocker.WaitOne(5000);
             createBike();
+            blocker.WaitOne(5000);
             createRoad();
-            //blocker.WaitOne(5000);
-            //followRoad();
-            //blocker.WaitOne(5000);
-            //followBike();
+            blocker.WaitOne(5000);
+            followRoad();
+            blocker.WaitOne(5000);
+            followBike();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -185,6 +187,11 @@ namespace VRFrom_Gijs.Forms
 
                 }
             }, _connection.TunnelId));
+        }
+
+        private void createPanel()
+        {
+            _panel = new Panel("panel", 0, 0, 0, 0, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 0, 0, _connection.TunnelId);
         }
 
         private void createForest()

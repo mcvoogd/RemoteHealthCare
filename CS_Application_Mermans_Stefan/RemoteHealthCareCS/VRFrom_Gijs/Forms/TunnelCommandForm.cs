@@ -63,6 +63,8 @@ namespace VRFrom_Gijs.Forms
             followBike();
             blocker.WaitOne(5000);
             followCamera();
+            blocker.WaitOne(5000);
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -217,7 +219,15 @@ namespace VRFrom_Gijs.Forms
 
         private void drawPanel()
         {
-            
+            string textValue = "Satan is love";
+            int[] position = {100,100};
+            double sizeValue = 32;
+            double[] color = {0, 0, 0, 1};
+            string fontValue = "calibri";
+
+            _panel.SwapPanel();
+            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.SwapPanel();
         }
 
         private void createForest()

@@ -70,7 +70,6 @@ namespace VRFrom_Gijs.Program
                     var result = GetMessageFromBuffer(bufferBytes, packetLength);
                    
                     dynamic red = JsonConvert.DeserializeObject(result);
-                    //Console.WriteLine(red);
                     switch ((string) red.id)
                     {
                         case "session/list":
@@ -79,6 +78,7 @@ namespace VRFrom_Gijs.Program
                             Form.Invoke(FillConnectionList);
                             break;
                         case "tunnel/create":
+                            Console.WriteLine(red);
                             this.TunnelId = red.data.id;
                             break;
                         case "tunnel/send":
@@ -127,23 +127,6 @@ namespace VRFrom_Gijs.Program
                 Console.WriteLine("Error while connecting");
             }
         }
-
-        //public static List<Session> getSessions()
-        //{
-        //    List<Session> sessions = new List<Session>();
-        //    AutoResetEvent blocker = new AutoResetEvent(false);
-        //    callbacks["session/list"] = (data) =>
-        //    {
-        //        foreach (var s in data)
-        //            if (s.features.ToObject<List<string>>().Contains("tunnel"))
-        //                sessions.Add(new Session() { id = s.id, ip = s.clientinfo.host, user = s.clientinfo.user, file = s.clientinfo.file });
-        //        blocker.Set();
-        //    };
-        //    send("session/list", null);
-        //    blocker.WaitOne(5000);
-        //    callbacks.Remove("session/list");
-        //    return sessions;
-        //}
 
         private static string GetMessageFromBuffer(byte[] array, int count)
         {

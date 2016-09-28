@@ -60,7 +60,7 @@ namespace VRFrom_Gijs.Forms
             blocker.WaitOne(5000);
             followBike();
 
-            createForest();
+          //  createForest();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -188,6 +188,19 @@ namespace VRFrom_Gijs.Forms
                     transform = new { position = new[] {0,50,0}, scale = 75.0, rotation = new[] {0,-90,0} }
 
                 }
+            }, _connection.TunnelId));
+        }
+
+        private void addInterface()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+               id = "",
+               data = new
+               {
+                   
+               }
+                
             }, _connection.TunnelId));
         }
 

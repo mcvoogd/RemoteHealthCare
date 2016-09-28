@@ -61,20 +61,20 @@ namespace Server.Server
             const string path2 = @"..\..\ClientData\EncryptedFile.txt";
 
             _dataBase.SaveClients(path);
-            Encryptor.EncryptFile(path, path2);
+//            Encryptor.EncryptFile(path, path2);
         }
 
         public void LoadAllData()
         {
-            const string path2 = @"..\..\ClientData\file.txt";
-            const string path = @"..\..\ClientData\EncryptedFile.txt";
+            const string path = @"..\..\ClientData\file.txt";
+//            const string path = @"..\..\ClientData\EncryptedFile.txt";
     
             if (File.Exists(path))
             {
-                Encryptor.DecryptFile(path, path2);
-                if (File.Exists(path2))
+//                Encryptor.DecryptFile(path, path2);
+                if (File.Exists(path))
                 {
-                    _dataBase.LoadClients(path2);
+                    _dataBase.LoadClients(path);
                     Console.WriteLine("Loaded ClientData.");
                    // File.Delete(path2);
                 }

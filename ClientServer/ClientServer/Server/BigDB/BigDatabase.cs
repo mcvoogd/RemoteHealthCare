@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Security.Cryptography;
 using Newtonsoft.Json;
+using Server.Server;
 
 namespace Server.BigDB
 {
@@ -70,56 +72,65 @@ namespace Server.BigDB
         private static void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
         {
             TextWriter writer = null;
-
-            if (File.Exists(filePath))
+            using (var myDES = new TripleDESCryptoServiceProvider())
             {
-                File.Delete(filePath);
-                try
+                if (File.Exists(filePath))
                 {
-                    var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
-                    writer = new StreamWriter(filePath, append);
-                    writer.WriteLine(contentsToWriteToFile);
+                    File.Delete(filePath);
+                    try
+                    {
+                        var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
+                        writer = new StreamWriter(filePath, append);
+                        writer.WriteLine(System.Text.Encoding.Default.GetString(Encryptor.EncryptStringToBytes(contentsToWriteToFile,myDES.Key,myDES.IV)));
+                    }
+                    finally
+                    {
+                        writer?.Close();
+                    }
                 }
-                finally
+                else
                 {
-                    writer?.Close();
+                    try
+                    {
+                        var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
+                        writer = new StreamWriter(filePath, append);
+                        writer.WriteLine(System.Text.Encoding.Default.GetString(Encryptor.EncryptStringToBytes(contentsToWriteToFile,myDES.Key,myDES.IV)));
+                    }
+                    finally
+                    {
+                        writer?.Close();
+                    }
                 }
             }
-            else
-            {
-                try
-                {
-                    var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
-                    writer = new StreamWriter(filePath, append);
-                    writer.WriteLine(contentsToWriteToFile);
-                }
-                finally
-                {
-                    writer?.Close();
-                }
-            }
+            
         }
 
         private void ReadFromJsonFile(string filePath)
         {
             TextReader reader = null;
-            try
+            using (var myDES = new TripleDESCryptoServiceProvider())
             {
-                reader = new StreamReader(filePath);
-                var fileContents = reader.ReadToEnd();
-                var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
-                foreach (var toAdd in c)
-                {
-                    if (!Clients.Contains(toAdd))
+                try{
+                    reader = new StreamReader(filePath);
+                    var fileContents = reader.ReadToEnd();
+                    fileContents = Encryptor.DecryptStringFromBytes(Encryptor.GetBytes(fileContents), myDES.Key,
+                        myDES.IV);
+                    var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
+                    foreach (var toAdd in c)
                     {
-                        Clients.AddRange(c);
+                        if (!Clients.Contains(toAdd))
+                        {
+                            Clients.AddRange(c);
+                        }
                     }
                 }
+                finally
+                {
+                    reader?.Close();
+                }
             }
-            finally
-            {
-                reader?.Close();
-            }
+                
+           
         }
 
         #endregion

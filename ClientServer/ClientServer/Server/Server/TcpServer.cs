@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -12,12 +14,14 @@ namespace Server.Server
         private readonly TcpListener _tcpListener;
         private readonly BigDatabase _dataBase = new BigDatabase();
         public IPAddress IpAddress { get; set; }
+        public List<Thread> threads = new List<Thread>();
 
         public TcpServer()
         {
             IpAddress = GetLocalIpAddress();
             _tcpListener = new TcpListener(IpAddress,6969);
             Console.WriteLine("IpAddress: {0}",IpAddress);
+            LoadAllData();
         }
 
         public void Run()
@@ -38,7 +42,7 @@ namespace Server.Server
                     var clientHandlerThread = new Thread(clienthandler.HandleClient);
                     Console.WriteLine("Starting thread...");
                     clientHandlerThread.Start();
-                    
+                    threads.Add(clientHandlerThread);
                 }
                 catch (Exception e){
                     Console.WriteLine(e.Message);
@@ -50,8 +54,23 @@ namespace Server.Server
 
         public void SaveAllData()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\file.txt";
+            const string path = @"..\..\ClientData\file.txt";
             _dataBase.SaveClients(path);
+        }
+
+        public void LoadAllData()
+        {
+            const string path = @"..\..\ClientData\file.txt";
+
+            if (File.Exists(path))
+            { 
+                _dataBase.LoadClients(@"..\..\ClientData\file.txt");
+                Console.WriteLine("Loaded ClientData.");
+            }
+            else
+            {
+                Console.WriteLine("Nothing loaded, no file found.");
+            }
         }
 
         public static IPAddress GetLocalIpAddress()

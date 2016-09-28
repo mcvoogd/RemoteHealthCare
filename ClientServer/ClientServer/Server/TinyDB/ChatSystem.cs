@@ -8,7 +8,7 @@ namespace Server.TinyDB
 {
     class ChatSystem
     {
-        private readonly List<Message> _messages;
+        public readonly List<Message> _messages;
 
         public ChatSystem()
         {

@@ -22,10 +22,17 @@ namespace Server
             while (Console.ReadLine()?.ToLower() != "exit"){} // Constantly check user input for the exit command.
             // Properly close the program by stopping all threads.
             // It may in the future be better to properly disconnect the clients before just interrupting the server.
+            foreach (var clientHandleThread in tcpServer.threads)
+            {
+                clientHandleThread.Interrupt();
+                clientHandleThread.Abort();
+            }
+
             tcpServer.SaveAllData();
             serverThread.Interrupt();
             serverThread.Abort();
-           // Environment.Exit(0);
+
+            // Environment.Exit(0);
         }
     }
 }

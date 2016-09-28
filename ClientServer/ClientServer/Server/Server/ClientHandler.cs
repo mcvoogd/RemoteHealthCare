@@ -143,6 +143,7 @@ namespace Server.Server
 
         public void Disconnect()
         {
+            if (!_tcpClient.Connected) return;
             SendMessage(new
             {
                 id = "client/disconnect",

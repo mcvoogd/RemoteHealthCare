@@ -121,6 +121,18 @@ namespace Server.Server
             });
         }
 
+        public void Disconnect()
+        {
+            SendMessage(new
+            {
+                id = "client/disconnect",
+                data = new
+                {
+                    Disconnect = true
+                }
+            });
+        }
+
         public void SendMessage(dynamic message)
         {
             if (_sslStream == null) return;

@@ -57,6 +57,9 @@
             this.avgpowerLabel = new System.Windows.Forms.Label();
             this.avgrpmLabel = new System.Windows.Forms.Label();
             this.avgkmhLabel = new System.Windows.Forms.Label();
+            this.clientListBox = new System.Windows.Forms.ListBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.addClientButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -397,12 +400,75 @@
             this.avgkmhLabel.Text = "00,0";
             this.avgkmhLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // clientListBox
+            // 
+            this.clientListBox.BackColor = System.Drawing.Color.Black;
+            this.clientListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clientListBox.Font = new System.Drawing.Font("Good Times", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clientListBox.ForeColor = System.Drawing.Color.White;
+            this.clientListBox.FormattingEnabled = true;
+            this.clientListBox.ItemHeight = 18;
+            this.clientListBox.Items.AddRange(new object[] {
+            "Kevin",
+            "Martijn",
+            "Menno",
+            "Stefan",
+            "Gijs",
+            "Cas",
+            "Kevin",
+            "Martijn",
+            "Menno",
+            "Stefan",
+            "Gijs",
+            "Cas",
+            "Kevin",
+            "Martijn",
+            "Menno",
+            "Stefan",
+            "Gijs",
+            "Cas"});
+            this.clientListBox.Location = new System.Drawing.Point(12, 104);
+            this.clientListBox.Name = "clientListBox";
+            this.clientListBox.Size = new System.Drawing.Size(284, 144);
+            this.clientListBox.TabIndex = 26;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Good Times", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(8, 78);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(293, 23);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "Clients                 ";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // addClientButton
+            // 
+            this.addClientButton.BackColor = System.Drawing.Color.White;
+            this.addClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.addClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.addClientButton.Font = new System.Drawing.Font("Good Times", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addClientButton.ForeColor = System.Drawing.Color.Black;
+            this.addClientButton.Location = new System.Drawing.Point(270, 72);
+            this.addClientButton.Name = "addClientButton";
+            this.addClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.addClientButton.Size = new System.Drawing.Size(26, 26);
+            this.addClientButton.TabIndex = 28;
+            this.addClientButton.Text = "+";
+            this.addClientButton.UseVisualStyleBackColor = false;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.addClientButton);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.clientListBox);
             this.Controls.Add(this.avgkmhLabel);
             this.Controls.Add(this.avgrpmLabel);
             this.Controls.Add(this.avgbpmLabel);
@@ -469,6 +535,9 @@
         private System.Windows.Forms.Label avgpowerLabel;
         private System.Windows.Forms.Label avgrpmLabel;
         private System.Windows.Forms.Label avgkmhLabel;
+        private System.Windows.Forms.ListBox clientListBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button addClientButton;
     }
 }
 

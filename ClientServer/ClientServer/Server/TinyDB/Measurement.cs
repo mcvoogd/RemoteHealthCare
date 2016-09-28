@@ -12,7 +12,7 @@ namespace Server.TinyDB
         public double Burned { get; set; }
         public SimpleTime Time { get; set; }
         public int ReachedPower { get; set; }
-        public dynamic Message { get; set; }
+        private dynamic Message { get; set; }
 
         public Measurement(int pulse, int rotations, int speed, int power, double distance, double burned, SimpleTime time, int reachedpower)
         {

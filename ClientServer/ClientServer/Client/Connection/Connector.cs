@@ -129,18 +129,17 @@ namespace Client.Connection
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
 
-            while (loginAccepted != 0)
+            while (loginAccepted == 0){}
+
+            if (loginAccepted == 1)
             {
-                if (loginAccepted == 1)
-                {
-                    loginAccepted = 0;
-                    return true;
-                }
-                if (loginAccepted == -1)
-                {
-                    loginAccepted = 0;
-                    return false;
-                }
+                loginAccepted = 0;
+                return true;
+            }
+            if (loginAccepted == -1)
+            {
+                loginAccepted = 0;
+                return false;
             }
             return false;
         }

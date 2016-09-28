@@ -8,34 +8,44 @@ using DataScreen.Forms;
 
 namespace Client.Connection
 {
-    class DataReceiver
+    public delegate void AddMeasurement(Measurement measurement);
+
+    public class DataReceiver
     {
         private readonly SerialPort _serialPort;
         private readonly RemoteHealthcare _remoteHealthcare;
         private readonly SimulationForm _simulation;
-        public readonly List<Measurement> Measurements;
+        private AddMeasurement _addMeasurement;
 
-        public DataReceiver(SerialPort serialPort, RemoteHealthcare remoteHealthcare)
+        public DataReceiver(SerialPort serialPort, RemoteHealthcare remoteHealthcare, AddMeasurement addMeasurement)
         {
             _remoteHealthcare = remoteHealthcare;
             _serialPort = serialPort;
-            Measurements = new List<Measurement>();
             _simulation = null;
+            _addMeasurement = addMeasurement;
         }
 
-        public DataReceiver(RemoteHealthcare remoteHealthcare, SimulationForm simulation)
+        public DataReceiver(RemoteHealthcare remoteHealthcare, SimulationForm simulation, AddMeasurement addMeasurement)
         {
             _remoteHealthcare = remoteHealthcare;
             _serialPort = null;
-            Measurements = new List<Measurement>();
             _simulation = simulation;
+            _addMeasurement = addMeasurement;
         }
 
         public void Run()
         {
             while (_remoteHealthcare.Visible)
             {
-                if (_serialPort != null && _serialPort.IsOpen)
+                Console.WriteLine("Looping");
+                if (_simulation != null)
+                {
+                    _addMeasurement(_simulation.Measurement);
+
+                    Thread.Sleep(1000);
+                    Console.WriteLine("updating sim");
+                    _simulation.updateSim();
+                } else if (_serialPort != null && _serialPort.IsOpen)
                 {
                     try
                     {
@@ -44,31 +54,13 @@ namespace Client.Connection
                         Console.WriteLine("Reading...");
                         var temp = _serialPort.ReadLine();
 
-                        Measurements.Add(ParseMeasurement(temp));
+                        _addMeasurement(ParseMeasurement(temp));
 
-                        //RemoteHealthcare.SetText(temp);
                     }
-                    catch (Exception)
+                    catch (Exception exception)
                     {
-                        //TODO handle exception
+                        Console.WriteLine($"Exception! : {exception.StackTrace}");
                     }
-                }
-                else
-                {
-                    Measurements.Add(_simulation.Measurement);
-                    
-//                    _remoteHealthcare.SetText(
-//                    $"{_simulation.Measurement.Pulse}\t" +
-//                    $"{_simulation.Measurement.Rotations}\t" +
-//                    $"{_simulation.Measurement.Speed}\t" +
-//                    $"{(int)_simulation.Measurement.Distance}\t" +
-//                    $"{_simulation.Measurement.Power}\t     " +
-//                    $"{(int)_simulation.Measurement.Burned}\t   " +
-//                    $"{_simulation.Measurement.Time}\t " +
-//                    $"{_simulation.Measurement.ReachedPower}\n");
-
-                    Thread.Sleep(1000);
-                    _simulation.updateSim();
                 }
             }
         }

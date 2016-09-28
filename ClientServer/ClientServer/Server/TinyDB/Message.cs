@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.TinyDB
 {
-    class Message : IComparable<Message>
+    public class Message : IComparable<Message>
     {
         public string MessageValue { get; set; }
         public DateTime Time { get; set; }

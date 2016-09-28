@@ -83,6 +83,14 @@ namespace Client.Forms
 
         private void disconnectButton_Click(object sender, EventArgs e)
         {
+            _sendMessage(new
+            {
+                id = "client/disconnect",
+                data = new
+                {
+                    Disonnect = true
+                }
+            });
             Environment.Exit(0);
         }
 

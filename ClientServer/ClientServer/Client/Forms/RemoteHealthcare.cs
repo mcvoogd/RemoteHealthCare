@@ -16,29 +16,34 @@ using DataScreen.Forms;
 namespace Client.Forms
 {
     public delegate void SendMessage(dynamic message);
-
+    public delegate void AddMessage(string message);
     public delegate void SendStatistics(Measurement measurement);
 
     public partial class RemoteHealthcare : Form
     {
         private readonly SendMessage _sendMessage;
         private readonly SendStatistics _sendStatistics;
+        private readonly AddMessage _addMessage;
+
+         
+
         public string name { get; set; }
 
         private readonly int _connectionId;
-        private string _message;
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
         public List<Measurement> Measurements { get; set; }
+
 
         public RemoteHealthcare(SendMessage sendMessage,SendStatistics sendStatistics ,int connectionId)
         {
             _sendMessage = sendMessage;
             _sendStatistics = sendStatistics;
+            _addMessage = AddMessageMethod;
+
 
             this.FormClosing += RemoteHealthCare_FormClosing;
             _connectionId = connectionId;
-            _message = null;
             InitializeComponent();
             this.Paint += RemoteHealthcare_Paint;
             Measurements = new List<Measurement>();
@@ -53,11 +58,22 @@ namespace Client.Forms
             connectStatusLabel.Text = "Connected";
         }
 
+        public void AddMessageMethod(string message)
+        {
+            chatTextBox.Text += message;
+        }
+
         public void Message(string message)
         {
             Console.WriteLine("GUI Message");
-            _message = message;
-            Invalidate();
+            if (InvokeRequired)
+            {
+                Invoke(_addMessage, message);
+            }
+            else
+            {
+                chatTextBox.Text += message;
+            }
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -68,9 +84,10 @@ namespace Client.Forms
                 clientid = _connectionId,
                 data = new
                 {
-                    message = messageTextBox.Text
+                    message = (messageTextBox.Text += "\n")
                 }
             });
+            chatTextBox.Text += messageTextBox.Text;
             messageTextBox.Text = "";
         }
 

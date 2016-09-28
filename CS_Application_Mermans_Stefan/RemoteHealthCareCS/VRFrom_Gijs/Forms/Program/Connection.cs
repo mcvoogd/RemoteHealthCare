@@ -32,6 +32,7 @@ namespace VRFrom_Gijs.Program
         public string GroundPlanId { get; set; } //TODO SAME AS ABOVE.
         public string RouteId { get; set; }
         public string cameraID { get; set; }
+        public string headID { get; set; }
 
         public Connection(string ip, int port, Form1 form)
         {
@@ -107,6 +108,7 @@ namespace VRFrom_Gijs.Program
                                     GroundPlanId =
                                         red.data.data.data.children[red.data.data.data.children.Count - 1].uuid;
                                     cameraID = red.data.data.data.children[1].uuid;
+                                    headID = red.data.data.data.children[4].uuid;
                                     break;
                                 case "scene/node/delete":
                                     Console.WriteLine("Deleted.");

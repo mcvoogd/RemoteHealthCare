@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Server.TinyDB
 {
-    class ChatSystem
+    public class ChatSystem
     {
-        private readonly List<Message> _messages;
+        public readonly List<Message> _messages;
 
         public ChatSystem()
         {

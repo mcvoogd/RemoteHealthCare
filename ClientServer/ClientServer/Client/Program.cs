@@ -21,7 +21,7 @@ namespace Client
             Application.SetCompatibleTextRenderingDefault(false);
 
             var connector = new Connector();
-            var remoteHealthcare = new RemoteHealthcare(connector.SendMessage, connector.ConnectionId) {Visible = false};
+            var remoteHealthcare = new RemoteHealthcare(connector.SendMessage,connector.SendStatistics,connector.ConnectionId);
             var loginForm = new LoginForm(remoteHealthcare,connector.Connect);
 
             Application.Run(loginForm);

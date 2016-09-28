@@ -50,9 +50,9 @@ namespace VRFrom_Gijs.Forms
             blocker.WaitOne(5000);
 
 
+            blocker.WaitOne(5000);
+            createBike();
             createRoad();
-            //blocker.WaitOne(5000);
-            //createBike();
             //blocker.WaitOne(5000);
             //followRoad();
             //blocker.WaitOne(5000);

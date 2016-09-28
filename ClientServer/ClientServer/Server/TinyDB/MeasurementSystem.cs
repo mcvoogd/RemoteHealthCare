@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Server.TinyDB
 {
-    class MeasurementSystem
+    public class MeasurementSystem
     {
-        private readonly List<Measurement> _measurements;
+        public readonly List<Measurement> _measurements;
 
         public MeasurementSystem()
         {

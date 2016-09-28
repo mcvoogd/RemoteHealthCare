@@ -10,39 +10,40 @@ namespace Server.Server
 {
     static class Encryptor
     {
-        public static void EncryptFile(string inputFile, string outputFile)
+        public static void EncryptFile(string inputFile, string outputFile, string skey = "xXxMLGPr0Scope69xXx")
         {
-
             try
             {
-                string password = @"xXxMLGPr0Scope69xXx"; // Your Key Here
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
+                using (RijndaelManaged aes = new RijndaelManaged())
+                {
+                    byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
 
-                string cryptFile = outputFile;
-                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+                    /* This is for demostrating purposes only. 
+                     * Ideally you will want the IV key to be different from your key and you should always generate a new one for each encryption in other to achieve maximum security*/
+                    byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
 
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateEncryptor(key, key),
-                    CryptoStreamMode.Write);
-
-                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
-
-                int data;
-                while ((data = fsIn.ReadByte()) != -1)
-                    cs.WriteByte((byte)data);
-
-
-                fsIn.Close();
-                cs.Close();
-                fsCrypt.Close();
-               // File.Delete(inputFile);
+                    using (FileStream fsCrypt = new FileStream(outputFile, FileMode.Create))
+                    {
+                        using (ICryptoTransform encryptor = aes.CreateEncryptor(key, IV))
+                        {
+                            using (CryptoStream cs = new CryptoStream(fsCrypt, encryptor, CryptoStreamMode.Write))
+                            {
+                                using (FileStream fsIn = new FileStream(inputFile, FileMode.Open))
+                                {
+                                    int data;
+                                    while ((data = fsIn.ReadByte()) != -1)
+                                    {
+                                        cs.WriteByte((byte)data);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-               
+                // failed to encrypt file
             }
         }
         ///<summary>
@@ -52,31 +53,40 @@ namespace Server.Server
         ///</summary>
         ///<param name="inputFile"></param>
         ///<param name="outputFile"></param>
-        public static void DecryptFile(string inputFile, string outputFile)
+        public static void DecryptFile(string inputFile, string outputFile, string skey = "xXxMLGPr0Scope69xXx")
         {
+            try
             {
-                string password = @"xXxMLGPr0Scope69xXx"; // Your Key Here
+                using (RijndaelManaged aes = new RijndaelManaged())
+                {
+                    byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
 
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
+                    /* This is for demostrating purposes only. 
+                     * Ideally you will want the IV key to be different from your key and you should always generate a new one for each encryption in other to achieve maximum security*/
+                    byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
 
-                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateDecryptor(key, key),
-                    CryptoStreamMode.Read);
-
-                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
-
-                int data;
-                while ((data = cs.ReadByte()) != -1)
-                    fsOut.WriteByte((byte)data);
-
-                fsOut.Close();
-                cs.Close();
-                fsCrypt.Close();
+                    using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open))
+                    {
+                        using (FileStream fsOut = new FileStream(outputFile, FileMode.Create))
+                        {
+                            using (ICryptoTransform decryptor = aes.CreateDecryptor(key, IV))
+                            {
+                                using (CryptoStream cs = new CryptoStream(fsCrypt, decryptor, CryptoStreamMode.Read))
+                                {
+                                    int data;
+                                    while ((data = cs.ReadByte()) != -1)
+                                    {
+                                        fsOut.WriteByte((byte)data);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // failed to decrypt file
             }
         }
     }

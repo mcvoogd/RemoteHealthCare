@@ -19,11 +19,11 @@ namespace VRFrom_Gijs.Forms
         public static AutoResetEvent blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null, _tree = null;
+        private Node _bike = null, _tree = null, _water =null, _fence = null, _rock = null;
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
-        private List<Point> points;
+        private List<Punt> points;
         private Forest forest;
 
         public TunnelCommandForm(Connection connection, string name)
@@ -48,8 +48,11 @@ namespace VRFrom_Gijs.Forms
             Thread.Sleep(3000);
             paintTerrain();
             blocker.WaitOne(5000);
-
-
+            createWater();
+            blocker.WaitOne(5000);
+            createForest();
+            blocker.WaitOne(5000); 
+            
             createRoad();
             //blocker.WaitOne(5000);
             //createBike();
@@ -141,10 +144,40 @@ namespace VRFrom_Gijs.Forms
                     data = new
                     {
                         id = _connection.TerrainId,
-                        normal = "data/NetworkEngine/textures/terrain/grass_rocky_n.jpg",
-                        diffuse = "data/NetworkEngine/textures/terrain/grass_rocky_d.jpg",
-                        minHeight = 0,
+                        normal = "data/NetworkEngine/textures/terrain/mntn_green_n.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/mntn_green_d.jpg",
+                        minHeight = 16,
                         maxHeight = 30,
+                        fadeDist = 0
+                    }
+                }, _connection.TunnelId));
+
+            _connection.SendMessage(
+                RequestCreater.TunnelSend(new
+                {
+                    id = "scene/node/addlayer",
+                    data = new
+                    {
+                        id = _connection.TerrainId,
+                        normal = "data/NetworkEngine/textures/terrain/grass_green_n.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/grass_green_d.jpg",
+                        minHeight = 2,
+                        maxHeight = 16,
+                        fadeDist = 0
+                    }
+                }, _connection.TunnelId));
+
+            _connection.SendMessage(
+                RequestCreater.TunnelSend(new
+                {
+                    id = "scene/node/addlayer",
+                    data = new
+                    {
+                        id = _connection.TerrainId,
+                        normal = "data/NetworkEngine/textures/terrain/ground_dry2_n.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/ground_dry2_d.jpg",
+                        minHeight = 0,
+                        maxHeight = 1,
                         fadeDist = 1
                     }
                 }, _connection.TunnelId));
@@ -191,10 +224,10 @@ namespace VRFrom_Gijs.Forms
         {
             points = forest.getForest();
 
-            foreach (Point point in points)
+            foreach (Punt point in points)
             {
                 Thread.Sleep(10);
-                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree1.obj", point.X, 0, point.Y, getRandom());
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, getRandom());
                 _connection.Nodes.Add(_tree);
 
                 Thread.Sleep(10);
@@ -207,9 +240,14 @@ namespace VRFrom_Gijs.Forms
             return random.NextDouble() * 0.6 + 1;
         }
 
-        private void createCity()
+        private void createWater()
         {
+            Thread.Sleep(10);
+            _water = new Node("water", _connection.TunnelId, 50, 2, 15, true);
+            _connection.Nodes.Add(_water);
 
+            Thread.Sleep(10);
+            _connection.SendMessage(_water.SendString);
         }
     }
 }

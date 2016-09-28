@@ -40,8 +40,8 @@
             this.chatTextBox = new System.Windows.Forms.RichTextBox();
             this.disconnectButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comportBox = new System.Windows.Forms.ComboBox();
             this.comPortConnectButton = new System.Windows.Forms.Button();
+            this.comportBox = new System.Windows.Forms.ComboBox();
             this.statusBar.SuspendLayout();
             this.dataBox.SuspendLayout();
             this.buttonsBox.SuspendLayout();
@@ -81,9 +81,9 @@
             this.dataBox.BackColor = System.Drawing.Color.White;
             this.dataBox.Controls.Add(this.infoLabel);
             this.dataBox.Location = new System.Drawing.Point(16, 31);
-            this.dataBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataBox.Margin = new System.Windows.Forms.Padding(4);
             this.dataBox.Name = "dataBox";
-            this.dataBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataBox.Padding = new System.Windows.Forms.Padding(4);
             this.dataBox.Size = new System.Drawing.Size(260, 295);
             this.dataBox.TabIndex = 1;
             this.dataBox.TabStop = false;
@@ -106,9 +106,9 @@
             this.buttonsBox.Controls.Add(this.chatTextBox);
             this.buttonsBox.Controls.Add(this.disconnectButton);
             this.buttonsBox.Location = new System.Drawing.Point(284, 31);
-            this.buttonsBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonsBox.Margin = new System.Windows.Forms.Padding(4);
             this.buttonsBox.Name = "buttonsBox";
-            this.buttonsBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonsBox.Padding = new System.Windows.Forms.Padding(4);
             this.buttonsBox.Size = new System.Drawing.Size(532, 399);
             this.buttonsBox.TabIndex = 2;
             this.buttonsBox.TabStop = false;
@@ -118,15 +118,15 @@
             // 
             this.messageTextBox.Location = new System.Drawing.Point(8, 301);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(422, 22);
+            this.messageTextBox.Size = new System.Drawing.Size(410, 22);
             this.messageTextBox.TabIndex = 3;
             // 
             // sendButton
             // 
             this.sendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.sendButton.Location = new System.Drawing.Point(436, 300);
+            this.sendButton.Location = new System.Drawing.Point(424, 300);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(89, 23);
+            this.sendButton.Size = new System.Drawing.Size(101, 23);
             this.sendButton.TabIndex = 2;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = false;
@@ -136,6 +136,7 @@
             // 
             this.chatTextBox.Location = new System.Drawing.Point(8, 23);
             this.chatTextBox.Name = "chatTextBox";
+            this.chatTextBox.ReadOnly = true;
             this.chatTextBox.Size = new System.Drawing.Size(517, 272);
             this.chatTextBox.TabIndex = 1;
             this.chatTextBox.Text = "";
@@ -145,7 +146,7 @@
             this.disconnectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.disconnectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.disconnectButton.Location = new System.Drawing.Point(424, 363);
-            this.disconnectButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.disconnectButton.Margin = new System.Windows.Forms.Padding(4);
             this.disconnectButton.Name = "disconnectButton";
             this.disconnectButton.Size = new System.Drawing.Size(100, 28);
             this.disconnectButton.TabIndex = 0;
@@ -167,6 +168,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "fiets connectie";
             // 
+            // comPortConnectButton
+            // 
+            this.comPortConnectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.comPortConnectButton.Location = new System.Drawing.Point(163, 23);
+            this.comPortConnectButton.Name = "comPortConnectButton";
+            this.comPortConnectButton.Size = new System.Drawing.Size(90, 24);
+            this.comPortConnectButton.TabIndex = 1;
+            this.comPortConnectButton.Text = "Connect";
+            this.comPortConnectButton.UseVisualStyleBackColor = false;
+            this.comPortConnectButton.Click += new System.EventHandler(this.comPortConnectButton_Click);
+            // 
             // comportBox
             // 
             this.comportBox.FormattingEnabled = true;
@@ -174,17 +186,6 @@
             this.comportBox.Name = "comportBox";
             this.comportBox.Size = new System.Drawing.Size(149, 24);
             this.comportBox.TabIndex = 0;
-            // 
-            // comPortConnectButton
-            // 
-            this.comPortConnectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.comPortConnectButton.Location = new System.Drawing.Point(163, 24);
-            this.comPortConnectButton.Name = "comPortConnectButton";
-            this.comPortConnectButton.Size = new System.Drawing.Size(90, 23);
-            this.comPortConnectButton.TabIndex = 1;
-            this.comPortConnectButton.Text = "Connect";
-            this.comPortConnectButton.UseVisualStyleBackColor = false;
-            this.comPortConnectButton.Click += new System.EventHandler(this.comPortConnectButton_Click);
             // 
             // RemoteHealthcare
             // 
@@ -197,7 +198,7 @@
             this.Controls.Add(this.dataBox);
             this.Controls.Add(this.statusBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RemoteHealthcare";
             this.Text = "RemoteHealthcare";
             this.Load += new System.EventHandler(this.RemoteHealthcare_Load);

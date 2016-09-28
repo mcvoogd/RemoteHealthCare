@@ -23,6 +23,7 @@ namespace Client.Forms
     {
         private readonly SendMessage _sendMessage;
         private readonly SendStatistics _sendStatistics;
+        public string name { get; set; }
 
         private readonly int _connectionId;
         private string _message;
@@ -48,6 +49,8 @@ namespace Client.Forms
                 comportBox.Items.Add(port);
             }
             comportBox.Items.Add("Simulation");
+
+            connectStatusLabel.Text = "Connected";
         }
 
         public void Message(string message)
@@ -74,15 +77,19 @@ namespace Client.Forms
         private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)
         {
             Console.WriteLine("PAINT");
-
-            if (_message == null) return;
-            Console.WriteLine("message: " + _message);
-            chatTextBox.Text += _message + "\n";
-            _message = null;
+            usernameLabel.Text = name;
         }
 
         private void disconnectButton_Click(object sender, EventArgs e)
         {
+            _sendMessage(new
+            {
+                id = "client/disconnect",
+                data = new
+                {
+                    Disonnect = true
+                }
+            });
             Environment.Exit(0);
         }
 

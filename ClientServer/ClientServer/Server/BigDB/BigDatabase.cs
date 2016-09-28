@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Security.Cryptography;
 using Newtonsoft.Json;
+using Server.Server;
 
 namespace Server.BigDB
 {
@@ -70,7 +72,6 @@ namespace Server.BigDB
         private static void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
         {
             TextWriter writer = null;
-
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
@@ -78,7 +79,7 @@ namespace Server.BigDB
                 {
                     var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
                     writer = new StreamWriter(filePath, append);
-                    writer.WriteLine(contentsToWriteToFile);
+                    writer.WriteLine(StringCipher.Encrypt(contentsToWriteToFile,"Password"));
                 }
                 finally
                 {
@@ -91,22 +92,23 @@ namespace Server.BigDB
                 {
                     var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
                     writer = new StreamWriter(filePath, append);
-                    writer.WriteLine(contentsToWriteToFile);
+                    writer.WriteLine(StringCipher.Encrypt(contentsToWriteToFile, "Password"));
                 }
                 finally
                 {
                     writer?.Close();
                 }
             }
+            
         }
 
         private void ReadFromJsonFile(string filePath)
         {
             TextReader reader = null;
-            try
-            {
+            try{
                 reader = new StreamReader(filePath);
                 var fileContents = reader.ReadToEnd();
+                fileContents = StringCipher.Decrypt(fileContents,"Password");
                 var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
                 foreach (var toAdd in c)
                 {
@@ -120,6 +122,8 @@ namespace Server.BigDB
             {
                 reader?.Close();
             }
+                
+           
         }
 
         #endregion

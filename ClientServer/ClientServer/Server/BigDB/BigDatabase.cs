@@ -19,25 +19,19 @@ namespace Server.BigDB
 
         public void AddClient(Client client)
         {
-            var alreadyThere = false;
-            foreach (var c in Clients)
-            {
-                if (!c.Equals(client)) continue;
-                alreadyThere = true;
-                break;
-            }
-
+            var alreadyThere = Enumerable.Contains(Clients, client);
             if (!alreadyThere) { Clients.Add(client); }
         }
 
         #region saving and loading clients
 
-        public void SaveClientRegister(string filePath, List<Client> clients)
+        public void SaveClients(string filePath)
         {
-            WriteToJsonFile<Client>(filePath, clients);
+            Console.WriteLine("Woehoe.!.?");
+            WriteToJsonFile<Client>(filePath, Clients);
         }
 
-        public void LoadClientRegister(string filePath)
+        public void LoadClients(string filePath)
         {
             ReadFromJsonFile(filePath);
             foreach (var c in Clients)
@@ -76,7 +70,7 @@ namespace Server.BigDB
 
         #region JsonWrite and Read methods
 
-        private void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
+        private static void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
         {
             TextWriter writer = null;
 

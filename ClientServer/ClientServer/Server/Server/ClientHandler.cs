@@ -192,15 +192,14 @@ namespace Server.Server
             string username = data.username;
             string password = data.password;
             int clientid = data.clientid;
-            Console.WriteLine("\n");
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
-            Console.WriteLine("\n");
             if (_database.GetClientById(clientid).Name.Equals("fout."))
             {
                 //null == tunnelID. <VR>
-                _client = new Client(username, password, null, 0, new TinyDataBase());
-                _database.AddClient(_client);
-                return true;
+                //_client = new Client(username, password, null, 0, new TinyDataBase());
+                //_database.AddClient(_client);
+                
+                return false;
             }
             _database.GetClientById(clientid, out _client);
             return true;

@@ -44,7 +44,6 @@ namespace Server.BigDB
             if (username == null && password == null) return 0;
             var nameV = GetStringInNumbers(username);
             var passwordV = GetStringInNumbers(password);
-            //Console.WriteLine("Made a new ID : " + (nameV * 397 ^ passwordV));
 
             return nameV * 397 ^ passwordV;
         }

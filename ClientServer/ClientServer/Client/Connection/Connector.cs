@@ -83,6 +83,10 @@ namespace Client.Connection
                                         }
                                     });
                                     break;
+                                case "client/disconnect":
+                                    _sslStream.Close();
+                                    _tcpClient.Close();
+                                    break;
                             }
                         }
                     }
@@ -175,8 +179,8 @@ namespace Client.Connection
 
         public void SendMessage(dynamic message)
         {
-            if(_sslStream == null) return;
-
+            if(_sslStream == null || !_tcpClient.Connected) return;
+            
             Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);

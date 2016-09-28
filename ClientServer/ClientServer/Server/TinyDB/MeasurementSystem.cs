@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.TinyDB
 {
-    class MeasurementSystem
+    public class MeasurementSystem
     {
         public readonly List<Measurement> _measurements;
 

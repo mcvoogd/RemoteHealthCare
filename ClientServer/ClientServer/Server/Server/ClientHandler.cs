@@ -12,7 +12,7 @@ using Server.TinyDB;
 
 namespace Server.Server
 {
-    class ClientHandler
+    public class ClientHandler
     {
         private readonly TcpClient _tcpClient;
         private readonly SslStream _sslStream;
@@ -93,6 +93,10 @@ namespace Server.Server
                                 Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
                             }
                             break;
+                        case "client/disconnect":
+                            _sslStream.Close();
+                            _tcpClient.Close();
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -131,11 +135,13 @@ namespace Server.Server
                     Disconnect = true
                 }
             });
+            _tcpClient.GetStream().Close();
+            _tcpClient.Close();
         }
 
         public void SendMessage(dynamic message)
         {
-            if (_sslStream == null) return;
+            if (_sslStream == null || !_tcpClient.Connected) return;
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);

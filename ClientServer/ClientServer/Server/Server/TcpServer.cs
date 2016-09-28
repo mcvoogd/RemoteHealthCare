@@ -15,6 +15,7 @@ namespace Server.Server
         private readonly BigDatabase _dataBase = new BigDatabase();
         public IPAddress IpAddress { get; set; }
         public List<Thread> threads = new List<Thread>();
+        public List<ClientHandler> ClientHandlers = new List<ClientHandler>();
 
         public TcpServer()
         {
@@ -36,8 +37,10 @@ namespace Server.Server
                     var tcpClientTask = _tcpListener.AcceptTcpClientAsync();
                     var tcpClient = tcpClientTask.Result;
                     Console.WriteLine("Connected to a client");
-                    
+
                     var clienthandler = new ClientHandler(tcpClient, _dataBase);
+                    ClientHandlers.Add(clienthandler);
+
                     Console.WriteLine("Clienthandler");
                     var clientHandlerThread = new Thread(clienthandler.HandleClient);
                     Console.WriteLine("Starting thread...");

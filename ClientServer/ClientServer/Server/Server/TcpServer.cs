@@ -55,22 +55,32 @@ namespace Server.Server
         public void SaveAllData()
         {
             const string path = @"..\..\ClientData\file.txt";
+            const string path2 = @"..\..\ClientData\EncryptedFile.txt";
+
             _dataBase.SaveClients(path);
+            Encryptor.EncryptFile(path, path2);
         }
 
         public void LoadAllData()
         {
-            const string path = @"..\..\ClientData\file.txt";
-
+            const string path2 = @"..\..\ClientData\file.txt";
+            const string path = @"..\..\ClientData\EncryptedFile.txt";
+    
             if (File.Exists(path))
-            { 
-                _dataBase.LoadClients(@"..\..\ClientData\file.txt");
-                Console.WriteLine("Loaded ClientData.");
+            {
+                Encryptor.DecryptFile(path, path2);
+                if (File.Exists(path2))
+                {
+                    _dataBase.LoadClients(path2);
+                    Console.WriteLine("Loaded ClientData.");
+                   // File.Delete(path2);
+                }
             }
             else
             {
                 Console.WriteLine("Nothing loaded, no file found.");
             }
+
         }
 
         public static IPAddress GetLocalIpAddress()

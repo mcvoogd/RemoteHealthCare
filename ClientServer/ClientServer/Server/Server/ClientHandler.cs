@@ -92,6 +92,10 @@ namespace Server.Server
                                 SendAck("login/request");
                                 Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
                             }
+                            else
+                            {
+                                SendNotAck("login/request");
+                            }
                             break;
                         default:
                             Console.WriteLine("Id: " + id);
@@ -107,6 +111,18 @@ namespace Server.Server
                     Console.WriteLine(e.StackTrace);
                 }
             }
+        }
+
+        private void SendNotAck(string idV)
+        {
+            SendMessage(new
+            {
+                id = idV,
+                data = new
+                {
+                    ack = false
+                }
+            });
         }
 
         public void SendAck(string idV)
@@ -196,9 +212,9 @@ namespace Server.Server
             if (_database.GetClientById(clientid).Name.Equals("fout."))
             {
                 //null == tunnelID. <VR>
-                //_client = new Client(username, password, null, 0, new TinyDataBase());
-                //_database.AddClient(_client);
-                
+//                _client = new Client(username, password, null, 0, new TinyDataBase());
+//                _database.AddClient(_client);
+                Console.WriteLine("Did not exist");
                 return false;
             }
             _database.GetClientById(clientid, out _client);

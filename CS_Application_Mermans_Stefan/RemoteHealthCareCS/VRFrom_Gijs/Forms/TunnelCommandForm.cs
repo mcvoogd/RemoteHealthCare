@@ -49,7 +49,6 @@ namespace VRFrom_Gijs.Forms
             paintTerrain();
             blocker.WaitOne(5000);
 
-            createForest();
 
             createRoad();
             //blocker.WaitOne(5000);
@@ -121,7 +120,8 @@ namespace VRFrom_Gijs.Forms
                 }
             }, _connection.TunnelId));
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1500);
+
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/road/add",
@@ -173,6 +173,7 @@ namespace VRFrom_Gijs.Forms
 
         private void followBike()
         {
+
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/node/update",
@@ -180,7 +181,7 @@ namespace VRFrom_Gijs.Forms
                 {
                     id = _connection.cameraID,
                     parent = _bike.Uuid,
-                    transform = new { position = new[] { 0,100,0}, scale = 10.0, rotation = new[] { Math.PI / 2, 0, 0 } }
+                    transform = new { position = new[] {0,50,0}, scale = 75.0, rotation = new[] {0,-90,0} }
 
                 }
             }, _connection.TunnelId));

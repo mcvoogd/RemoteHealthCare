@@ -111,7 +111,7 @@ namespace Client.Connection
         public void Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp,6969);
-            _sslStream = new SslStream(_tcpClient.GetStream(),false, new RemoteCertificateValidationCallback(ValidateServerCertificate),null);
+            _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
             Login(username, password);
 
@@ -191,23 +191,6 @@ namespace Client.Connection
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
             _sslStream.Flush();
-        }
-
-
-        // Currently always returns true...
-        public static bool ValidateServerCertificate(
-             object sender,
-             X509Certificate certificate,
-             X509Chain chain,
-             SslPolicyErrors sslPolicyErrors)
-        {
-            if (sslPolicyErrors == SslPolicyErrors.None)
-                return true;
-
-            Console.WriteLine("Certificate error: {0}", sslPolicyErrors);
-
-            // Do not allow this client to communicate with unauthenticated servers.
-            return true;
         }
 
         // Gets the first message from the buffer that isn't idicating the size

@@ -72,34 +72,31 @@ namespace Server.BigDB
         private static void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
         {
             TextWriter writer = null;
-            using (var myDES = new TripleDESCryptoServiceProvider())
+            if (File.Exists(filePath))
             {
-                if (File.Exists(filePath))
+                File.Delete(filePath);
+                try
                 {
-                    File.Delete(filePath);
-                    try
-                    {
-                        var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
-                        writer = new StreamWriter(filePath, append);
-                        writer.WriteLine(System.Text.Encoding.Default.GetString(Encryptor.EncryptStringToBytes(contentsToWriteToFile,myDES.Key,myDES.IV)));
-                    }
-                    finally
-                    {
-                        writer?.Close();
-                    }
+                    var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
+                    writer = new StreamWriter(filePath, append);
+                    writer.WriteLine(StringCipher.Encrypt(contentsToWriteToFile,"Password"));
                 }
-                else
+                finally
                 {
-                    try
-                    {
-                        var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
-                        writer = new StreamWriter(filePath, append);
-                        writer.WriteLine(System.Text.Encoding.Default.GetString(Encryptor.EncryptStringToBytes(contentsToWriteToFile,myDES.Key,myDES.IV)));
-                    }
-                    finally
-                    {
-                        writer?.Close();
-                    }
+                    writer?.Close();
+                }
+            }
+            else
+            {
+                try
+                {
+                    var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
+                    writer = new StreamWriter(filePath, append);
+                    writer.WriteLine(StringCipher.Encrypt(contentsToWriteToFile, "Password"));
+                }
+                finally
+                {
+                    writer?.Close();
                 }
             }
             
@@ -108,26 +105,22 @@ namespace Server.BigDB
         private void ReadFromJsonFile(string filePath)
         {
             TextReader reader = null;
-            using (var myDES = new TripleDESCryptoServiceProvider())
-            {
-                try{
-                    reader = new StreamReader(filePath);
-                    var fileContents = reader.ReadToEnd();
-                    fileContents = Encryptor.DecryptStringFromBytes(Encryptor.GetBytes(fileContents), myDES.Key,
-                        myDES.IV);
-                    var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
-                    foreach (var toAdd in c)
+            try{
+                reader = new StreamReader(filePath);
+                var fileContents = reader.ReadToEnd();
+                fileContents = StringCipher.Decrypt(fileContents,"Password");
+                var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
+                foreach (var toAdd in c)
+                {
+                    if (!Clients.Contains(toAdd))
                     {
-                        if (!Clients.Contains(toAdd))
-                        {
-                            Clients.AddRange(c);
-                        }
+                        Clients.AddRange(c);
                     }
                 }
-                finally
-                {
-                    reader?.Close();
-                }
+            }
+            finally
+            {
+                reader?.Close();
             }
                 
            

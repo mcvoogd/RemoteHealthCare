@@ -8,177 +8,100 @@ using System.Threading.Tasks;
 
 namespace Server.Server
 {
-    public static class Encryptor
+    public static class StringCipher
     {
-        public static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
+        // This constant is used to determine the keysize of the encryption algorithm in bits.
+        // We divide this by 8 within the code below to get the equivalent number of bytes.
+        private const int Keysize = 256;
 
-        public static string GetString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
-        }
+        // This constant determines the number of iterations for the password bytes generation function.
+        private const int DerivationIterations = 1000;
 
-        public static byte[] EncryptStringToBytes(string plainText, byte[] Key, byte[] IV)
+        public static string Encrypt(string plainText, string passPhrase)
         {
-            // Check arguments.
-            if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException("plainText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("Key");
-            byte[] encrypted;
-            // Create an TripleDESCryptoServiceProvider object
-            // with the specified key and IV.
-            using (TripleDESCryptoServiceProvider tdsAlg = new TripleDESCryptoServiceProvider())
+            // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
+            // so that the same Salt and IV values can be used when decrypting.  
+            var saltStringBytes = Generate256BitsOfRandomEntropy();
+            var ivStringBytes = Generate256BitsOfRandomEntropy();
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
-                tdsAlg.Key = Key;
-                tdsAlg.IV = IV;
-
-                // Create a decrytor to perform the stream transform.
-                ICryptoTransform encryptor = tdsAlg.CreateEncryptor(tdsAlg.Key, tdsAlg.IV);
-
-                // Create the streams used for encryption.
-                using (MemoryStream msEncrypt = new MemoryStream())
+                var keyBytes = password.GetBytes(Keysize / 8);
+                using (var symmetricKey = new RijndaelManaged())
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    symmetricKey.BlockSize = 256;
+                    symmetricKey.Mode = CipherMode.CBC;
+                    symmetricKey.Padding = PaddingMode.PKCS7;
+                    using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        using (var memoryStream = new MemoryStream())
                         {
-
-                            //Write all data to the stream.
-                            swEncrypt.Write(plainText);
-                        }
-                        encrypted = msEncrypt.ToArray();
-                    }
-                }
-            }
-
-
-            // Return the encrypted bytes from the memory stream.
-            return encrypted;
-
-        }
-
-        public static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
-        {
-            // Check arguments.
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("Key");
-
-            // Declare the string used to hold
-            // the decrypted text.
-            string plaintext = null;
-
-            // Create an TripleDESCryptoServiceProvider object
-            // with the specified key and IV.
-            using (TripleDESCryptoServiceProvider tdsAlg = new TripleDESCryptoServiceProvider())
-            {
-                tdsAlg.Key = Key;
-                tdsAlg.IV = IV;
-
-                // Create a decrytor to perform the stream transform.
-                ICryptoTransform decryptor = tdsAlg.CreateDecryptor(tdsAlg.Key, tdsAlg.IV);
-
-                // Create the streams used for decryption.
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
-
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            plaintext = srDecrypt.ReadToEnd();
+                            using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                            {
+                                cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+                                cryptoStream.FlushFinalBlock();
+                                // Create the final bytes as a concatenation of the random salt bytes, the random iv bytes and the cipher bytes.
+                                var cipherTextBytes = saltStringBytes;
+                                cipherTextBytes = cipherTextBytes.Concat(ivStringBytes).ToArray();
+                                cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
+                                memoryStream.Close();
+                                cryptoStream.Close();
+                                return Convert.ToBase64String(cipherTextBytes);
+                            }
                         }
                     }
                 }
-
-            }
-
-            return plaintext;
-
-        }
-
-        public static void EncryptFile(string inputFile, string outputFile)
-        {
-
-            try
-            {
-                string password = @"xXxMLGPr0Scope69xXx"; // Your Key Here
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                string cryptFile = outputFile;
-                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateEncryptor(key, key),
-                    CryptoStreamMode.Write);
-
-                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
-
-                int data;
-                while ((data = fsIn.ReadByte()) != -1)
-                    cs.WriteByte((byte)data);
-
-
-                fsIn.Close();
-                cs.Close();
-                fsCrypt.Close();
-               // File.Delete(inputFile);
-            }
-            catch
-            {
-               
             }
         }
-        ///<summary>
-        /// Steve Lydford - 12/05/2008.
-        ///
-        /// Decrypts a file using Rijndael algorithm.
-        ///</summary>
-        ///<param name="inputFile"></param>
-        ///<param name="outputFile"></param>
-        public static void DecryptFile(string inputFile, string outputFile)
+
+        public static string Decrypt(string cipherText, string passPhrase)
         {
+            // Get the complete stream of bytes that represent:
+            // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
+            var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
+            // Get the saltbytes by extracting the first 32 bytes from the supplied cipherText bytes.
+            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
+            // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
+            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
+            // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
+
+            using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
-                string password = @"xXxMLGPr0Scope69xXx"; // Your Key Here
-
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateDecryptor(key, key),
-                    CryptoStreamMode.Read);
-
-                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
-
-                int data;
-                while ((data = cs.ReadByte()) != -1)
-                    fsOut.WriteByte((byte)data);
-
-                fsOut.Close();
-                cs.Close();
-                fsCrypt.Close();
+                var keyBytes = password.GetBytes(Keysize / 8);
+                using (var symmetricKey = new RijndaelManaged())
+                {
+                    symmetricKey.BlockSize = 256;
+                    symmetricKey.Mode = CipherMode.CBC;
+                    symmetricKey.Padding = PaddingMode.PKCS7;
+                    using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
+                    {
+                        using (var memoryStream = new MemoryStream(cipherTextBytes))
+                        {
+                            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                            {
+                                var plainTextBytes = new byte[cipherTextBytes.Length];
+                                var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+                                memoryStream.Close();
+                                cryptoStream.Close();
+                                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                            }
+                        }
+                    }
+                }
             }
+        }
+
+        private static byte[] Generate256BitsOfRandomEntropy()
+        {
+            var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
+            using (var rngCsp = new RNGCryptoServiceProvider())
+            {
+                // Fill the array with cryptographically secure random bytes.
+                rngCsp.GetBytes(randomBytes);
+            }
+            return randomBytes;
         }
     }
 }
+

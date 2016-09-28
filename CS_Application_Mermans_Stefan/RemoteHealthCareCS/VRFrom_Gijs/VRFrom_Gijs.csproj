@@ -63,12 +63,12 @@
     <Compile Include="Forms\TunnelCommandForm.Designer.cs">
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program\Client.cs" />
-    <Compile Include="Program\Connection.cs" />
-    <Compile Include="Program\Forest.cs" />
-    <Compile Include="Program\Program.cs" />
-    <Compile Include="Program\RequestCreater.cs" />
-    <Compile Include="Program\Result.cs" />
+    <Compile Include="Forms\Program\Client.cs" />
+    <Compile Include="Forms\Program\Connection.cs" />
+    <Compile Include="Forms\Program\Forest.cs" />
+    <Compile Include="Forms\Program\Program.cs" />
+    <Compile Include="Forms\Program\RequestCreater.cs" />
+    <Compile Include="Forms\Program\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VrObjects\Node.cs" />
     <Compile Include="VrObjects\Panel.cs" />

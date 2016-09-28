@@ -92,13 +92,21 @@ namespace Client.Forms
         }
 
 
-        private static void RemoteHealthCare_FormClosing(object sender, FormClosingEventArgs e)
+        private void RemoteHealthCare_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
+                    _sendMessage(new
+                    {
+                        id = "client/disconnect",
+                        data = new
+                        {
+                            Disonnect = true
+                        }
+                    });
                     Environment.Exit(0);
                 }
                 else

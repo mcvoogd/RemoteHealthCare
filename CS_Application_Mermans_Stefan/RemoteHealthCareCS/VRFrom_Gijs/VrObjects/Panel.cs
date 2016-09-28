@@ -12,10 +12,12 @@ namespace VRFrom_Gijs.VrObjects
         public string Uuid { get; set; }
         public string ToSend { get; set; }
         public string TunnelId { get; }
+        public string name { get; set; }
 
-        public Panel(string name, int scaleValue, int x, int y, int z, int xR, int yR, int zR, int size1, int size2 ,int width, int height, int bckground1, int bckground2, int bckground3, int bckground4, string tunnelId)
+        public Panel(string name, int scaleValue, int x, int y, int z, int xR, int yR, int zR, double size1, double size2 ,int width, int height, double bckground1, double bckground2, double bckground3, double bckground4, string tunnelId)
         {
             this.TunnelId = tunnelId;
+            this.name = name;
             ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/node/add",
@@ -35,11 +37,21 @@ namespace VRFrom_Gijs.VrObjects
                             resolution = new[] {width, height},
                             background = new[] {bckground1, bckground2, bckground3, bckground4}
                         
-                    }
+                        }
                     }
 
                 }
             }, tunnelId);
+        }
+
+        public void makeUuid()
+        {
+            if (Uuid == null)
+            {
+                string temp;
+                Connection.VRobjecten.TryGetValue(name, out temp);
+                Uuid = temp;
+            }
         }
 
         public void ClearPanel()
@@ -81,7 +93,7 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void SetClearColor(int[] kleur)
+        public void SetClearColor(double[] kleur)
         {
             RequestCreater.TunnelSend(new
             {
@@ -94,7 +106,7 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void DrawText(string textValue, int[] positie, double sizeValue, int[] kleur, string fontValue)
+        public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
         {
             RequestCreater.TunnelSend(new
             {

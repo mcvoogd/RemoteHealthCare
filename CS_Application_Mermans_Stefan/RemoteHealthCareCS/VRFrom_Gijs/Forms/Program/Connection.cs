@@ -32,6 +32,7 @@ namespace VRFrom_Gijs.Program
         public string GroundPlanId { get; set; } //TODO SAME AS ABOVE.
         public string RouteId { get; set; }
         public string cameraID { get; set; }
+        public string headID { get; set; }
 
         public Connection(string ip, int port, Form1 form)
         {
@@ -70,7 +71,6 @@ namespace VRFrom_Gijs.Program
                     var result = GetMessageFromBuffer(bufferBytes, packetLength);
                    
                     dynamic red = JsonConvert.DeserializeObject(result);
-                    //Console.WriteLine(red);
                     switch ((string) red.id)
                     {
                         case "session/list":
@@ -79,6 +79,7 @@ namespace VRFrom_Gijs.Program
                             Form.Invoke(FillConnectionList);
                             break;
                         case "tunnel/create":
+                            Console.WriteLine(red);
                             this.TunnelId = red.data.id;
                             break;
                         case "tunnel/send":
@@ -107,6 +108,7 @@ namespace VRFrom_Gijs.Program
                                     GroundPlanId =
                                         red.data.data.data.children[red.data.data.data.children.Count - 1].uuid;
                                     cameraID = red.data.data.data.children[1].uuid;
+                                    headID = red.data.data.data.children[4].uuid;
                                     break;
                                 case "scene/node/delete":
                                     Console.WriteLine("Deleted.");
@@ -127,23 +129,6 @@ namespace VRFrom_Gijs.Program
                 Console.WriteLine("Error while connecting");
             }
         }
-
-        //public static List<Session> getSessions()
-        //{
-        //    List<Session> sessions = new List<Session>();
-        //    AutoResetEvent blocker = new AutoResetEvent(false);
-        //    callbacks["session/list"] = (data) =>
-        //    {
-        //        foreach (var s in data)
-        //            if (s.features.ToObject<List<string>>().Contains("tunnel"))
-        //                sessions.Add(new Session() { id = s.id, ip = s.clientinfo.host, user = s.clientinfo.user, file = s.clientinfo.file });
-        //        blocker.Set();
-        //    };
-        //    send("session/list", null);
-        //    blocker.WaitOne(5000);
-        //    callbacks.Remove("session/list");
-        //    return sessions;
-        //}
 
         private static string GetMessageFromBuffer(byte[] array, int count)
         {

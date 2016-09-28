@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Server.BigDB
 {
-    class BigDatabase
+    public class BigDatabase
     {
         public List<Client> Clients { get; set; }
 

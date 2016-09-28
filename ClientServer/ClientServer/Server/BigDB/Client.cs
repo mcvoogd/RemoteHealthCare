@@ -9,7 +9,7 @@ using Server.TinyDB;
 
 namespace Server.BigDB
 {
-    class Client
+    public class Client
     {
 
         public string Name { get; set; }

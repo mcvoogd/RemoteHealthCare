@@ -56,6 +56,13 @@ namespace Doctor.Classes
 
                             switch (id)
                             {
+                                case "get/patients":
+                                {
+                                    Console.WriteLine("WOEHOE RECIEVED PATIENTS");
+                                    Patient[] patients = data.patients;
+                                        Console.WriteLine("Patients count : " + patients.Length);
+                                }
+                                    break;
                                 case "login/request":
                                     if (data.ack == false)
                                     {
@@ -63,6 +70,7 @@ namespace Doctor.Classes
                                         return;
                                     }
                                     loginAccepted = 1;
+
                                     break;
                                 case "message/send":
                                     _messageList.Add(ParseMessage(data.message));
@@ -122,7 +130,11 @@ namespace Doctor.Classes
             {
                 case 1:
                     loginAccepted = 0;
-                    
+
+                    SendMessage(new
+                    {
+                        id = "get/patients",
+                    });
                     return true;
                 case -1:
                     loginAccepted = 0;

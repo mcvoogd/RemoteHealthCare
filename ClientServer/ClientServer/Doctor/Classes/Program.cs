@@ -21,5 +21,7 @@ namespace Doctor.Classes
 
             Application.Run(loginForm);
         }
+        }
+
     }
-}
+

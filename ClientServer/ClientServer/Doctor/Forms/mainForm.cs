@@ -20,7 +20,6 @@ namespace Doctor.Forms
             byte[] fontArray = Doctor.Properties.Resources.good_times;
             int dataLength = Doctor.Properties.Resources.good_times.Length;
 
-
             // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
             IntPtr ptrData = Marshal.AllocCoTaskMem(dataLength);
             Marshal.Copy(fontArray, 0, ptrData, dataLength);

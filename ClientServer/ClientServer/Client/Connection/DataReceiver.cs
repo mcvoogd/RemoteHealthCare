@@ -40,6 +40,8 @@ namespace Client.Connection
                 Console.WriteLine("Looping");
                 if (_simulation != null)
                 {
+                    if(!_simulation.Visible) return;
+
                     _addMeasurement(_simulation.Measurement);
 
                     Thread.Sleep(1000);

@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VRFrom_Gijs.Program;
+using Client.VRConnection.Program;
 
-namespace VRFrom_Gijs.VrObjects
+namespace Client.VRConnection.VRObjects
 {
     class Terrain
     {

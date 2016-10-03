@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VRFrom_Gijs.Forms.Program
+namespace Client.VRConnection.Forms.Program
 {
     class Punt
     {

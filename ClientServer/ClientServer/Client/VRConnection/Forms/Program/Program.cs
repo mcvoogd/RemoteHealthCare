@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using VRFrom_Gijs.Forms;
 
-namespace VRFrom_Gijs.Program
+namespace Client.VRConnection.Forms.Program
 {
     static class Program
     {

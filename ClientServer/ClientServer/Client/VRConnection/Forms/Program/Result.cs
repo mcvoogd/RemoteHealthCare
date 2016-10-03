@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VRFrom_Gijs.Program
+namespace Client.VRConnection.Forms.Program
 { 
 
     public class Clientinfo

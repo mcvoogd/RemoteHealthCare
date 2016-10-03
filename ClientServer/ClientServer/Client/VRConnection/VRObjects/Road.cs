@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VRFrom_Gijs.Program;
 
-namespace VRFrom_Gijs.VrObjects
+namespace Client.VRConnection.VRObjects
 {
     class Road
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VRFrom_Gijs.Program;
+using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {

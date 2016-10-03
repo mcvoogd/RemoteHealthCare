@@ -4,17 +4,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Client.VRConnection.Program;
+using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {
     class Terrain
     {
         private readonly string _tunnelId;
-        private readonly Connection _connection;
+        private readonly Forms.Program.Connection _connection;
         public string UUID { get;}
 
-        public Terrain(string tunnelId, Connection connection)
+        public Terrain(string tunnelId, Forms.Program.Connection connection)
         {
             _tunnelId = tunnelId;
             _connection = connection;

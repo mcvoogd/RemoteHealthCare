@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -15,7 +16,7 @@ namespace Server.Server
         private readonly BigDatabase _dataBase = new BigDatabase();
         public IPAddress IpAddress { get; set; }
         public List<Thread> threads = new List<Thread>();
-        public List<ClientHandler> ClientHandlers = new List<ClientHandler>();
+        public static List<ClientHandler> ClientHandlers = new List<ClientHandler>();
 
         public TcpServer()
         {
@@ -89,6 +90,11 @@ namespace Server.Server
                 }
             }
             throw new Exception("Local IP Address Not Found!");
+        }
+
+        public static ClientHandler GetClientHandlerByClientID(int clientId)
+        {
+            return ClientHandlers.FirstOrDefault(clientHandler => clientHandler.Client.UniqueId == clientId);
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Client.Connection;
 using Client.Simulator;
 using DataScreen.Forms;
+using Message = Client.Connection.Message;
 
 namespace Client.Forms
 {
@@ -28,8 +29,10 @@ namespace Client.Forms
          
 
         public string name { get; set; }
+        private readonly List<Message> _messages = new List<Message>();
 
         private readonly int _connectionId;
+        private string _message;
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
         public List<Measurement> Measurements { get; set; }
@@ -44,6 +47,7 @@ namespace Client.Forms
 
             this.FormClosing += RemoteHealthCare_FormClosing;
             _connectionId = connectionId;
+            _message = null;
             InitializeComponent();
             this.Paint += RemoteHealthcare_Paint;
             Measurements = new List<Measurement>();
@@ -76,11 +80,17 @@ namespace Client.Forms
             }
         }
 
+        public void AddMessage(Message msg)
+        {
+            _messages.Add(msg);
+            RefreshMessageList();
+        }
+
         private void sendButton_Click(object sender, EventArgs e)
         {
             _sendMessage(new
             {
-                id = "Message/send",
+                id = "message/send",
                 clientid = _connectionId,
                 data = new
                 {
@@ -168,6 +178,16 @@ namespace Client.Forms
         {
             Measurements.Add(measurement);
             _sendStatistics(measurement);
+        }
+
+        public void RefreshMessageList()
+        {
+            chatTextBox.Text = "";
+            foreach (var message in _messages)
+            {
+                chatTextBox.Text += message.MessageValue;
+                chatTextBox.Text += "\n";
+            }
         }
     }
 }

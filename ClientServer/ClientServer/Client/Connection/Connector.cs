@@ -15,25 +15,25 @@ using Newtonsoft.Json;
 
 namespace Client.Connection
 {
-    public delegate void Message(string message);
+   // public delegate void Message(string message);
 
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-        public Message Message { get; set; }
+    //    public Message Message { get; set; }
 
 //        private NetworkStream _stream;
         public int ConnectionId { get; set; }
-        private byte[] messageBuffer = new byte[0];
-        private List<string> _messageList;
+        private byte[] _messageBuffer = new byte[0];
+        private readonly List<Message> _messageList;
         public RemoteHealthcare RemoteHealthcare;
         private int loginAccepted = 0;
 
         public Connector()
         {
             _sslStream = null;
-            _messageList = new List<string>();
+            _messageList = new List<Message>();
         }
 
         public void Receiver()
@@ -48,17 +48,16 @@ namespace Client.Connection
                     try
                     {
                         var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
-                        messageBuffer = ConCat(messageBuffer, message, numberOfBytesRead);
+                        _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
-                        if (messageBuffer.Length <= 4) continue;
-                        var packetLength = BitConverter.ToInt32(messageBuffer, 0);
+                        if (_messageBuffer.Length <= 4) continue;
+                        var packetLength = BitConverter.ToInt32(_messageBuffer, 0);
 
-                        if (messageBuffer.Length < packetLength + 4) continue;
+                        if (_messageBuffer.Length < packetLength + 4) continue;
 
-                        var resultMessage = GetMessageFromBuffer(messageBuffer, packetLength);
+                        var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                         dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
                         Console.WriteLine("Read: " + resultMessage);
-
                         if (readMessage == null)
                         {
                         }
@@ -78,8 +77,8 @@ namespace Client.Connection
                                     loginAccepted = 1;
                                     break;
                                 case "message/send":
-                                    _messageList.Add(data.message);
-                                    RemoteHealthcare.Message(data.message);
+                                    _messageList.Add(ParseMessage(data.message));
+                                    RemoteHealthcare.AddMessage(ParseMessage(data.message));
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -131,15 +130,14 @@ namespace Client.Connection
 
             while (loginAccepted == 0){}
 
-            if (loginAccepted == 1)
+            switch (loginAccepted)
             {
-                loginAccepted = 0;
-                return true;
-            }
-            if (loginAccepted == -1)
-            {
-                loginAccepted = 0;
-                return false;
+                case 1:
+                    loginAccepted = 0;
+                    return true;
+                case -1:
+                    loginAccepted = 0;
+                    return false;
             }
             return false;
         }
@@ -177,9 +175,16 @@ namespace Client.Connection
                 {
                     username,
                     clientid = ConnectionId,
-                    password
+                    password,
+                    isDoctor = false
                 }
             });
+        }
+
+        public Message ParseMessage(dynamic data)
+        {
+            var toSend = new Message(data.clientid, data.clientid, System.DateTime.Now, data.data.message);
+            return toSend;
         }
 
         public int GetUniqueId(string username, string password)
@@ -220,11 +225,11 @@ namespace Client.Connection
             var message = new StringBuilder();
             message.AppendFormat("{0}", Encoding.ASCII.GetString(array, 4, count));
 
-            for (int i = 0; i < newArray.Length; i++)
+            for (var i = 0; i < newArray.Length; i++)
             {
                 newArray[i] = array[i + count + 4];
             }
-            messageBuffer = newArray;
+            _messageBuffer = newArray;
 
             return message.ToString();
         }

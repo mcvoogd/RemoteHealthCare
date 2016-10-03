@@ -75,6 +75,7 @@ namespace Client.Connection
                                         return;
                                     }
                                     loginAccepted = 1;
+                                    RemoteHealthcare.ConnectionId = ConnectionId;
                                     break;
                                 case "message/send":
                                     _messageList.Add(ParseMessage(data.message));
@@ -123,6 +124,7 @@ namespace Client.Connection
             _tcpClient = new TcpClient(serverIp,6969);
             _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
+
             Login(username, password);
 
             var receiveThread = new Thread(Receiver);
@@ -167,7 +169,6 @@ namespace Client.Connection
             if (_sslStream == null) return;
 
             ConnectionId = GetUniqueId(username, password);
-            Console.WriteLine($"CONNECTOR ID : {ConnectionId}");
             SendMessage(new
             {
                 id = "login/request",

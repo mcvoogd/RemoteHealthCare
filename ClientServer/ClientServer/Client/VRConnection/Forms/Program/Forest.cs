@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using VRFrom_Gijs.Forms.Program;
+using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.Forms.Program
 {

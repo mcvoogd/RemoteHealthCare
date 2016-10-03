@@ -8,10 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VRFrom_Gijs.Forms.Program;
-using VRFrom_Gijs.Program;
-using VRFrom_Gijs.VrObjects;
-using Panel = VRFrom_Gijs.VrObjects.Panel;
+using Client.VRConnection.Forms.Program;
+using Client.VRConnection.VRObjects;
+using Panel = Client.VRConnection.VRObjects.Panel;
 
 
 namespace Client.VRConnection.Forms
@@ -19,7 +18,7 @@ namespace Client.VRConnection.Forms
     public partial class TunnelCommandForm : Form
     {
         public static AutoResetEvent Blocker;
-        private Connection _connection;
+        private Program.Connection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
@@ -30,7 +29,7 @@ namespace Client.VRConnection.Forms
         private Forest forest;
         private City city;
 
-        public TunnelCommandForm(Connection connection, string name)
+        public TunnelCommandForm(Program.Connection connection, string name)
         {
             InitializeComponent();
             Name = name;

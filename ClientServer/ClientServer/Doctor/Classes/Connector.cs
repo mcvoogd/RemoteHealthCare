@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
+using Doctor.Forms;
 using Newtonsoft.Json;
 
 namespace Doctor.Classes
@@ -168,6 +169,7 @@ namespace Doctor.Classes
             if (_sslStream == null) return;
 
             ConnectionId = GetUniqueId(username, password);
+
             SendMessage(new
             {
                 id = "login/request",

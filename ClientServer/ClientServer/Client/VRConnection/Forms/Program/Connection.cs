@@ -6,15 +6,11 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
-using VRFrom_Gijs.VrObjects;
-using VRFrom_Gijs.Forms;
-using Panel = System.Windows.Forms.Panel;
+using Client.VRConnection.VRObjects;
 
 namespace Client.VRConnection.Forms.Program
 {
     public delegate void FillConnectionList();
-
-    public delegate void Callbacks();
 
     public class Connection
     {

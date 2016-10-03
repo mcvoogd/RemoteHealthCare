@@ -236,7 +236,7 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1920, 1080, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
@@ -256,9 +256,10 @@ namespace VRFrom_Gijs.Forms
         private void drawPanel()
         {
             string textValue = "Satan is love";
-            int[] position = {100, 100};
+            double[] position = {100.0, 100.0};
             double sizeValue = 32;
             double[] color = {1, 0, 0, 1};
+            double[] clearColor = {1, 0, 0, 0};
             string fontValue = "segoeui";
 
             _panel.ClearPanel();
@@ -332,7 +333,7 @@ namespace VRFrom_Gijs.Forms
                 {
                     id = _connection.PanelId,
                     parent = _connection.cameraID,
-                    transform = new { position = new[] { 0, 1, -0.5 }, scale = 0.29, rotation = new[] { -53, 0, 0 } }
+                    transform = new { position = new[] { 0, 1, -0.5 }, scale = 0.32, rotation = new[] { -53, 0, 0 } }
 
                 }
             }, _connection.TunnelId));

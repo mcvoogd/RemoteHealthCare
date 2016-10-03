@@ -97,7 +97,7 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
+        public void DrawText(string textValue, double[] positie, double sizeValue, double[] kleur, string fontValue)
         {
            ToSend = RequestCreater.TunnelSend(new
             {

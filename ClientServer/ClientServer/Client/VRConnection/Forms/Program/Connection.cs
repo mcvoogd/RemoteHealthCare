@@ -7,14 +7,10 @@ using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
 using Client.VRConnection.VRObjects;
-using Client.VRConnection.Forms;
-using Panel = System.Windows.Forms.Panel;
 
 namespace Client.VRConnection.Forms.Program
 {
     public delegate void FillConnectionList();
-
-    public delegate void Callbacks();
 
     public class Connection
     {

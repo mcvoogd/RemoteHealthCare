@@ -23,20 +23,9 @@ namespace Client.Connection
 
         public int CompareTo(Message other)
         {
-                if (this.Time == other.Time)
-                {
-                    return 0;
-                }
-                if (this.Time > other.Time)
-                {
-                    return 1;
-                }
-                if (this.Time < other.Time)
-                {
-                    return -1;
-                }
-                return 0;
-            }
+           return this.Time.CompareTo(other.Time);
         }
+
+    }
  }
 

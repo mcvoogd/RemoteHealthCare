@@ -8,86 +8,100 @@ using System.Threading.Tasks;
 
 namespace Server.Server
 {
-    static class Encryptor
+    public static class StringCipher
     {
-        public static void EncryptFile(string inputFile, string outputFile, string skey = "xXxMLGPr0Scope69xXx")
+        // This constant is used to determine the keysize of the encryption algorithm in bits.
+        // We divide this by 8 within the code below to get the equivalent number of bytes.
+        private const int Keysize = 256;
+
+        // This constant determines the number of iterations for the password bytes generation function.
+        private const int DerivationIterations = 1000;
+
+        public static string Encrypt(string plainText, string passPhrase)
         {
-            try
+            // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
+            // so that the same Salt and IV values can be used when decrypting.  
+            var saltStringBytes = Generate256BitsOfRandomEntropy();
+            var ivStringBytes = Generate256BitsOfRandomEntropy();
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
-                using (RijndaelManaged aes = new RijndaelManaged())
+                var keyBytes = password.GetBytes(Keysize / 8);
+                using (var symmetricKey = new RijndaelManaged())
                 {
-                    byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
-
-                    /* This is for demostrating purposes only. 
-                     * Ideally you will want the IV key to be different from your key and you should always generate a new one for each encryption in other to achieve maximum security*/
-                    byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
-
-                    using (FileStream fsCrypt = new FileStream(outputFile, FileMode.Create))
+                    symmetricKey.BlockSize = 256;
+                    symmetricKey.Mode = CipherMode.CBC;
+                    symmetricKey.Padding = PaddingMode.PKCS7;
+                    using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
                     {
-                        using (ICryptoTransform encryptor = aes.CreateEncryptor(key, IV))
+                        using (var memoryStream = new MemoryStream())
                         {
-                            using (CryptoStream cs = new CryptoStream(fsCrypt, encryptor, CryptoStreamMode.Write))
+                            using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
                             {
-                                using (FileStream fsIn = new FileStream(inputFile, FileMode.Open))
-                                {
-                                    int data;
-                                    while ((data = fsIn.ReadByte()) != -1)
-                                    {
-                                        cs.WriteByte((byte)data);
-                                    }
-                                }
+                                cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+                                cryptoStream.FlushFinalBlock();
+                                // Create the final bytes as a concatenation of the random salt bytes, the random iv bytes and the cipher bytes.
+                                var cipherTextBytes = saltStringBytes;
+                                cipherTextBytes = cipherTextBytes.Concat(ivStringBytes).ToArray();
+                                cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
+                                memoryStream.Close();
+                                cryptoStream.Close();
+                                return Convert.ToBase64String(cipherTextBytes);
                             }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // failed to encrypt file
             }
         }
-        ///<summary>
-        /// Steve Lydford - 12/05/2008.
-        ///
-        /// Decrypts a file using Rijndael algorithm.
-        ///</summary>
-        ///<param name="inputFile"></param>
-        ///<param name="outputFile"></param>
-        public static void DecryptFile(string inputFile, string outputFile, string skey = "xXxMLGPr0Scope69xXx")
+
+        public static string Decrypt(string cipherText, string passPhrase)
         {
-            try
+            // Get the complete stream of bytes that represent:
+            // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
+            var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
+            // Get the saltbytes by extracting the first 32 bytes from the supplied cipherText bytes.
+            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
+            // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
+            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
+            // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
+
+            using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
-                using (RijndaelManaged aes = new RijndaelManaged())
+                var keyBytes = password.GetBytes(Keysize / 8);
+                using (var symmetricKey = new RijndaelManaged())
                 {
-                    byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
-
-                    /* This is for demostrating purposes only. 
-                     * Ideally you will want the IV key to be different from your key and you should always generate a new one for each encryption in other to achieve maximum security*/
-                    byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
-
-                    using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open))
+                    symmetricKey.BlockSize = 256;
+                    symmetricKey.Mode = CipherMode.CBC;
+                    symmetricKey.Padding = PaddingMode.PKCS7;
+                    using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
                     {
-                        using (FileStream fsOut = new FileStream(outputFile, FileMode.Create))
+                        using (var memoryStream = new MemoryStream(cipherTextBytes))
                         {
-                            using (ICryptoTransform decryptor = aes.CreateDecryptor(key, IV))
+                            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                             {
-                                using (CryptoStream cs = new CryptoStream(fsCrypt, decryptor, CryptoStreamMode.Read))
-                                {
-                                    int data;
-                                    while ((data = cs.ReadByte()) != -1)
-                                    {
-                                        fsOut.WriteByte((byte)data);
-                                    }
-                                }
+                                var plainTextBytes = new byte[cipherTextBytes.Length];
+                                var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+                                memoryStream.Close();
+                                cryptoStream.Close();
+                                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
                             }
                         }
                     }
                 }
             }
-            catch (Exception ex)
+        }
+
+        private static byte[] Generate256BitsOfRandomEntropy()
+        {
+            var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
+            using (var rngCsp = new RNGCryptoServiceProvider())
             {
-                // failed to decrypt file
+                // Fill the array with cryptographically secure random bytes.
+                rngCsp.GetBytes(randomBytes);
             }
+            return randomBytes;
         }
     }
 }
+

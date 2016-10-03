@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Client.Simulator;
+using Doctor;
 using Newtonsoft.Json;
 
 namespace Client.Connection
@@ -132,6 +133,7 @@ namespace Client.Connection
             {
                 case 1:
                     loginAccepted = 0;
+                    
                     return true;
                 case -1:
                     loginAccepted = 0;
@@ -173,7 +175,7 @@ namespace Client.Connection
                     username,
                     clientid = ConnectionId,
                     password,
-                    isDoctor = false
+                    isDoctor = true
                 }
             });
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Client.Connection;
 using DataScreen.Forms;
 
 namespace Doctor
@@ -18,9 +19,11 @@ namespace Doctor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var loginForm = new LoginForm();
+            var mainForm = new mainForm { Visible = false };
+            var connector = new Connector();
+            var loginForm = new LoginForm(connector.Connect, mainForm);
 
-            Application.Run(new mainForm());
+            Application.Run(loginForm);
         }
     }
 }

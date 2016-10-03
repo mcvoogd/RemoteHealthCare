@@ -107,25 +107,10 @@ namespace Client.Forms
             usernameLabel.Text = name;
         }
 
-        private void disconnectButton_Click(object sender, EventArgs e)
-        {
-            _sendMessage(new
-            {
-                id = "client/disconnect",
-                data = new
-                {
-                    Disonnect = true
-                }
-            });
-            Environment.Exit(0);
-        }
-
         private void RemoteHealthcare_Load(object sender, EventArgs e)
         {
 
         }
-
-
         private void RemoteHealthCare_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -189,5 +174,6 @@ namespace Client.Forms
                 chatTextBox.Text += "\n";
             }
         }
+
     }
 }

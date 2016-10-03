@@ -52,16 +52,16 @@ namespace VRFrom_Gijs.Forms
             createPanel();
             Blocker.WaitOne(5000);
 
-            createTerrain();
-            Thread.Sleep(3000);
-            paintTerrain();
-            Blocker.WaitOne(5000);
-            createWater();
-            Blocker.WaitOne(5000);
-            createForest();
-            Blocker.WaitOne(5000);
-            createCity();
-            Blocker.WaitOne(5000);
+            //createTerrain();
+            //Thread.Sleep(3000);
+            //paintTerrain();
+            //Blocker.WaitOne(5000);
+            //createWater();
+            //Blocker.WaitOne(5000);
+            //createForest();
+            //Blocker.WaitOne(5000);
+            //createCity();
+            //Blocker.WaitOne(5000);
 
             createBike();
             Blocker.WaitOne(5000);
@@ -236,19 +236,10 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1080, 1920, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1920, 1080, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
-            //_panel.SwapPanel();
-            //_connection.SendMessage(_panel.ToSend);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
-
-            //Console.WriteLine(_panel.Uuid);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
-
         }
 
         private void MakePanelId()

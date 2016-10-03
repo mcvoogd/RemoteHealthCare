@@ -78,7 +78,7 @@ namespace Server.Server
                         case "client/new":
                             //null == tunnelID. <VR>
                             //0 for self generate ID.
-                            Client = new Client(data.username, data.password, null, 0, new TinyDataBase());
+                            Client = new Client(data.username, data.password, null, 0, data.isDoctor, new TinyDataBase());
                             Console.WriteLine($"Msg added. <{Client.TinyDataBaseBase.ChatSystem.GetAllMessages().Count}>");
                             _database.AddClient(Client);
                             SendAck("client/new");
@@ -242,7 +242,7 @@ namespace Server.Server
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
             if (_database.GetClientById(clientid) == null)
             {
-                Client = new Client(username, password, null, 0, new TinyDataBase());
+                Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase());
                 _database.AddClient(Client);
                 if (isDoctorData)
                 {

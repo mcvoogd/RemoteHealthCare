@@ -240,14 +240,7 @@ namespace VRFrom_Gijs.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
-            //_panel.SwapPanel();
-            //_connection.SendMessage(_panel.ToSend);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
-
-            //Console.WriteLine(_panel.Uuid);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
+            _panel.SwapPanel();
 
         }
 
@@ -257,7 +250,6 @@ namespace VRFrom_Gijs.Forms
             {
                 Thread.Sleep(10);
                 _panel.Uuid = _connection.PanelId;
-
                 MakePanelId();
             }
         }
@@ -270,10 +262,6 @@ namespace VRFrom_Gijs.Forms
             string fontValue = "segoeui";
 
             _panel.ClearPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

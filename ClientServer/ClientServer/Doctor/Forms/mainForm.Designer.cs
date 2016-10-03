@@ -83,7 +83,7 @@ namespace Doctor
             this.label9 = new System.Windows.Forms.Label();
             this.addClientButton = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label10 = new System.Windows.Forms.Label();
+            this.userLabel = new System.Windows.Forms.Label();
             this.connectedLabel = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -574,19 +574,19 @@ namespace Doctor
             this.chart1.Text = "chart1";
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
-            // label10
+            // userLabel
             // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label10.Location = new System.Drawing.Point(920, 9);
-            this.label10.MaximumSize = new System.Drawing.Size(220, 65);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(87, 13);
-            this.label10.TabIndex = 30;
-            this.label10.Text = "Martijn de Voogd";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.userLabel.AutoSize = true;
+            this.userLabel.BackColor = System.Drawing.Color.Transparent;
+            this.userLabel.ForeColor = System.Drawing.Color.Black;
+            this.userLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.userLabel.Location = new System.Drawing.Point(920, 9);
+            this.userLabel.MaximumSize = new System.Drawing.Size(220, 65);
+            this.userLabel.Name = "userLabel";
+            this.userLabel.Size = new System.Drawing.Size(87, 13);
+            this.userLabel.TabIndex = 30;
+            this.userLabel.Text = "Martijn de Voogd";
+            this.userLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // connectedLabel
             // 
@@ -671,7 +671,7 @@ namespace Doctor
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.connectedLabel);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.userLabel);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.addClientButton);
             this.Controls.Add(this.label9);
@@ -748,7 +748,7 @@ namespace Doctor
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button addClientButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label userLabel;
         private System.Windows.Forms.Label connectedLabel;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.PictureBox pictureBox1;

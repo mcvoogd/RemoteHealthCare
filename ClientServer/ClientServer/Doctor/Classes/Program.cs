@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Client.Connection;
 using Doctor.Forms;
 
 namespace Doctor.Classes

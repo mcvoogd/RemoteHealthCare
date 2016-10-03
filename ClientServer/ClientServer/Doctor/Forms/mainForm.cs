@@ -7,7 +7,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Doctor.Forms
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
@@ -38,7 +38,7 @@ namespace Doctor.Forms
             _goodTimes = pfc.Families[0];
         }
 
-        public mainForm()
+        public MainForm()
         {
             InitializeComponent();
             timeTimer.Start();

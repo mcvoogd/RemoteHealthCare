@@ -75,7 +75,6 @@ namespace Client.Connection
                                         return;
                                     }
                                     loginAccepted = 1;
-                                    Console.WriteLine("ConnectionId: " + ConnectionId);
                                     RemoteHealthcare.ConnectionId = ConnectionId;
                                     break;
                                 case "message/send":

@@ -7,36 +7,6 @@ namespace Doctor
 {
     partial class mainForm
     {
-        [DllImport("gdi32.dll")]
-        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
-        FontFamily _goodTimes;
-
-        private void CargoPrivateFontCollection()
-        {
-            // Create the byte array and get its length
-
-            byte[] fontArray = Doctor.Properties.Resources.good_times;
-            int dataLength = Doctor.Properties.Resources.good_times.Length;
-
-
-            // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
-            IntPtr ptrData = Marshal.AllocCoTaskMem(dataLength);
-            Marshal.Copy(fontArray, 0, ptrData, dataLength);
-
-            uint cFonts = 0;
-            AddFontMemResourceEx(ptrData, (uint)fontArray.Length, IntPtr.Zero, ref cFonts);
-
-            PrivateFontCollection pfc = new PrivateFontCollection();
-            //PASS THE FONT TO THE  PRIVATEFONTCOLLECTION OBJECT
-            pfc.AddMemoryFont(ptrData, dataLength);
-
-            //FREE THE  "UNSAFE" MEMORY
-            Marshal.FreeCoTaskMem(ptrData);
-
-            _goodTimes = pfc.Families[0];
-        }
-
-
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -63,9 +33,6 @@ namespace Doctor
         /// </summary>
         private void InitializeComponent()
         {
-
-            CargoPrivateFontCollection();
-
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine1 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
@@ -139,11 +106,10 @@ namespace Doctor
             // 
             this.currentTimeLabel.AutoSize = true;
             this.currentTimeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.currentTimeLabel.Font = new System.Drawing.Font(_goodTimes, 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.currentTimeLabel.ForeColor = System.Drawing.Color.White;
             this.currentTimeLabel.Location = new System.Drawing.Point(733, 40);
             this.currentTimeLabel.Name = "currentTimeLabel";
-            this.currentTimeLabel.Size = new System.Drawing.Size(0, 26);
+            this.currentTimeLabel.Size = new System.Drawing.Size(0, 13);
             this.currentTimeLabel.TabIndex = 1;
             // 
             // timeTimer
@@ -156,7 +122,6 @@ namespace Doctor
             this.saveButton.BackColor = System.Drawing.Color.White;
             this.saveButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.saveButton.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveButton.ForeColor = System.Drawing.Color.Black;
             this.saveButton.Location = new System.Drawing.Point(614, 566);
             this.saveButton.Name = "saveButton";
@@ -170,7 +135,6 @@ namespace Doctor
             this.loadButton.BackColor = System.Drawing.Color.White;
             this.loadButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.loadButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.loadButton.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadButton.ForeColor = System.Drawing.Color.Black;
             this.loadButton.Location = new System.Drawing.Point(755, 566);
             this.loadButton.Name = "loadButton";
@@ -183,11 +147,10 @@ namespace Doctor
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(51, 269);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 18);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Time";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -196,11 +159,10 @@ namespace Doctor
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(210, 269);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 18);
+            this.label2.Size = new System.Drawing.Size(21, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "km";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -209,11 +171,10 @@ namespace Doctor
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(333, 269);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 18);
+            this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "watts";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -222,11 +183,10 @@ namespace Doctor
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(489, 269);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 18);
+            this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 7;
             this.label4.Text = "km/h";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -235,11 +195,10 @@ namespace Doctor
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(658, 269);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 18);
+            this.label5.Size = new System.Drawing.Size(18, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "kJ";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -248,11 +207,10 @@ namespace Doctor
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(790, 269);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(66, 18);
+            this.label6.Size = new System.Drawing.Size(31, 13);
             this.label6.TabIndex = 9;
             this.label6.Text = "RPM";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -261,11 +219,10 @@ namespace Doctor
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(921, 269);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(100, 18);
+            this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 10;
             this.label7.Text = "Power";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -274,11 +231,10 @@ namespace Doctor
             // 
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(1085, 269);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(66, 18);
+            this.label8.Size = new System.Drawing.Size(30, 13);
             this.label8.TabIndex = 11;
             this.label8.Text = "BPM";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -487,13 +443,12 @@ namespace Doctor
             // 
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(9, 78);
+            this.label9.Location = new System.Drawing.Point(9, 73);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(293, 23);
+            this.label9.Size = new System.Drawing.Size(84, 13);
             this.label9.TabIndex = 27;
-            this.label9.Text = "Clients                 ";
+            this.label9.Text = "Client                 ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addClientButton
@@ -501,7 +456,6 @@ namespace Doctor
             this.addClientButton.BackColor = System.Drawing.Color.White;
             this.addClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.addClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.addClientButton.Font = new System.Drawing.Font(_goodTimes, 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addClientButton.ForeColor = System.Drawing.Color.Black;
             this.addClientButton.Location = new System.Drawing.Point(270, 72);
             this.addClientButton.Name = "addClientButton";
@@ -549,7 +503,7 @@ namespace Doctor
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.Transparent;
-            legend1.Font = new System.Drawing.Font(_goodTimes, 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            legend1.Font = new System.Drawing.Font("Arial Unicode MS", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             legend1.ForeColor = System.Drawing.Color.White;
             legend1.HeaderSeparatorColor = System.Drawing.Color.White;
             legend1.IsTextAutoFit = false;
@@ -624,13 +578,12 @@ namespace Doctor
             // 
             this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font(_goodTimes, 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
             this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label10.Location = new System.Drawing.Point(920, 9);
             this.label10.MaximumSize = new System.Drawing.Size(220, 65);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(185, 42);
+            this.label10.Size = new System.Drawing.Size(87, 13);
             this.label10.TabIndex = 30;
             this.label10.Text = "Martijn de Voogd";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -639,11 +592,10 @@ namespace Doctor
             // 
             this.connectedLabel.AutoSize = true;
             this.connectedLabel.BackColor = System.Drawing.Color.Transparent;
-            this.connectedLabel.Font = new System.Drawing.Font(_goodTimes, 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.connectedLabel.ForeColor = System.Drawing.Color.Red;
             this.connectedLabel.Location = new System.Drawing.Point(982, 593);
             this.connectedLabel.Name = "connectedLabel";
-            this.connectedLabel.Size = new System.Drawing.Size(164, 14);
+            this.connectedLabel.Size = new System.Drawing.Size(78, 13);
             this.connectedLabel.TabIndex = 31;
             this.connectedLabel.Text = "Not connected";
             this.connectedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -675,11 +627,10 @@ namespace Doctor
             // 
             this.label11.AutoSize = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(894, 78);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(296, 23);
+            this.label11.Size = new System.Drawing.Size(95, 13);
             this.label11.TabIndex = 35;
             this.label11.Text = "Chat                      ";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -688,11 +639,10 @@ namespace Doctor
             // 
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(896, 385);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(294, 23);
+            this.label12.Size = new System.Drawing.Size(87, 13);
             this.label12.TabIndex = 36;
             this.label12.Text = "Trainingen          ";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -701,11 +651,10 @@ namespace Doctor
             // 
             this.label13.AutoSize = true;
             this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.White;
             this.label13.Location = new System.Drawing.Point(306, 576);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(107, 18);
+            this.label13.Size = new System.Drawing.Size(35, 13);
             this.label13.TabIndex = 37;
             this.label13.Text = "status";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -144,8 +144,8 @@ namespace Client.Forms
             }
             else if(comportBox.SelectedItem != null)
             {
-                var serialPort = new SerialPort(comportBox.SelectedText.ToString());
-
+                var serialPort = new SerialPort(comportBox.SelectedItem.ToString());
+                serialPort.Open();
                 DataReceiver = new DataReceiver(serialPort,this, AddMeasurement);
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();  

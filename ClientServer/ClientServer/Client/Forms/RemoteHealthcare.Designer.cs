@@ -98,10 +98,10 @@
             // sendButton
             // 
             this.sendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.sendButton.Location = new System.Drawing.Point(856, 757);
+            this.sendButton.Location = new System.Drawing.Point(863, 757);
             this.sendButton.Margin = new System.Windows.Forms.Padding(12);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(202, 45);
+            this.sendButton.Size = new System.Drawing.Size(202, 56);
             this.sendButton.TabIndex = 3;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = false;
@@ -109,11 +109,11 @@
             // 
             // chatTextBox
             // 
-            this.chatTextBox.Location = new System.Drawing.Point(28, 87);
+            this.chatTextBox.Location = new System.Drawing.Point(28, 59);
             this.chatTextBox.Margin = new System.Windows.Forms.Padding(12);
             this.chatTextBox.Name = "chatTextBox";
             this.chatTextBox.ReadOnly = true;
-            this.chatTextBox.Size = new System.Drawing.Size(1030, 641);
+            this.chatTextBox.Size = new System.Drawing.Size(1030, 669);
             this.chatTextBox.TabIndex = 1;
             this.chatTextBox.Text = "";
             // 
@@ -134,10 +134,10 @@
             // comPortConnectButton
             // 
             this.comPortConnectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.comPortConnectButton.Location = new System.Drawing.Point(341, 82);
+            this.comPortConnectButton.Location = new System.Drawing.Point(350, 77);
             this.comPortConnectButton.Margin = new System.Windows.Forms.Padding(12);
             this.comPortConnectButton.Name = "comPortConnectButton";
-            this.comPortConnectButton.Size = new System.Drawing.Size(180, 46);
+            this.comPortConnectButton.Size = new System.Drawing.Size(180, 56);
             this.comPortConnectButton.TabIndex = 1;
             this.comPortConnectButton.Text = "Connect";
             this.comPortConnectButton.UseVisualStyleBackColor = false;

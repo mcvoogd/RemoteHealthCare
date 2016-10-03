@@ -46,11 +46,7 @@ namespace DataScreen.Forms
             {
                 Visible = false;
                 _mainForm.Visible = true;
-<<<<<<< HEAD
-//                _mainForm.nameLabel.Text = usernameTextBox.Text;
-=======
-                _mainForm.nameLabel.Text = usernameTextBox.Text;
->>>>>>> 38b09979b70821d689f261d801064fbb38291302
+                //_mainForm.label10.Text = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
             } else
             {

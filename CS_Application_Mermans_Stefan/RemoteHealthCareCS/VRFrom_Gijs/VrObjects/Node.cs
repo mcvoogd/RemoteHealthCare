@@ -137,7 +137,7 @@ namespace VRFrom_Gijs.VrObjects
                 string temp;
                 Connection.VRobjecten.TryGetValue(Naam, out temp);
                 Uuid = temp;
-            }            
+            }
             return RequestCreater.TunnelSend(
                 new
                 {

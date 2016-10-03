@@ -18,7 +18,7 @@ namespace VRFrom_Gijs.Forms
 {
     public partial class TunnelCommandForm : Form
     {
-        public static AutoResetEvent blocker;
+        public static AutoResetEvent Blocker;
         private Connection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _fence = null, _rock = null, _house = null;
@@ -34,7 +34,7 @@ namespace VRFrom_Gijs.Forms
         {
             InitializeComponent();
             Name = name;
-            blocker = new AutoResetEvent(false);
+            Blocker = new AutoResetEvent(false);
             ;
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
@@ -45,33 +45,33 @@ namespace VRFrom_Gijs.Forms
             forest = new Forest();
             city = new City();
             deletePane();
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
             deletePane();
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
 
             createTerrain();
             Thread.Sleep(3000);
             paintTerrain();
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
             // createWater();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
             //createForest();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
             //createCity();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
 
             createPanel();
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
             //createBike();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
             createRoad();
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
             //followRoad();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
             //followBike();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
             //followCamera();
-            //blocker.WaitOne(5000);
+            //Blocker.WaitOne(5000);
             //drawPanel();
         }
 
@@ -94,7 +94,7 @@ namespace VRFrom_Gijs.Forms
             else
             {
                 _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
-                blocker.Set();
+                Blocker.Set();
             }
         }
 
@@ -214,7 +214,7 @@ namespace VRFrom_Gijs.Forms
 
                 }
             }, _connection.TunnelId));
-            blocker.Set();
+            Blocker.Set();
         }
 
         private void followBike()
@@ -237,13 +237,25 @@ namespace VRFrom_Gijs.Forms
         {
             _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 1, 1, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
-            blocker.WaitOne(5000);
-            _panel.makeUuid();
-            _panel.ClearPanel();
+            Blocker.WaitOne(5000);
+            MakePanelId();
+            _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
+
+            //Console.WriteLine(_panel.Uuid);
+            //Blocker.WaitOne(5000);
             //drawPanel();
 
+        }
+
+        private void MakePanelId()
+        {
+            if (_panel.Uuid == null)
+            {
+                _panel.Uuid = _connection.PanelId;
+                MakePanelId();
+            }
         }
 
         private void drawPanel()
@@ -254,12 +266,12 @@ namespace VRFrom_Gijs.Forms
             double[] color = {0, 0, 0, 1};
             string fontValue = "calibri";
 
-            //_panel.DrawText(textValue, position, sizeValue, color, fontValue);
-            //_connection.SendMessage(_panel.ToSend);
-            //blocker.WaitOne(5000);
-            //_panel.SwapPanel();
-            //_connection.SendMessage(_panel.ToSend);
-            //blocker.WaitOne(5000);
+            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
         }
 
         private void createForest()

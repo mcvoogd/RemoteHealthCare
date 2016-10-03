@@ -210,5 +210,6 @@ namespace DataScreen.Forms
                     Measurement.Burned = 0;
             }
         }
+
     }
 }

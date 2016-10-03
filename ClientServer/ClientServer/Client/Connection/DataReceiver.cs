@@ -40,6 +40,8 @@ namespace Client.Connection
                 Console.WriteLine("Looping");
                 if (_simulation != null)
                 {
+                    if(!_simulation.Visible) return;
+
                     _addMeasurement(_simulation.Measurement);
 
                     Thread.Sleep(1000);
@@ -51,6 +53,7 @@ namespace Client.Connection
                     {
                         Console.WriteLine("Sending");
                         _serialPort.WriteLine("ST\r\n");
+                        
                         Console.WriteLine("Reading...");
                         var temp = _serialPort.ReadLine();
 

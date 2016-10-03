@@ -9,8 +9,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Client.Forms;
 using Client.Simulator;
+using Doctor;
 using Newtonsoft.Json;
 
 namespace Client.Connection
@@ -27,7 +27,6 @@ namespace Client.Connection
         public int ConnectionId { get; set; }
         private byte[] _messageBuffer = new byte[0];
         private readonly List<Message> _messageList;
-        public RemoteHealthcare RemoteHealthcare;
         private int loginAccepted = 0;
 
         public Connector()
@@ -75,11 +74,9 @@ namespace Client.Connection
                                         return;
                                     }
                                     loginAccepted = 1;
-                                    RemoteHealthcare.ConnectionId = ConnectionId;
                                     break;
                                 case "message/send":
                                     _messageList.Add(ParseMessage(data.message));
-                                    RemoteHealthcare.AddMessage(ParseMessage(data.message));
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -119,10 +116,8 @@ namespace Client.Connection
             }
         }
 
-        public bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare)
+        public bool Connect(string serverIp, string username, string password)
         {
-            RemoteHealthcare = remoteHealthcare;
-
             _tcpClient = new TcpClient(serverIp,6969);
             _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
@@ -138,6 +133,7 @@ namespace Client.Connection
             {
                 case 1:
                     loginAccepted = 0;
+                    
                     return true;
                 case -1:
                     loginAccepted = 0;
@@ -179,7 +175,7 @@ namespace Client.Connection
                     username,
                     clientid = ConnectionId,
                     password,
-                    isDoctor = false
+                    isDoctor = true
                 }
             });
         }

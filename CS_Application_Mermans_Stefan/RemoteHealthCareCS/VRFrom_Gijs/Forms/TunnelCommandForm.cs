@@ -18,10 +18,10 @@ namespace VRFrom_Gijs.Forms
 {
     public partial class TunnelCommandForm : Form
     {
-        public static AutoResetEvent blocker;
+        public static AutoResetEvent Blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null, _tree = null, _water =null, _butterfly = null, _rock = null, _house = null;
+        private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
@@ -34,7 +34,7 @@ namespace VRFrom_Gijs.Forms
         {
             InitializeComponent();
             Name = name;
-            blocker = new AutoResetEvent(false);
+            Blocker = new AutoResetEvent(false);
             ;
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
@@ -45,34 +45,35 @@ namespace VRFrom_Gijs.Forms
             forest = new Forest();
             city = new City();
             deletePane();
-            blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
             deletePane();
-            blocker.WaitOne(5000);
-
-            createTerrain();
-            Thread.Sleep(3000);
-            paintTerrain();
-            blocker.WaitOne(5000);
-            // createWater();
-            //blocker.WaitOne(5000);
-            //createForest();
-            //blocker.WaitOne(5000);
-            //createCity();
-            //blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
 
             createPanel();
-            blocker.WaitOne(5000);
-            //createBike();
-            //blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
+
+            //createTerrain();
+            //Thread.Sleep(3000);
+            //paintTerrain();
+            //Blocker.WaitOne(5000);
+            //createWater();
+            //Blocker.WaitOne(5000);
+            //createForest();
+            //Blocker.WaitOne(5000);
+            //createCity();
+            //Blocker.WaitOne(5000);
+
+            createBike();
+            Blocker.WaitOne(5000);
             createRoad();
-            blocker.WaitOne(5000);
-            //followRoad();
-            //blocker.WaitOne(5000);
-            //followBike();
-            //blocker.WaitOne(5000);
-            //followCamera();
-            //blocker.WaitOne(5000);
-            //drawPanel();
+            Blocker.WaitOne(5000);
+            followRoad();
+            Blocker.WaitOne(5000);
+            followBike();
+            Blocker.WaitOne(5000);
+            followCamera();
+            Blocker.WaitOne(5000);
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -94,7 +95,7 @@ namespace VRFrom_Gijs.Forms
             else
             {
                 _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
-                blocker.Set();
+                Blocker.Set();
             }
         }
 
@@ -214,7 +215,7 @@ namespace VRFrom_Gijs.Forms
 
                 }
             }, _connection.TunnelId));
-            blocker.Set();
+            Blocker.Set();
         }
 
         private void followBike()
@@ -235,31 +236,46 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 1, 1, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1920, 1080, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
-            blocker.WaitOne(5000);
-            _panel.makeUuid();
-            _panel.ClearPanel();
-            _connection.SendMessage(_panel.ToSend);
-            blocker.WaitOne(5000);
-            //drawPanel();
+            Blocker.WaitOne(5000);
+            MakePanelId();
+        }
 
+        private void MakePanelId()
+        {
+            if (_panel.Uuid == null)
+            {
+                Thread.Sleep(10);
+                _panel.Uuid = _connection.PanelId;
+
+                MakePanelId();
+            }
         }
 
         private void drawPanel()
         {
             string textValue = "Satan is love";
-            int[] position = {100,100};
+            int[] position = {100, 100};
             double sizeValue = 32;
-            double[] color = {0, 0, 0, 1};
-            string fontValue = "calibri";
+            double[] color = {1, 0, 0, 1};
+            string fontValue = "segoeui";
 
-            //_panel.DrawText(textValue, position, sizeValue, color, fontValue);
-            //_connection.SendMessage(_panel.ToSend);
-            //blocker.WaitOne(5000);
-            //_panel.SwapPanel();
-            //_connection.SendMessage(_panel.ToSend);
-            //blocker.WaitOne(5000);
+            _panel.ClearPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
         }
 
         private void createForest()
@@ -305,6 +321,21 @@ namespace VRFrom_Gijs.Forms
 
             Thread.Sleep(10);
             _connection.SendMessage(_water.SendString);
+        }
+
+        private void followCamera()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _connection.PanelId,
+                    parent = _connection.cameraID,
+                    transform = new { position = new[] { 0, 1, -0.5 }, scale = 0.29, rotation = new[] { -53, 0, 0 } }
+
+                }
+            }, _connection.TunnelId));
         }
     }
 }

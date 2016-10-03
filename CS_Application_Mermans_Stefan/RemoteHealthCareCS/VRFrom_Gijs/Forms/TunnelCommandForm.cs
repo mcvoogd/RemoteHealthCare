@@ -44,36 +44,37 @@ namespace VRFrom_Gijs.Forms
         {
             forest = new Forest();
             city = new City();
-            deletePane();
-            Blocker.WaitOne(5000);
-            deletePane();
-            Blocker.WaitOne(5000);
+            //deletePane();
+            //Blocker.WaitOne(5000);
+            //deletePane();
+            //Blocker.WaitOne(5000);
 
             createPanel();
             Blocker.WaitOne(5000);
+            drawPanel("Satan is love.");
 
-            createTerrain();
-            Thread.Sleep(3000);
-            paintTerrain();
-            Blocker.WaitOne(5000);
-            createWater();
-            Blocker.WaitOne(5000);
-            createForest();
-            Blocker.WaitOne(5000);
-            createCity();
-            Blocker.WaitOne(5000);
+            //createTerrain();
+            //Thread.Sleep(3000);
+            //paintTerrain();
+            //Blocker.WaitOne(5000);
+            //createWater();
+            //Blocker.WaitOne(5000);
+            //createForest();
+            //Blocker.WaitOne(5000);
+            //createCity();
+            //Blocker.WaitOne(5000);
 
-            createBike();
-            Blocker.WaitOne(5000);
-            createRoad();
-            Blocker.WaitOne(5000);
-            followRoad();
-            Blocker.WaitOne(5000);
-            followBike();
-            Blocker.WaitOne(5000);
-            followCamera();
-            Blocker.WaitOne(5000);
-            drawPanel();
+            //createBike();
+            //Blocker.WaitOne(5000);
+            //createRoad();
+            //Blocker.WaitOne(5000);
+            //followRoad();
+            //Blocker.WaitOne(5000);
+            //followBike();
+            //Blocker.WaitOne(5000);
+            //followCamera();
+            //Blocker.WaitOne(5000);
+            //drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -236,18 +237,11 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1920, 1080, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.92, 1.08, 1920, 1080, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
-            //_panel.SwapPanel();
-            //_connection.SendMessage(_panel.ToSend);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
-
-            //Console.WriteLine(_panel.Uuid);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
+            Blocker.WaitOne(5000);
 
         }
 
@@ -262,23 +256,18 @@ namespace VRFrom_Gijs.Forms
             }
         }
 
-        private void drawPanel()
+        private void drawPanel(string values)
         {
-            string textValue = "Satan is love";
             int[] position = {100, 100};
             double sizeValue = 32;
-            double[] color = {1, 0, 0, 1};
+            double[] color = {1, 1, 1, 1};
             string fontValue = "segoeui";
 
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 
-            _panel.SwapPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.DrawText(values, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

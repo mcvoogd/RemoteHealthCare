@@ -95,9 +95,8 @@ namespace VRFrom_Gijs.VrObjects
                         model = new
                         {
                             file = fileName,
-                      //      animated = hasAnimation,
-                      //      animation = "bike_anim.fbx"
-
+                            animated = hasAnimation,
+                            animation = "Armature|Fietsen"
                         }
                     }
 

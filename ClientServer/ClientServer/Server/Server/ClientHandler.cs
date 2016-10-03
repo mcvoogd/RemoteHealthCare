@@ -228,7 +228,7 @@ namespace Server.Server
         public Message ParseMessage(dynamic data)
         {
             Console.WriteLine(data.data.message);
-            var toSend = new Message(data.clientid, data.clientid, System.DateTime.Now, data.data.message);
+            var toSend = new Message(data.clientid, data.clientid, DateTime.Now, data.data.message);
             return toSend;
         }
 

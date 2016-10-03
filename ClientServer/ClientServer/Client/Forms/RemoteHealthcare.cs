@@ -31,7 +31,7 @@ namespace Client.Forms
         public string name { get; set; }
         private readonly List<Message> _messages = new List<Message>();
 
-        private readonly int _connectionId;
+        public int ConnectionId;
         private string _message;
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
@@ -46,7 +46,7 @@ namespace Client.Forms
 
 
             this.FormClosing += RemoteHealthCare_FormClosing;
-            _connectionId = connectionId;
+            ConnectionId = connectionId;
             _message = null;
             InitializeComponent();
             this.Paint += RemoteHealthcare_Paint;
@@ -91,7 +91,7 @@ namespace Client.Forms
             _sendMessage(new
             {
                 id = "message/send",
-                clientid = _connectionId,
+                clientid = ConnectionId,
                 data = new
                 {
                     message = (messageTextBox.Text += "\n")

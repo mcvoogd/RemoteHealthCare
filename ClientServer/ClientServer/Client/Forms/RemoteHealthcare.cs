@@ -26,8 +26,6 @@ namespace Client.Forms
         private readonly SendStatistics _sendStatistics;
         private readonly AddMessage _addMessage;
 
-         
-
         public string name { get; set; }
         private readonly List<Message> _messages = new List<Message>();
 
@@ -36,7 +34,6 @@ namespace Client.Forms
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
         public List<Measurement> Measurements { get; set; }
-
 
         public RemoteHealthcare(SendMessage sendMessage,SendStatistics sendStatistics ,int connectionId)
         {
@@ -83,7 +80,7 @@ namespace Client.Forms
         public void AddMessage(Message msg)
         {
             _messages.Add(msg);
-            RefreshMessageList();
+           // RefreshMessageList();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -107,10 +104,6 @@ namespace Client.Forms
             usernameLabel.Text = name;
         }
 
-        private void RemoteHealthcare_Load(object sender, EventArgs e)
-        {
-
-        }
         private void RemoteHealthCare_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -164,6 +157,7 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
         }
+
 
         public void RefreshMessageList()
         {

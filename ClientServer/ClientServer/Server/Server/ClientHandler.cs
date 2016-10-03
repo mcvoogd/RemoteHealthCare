@@ -84,7 +84,7 @@ namespace Server.Server
                             SendAck("client/new");
                             break;
                         case "measurement/add":
-                            Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(readMessage));
+                            Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             Console.WriteLine($"Msrment added. <{Client.TinyDataBaseBase.MeasurementSystem.GetAllMeasurements().Count}>");
                             SendAck("measurement/add");
                             break;
@@ -191,6 +191,9 @@ namespace Server.Server
         public Measurement ParseMeasurement(dynamic data)
         {
             var tempString = (string) data.time;
+            Console.WriteLine("Received Measurement: " + data);
+
+            Console.WriteLine("Time: " + tempString);
             var temp = tempString.Split(':');
 
             SimpleTime tempTime;

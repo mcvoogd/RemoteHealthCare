@@ -31,7 +31,7 @@ namespace Client.Forms
         public string name { get; set; }
         private readonly List<Message> _messages = new List<Message>();
 
-        public int ConnectionId;
+        public int ConnectionId { get; set; }
         private string _message;
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }

@@ -21,7 +21,7 @@ namespace VRFrom_Gijs.Forms
         public Form1()
         {
             InitializeComponent();
-            _connection = new Connection("84.24.41.72", 6666, this);
+            _connection = new Connection("145.48.6.10", 6666, this);
             var thread = new Thread(_connection.StartConnection);
             thread.Start();
         }

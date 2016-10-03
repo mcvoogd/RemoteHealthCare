@@ -174,10 +174,7 @@ namespace Client.Forms
         {
             if (Measurements.Count <= 0) return;
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
-            chart2.Series[0].Points.Add(Measurements[Measurements.Count - 1].Distance);
-            chart3.Series[0].Points.Add(Measurements[Measurements.Count - 1].Power);
-            chart4.Series[0].Points.Add(Measurements[Measurements.Count - 1].Burned);
-            chart5.Series[0].Points.Add(Measurements[Measurements.Count - 1].Rotations);
+            
         }
     }
 }

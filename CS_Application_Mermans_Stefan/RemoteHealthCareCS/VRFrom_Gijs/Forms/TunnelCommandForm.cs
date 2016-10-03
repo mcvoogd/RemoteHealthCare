@@ -236,13 +236,14 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 1, 1, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 0.5, 0.5, 512, 512, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
             _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
+            drawPanel();
 
             //Console.WriteLine(_panel.Uuid);
             //Blocker.WaitOne(5000);
@@ -264,14 +265,23 @@ namespace VRFrom_Gijs.Forms
         private void drawPanel()
         {
             string textValue = "Satan is love";
-            int[] position = {100,100};
+            int[] position = {100, 100};
             double sizeValue = 32;
-            double[] color = {0, 0, 0, 1};
-            string fontValue = "calibri";
+            double[] color = {1, 0, 0, 1};
+            string fontValue = "segoeui";
+
+            _panel.ClearPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
 
             _panel.DrawText(textValue, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
+
             _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);

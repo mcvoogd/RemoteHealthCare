@@ -57,6 +57,7 @@ namespace Client.Forms
             comportBox.Items.Add("Simulation");
 
             connectStatusLabel.Text = "Connected";
+            timer1.Start();
         }
 
         public void AddMessageMethod(string message)
@@ -169,5 +170,14 @@ namespace Client.Forms
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Measurements.Count <= 0) return;
+            chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
+            chart2.Series[0].Points.Add(Measurements[Measurements.Count - 1].Distance);
+            chart3.Series[0].Points.Add(Measurements[Measurements.Count - 1].Power);
+            chart4.Series[0].Points.Add(Measurements[Measurements.Count - 1].Burned);
+            chart5.Series[0].Points.Add(Measurements[Measurements.Count - 1].Rotations);
+        }
     }
 }

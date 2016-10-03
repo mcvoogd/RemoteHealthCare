@@ -10,15 +10,10 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-   // public delegate void Message(string message);
-
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-    //    public Message Message { get; set; }
-
-//        private NetworkStream _stream;
         public int ConnectionId { get; set; }
         private byte[] _messageBuffer = new byte[0];
         private readonly List<Message> _messageList;
@@ -51,7 +46,6 @@ namespace Doctor.Classes
 
                         var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                         dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                        Console.WriteLine("Read: " + resultMessage);
                         if (readMessage == null)
                         {
                         }

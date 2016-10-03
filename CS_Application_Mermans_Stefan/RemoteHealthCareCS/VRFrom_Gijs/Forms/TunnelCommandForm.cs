@@ -49,30 +49,31 @@ namespace VRFrom_Gijs.Forms
             deletePane();
             Blocker.WaitOne(5000);
 
+            createPanel();
+            Blocker.WaitOne(5000);
+
             createTerrain();
             Thread.Sleep(3000);
             paintTerrain();
-            blocker.WaitOne(5000);
-            // createWater();
-            //blocker.WaitOne(5000);
-            //createForest();
-            //blocker.WaitOne(5000);
-            //createCity();
-            //blocker.WaitOne(5000);
+            Blocker.WaitOne(5000);
+            createWater();
+            Blocker.WaitOne(5000);
+            createForest();
+            Blocker.WaitOne(5000);
+            createCity();
+            Blocker.WaitOne(5000);
 
-            createPanel();
-            blocker.WaitOne(5000);
-            //createBike();
-            //Blocker.WaitOne(5000);
+            createBike();
+            Blocker.WaitOne(5000);
             createRoad();
             Blocker.WaitOne(5000);
-            //followRoad();
-            //Blocker.WaitOne(5000);
-            //followBike();
-            //blocker.WaitOne(5000);
-            //followCamera();
-            //blocker.WaitOne(5000);
-            //drawPanel();
+            followRoad();
+            Blocker.WaitOne(5000);
+            followBike();
+            Blocker.WaitOne(5000);
+            followCamera();
+            Blocker.WaitOne(5000);
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -253,7 +254,9 @@ namespace VRFrom_Gijs.Forms
         {
             if (_panel.Uuid == null)
             {
+                Thread.Sleep(10);
                 _panel.Uuid = _connection.PanelId;
+
                 MakePanelId();
             }
         }
@@ -317,6 +320,21 @@ namespace VRFrom_Gijs.Forms
 
             Thread.Sleep(10);
             _connection.SendMessage(_water.SendString);
+        }
+
+        private void followCamera()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _connection.PanelId,
+                    parent = _connection.cameraID,
+                    transform = new { position = new[] { 0, 1, -0.5 }, scale = 0.29, rotation = new[] { -53, 0, 0 } }
+
+                }
+            }, _connection.TunnelId));
         }
     }
 }

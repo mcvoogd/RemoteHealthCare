@@ -73,7 +73,7 @@ namespace VRFrom_Gijs.Forms
             Blocker.WaitOne(5000);
             followCamera();
             Blocker.WaitOne(5000);
-            drawPanel();
+            drawPanel("Satan is love.");
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -262,9 +262,8 @@ namespace VRFrom_Gijs.Forms
             }
         }
 
-        private void drawPanel()
+        private void drawPanel(string value)
         {
-            string textValue = "Satan is love";
             int[] position = {100, 100};
             double sizeValue = 32;
             double[] color = {1, 0, 0, 1};
@@ -278,7 +277,7 @@ namespace VRFrom_Gijs.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 
-            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.DrawText(value, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

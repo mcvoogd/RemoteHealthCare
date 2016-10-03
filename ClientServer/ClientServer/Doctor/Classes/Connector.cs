@@ -6,7 +6,6 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
-using Client.Connection;
 using Newtonsoft.Json;
 
 namespace Doctor.Classes

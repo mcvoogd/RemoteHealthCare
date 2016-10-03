@@ -21,7 +21,7 @@ namespace VRFrom_Gijs.Forms
         public static AutoResetEvent Blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null, _tree = null, _water =null, _butterfly = null, _rock = null, _house = null;
+        private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
@@ -49,30 +49,31 @@ namespace VRFrom_Gijs.Forms
             deletePane();
             Blocker.WaitOne(5000);
 
+            createPanel();
+            Blocker.WaitOne(5000);
+
             createTerrain();
             Thread.Sleep(3000);
             paintTerrain();
             Blocker.WaitOne(5000);
-            // createWater();
-            //Blocker.WaitOne(5000);
-            //createForest();
-            //Blocker.WaitOne(5000);
-            //createCity();
-            //Blocker.WaitOne(5000);
-
-            createPanel();
+            createWater();
             Blocker.WaitOne(5000);
-            //createBike();
-            //Blocker.WaitOne(5000);
+            createForest();
+            Blocker.WaitOne(5000);
+            createCity();
+            Blocker.WaitOne(5000);
+
+            createBike();
+            Blocker.WaitOne(5000);
             createRoad();
             Blocker.WaitOne(5000);
-            //followRoad();
-            //Blocker.WaitOne(5000);
-            //followBike();
-            //Blocker.WaitOne(5000);
-            //followCamera();
-            //Blocker.WaitOne(5000);
-            //drawPanel();
+            followRoad();
+            Blocker.WaitOne(5000);
+            followBike();
+            Blocker.WaitOne(5000);
+            followCamera();
+            Blocker.WaitOne(5000);
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -235,13 +236,14 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 1, 1, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1080, 1920, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
-            _panel.SwapPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
+            //_panel.SwapPanel();
+            //_connection.SendMessage(_panel.ToSend);
+            //Blocker.WaitOne(5000);
+            //drawPanel();
 
             //Console.WriteLine(_panel.Uuid);
             //Blocker.WaitOne(5000);
@@ -253,7 +255,9 @@ namespace VRFrom_Gijs.Forms
         {
             if (_panel.Uuid == null)
             {
+                Thread.Sleep(10);
                 _panel.Uuid = _connection.PanelId;
+
                 MakePanelId();
             }
         }
@@ -261,14 +265,23 @@ namespace VRFrom_Gijs.Forms
         private void drawPanel()
         {
             string textValue = "Satan is love";
-            int[] position = {100,100};
+            int[] position = {100, 100};
             double sizeValue = 32;
-            double[] color = {0, 0, 0, 1};
-            string fontValue = "calibri";
+            double[] color = {1, 0, 0, 1};
+            string fontValue = "segoeui";
+
+            _panel.ClearPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
 
             _panel.DrawText(textValue, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
+
             _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
@@ -317,6 +330,21 @@ namespace VRFrom_Gijs.Forms
 
             Thread.Sleep(10);
             _connection.SendMessage(_water.SendString);
+        }
+
+        private void followCamera()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _connection.PanelId,
+                    parent = _connection.cameraID,
+                    transform = new { position = new[] { 0, 1, -0.5 }, scale = 0.29, rotation = new[] { -53, 0, 0 } }
+
+                }
+            }, _connection.TunnelId));
         }
     }
 }

@@ -19,10 +19,11 @@ namespace Server.Server
 //        private readonly Stream stream;
 
         private readonly BigDatabase _database;
-        private Client _client = null;
+        public Client Client = null;
         private byte[] _messageBuffer;
 
         private static X509Certificate2 serverCertificate = null;
+        private bool IsDoctor = false;
 
         public ClientHandler(TcpClient tcpClient, BigDatabase databaseValue)
         {
@@ -69,28 +70,29 @@ namespace Server.Server
                     switch ((string) id)
                     {
                         case "message/send":
-                            _client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(id));
+                            //SendMessage(readMessage);
+                            Client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(readMessage));
+                            Console.WriteLine("MSG : " + data.message);
                             SendAck("message/received");
                             break;
-
                         case "client/new":
                             //null == tunnelID. <VR>
                             //0 for self generate ID.
-                            _client = new Client(data.username, data.password, null, 0, new TinyDataBase());
-                            _database.AddClient(_client);
+                            Client = new Client(data.username, data.password, null, 0, new TinyDataBase());
+                            Console.WriteLine($"Msg added. <{Client.TinyDataBaseBase.ChatSystem.GetAllMessages().Count}>");
+                            _database.AddClient(Client);
                             SendAck("client/new");
                             break;
-
                         case "measurement/add":
-                            _client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
-                            Console.WriteLine($"Msrment added. <{_client.TinyDataBaseBase.MeasurementSystem.GetAllMeasurements().Count}>");
+                            Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(readMessage));
+                            Console.WriteLine($"Msrment added. <{Client.TinyDataBaseBase.MeasurementSystem.GetAllMeasurements().Count}>");
                             SendAck("measurement/add");
                             break;
                         case "login/request":
                             if (HandleLogin(data))
                             {
                                 SendAck("login/request");
-                                Console.WriteLine(_client.UniqueId + " <UNIQUE ID>");
+                                Console.WriteLine(Client.UniqueId + " <UNIQUE ID>");
                             }
                             else
                             {
@@ -100,6 +102,13 @@ namespace Server.Server
                         case "client/disconnect":
                             _sslStream.Close();
                             _tcpClient.Close();
+                            break;
+
+                        case "change/resistance":
+                            if (IsDoctor)
+                            {
+                                HandleResistance(data);
+                            }
                             break;
                         default:
                             Console.WriteLine("Id: " + id);
@@ -115,6 +124,18 @@ namespace Server.Server
                     Console.WriteLine(e.StackTrace);
                 }
             }
+        }
+        //from doctor to client.
+        public void HandleResistance(dynamic data)
+        {
+            ClientHandler tosend = TcpServer.GetClientHandlerByClientID(data.clientId);
+            tosend.SendMessage(new
+            {
+                id = "change/resistance",
+                data = new {
+                        Resistance = data.resistance
+                    }
+            });
         }
 
         private void SendNotAck(string idV)
@@ -199,13 +220,14 @@ namespace Server.Server
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Exception: {0}\nStack trace: {1}", exception.ToString(), exception.StackTrace);
+                Console.WriteLine($"Exception: {exception.ToString()}\nStack trace: {exception.StackTrace}");
                 return null;
             }
         }
 
         public Message ParseMessage(dynamic data)
         {
+            Console.WriteLine(data.data.message);
             var toSend = new Message(data.clientid, data.clientid, System.DateTime.Now, data.data.message);
             return toSend;
         }
@@ -215,16 +237,22 @@ namespace Server.Server
             string username = data.username;
             string password = data.password;
             int clientid = data.clientid;
+            bool isDoctorData = data.isDoctor;
+
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
             if (_database.GetClientById(clientid) == null)
             {
-                _client = new Client(username, password, null, 0, new TinyDataBase());
-                _database.AddClient(_client);
+                Client = new Client(username, password, null, 0, new TinyDataBase());
+                _database.AddClient(Client);
+                if (isDoctorData)
+                {
+                    this.IsDoctor = true;
+                }
                 Console.WriteLine("Did not exist");
                 return true;
             }
             //null == tunnelID. <VR>
-            _database.GetClientById(clientid, out _client);
+            _database.GetClientById(clientid, out Client);
             return true;
         }
 

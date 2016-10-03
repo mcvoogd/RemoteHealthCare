@@ -20,19 +20,14 @@ namespace Server.BigDB
         protected Status ClientStatus { get; set; }
         protected enum Status { NOT_CONNECTED, CONNECTED, READY_TO_GO, BIKING, FINISHED };
 
-        public Client(string name, string password, string tunnelId, int clientId, TinyDataBase tinyDataBase)
+        public Client(string name, string password, string tunnelId, int uniqueId, TinyDataBase tinyDataBase)
         {
-            this.Name = name;
-            this.Password = password;
-            this.TunnelId = tunnelId;
-            this.TinyDataBaseBase = tinyDataBase;
+            Name = name;
+            Password = password;
+            TunnelId = tunnelId;
+            TinyDataBaseBase = tinyDataBase;
             ClientStatus = Status.CONNECTED;
-            if(clientId == 0)
-            this.UniqueId = GetUniqueId(name, password);
-            else
-            {
-                this.UniqueId = clientId;
-            }
+            UniqueId = uniqueId == 0 ? GetUniqueId(name, password) : uniqueId;
             Console.WriteLine($"Chosen id : {UniqueId}" );
         }
 

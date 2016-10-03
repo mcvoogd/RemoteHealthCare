@@ -51,6 +51,7 @@ namespace Client.Connection
                     {
                         Console.WriteLine("Sending");
                         _serialPort.WriteLine("ST\r\n");
+                        
                         Console.WriteLine("Reading...");
                         var temp = _serialPort.ReadLine();
 

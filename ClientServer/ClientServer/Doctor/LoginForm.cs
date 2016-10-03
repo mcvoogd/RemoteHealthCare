@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using Client.Connection;
-using Client.Forms;
 
 namespace DataScreen.Forms
 {
-    public delegate bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare);
+    public delegate bool Connect(string serverIp, string username, string password);
     public partial class LoginForm : Form
     {
-        private RemoteHealthcare RemoteHealthcare;
         private Connect _connect;
 
-        public LoginForm(RemoteHealthcare RemoteHealthcare, Connect connect)
+        public LoginForm(Connect connect)
         {
             this.FormClosing += LoginForm_FormClosing;
             InitializeComponent();
-            this.RemoteHealthcare = RemoteHealthcare;
             _connect = connect;
             //passwordTextBox.MouseHover += new EventHandler(passwordTextBox_MouseHover);
             //passwordTextBox.MouseLeave += new EventHandler(passwordTextBox_MouseLeave);
@@ -45,13 +41,10 @@ namespace DataScreen.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            if(_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text, RemoteHealthcare))
+            if(_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
             {
                 Visible = false;
-                RemoteHealthcare.Visible = true;
-                RemoteHealthcare.name = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
-                RemoteHealthcare.Invalidate();
             } else
             {
                 wrongLogin.Visible = true;

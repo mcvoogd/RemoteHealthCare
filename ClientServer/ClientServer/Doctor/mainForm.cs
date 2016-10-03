@@ -25,6 +25,7 @@ namespace Doctor
         }
 
         //http://www.vbdotnetforums.com/charting/61007-hide-chart-series-clicking-series-legend.html
+        //http://stackoverflow.com/questions/14124601/display-disabled-series-in-legend
         private void chart1_Click(object sender, EventArgs e)
         {
             HitTestResult seriesHit = chart1.HitTest(MousePosition.X, MousePosition.Y);

@@ -26,17 +26,14 @@ namespace Client.Forms
         private readonly SendStatistics _sendStatistics;
         private readonly AddMessage _addMessage;
 
-         
-
         public string name { get; set; }
         private readonly List<Message> _messages = new List<Message>();
 
-        private readonly int _connectionId;
+        public int ConnectionId { get; set; }
         private string _message;
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
         public List<Measurement> Measurements { get; set; }
-
 
         public RemoteHealthcare(SendMessage sendMessage,SendStatistics sendStatistics ,int connectionId)
         {
@@ -46,7 +43,7 @@ namespace Client.Forms
 
 
             this.FormClosing += RemoteHealthCare_FormClosing;
-            _connectionId = connectionId;
+            ConnectionId = connectionId;
             _message = null;
             InitializeComponent();
             this.Paint += RemoteHealthcare_Paint;
@@ -83,7 +80,7 @@ namespace Client.Forms
         public void AddMessage(Message msg)
         {
             _messages.Add(msg);
-            RefreshMessageList();
+           // RefreshMessageList();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -91,7 +88,7 @@ namespace Client.Forms
             _sendMessage(new
             {
                 id = "message/send",
-                clientid = _connectionId,
+                clientid = ConnectionId,
                 data = new
                 {
                     message = (messageTextBox.Text += "\n")
@@ -106,25 +103,6 @@ namespace Client.Forms
             Console.WriteLine("PAINT");
             usernameLabel.Text = name;
         }
-
-        private void disconnectButton_Click(object sender, EventArgs e)
-        {
-            _sendMessage(new
-            {
-                id = "client/disconnect",
-                data = new
-                {
-                    Disonnect = true
-                }
-            });
-            Environment.Exit(0);
-        }
-
-        private void RemoteHealthcare_Load(object sender, EventArgs e)
-        {
-
-        }
-
 
         private void RemoteHealthCare_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -180,6 +158,7 @@ namespace Client.Forms
             _sendStatistics(measurement);
         }
 
+
         public void RefreshMessageList()
         {
             chatTextBox.Text = "";
@@ -189,5 +168,6 @@ namespace Client.Forms
                 chatTextBox.Text += "\n";
             }
         }
+
     }
 }

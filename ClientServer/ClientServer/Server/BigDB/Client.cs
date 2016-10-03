@@ -18,14 +18,16 @@ namespace Server.BigDB
         public int UniqueId { get; set; }
         public string Password { get; set; }
         protected Status ClientStatus { get; set; }
+        public bool IsDoctor { get; set; }
         protected enum Status { NOT_CONNECTED, CONNECTED, READY_TO_GO, BIKING, FINISHED };
 
-        public Client(string name, string password, string tunnelId, int uniqueId, TinyDataBase tinyDataBase)
+        public Client(string name, string password, string tunnelId, int uniqueId, bool isDoctor, TinyDataBase tinyDataBase)
         {
             Name = name;
             Password = password;
             TunnelId = tunnelId;
             TinyDataBaseBase = tinyDataBase;
+            IsDoctor = isDoctor;
             ClientStatus = Status.CONNECTED;
             UniqueId = uniqueId == 0 ? GetUniqueId(name, password) : uniqueId;
             Console.WriteLine($"Chosen id : {UniqueId}" );

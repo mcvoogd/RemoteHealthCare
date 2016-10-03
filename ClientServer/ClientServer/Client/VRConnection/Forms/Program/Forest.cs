@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using VRFrom_Gijs.Forms.Program;
 
-namespace VRFrom_Gijs.Program
+namespace Client.VRConnection.Forms.Program
 {
     class Forest
     {

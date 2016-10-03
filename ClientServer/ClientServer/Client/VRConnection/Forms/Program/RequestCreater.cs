@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace VRFrom_Gijs.Program
+namespace Client.VRConnection.Forms.Program
 {
     static class RequestCreater
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace VRFrom_Gijs.Forms
+namespace Client.VRConnection.Forms
 {
     partial class TunnelCommandForm
     {

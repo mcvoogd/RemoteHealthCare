@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VRFrom_Gijs.Properties
+namespace Client.VRConnection.Properties
 {
 
 

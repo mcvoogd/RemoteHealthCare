@@ -439,11 +439,11 @@
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(9, 73);
+            this.label9.Location = new System.Drawing.Point(9, 72);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(84, 13);
+            this.label9.Size = new System.Drawing.Size(99, 13);
             this.label9.TabIndex = 27;
-            this.label9.Text = "Client                 ";
+            this.label9.Text = "Client                      ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addClientButton
@@ -623,11 +623,11 @@
             this.label11.AutoSize = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(894, 78);
+            this.label11.Location = new System.Drawing.Point(894, 72);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(95, 13);
+            this.label11.Size = new System.Drawing.Size(107, 13);
             this.label11.TabIndex = 35;
-            this.label11.Text = "Chat                      ";
+            this.label11.Text = "Chat                          ";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label12
@@ -635,11 +635,11 @@
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(896, 385);
+            this.label12.Location = new System.Drawing.Point(894, 385);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(87, 13);
+            this.label12.Size = new System.Drawing.Size(99, 13);
             this.label12.TabIndex = 36;
-            this.label12.Text = "Trainingen          ";
+            this.label12.Text = "Historie                   ";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13
@@ -654,7 +654,7 @@
             this.label13.Text = "status";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // mainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -725,31 +725,31 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label timeLabel;
-        private System.Windows.Forms.Label kmLabel;
-        private System.Windows.Forms.Label avgkmLabel;
-        private System.Windows.Forms.Label wattsLabel;
-        private System.Windows.Forms.Label avgwattsLabel;
-        private System.Windows.Forms.Label rpmLabel;
-        private System.Windows.Forms.Label kjLabel;
-        private System.Windows.Forms.Label kmhLabel;
-        private System.Windows.Forms.Label bpmLabel;
-        private System.Windows.Forms.Label powerLabel;
-        private System.Windows.Forms.Label avgbpmLabel;
-        private System.Windows.Forms.Label avgpowerLabel;
-        private System.Windows.Forms.Label avgrpmLabel;
-        private System.Windows.Forms.Label avgkmhLabel;
-        private System.Windows.Forms.ListBox clientListBox;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button addClientButton;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Label userLabel;
-        private System.Windows.Forms.Label connectedLabel;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        public System.Windows.Forms.Label timeLabel;
+        public System.Windows.Forms.Label kmLabel;
+        public System.Windows.Forms.Label avgkmLabel;
+        public System.Windows.Forms.Label wattsLabel;
+        public System.Windows.Forms.Label avgwattsLabel;
+        public System.Windows.Forms.Label rpmLabel;
+        public System.Windows.Forms.Label kjLabel;
+        public System.Windows.Forms.Label kmhLabel;
+        public System.Windows.Forms.Label bpmLabel;
+        public System.Windows.Forms.Label powerLabel;
+        public System.Windows.Forms.Label avgbpmLabel;
+        public System.Windows.Forms.Label avgpowerLabel;
+        public System.Windows.Forms.Label avgrpmLabel;
+        public System.Windows.Forms.Label avgkmhLabel;
+        public System.Windows.Forms.ListBox clientListBox;
+        public System.Windows.Forms.Button addClientButton;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        public System.Windows.Forms.Label userLabel;
+        public System.Windows.Forms.Label connectedLabel;
     }
 }
 

@@ -1,4 +1,4 @@
-﻿namespace VRFrom_Gijs.Forms
+﻿namespace Client.VRConnection.Forms.Program
 {
     partial class Form1
     {

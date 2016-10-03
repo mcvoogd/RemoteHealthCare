@@ -6,8 +6,8 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
-using VRFrom_Gijs.VrObjects;
-using VRFrom_Gijs.Forms;
+using Client.VRConnection.VRObjects;
+using Client.VRConnection.Forms;
 using Panel = System.Windows.Forms.Panel;
 
 namespace Client.VRConnection.Forms.Program

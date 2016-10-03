@@ -8,9 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VRFrom_Gijs.Program;
 
-namespace VRFrom_Gijs.Forms
+namespace Client.VRConnection.Forms.Program
 {
     public partial class Form1 : Form
     {

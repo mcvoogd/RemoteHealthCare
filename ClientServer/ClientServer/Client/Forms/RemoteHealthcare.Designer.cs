@@ -55,7 +55,7 @@
             this.statusBar.Location = new System.Drawing.Point(0, 0);
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(2, 0, 38, 0);
-            this.statusBar.Size = new System.Drawing.Size(1850, 46);
+            this.statusBar.Size = new System.Drawing.Size(1778, 46);
             this.statusBar.TabIndex = 0;
             this.statusBar.Text = "statusBar";
             // 
@@ -81,18 +81,19 @@
             this.buttonsBox.Margin = new System.Windows.Forms.Padding(16);
             this.buttonsBox.Name = "buttonsBox";
             this.buttonsBox.Padding = new System.Windows.Forms.Padding(16);
-            this.buttonsBox.Size = new System.Drawing.Size(1143, 822);
+            this.buttonsBox.Size = new System.Drawing.Size(1093, 822);
             this.buttonsBox.TabIndex = 2;
             this.buttonsBox.TabStop = false;
             this.buttonsBox.Text = "Chat";
             // 
             // messageTextBox
             // 
+            this.messageTextBox.AcceptsReturn = true;
             this.messageTextBox.Location = new System.Drawing.Point(28, 764);
             this.messageTextBox.Margin = new System.Windows.Forms.Padding(12);
             this.messageTextBox.Name = "messageTextBox";
             this.messageTextBox.Size = new System.Drawing.Size(816, 38);
-            this.messageTextBox.TabIndex = 3;
+            this.messageTextBox.TabIndex = 2;
             // 
             // sendButton
             // 
@@ -101,7 +102,7 @@
             this.sendButton.Margin = new System.Windows.Forms.Padding(12);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(202, 45);
-            this.sendButton.TabIndex = 2;
+            this.sendButton.TabIndex = 3;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = false;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
@@ -156,7 +157,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1850, 950);
+            this.ClientSize = new System.Drawing.Size(1778, 950);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonsBox);
             this.Controls.Add(this.statusBar);

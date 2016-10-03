@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Client.Simulator
+namespace Doctor.Classes
 {
     public class Measurement : IComparable<Measurement>
     {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Runtime.InteropServices;
-
-namespace Doctor
+﻿namespace Doctor.Forms
 {
     partial class mainForm
     {

@@ -21,7 +21,7 @@ namespace VRFrom_Gijs.Forms
         public static AutoResetEvent Blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null, _tree = null, _water =null, _butterfly = null, _rock = null, _house = null;
+        private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
@@ -52,16 +52,16 @@ namespace VRFrom_Gijs.Forms
             createTerrain();
             Thread.Sleep(3000);
             paintTerrain();
-            Blocker.WaitOne(5000);
+            blocker.WaitOne(5000);
             // createWater();
-            //Blocker.WaitOne(5000);
+            //blocker.WaitOne(5000);
             //createForest();
-            //Blocker.WaitOne(5000);
+            //blocker.WaitOne(5000);
             //createCity();
-            //Blocker.WaitOne(5000);
+            //blocker.WaitOne(5000);
 
             createPanel();
-            Blocker.WaitOne(5000);
+            blocker.WaitOne(5000);
             //createBike();
             //Blocker.WaitOne(5000);
             createRoad();
@@ -69,9 +69,9 @@ namespace VRFrom_Gijs.Forms
             //followRoad();
             //Blocker.WaitOne(5000);
             //followBike();
-            //Blocker.WaitOne(5000);
+            //blocker.WaitOne(5000);
             //followCamera();
-            //Blocker.WaitOne(5000);
+            //blocker.WaitOne(5000);
             //drawPanel();
         }
 

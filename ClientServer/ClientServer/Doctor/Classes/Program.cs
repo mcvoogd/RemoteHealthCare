@@ -15,7 +15,7 @@ namespace Doctor.Classes
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var mainForm = new MainForm { Visible = false };
+            var mainForm = new MainForm { Visible = true };
             var connector = new Connector();
             var loginForm = new LoginForm(connector.Connect, mainForm);
 

@@ -67,9 +67,9 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public string SwapPanel()
+        public void SwapPanel()
         {
-          string send =  RequestCreater.TunnelSend(new
+          ToSend =  RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/swap",
                 data = new
@@ -77,13 +77,12 @@ namespace VRFrom_Gijs.VrObjects
                     id = Uuid
                 }
             }, TunnelId);
-            return send;
         }
 
         //0,0 10,10, 0,0,0,1 == x1, y1, x2,y2, r,g,b,a
-        public string DrawLines(int widthValue, int[] lineArray)
+        public void DrawLines(int widthValue, int[] lineArray)
         {
-            string send = RequestCreater.TunnelSend(new
+            ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/drawlines",
                 data = new
@@ -93,12 +92,11 @@ namespace VRFrom_Gijs.VrObjects
                     lines = lineArray
                 }
             }, TunnelId);
-            return send;
         }
 
-        public string SetClearColor(double[] kleur)
+        public void SetClearColor(double[] kleur)
         {
-           string send = RequestCreater.TunnelSend(new
+           ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/setclearcolor",
                 data = new
@@ -107,12 +105,11 @@ namespace VRFrom_Gijs.VrObjects
                     color = kleur
                 }
             }, TunnelId);
-            return send;
         }
 
-        public string DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
+        public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
         {
-           string send = RequestCreater.TunnelSend(new
+           ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/drawtext",
                 data = new
@@ -125,7 +122,6 @@ namespace VRFrom_Gijs.VrObjects
                     font = fontValue
                 }
             }, TunnelId);
-            return send;
         }
 
     }

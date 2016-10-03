@@ -58,13 +58,13 @@ namespace Server.Server
 
         public void SaveAllData()
         {
-            const string path = @"..\..\ClientData\file.txt";
+            const string path = @"..\..\ClientData\Clients.save";
             _dataBase.SaveClients(path);
         }
 
         public void LoadAllData()
         {
-            const string path = @"..\..\ClientData\file.txt";
+            const string path = @"..\..\ClientData\Clients.save";
             if (File.Exists(path))
             {
                 if (File.Exists(path))

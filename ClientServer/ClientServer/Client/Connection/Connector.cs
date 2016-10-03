@@ -75,7 +75,7 @@ namespace Client.Connection
                                         return;
                                     }
                                     loginAccepted = 1;
-                                    ConnectionId = readMessage.
+                                    Console.WriteLine("ConnectionId: " + ConnectionId);
                                     RemoteHealthcare.ConnectionId = ConnectionId;
                                     break;
                                 case "message/send":
@@ -120,8 +120,10 @@ namespace Client.Connection
             }
         }
 
-        public bool Connect(string serverIp, string username, string password)
+        public bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare)
         {
+            RemoteHealthcare = remoteHealthcare;
+
             _tcpClient = new TcpClient(serverIp,6969);
             _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());

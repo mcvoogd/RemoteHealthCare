@@ -26,8 +26,6 @@ namespace Client.Forms
         private readonly SendStatistics _sendStatistics;
         private readonly AddMessage _addMessage;
 
-         
-
         public string name { get; set; }
         private readonly List<Message> _messages = new List<Message>();
 
@@ -36,7 +34,6 @@ namespace Client.Forms
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
         public List<Measurement> Measurements { get; set; }
-
 
         public RemoteHealthcare(SendMessage sendMessage,SendStatistics sendStatistics ,int connectionId)
         {

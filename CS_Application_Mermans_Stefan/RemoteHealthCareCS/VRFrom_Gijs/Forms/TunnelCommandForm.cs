@@ -21,7 +21,7 @@ namespace VRFrom_Gijs.Forms
         public static AutoResetEvent blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null, _tree = null, _water =null, _fence = null, _rock = null, _house = null;
+        private Node _bike = null, _tree = null, _water =null, _butterfly = null, _rock = null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;

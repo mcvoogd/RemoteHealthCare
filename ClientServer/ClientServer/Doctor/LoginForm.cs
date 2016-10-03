@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
+using Doctor;
 
 namespace DataScreen.Forms
 {
@@ -8,14 +9,14 @@ namespace DataScreen.Forms
     public partial class LoginForm : Form
     {
         private Connect _connect;
+        private mainForm _mainForm;
 
-        public LoginForm(Connect connect)
+        public LoginForm(Connect connect, mainForm mainForm)
         {
-            this.FormClosing += LoginForm_FormClosing;
+            FormClosing += LoginForm_FormClosing;
+            _mainForm = mainForm;
             InitializeComponent();
             _connect = connect;
-            //passwordTextBox.MouseHover += new EventHandler(passwordTextBox_MouseHover);
-            //passwordTextBox.MouseLeave += new EventHandler(passwordTextBox_MouseLeave);
         }
 
 
@@ -44,31 +45,17 @@ namespace DataScreen.Forms
             if(_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
             {
                 Visible = false;
+                _mainForm.Visible = true;
+<<<<<<< HEAD
+//                _mainForm.nameLabel.Text = usernameTextBox.Text;
+=======
+                _mainForm.nameLabel.Text = usernameTextBox.Text;
+>>>>>>> 38b09979b70821d689f261d801064fbb38291302
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
             } else
             {
                 wrongLogin.Visible = true;
             }
-            
-            //            wrongLogin.Visible = true;
         }
-
-//        ToolTip toolTipCaps = new ToolTip();
-//        void passwordTextBox_MouseLeave(object sender, EventArgs e)
-//        {
-//            toolTipCaps.Hide(passwordTextBox);
-//        }
-//        void passwordTextBox_MouseHover(object sender, EventArgs e)
-//        {
-//            if (Control.IsKeyLocked(Keys.CapsLock))
-//            {
-//
-//                toolTipCaps.ToolTipTitle = "Caps Lock Is On";
-//                toolTipCaps.ToolTipIcon = ToolTipIcon.Warning;
-//                toolTipCaps.IsBalloon = true;
-//                toolTipCaps.SetToolTip(passwordTextBox, "Having Caps Lock on may cause you to enter your password incorrectly.\n\nYou should press Caps Lock to turn it off before entering your password.");
-//                toolTipCaps.Show("Having Caps Lock on may cause you to enter your password incorrectly.\n\nYou should press Caps Lock to turn it off before entering your password.", passwordTextBox, 5, passwordTextBox.Height - 5);
-//            }
-//        }
     }
 }

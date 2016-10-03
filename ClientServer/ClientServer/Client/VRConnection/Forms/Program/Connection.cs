@@ -10,7 +10,7 @@ using VRFrom_Gijs.VrObjects;
 using VRFrom_Gijs.Forms;
 using Panel = System.Windows.Forms.Panel;
 
-namespace VRFrom_Gijs.Program
+namespace Client.VRConnection.Forms.Program
 {
     public delegate void FillConnectionList();
 

@@ -66,6 +66,36 @@
     <Compile Include="Forms\RemoteHealthcare.Designer.cs">
       <DependentUpon>RemoteHealthcare.cs</DependentUpon>
     </Compile>
+    <Compile Include="VRConnection\Forms\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VRConnection\Forms\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VRConnection\Forms\Program\City.cs" />
+    <Compile Include="VRConnection\Forms\Program\Client.cs" />
+    <Compile Include="VRConnection\Forms\Program\Connection.cs" />
+    <Compile Include="VRConnection\Forms\Program\Forest.cs" />
+    <Compile Include="VRConnection\Forms\Program\Program.cs" />
+    <Compile Include="VRConnection\Forms\Program\Punt.cs" />
+    <Compile Include="VRConnection\Forms\Program\RequestCreater.cs" />
+    <Compile Include="VRConnection\Forms\Program\Result.cs" />
+    <Compile Include="VRConnection\Forms\TunnelCommandForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VRConnection\Forms\TunnelCommandForm.Designer.cs">
+      <DependentUpon>TunnelCommandForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VRConnection\Program\Punt.cs" />
+    <Compile Include="VRConnection\Properties\AssemblyInfo.cs" />
+    <Compile Include="VRConnection\Properties\Resources.Designer.cs" />
+    <Compile Include="VRConnection\Properties\Settings.Designer.cs" />
+    <Compile Include="VRConnection\VRObjects\Node.cs" />
+    <Compile Include="VRConnection\VRObjects\Panel.cs" />
+    <Compile Include="VRConnection\VRObjects\Road.cs" />
+    <Compile Include="VRConnection\VRObjects\Scene.cs" />
+    <Compile Include="VRConnection\VRObjects\Skybox.cs" />
+    <Compile Include="VRConnection\VRObjects\Terrain.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulator\Measurement.cs" />
@@ -89,6 +119,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Simulator\SimulationForm.resx" />
+    <EmbeddedResource Include="VRConnection\Forms\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VRConnection\Forms\TunnelCommandForm.resx">
+      <DependentUpon>TunnelCommandForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VRConnection\Properties\Resources.resx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -99,6 +136,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="VRConnection\App.config" />
+    <None Include="VRConnection\packages.config" />
+    <None Include="VRConnection\Properties\Settings.settings" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,7 +147,14 @@
     <Analyzer Include="C:\Program Files %28x86%29\Microsoft Visual Studio 14.0\Common7\IDE\TestAgent\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="VrObjects\" />
+    <Content Include="VRConnection\res\heightmaptest.jpg" />
+    <Content Include="VRConnection\res\heightmaptest2.jpg" />
+    <Content Include="VRConnection\res\map.jpg" />
+    <Content Include="VRConnection\res\map2 met notes.jpg" />
+    <Content Include="VRConnection\res\map2.jpg" />
+    <Content Include="VRConnection\res\map3.jpg" />
+    <Content Include="VRConnection\res\testmap.jpg" />
+    <Content Include="VRConnection\VRFrom_Gijs.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

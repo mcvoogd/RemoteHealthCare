@@ -14,7 +14,7 @@ using VRFrom_Gijs.VrObjects;
 using Panel = VRFrom_Gijs.VrObjects.Panel;
 
 
-namespace VRFrom_Gijs.Forms
+namespace Client.VRConnection.Forms
 {
     public partial class TunnelCommandForm : Form
     {

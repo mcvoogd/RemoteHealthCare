@@ -78,13 +78,13 @@ namespace Server.Server
                         case "client/new":
                             //null == tunnelID. <VR>
                             //0 for self generate ID.
-                            Client = new Client(data.username, data.password, null, 0, new TinyDataBase());
+                            Client = new Client(data.username, data.password, null, 0, data.isDoctor, new TinyDataBase());
                             Console.WriteLine($"Msg added. <{Client.TinyDataBaseBase.ChatSystem.GetAllMessages().Count}>");
                             _database.AddClient(Client);
                             SendAck("client/new");
                             break;
                         case "measurement/add":
-                            Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(readMessage));
+                            Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             Console.WriteLine($"Msrment added. <{Client.TinyDataBaseBase.MeasurementSystem.GetAllMeasurements().Count}>");
                             SendAck("measurement/add");
                             break;
@@ -191,6 +191,9 @@ namespace Server.Server
         public Measurement ParseMeasurement(dynamic data)
         {
             var tempString = (string) data.time;
+            Console.WriteLine("Received Measurement: " + data);
+
+            Console.WriteLine("Time: " + tempString);
             var temp = tempString.Split(':');
 
             SimpleTime tempTime;
@@ -242,7 +245,7 @@ namespace Server.Server
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
             if (_database.GetClientById(clientid) == null)
             {
-                Client = new Client(username, password, null, 0, new TinyDataBase());
+                Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase());
                 _database.AddClient(Client);
                 if (isDoctorData)
                 {

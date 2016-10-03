@@ -8,6 +8,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using VRFrom_Gijs.VrObjects;
 using VRFrom_Gijs.Forms;
+using Panel = System.Windows.Forms.Panel;
 
 namespace VRFrom_Gijs.Program
 {
@@ -33,6 +34,7 @@ namespace VRFrom_Gijs.Program
         public string RouteId { get; set; }
         public string cameraID { get; set; }
         public string headID { get; set; }
+        public string PanelId { get; set; }
 
         public Connection(string ip, int port, Form1 form)
         {
@@ -90,6 +92,11 @@ namespace VRFrom_Gijs.Program
                                     string tempNaam = red.data.data.data.name;
                                     string tempUuid = red.data.data.data.uuid;
                                     Console.WriteLine(tempNaam);
+
+                                    if (tempNaam == "panel")
+                                        PanelId = red.data.data.data.uuid;
+                                   
+
                                     if (tempNaam == "Terrain node")
                                     {
                                         TerrainId = red.data.data.data.uuid;
@@ -100,24 +107,28 @@ namespace VRFrom_Gijs.Program
                                     } else if (!VRobjecten.ContainsKey(tempNaam))
                                     {
                                         VRobjecten.Add(tempNaam, tempUuid);
-                                        if(GetNodeInList(tempNaam) != null)
+                                        if (GetNodeInList(tempNaam) != null)
                                             GetNodeInList(tempNaam).Uuid = tempUuid;
                                     }
+                                    TunnelCommandForm.Blocker.Set();
                                     break;
                                 case "scene/get":
                                     GroundPlanId =
                                         red.data.data.data.children[red.data.data.data.children.Count - 1].uuid;
                                     cameraID = red.data.data.data.children[1].uuid;
                                     headID = red.data.data.data.children[4].uuid;
+                                    TunnelCommandForm.Blocker.Set();
                                     break;
                                 case "scene/node/delete":
                                     Console.WriteLine("Deleted.");
+                                    TunnelCommandForm.Blocker.Set();
                                     break;
                                 case "route/add":
                                     RouteId = red.data.data.data.uuid;
+                                    TunnelCommandForm.Blocker.Set();
                                     break;
                             }
-                            TunnelCommandForm.blocker.Set();
+                           
                             break;
                     }
                     bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));

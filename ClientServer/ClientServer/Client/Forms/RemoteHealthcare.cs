@@ -80,7 +80,7 @@ namespace Client.Forms
         public void AddMessage(Message msg)
         {
             _messages.Add(msg);
-            RefreshMessageList();
+           // RefreshMessageList();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -104,10 +104,6 @@ namespace Client.Forms
             usernameLabel.Text = name;
         }
 
-        private void RemoteHealthcare_Load(object sender, EventArgs e)
-        {
-
-        }
         private void RemoteHealthCare_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -161,6 +157,7 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
         }
+
 
         public void RefreshMessageList()
         {

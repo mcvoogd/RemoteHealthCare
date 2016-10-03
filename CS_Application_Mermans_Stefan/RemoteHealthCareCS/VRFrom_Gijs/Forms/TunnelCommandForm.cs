@@ -39,7 +39,7 @@ namespace VRFrom_Gijs.Forms
             ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
         }
-
+    
         private void createSceneButton_Click(object sender, EventArgs e)
         {
             forest = new Forest();
@@ -60,19 +60,19 @@ namespace VRFrom_Gijs.Forms
             createCity();
             blocker.WaitOne(5000);
 
-            //createPanel();
-            //blocker.WaitOne(5000);
-            //createBike();
-            //blocker.WaitOne(5000);
+            createPanel();
+            blocker.WaitOne(5000);
+            createBike();
+            blocker.WaitOne(5000);
             createRoad();
             blocker.WaitOne(5000);
-            //followRoad();
-            //blocker.WaitOne(5000);
-            //followBike();
-            //blocker.WaitOne(5000);
-            //followCamera();
-            //blocker.WaitOne(5000);
-            //drawPanel();
+            followRoad();
+            blocker.WaitOne(5000);
+            followBike();
+            blocker.WaitOne(5000);
+            followCamera();
+            blocker.WaitOne(5000);
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)

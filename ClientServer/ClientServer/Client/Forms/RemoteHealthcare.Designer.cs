@@ -152,39 +152,12 @@
             this.comportBox.Size = new System.Drawing.Size(149, 24);
             this.comportBox.TabIndex = 0;
             // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 93F;
-            chartArea1.Position.Width = 94F;
-            chartArea1.Position.Y = 7F;
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            legend1.Position.Auto = false;
-            legend1.Position.Height = 7F;
-            legend1.Position.Width = 35F;
-            legend1.Position.X = 15F;
-            legend1.Position.Y = 1F;
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(26, 247);
-            this.chart1.Name = "chart1";
-            this.chart1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(531, 573);
-            this.chart1.TabIndex = 3;
-            this.chart1.Text = "BicycleChart";
-            // 
             // RemoteHealthcare
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1664, 860);
-            this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonsBox);
             this.Controls.Add(this.statusBar);

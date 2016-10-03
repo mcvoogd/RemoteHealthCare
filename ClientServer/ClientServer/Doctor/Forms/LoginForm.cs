@@ -45,7 +45,7 @@ namespace Doctor.Forms
                 Visible = false;
                 _mainForm.Visible = true;
 
-//                _mainForm.= usernameTextBox.Text;
+                _mainForm.userLabel.Text = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
             } else
             {

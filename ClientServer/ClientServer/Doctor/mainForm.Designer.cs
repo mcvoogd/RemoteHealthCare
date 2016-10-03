@@ -40,6 +40,9 @@
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 55D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(7D, 23D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(23D, 97D);
@@ -76,7 +79,11 @@
             this.addClientButton = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label10 = new System.Windows.Forms.Label();
+            this.connectedLabel = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -500,13 +507,16 @@
             chartArea1.ShadowColor = System.Drawing.Color.White;
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
-            legend1.BorderColor = System.Drawing.Color.White;
+            legend1.BorderColor = System.Drawing.Color.Transparent;
             legend1.Font = new System.Drawing.Font("Good Times", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             legend1.ForeColor = System.Drawing.Color.White;
             legend1.HeaderSeparatorColor = System.Drawing.Color.White;
             legend1.IsTextAutoFit = false;
             legend1.ItemColumnSeparatorColor = System.Drawing.Color.White;
             legend1.Name = "Legend1";
+            legend1.Position.Auto = false;
+            legend1.Position.Height = 10F;
+            legend1.Position.Width = 75F;
             legend1.TitleForeColor = System.Drawing.Color.White;
             legend1.TitleSeparatorColor = System.Drawing.Color.White;
             this.chart1.Legends.Add(legend1);
@@ -527,6 +537,7 @@
             dataPoint2.LabelBackColor = System.Drawing.Color.White;
             dataPoint3.LabelBackColor = System.Drawing.Color.White;
             dataPoint4.LabelBackColor = System.Drawing.Color.White;
+            dataPoint5.LabelBackColor = System.Drawing.Color.White;
             series1.Points.Add(dataPoint1);
             series1.Points.Add(dataPoint2);
             series1.Points.Add(dataPoint3);
@@ -536,13 +547,33 @@
             series2.BorderWidth = 2;
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.Yellow;
             series2.Legend = "Legend1";
-            series2.Name = "Km/h";
-            series2.Points.Add(dataPoint6);
-            series2.Points.Add(dataPoint7);
-            series2.Points.Add(dataPoint8);
+            series2.Name = "KJ";
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "RPM";
+            series4.BorderWidth = 2;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Color = System.Drawing.Color.Red;
+            series4.Legend = "Legend1";
+            series4.Name = "Pulse";
+            series5.BorderWidth = 2;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Legend = "Legend1";
+            series5.Name = "Km/h";
+            series5.Points.Add(dataPoint6);
+            series5.Points.Add(dataPoint7);
+            series5.Points.Add(dataPoint8);
             this.chart1.Series.Add(series1);
             this.chart1.Series.Add(series2);
+            this.chart1.Series.Add(series3);
+            this.chart1.Series.Add(series4);
+            this.chart1.Series.Add(series5);
             this.chart1.Size = new System.Drawing.Size(884, 178);
             this.chart1.TabIndex = 29;
             this.chart1.Text = "chart1";
@@ -563,12 +594,51 @@
             this.label10.Text = "Martijn de Voogd";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // connectedLabel
+            // 
+            this.connectedLabel.AutoSize = true;
+            this.connectedLabel.BackColor = System.Drawing.Color.Transparent;
+            this.connectedLabel.Font = new System.Drawing.Font("Good Times", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.connectedLabel.ForeColor = System.Drawing.Color.Red;
+            this.connectedLabel.Location = new System.Drawing.Point(976, 587);
+            this.connectedLabel.Name = "connectedLabel";
+            this.connectedLabel.Size = new System.Drawing.Size(164, 14);
+            this.connectedLabel.TabIndex = 31;
+            this.connectedLabel.Text = "Not connected";
+            this.connectedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.BackColor = System.Drawing.Color.Transparent;
+            this.versionLabel.Font = new System.Drawing.Font("Arial Unicode MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.ForeColor = System.Drawing.Color.Black;
+            this.versionLabel.Location = new System.Drawing.Point(306, 615);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(33, 18);
+            this.versionLabel.TabIndex = 33;
+            this.versionLabel.Text = "v1.0";
+            this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::Doctor.Properties.Resources.avans_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(64, 574);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(155, 49);
+            this.pictureBox1.TabIndex = 34;
+            this.pictureBox1.TabStop = false;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.versionLabel);
+            this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.addClientButton);
@@ -607,6 +677,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dokter Console";
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -646,6 +717,9 @@
         private System.Windows.Forms.Button addClientButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label connectedLabel;
+        private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

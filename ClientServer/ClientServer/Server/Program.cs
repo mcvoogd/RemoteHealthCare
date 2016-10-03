@@ -27,7 +27,7 @@ namespace Server
                 clientHandleThread.Interrupt();
                 clientHandleThread.Abort();
             }
-            foreach (var clientHandler in tcpServer.ClientHandlers)
+            foreach (var clientHandler in TcpServer.ClientHandlers)
             {
                 clientHandler.Disconnect();
             }

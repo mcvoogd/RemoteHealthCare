@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VRFrom_Gijs.Forms.Program;
 using VRFrom_Gijs.Program;
 using VRFrom_Gijs.VrObjects;
 using Panel = VRFrom_Gijs.VrObjects.Panel;
@@ -20,14 +21,14 @@ namespace VRFrom_Gijs.Forms
         public static AutoResetEvent blocker;
         private Connection _connection;
         public string Name { get; set; }
-        private Node _bike = null, _tree = null, _water =null, _fence = null, _rock = null;
-        private Node _bike = null, _tree = null;
+        private Node _bike = null, _tree = null, _water =null, _fence = null, _rock = null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
         private List<Punt> points;
         private Forest forest;
+        private City city;
 
         public TunnelCommandForm(Connection connection, string name)
         {
@@ -42,6 +43,7 @@ namespace VRFrom_Gijs.Forms
         private void createSceneButton_Click(object sender, EventArgs e)
         {
             forest = new Forest();
+            city = new City();
             deletePane();
             blocker.WaitOne(5000);
             deletePane();
@@ -54,24 +56,23 @@ namespace VRFrom_Gijs.Forms
             createWater();
             blocker.WaitOne(5000);
             createForest();
-            blocker.WaitOne(5000); 
-            
-            createPanel();
+            blocker.WaitOne(5000);
+            createCity();
             blocker.WaitOne(5000);
 
-
-            createBike();
-            blocker.WaitOne(5000);
-            //drawPanel();
-            blocker.WaitOne(5000);
-            createRoad();
+            //createPanel();
             //blocker.WaitOne(5000);
+            //createBike();
+            //blocker.WaitOne(5000);
+            createRoad();
+            blocker.WaitOne(5000);
             //followRoad();
             //blocker.WaitOne(5000);
             //followBike();
             //blocker.WaitOne(5000);
             //followCamera();
             //blocker.WaitOne(5000);
+            //drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -234,27 +235,37 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, 0, 0, 0, 0, 1, 1, 512, 512, 1, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 0, 0, 0, 0, 0, 0, 0, 1.92, 1.08, 1080, 1920, 0, 0, 0, 0, _connection.TunnelId);
             _connection.SendMessage(_panel.ToSend);
-            _panel.makeUuid();
         }
 
-      
+        private void followCamera()
+        {
+            _panel.makeUuid();
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _panel.Uuid,
+                    parent = _connection.cameraID,
+                    transform = new { position = new[] { 0, 1.5, -1 }, scale = 1.0, rotation = new[] { 0, 0, 0 } }
+
+                }
+            }, _connection.TunnelId));
+        }
+
         private void drawPanel()
         {
             string textValue = "Satan is love";
-            int[] position = {10,-10};
-            double sizeValue = 3.2;
-            double[] color = {1, 1, 1, 1};
+            int[] position = {100,100};
+            double sizeValue = 32;
+            double[] color = {0, 0, 0, 1};
             string fontValue = "calibri";
 
-            Thread.Sleep(1000);
-            _panel.ClearPanel();
-            _connection.SendMessage(_panel.ToSend);
-            //   _connection.SendMessage(_panel.SwapPanel());
-           
-            //_panel.DrawText(textValue, position, sizeValue, color, fontValue);
-            //_panel.SwapPanel();
+            _panel.SwapPanel();
+            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.SwapPanel();
         }
 
         private void createForest()
@@ -269,6 +280,21 @@ namespace VRFrom_Gijs.Forms
 
                 Thread.Sleep(10);
                 _connection.SendMessage(_tree.SendString);
+            }
+        }
+
+        private void createCity()
+        {
+            points = city.getCity();
+
+            foreach (Punt point in points)
+            {
+                Thread.Sleep(10);
+                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", point.X, point.Z, point.Y, 8);
+                _connection.Nodes.Add(_house);
+
+                Thread.Sleep(10);
+                _connection.SendMessage(_house.SendString);
             }
         }
 

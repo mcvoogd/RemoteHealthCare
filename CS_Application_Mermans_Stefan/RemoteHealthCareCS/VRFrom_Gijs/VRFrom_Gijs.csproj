@@ -57,6 +57,8 @@
     <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Program\City.cs" />
+    <Compile Include="Forms\Program\Punt.cs" />
     <Compile Include="Forms\TunnelCommandForm.cs">
       <SubType>Form</SubType>
     </Compile>

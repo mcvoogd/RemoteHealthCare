@@ -211,16 +211,5 @@ namespace DataScreen.Forms
             }
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // SimulationForm
-            // 
-            this.ClientSize = new System.Drawing.Size(292, 212);
-            this.Name = "SimulationForm";
-            this.ResumeLayout(false);
-
-        }
     }
 }

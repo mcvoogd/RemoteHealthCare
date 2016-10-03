@@ -58,7 +58,7 @@ namespace Client.Connection
                         var temp = _serialPort.ReadLine();
 
                         _addMeasurement(ParseMeasurement(temp));
-
+                        Thread.Sleep(1000);
                     }
                     catch (Exception exception)
                     {

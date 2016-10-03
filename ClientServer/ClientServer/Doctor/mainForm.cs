@@ -27,17 +27,21 @@ namespace Doctor
         //http://www.vbdotnetforums.com/charting/61007-hide-chart-series-clicking-series-legend.html
         private void chart1_Click(object sender, EventArgs e)
         {
-            var result = chart1.HitTest(MousePosition.X, MousePosition.Y);
-            if (result.ChartElementType == ChartElementType.LegendItem)
+            HitTestResult seriesHit = chart1.HitTest(MousePosition.X, MousePosition.Y);
+            if (seriesHit.ChartElementType == ChartElementType.DataPoint)
             {
-                if (result.Series.Color == Color.Transparent)
-                {
-                    result.Series.Color = Color.Empty;
-                }
-                else
-                {
-                    result.Series.Color = Color.Transparent;
-                }
+                MessageBox.Show("Selected by Series!");
+                // ^^ This, as a test box, works fine...
+                var parameterNameStr = seriesHit.Series.Name;
+                // ^^ This is what I want but is causing trouble!
+            }
+            else if (seriesHit.ChartElementType == ChartElementType.LegendItem)
+            {
+                MessageBox.Show("Selected by Legend!!");
+            }
+            else
+            {
+                MessageBox.Show("Whoops, try again!");
             }
         }
     }

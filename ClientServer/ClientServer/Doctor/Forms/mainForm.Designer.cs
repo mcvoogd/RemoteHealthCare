@@ -85,6 +85,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.chatReceiveTextBox = new System.Windows.Forms.RichTextBox();
+            this.chatSendTextBox = new System.Windows.Forms.TextBox();
+            this.chatSendButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -237,7 +240,7 @@
             // timeLabel
             // 
             this.timeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.timeLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.timeLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeLabel.ForeColor = System.Drawing.Color.White;
             this.timeLabel.Location = new System.Drawing.Point(20, 298);
             this.timeLabel.Name = "timeLabel";
@@ -249,7 +252,7 @@
             // kmLabel
             // 
             this.kmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.kmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.kmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kmLabel.ForeColor = System.Drawing.Color.White;
             this.kmLabel.Location = new System.Drawing.Point(171, 298);
             this.kmLabel.Name = "kmLabel";
@@ -261,7 +264,7 @@
             // avgkmLabel
             // 
             this.avgkmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgkmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.avgkmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgkmLabel.ForeColor = System.Drawing.Color.White;
             this.avgkmLabel.Location = new System.Drawing.Point(171, 348);
             this.avgkmLabel.Name = "avgkmLabel";
@@ -273,7 +276,7 @@
             // wattsLabel
             // 
             this.wattsLabel.BackColor = System.Drawing.Color.Transparent;
-            this.wattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.wattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wattsLabel.ForeColor = System.Drawing.Color.White;
             this.wattsLabel.Location = new System.Drawing.Point(320, 298);
             this.wattsLabel.Name = "wattsLabel";
@@ -285,7 +288,7 @@
             // avgwattsLabel
             // 
             this.avgwattsLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgwattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.avgwattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgwattsLabel.ForeColor = System.Drawing.Color.White;
             this.avgwattsLabel.Location = new System.Drawing.Point(320, 348);
             this.avgwattsLabel.Name = "avgwattsLabel";
@@ -297,7 +300,7 @@
             // rpmLabel
             // 
             this.rpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.rpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rpmLabel.ForeColor = System.Drawing.Color.White;
             this.rpmLabel.Location = new System.Drawing.Point(762, 298);
             this.rpmLabel.Name = "rpmLabel";
@@ -309,7 +312,7 @@
             // kjLabel
             // 
             this.kjLabel.BackColor = System.Drawing.Color.Transparent;
-            this.kjLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.kjLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kjLabel.ForeColor = System.Drawing.Color.White;
             this.kjLabel.Location = new System.Drawing.Point(615, 298);
             this.kjLabel.Name = "kjLabel";
@@ -321,7 +324,7 @@
             // kmhLabel
             // 
             this.kmhLabel.BackColor = System.Drawing.Color.Transparent;
-            this.kmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.kmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kmhLabel.ForeColor = System.Drawing.Color.White;
             this.kmhLabel.Location = new System.Drawing.Point(467, 298);
             this.kmhLabel.Name = "kmhLabel";
@@ -333,7 +336,7 @@
             // bpmLabel
             // 
             this.bpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.bpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bpmLabel.ForeColor = System.Drawing.Color.White;
             this.bpmLabel.Location = new System.Drawing.Point(1057, 298);
             this.bpmLabel.Name = "bpmLabel";
@@ -345,7 +348,7 @@
             // powerLabel
             // 
             this.powerLabel.BackColor = System.Drawing.Color.Transparent;
-            this.powerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.powerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.powerLabel.ForeColor = System.Drawing.Color.White;
             this.powerLabel.Location = new System.Drawing.Point(911, 298);
             this.powerLabel.Name = "powerLabel";
@@ -357,7 +360,7 @@
             // avgbpmLabel
             // 
             this.avgbpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgbpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.avgbpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgbpmLabel.ForeColor = System.Drawing.Color.White;
             this.avgbpmLabel.Location = new System.Drawing.Point(1057, 348);
             this.avgbpmLabel.Name = "avgbpmLabel";
@@ -369,7 +372,7 @@
             // avgpowerLabel
             // 
             this.avgpowerLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgpowerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.avgpowerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgpowerLabel.ForeColor = System.Drawing.Color.White;
             this.avgpowerLabel.Location = new System.Drawing.Point(911, 348);
             this.avgpowerLabel.Name = "avgpowerLabel";
@@ -381,7 +384,7 @@
             // avgrpmLabel
             // 
             this.avgrpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgrpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.avgrpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgrpmLabel.ForeColor = System.Drawing.Color.White;
             this.avgrpmLabel.Location = new System.Drawing.Point(762, 348);
             this.avgrpmLabel.Name = "avgrpmLabel";
@@ -393,7 +396,7 @@
             // avgkmhLabel
             // 
             this.avgkmhLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgkmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.avgkmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgkmhLabel.ForeColor = System.Drawing.Color.White;
             this.avgkmhLabel.Location = new System.Drawing.Point(467, 348);
             this.avgkmhLabel.Name = "avgkmhLabel";
@@ -465,7 +468,7 @@
             this.chart1.BackColor = System.Drawing.Color.Transparent;
             chartArea1.AxisX.InterlacedColor = System.Drawing.Color.White;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Arial Unicode MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
             chartArea1.AxisX.LineColor = System.Drawing.Color.White;
             chartArea1.AxisX.LineWidth = 2;
@@ -478,7 +481,7 @@
             chartArea1.AxisX2.LineColor = System.Drawing.Color.White;
             chartArea1.AxisY.InterlacedColor = System.Drawing.Color.White;
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Arial Unicode MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
             chartArea1.AxisY.LineColor = System.Drawing.Color.White;
             chartArea1.AxisY.LineWidth = 2;
@@ -498,7 +501,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.Transparent;
-            legend1.Font = new System.Drawing.Font("Arial Unicode MS", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            legend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             legend1.ForeColor = System.Drawing.Color.White;
             legend1.HeaderSeparatorColor = System.Drawing.Color.White;
             legend1.IsTextAutoFit = false;
@@ -517,7 +520,7 @@
             series1.BorderWidth = 2;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Font = new System.Drawing.Font("Arial Unicode MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            series1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             series1.LabelBackColor = System.Drawing.Color.White;
             series1.LabelForeColor = System.Drawing.Color.White;
             series1.Legend = "Legend1";
@@ -599,11 +602,11 @@
             // 
             this.versionLabel.AutoSize = true;
             this.versionLabel.BackColor = System.Drawing.Color.Transparent;
-            this.versionLabel.Font = new System.Drawing.Font("Arial Unicode MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionLabel.ForeColor = System.Drawing.Color.Black;
             this.versionLabel.Location = new System.Drawing.Point(306, 615);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(33, 18);
+            this.versionLabel.Size = new System.Drawing.Size(32, 16);
             this.versionLabel.TabIndex = 33;
             this.versionLabel.Text = "v1.0";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -654,12 +657,46 @@
             this.label13.Text = "status";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // chatReceiveTextBox
+            // 
+            this.chatReceiveTextBox.BackColor = System.Drawing.Color.Black;
+            this.chatReceiveTextBox.Font = new System.Drawing.Font("Arial Unicode MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chatReceiveTextBox.ForeColor = System.Drawing.Color.White;
+            this.chatReceiveTextBox.Location = new System.Drawing.Point(897, 104);
+            this.chatReceiveTextBox.Name = "chatReceiveTextBox";
+            this.chatReceiveTextBox.ReadOnly = true;
+            this.chatReceiveTextBox.Size = new System.Drawing.Size(290, 113);
+            this.chatReceiveTextBox.TabIndex = 38;
+            this.chatReceiveTextBox.Text = "Hoi fietser\n\tHallo dokter\nHoe gaat het?\n\tGoed!";
+            // 
+            // chatSendTextBox
+            // 
+            this.chatSendTextBox.Font = new System.Drawing.Font("Arial Unicode MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chatSendTextBox.Location = new System.Drawing.Point(897, 223);
+            this.chatSendTextBox.Name = "chatSendTextBox";
+            this.chatSendTextBox.Size = new System.Drawing.Size(218, 29);
+            this.chatSendTextBox.TabIndex = 39;
+            // 
+            // chatSendButton
+            // 
+            this.chatSendButton.BackColor = System.Drawing.Color.White;
+            this.chatSendButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.chatSendButton.Location = new System.Drawing.Point(1121, 223);
+            this.chatSendButton.Name = "chatSendButton";
+            this.chatSendButton.Size = new System.Drawing.Size(66, 29);
+            this.chatSendButton.TabIndex = 40;
+            this.chatSendButton.Text = "Verzenden";
+            this.chatSendButton.UseVisualStyleBackColor = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.chatSendButton);
+            this.Controls.Add(this.chatSendTextBox);
+            this.Controls.Add(this.chatReceiveTextBox);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
@@ -750,6 +787,9 @@
         public System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         public System.Windows.Forms.Label userLabel;
         public System.Windows.Forms.Label connectedLabel;
+        public System.Windows.Forms.RichTextBox chatReceiveTextBox;
+        public System.Windows.Forms.TextBox chatSendTextBox;
+        public System.Windows.Forms.Button chatSendButton;
     }
 }
 

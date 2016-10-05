@@ -22,7 +22,7 @@ namespace Client
                 connector.ConnectionId);
             var loginForm = new LoginForm(remoteHealthcare, connector.Connect);
 
-            Application.Run(new Form1());
+            Application.Run(loginForm);
             Application.Exit();
         }
     }

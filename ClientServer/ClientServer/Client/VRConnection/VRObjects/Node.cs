@@ -132,7 +132,7 @@ namespace Client.VRConnection.VRObjects
             if (Uuid == null)
             {
                 string temp;
-                Forms.Program.VrConnection.VRobjecten.TryGetValue(Naam, out temp);
+                VrConnection.VRobjecten.TryGetValue(Naam, out temp);
                 Uuid = temp;
             }
             return RequestCreater.TunnelSend(

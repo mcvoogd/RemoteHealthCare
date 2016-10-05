@@ -11,7 +11,7 @@ namespace Client.VRConnection.Forms
     public partial class TunnelCommandForm : Form
     {
         public static AutoResetEvent Blocker;
-        private readonly Program.Connection _connection;
+        private readonly VrConnection _connection;
         private readonly Random _random = new Random();
         private Node _bike, _tree, _water, _house;
         private City _city;
@@ -21,7 +21,7 @@ namespace Client.VRConnection.Forms
         private bool _send;
         private Skybox _skybox;
 
-        public TunnelCommandForm(Program.VrConnection connection, string name)
+        public TunnelCommandForm(VrConnection connection, string name)
         {
             InitializeComponent();
             Name = name;
@@ -35,8 +35,8 @@ namespace Client.VRConnection.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
-            forest = new Forest();
-            city = new City();
+            //forest = new Forest();
+            //city = new City();
             deletePane();
             Blocker.WaitOne(5000);
             deletePane();
@@ -51,9 +51,9 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
             createWater();
             Blocker.WaitOne(5000);
-            createForest();
+            //createForest();
             Blocker.WaitOne(5000);
-            createCity();
+            //createCity();
             Blocker.WaitOne(5000);
 
             createBike();
@@ -273,37 +273,37 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
         }
 
-        private void createForest()
-        {
-            points = forest.getForest();
+        //private void createForest()
+        //{
+        //    points = forest.getForest();
 
-            foreach (Punt point in points)
-            {
-                Thread.Sleep(10);
-                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
-                    point.X, point.Z, point.Y, GetRandom());
-                _connection.Nodes.Add(_tree);
+        //    foreach (Punt point in points)
+        //    {
+        //        Thread.Sleep(10);
+        //        _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
+        //            point.X, point.Z, point.Y, GetRandom());
+        //        _connection.Nodes.Add(_tree);
 
-                Thread.Sleep(10);
-                _connection.SendMessage(_tree.SendString);
-            }
-        }
+        //        Thread.Sleep(10);
+        //        _connection.SendMessage(_tree.SendString);
+        //    }
+        //}
 
-        private void createCity()
-        {
-            points = city.getCity();
+        //private void createCity()
+        //{
+        //    points = city.getCity();
 
-            foreach (Punt point in points)
-            {
-                Thread.Sleep(10);
-                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
-                    point.X, point.Z, point.Y, 8);
-                _connection.Nodes.Add(_house);
+        //    foreach (Punt point in points)
+        //    {
+        //        Thread.Sleep(10);
+        //        _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
+        //            point.X, point.Z, point.Y, 8);
+        //        _connection.Nodes.Add(_house);
 
-                Thread.Sleep(10);
-                _connection.SendMessage(_house.SendString);
-            }
-        }
+        //        Thread.Sleep(10);
+        //        _connection.SendMessage(_house.SendString);
+        //    }
+        //}
 
         private Double getRandom()
         {

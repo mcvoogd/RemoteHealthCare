@@ -16,10 +16,12 @@ namespace Doctor.Classes
             Application.SetCompatibleTextRenderingDefault(false);
 
             var connector = new DoctorConnector();
-            var mainForm = new MainForm(connector.SetCurrentPatient, connector.SendMessage, connector.GetAllPatients) {Visible = false};
+            var mainForm = new MainForm(connector.SetCurrentPatient, connector.SendMessage, connector.GetAllPatients, connector.GetAllMeasurements) {Visible = false};
             var loginForm = new LoginForm(connector.Connect, mainForm);
+            var Test = new AcountCreationForm() {Visible = true};
 
             Application.Run(loginForm);
+            Application.Exit();
         }
     }
 }

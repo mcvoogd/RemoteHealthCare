@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using Client.Forms;
@@ -12,10 +11,10 @@ namespace Client.Connection
 
     public class DataReceiver
     {
-        private readonly SerialPort _serialPort;
         private readonly RemoteHealthcare _remoteHealthcare;
+        private readonly SerialPort _serialPort;
         private readonly SimulationForm _simulation;
-        private AddMeasurement _addMeasurement;
+        private readonly AddMeasurement _addMeasurement;
 
         public DataReceiver(SerialPort serialPort, RemoteHealthcare remoteHealthcare, AddMeasurement addMeasurement)
         {
@@ -40,20 +39,21 @@ namespace Client.Connection
                 Console.WriteLine("Looping");
                 if (_simulation != null)
                 {
-                    if(!_simulation.Visible) return;
+                    if (!_simulation.Visible) return;
 
                     _addMeasurement(_simulation.Measurement);
 
                     Thread.Sleep(1000);
                     Console.WriteLine("updating sim");
                     _simulation.updateSim();
-                } else if (_serialPort != null && _serialPort.IsOpen)
+                }
+                else if ((_serialPort != null) && _serialPort.IsOpen)
                 {
                     try
                     {
                         Console.WriteLine("Sending");
                         _serialPort.WriteLine("ST\r\n");
-                        
+
                         Console.WriteLine("Reading...");
                         var temp = _serialPort.ReadLine();
 
@@ -70,44 +70,39 @@ namespace Client.Connection
 
         public static void SendCommand(string command, SerialPort serialPort)
         {
-            if (serialPort != null && serialPort.IsOpen)
-            {
+            if ((serialPort != null) && serialPort.IsOpen)
                 serialPort.WriteLine(command);
-            }
             else
-            {
                 Console.WriteLine("Failed to send command");
-            }
         }
 
         public static string ReceiveCommand(SerialPort serialPort)
         {
-            if (serialPort != null && serialPort.IsOpen)
-            {
+            if ((serialPort != null) && serialPort.IsOpen)
                 return serialPort.ReadLine();
-            }
             return null;
         }
 
         public static Measurement ParseMeasurement(string inputString)
         {
-            string stringholder = inputString;
+            var stringholder = inputString;
             inputString = inputString.Trim();
-            string[] splitString = inputString.Split(new char[0]);
-            string[] simpleTimeString = splitString[6].Split(':');
-            
+            var splitString = inputString.Split();
+            var simpleTimeString = splitString[6].Split(':');
+
             splitString[6] = "0";
             //splitString[8] = "0";
-            int[] lijstje = new[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
-            int teller = 0;
-            foreach (string s in splitString)
+            int[] lijstje = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+            var teller = 0;
+            foreach (var s in splitString)
             {
                 lijstje[teller] = int.Parse(s);
                 teller++;
             }
 
             var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
-            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5], tempTime, lijstje[7]);
+            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5],
+                tempTime, lijstje[7]);
 
             return tempMeasurement;
         }

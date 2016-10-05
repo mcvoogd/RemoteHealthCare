@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.TinyDB
 {
@@ -17,7 +14,7 @@ namespace Server.TinyDB
 
         public List<Measurement> GetMeasurementsBetweenTimes(SimpleTime startTime, SimpleTime endTime)
         {
-            var temp = _measurements.Where(m => m.Time > startTime && m.Time < endTime).ToList();
+            var temp = _measurements.Where(m => (m.Time > startTime) && (m.Time < endTime)).ToList();
             temp.Sort();
             return temp;
         }
@@ -25,9 +22,7 @@ namespace Server.TinyDB
         public void AddMeasurement(Measurement m)
         {
             if (m != null)
-            {
-                this._measurements.Add(m);
-            }
+                _measurements.Add(m);
         }
 
         public List<Measurement> GetAllMeasurements()

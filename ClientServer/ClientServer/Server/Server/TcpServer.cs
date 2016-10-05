@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Threading;
 using Server.BigDB;
 
@@ -12,19 +11,20 @@ namespace Server.Server
 {
     public class TcpServer
     {
-        private readonly TcpListener _tcpListener;
-        private readonly BigDatabase _dataBase = new BigDatabase();
-        public IPAddress IpAddress { get; set; }
-        public List<Thread> threads = new List<Thread>();
         public static List<ClientHandler> ClientHandlers = new List<ClientHandler>();
+        private readonly BigDatabase _dataBase = new BigDatabase();
+        private readonly TcpListener _tcpListener;
+        public List<Thread> threads = new List<Thread>();
 
         public TcpServer()
         {
             IpAddress = GetLocalIpAddress();
-            _tcpListener = new TcpListener(IpAddress,6969);
-            Console.WriteLine("IpAddress: {0}",IpAddress);
+            _tcpListener = new TcpListener(IpAddress, 6969);
+            Console.WriteLine("IpAddress: {0}", IpAddress);
             LoadAllData();
         }
+
+        public IPAddress IpAddress { get; set; }
 
         public void Run()
         {
@@ -32,7 +32,6 @@ namespace Server.Server
             _tcpListener.Start();
 
             while (true)
-            {
                 try
                 {
                     var tcpClientTask = _tcpListener.AcceptTcpClientAsync();
@@ -48,12 +47,11 @@ namespace Server.Server
                     clientHandlerThread.Start();
                     threads.Add(clientHandlerThread);
                 }
-                catch (Exception e){
+                catch (Exception e)
+                {
                     Console.WriteLine(e.Message);
                     Console.WriteLine("Exception!");
-                 
                 }
-            }
         }
 
         public void SaveAllData()
@@ -83,12 +81,8 @@ namespace Server.Server
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
-            {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
                     return ip;
-                }
-            }
             throw new Exception("Local IP Address Not Found!");
         }
 

@@ -4,6 +4,20 @@ namespace Server.TinyDB
 {
     public class Measurement : IComparable<Measurement>
     {
+        public Measurement(int pulse, int rotations, int speed, int power, double distance, double burned,
+            SimpleTime time, int reachedpower)
+        {
+            Pulse = pulse;
+            Rotations = rotations;
+            Speed = speed;
+            Distance = distance;
+            Power = power;
+            Burned = burned;
+            Time = time;
+            ReachedPower = reachedpower;
+            Message = GetMessageToSend();
+        }
+
         public int Pulse { get; set; }
         public int Rotations { get; set; }
         public int Speed { get; set; }
@@ -14,33 +28,14 @@ namespace Server.TinyDB
         public int ReachedPower { get; set; }
         private dynamic Message { get; set; }
 
-        public Measurement(int pulse, int rotations, int speed, int power, double distance, double burned, SimpleTime time, int reachedpower)
-        {
-            this.Pulse = pulse;
-            this.Rotations = rotations;
-            this.Speed = speed;
-            this.Distance = distance;
-            this.Power = power;
-            this.Burned = burned;
-            this.Time = time;
-            this.ReachedPower = reachedpower;
-            this.Message = GetMessageToSend();
-        }
-
         public int CompareTo(Measurement other)
         {
-            if (this.Time == other.Time)
-            {
+            if (Time == other.Time)
                 return 0;
-            }
-            if (this.Time > other.Time)
-            {
+            if (Time > other.Time)
                 return 1;
-            }
-            if (this.Time < other.Time)
-            {
+            if (Time < other.Time)
                 return -1;
-            }
             return 0;
         }
 
@@ -73,7 +68,7 @@ namespace Server.TinyDB
                     reachedpower = ReachedPower
                 }
             };
-               return toSend;
+            return toSend;
         }
     }
 
@@ -88,7 +83,7 @@ namespace Server.TinyDB
 
         public bool Equals(SimpleTime other)
         {
-            return Minutes == other.Minutes && Seconds == other.Seconds;
+            return (Minutes == other.Minutes) && (Seconds == other.Seconds);
         }
 
         public override int GetHashCode()
@@ -101,7 +96,7 @@ namespace Server.TinyDB
 
         public readonly int Minutes;
         public readonly int Seconds;
-        
+
         public SimpleTime(int min, int sec)
         {
             Minutes = min;
@@ -116,36 +111,29 @@ namespace Server.TinyDB
         public static bool operator >(SimpleTime first, SimpleTime second)
         {
             if (first.Minutes > second.Minutes)
-            {
                 return true;
-            }
             if (first.Minutes == second.Minutes)
-            {
                 return first.Seconds > second.Seconds ? true : false;
-            }
             return false;
         }
 
         public static bool operator <(SimpleTime first, SimpleTime second)
         {
             if (first.Minutes < second.Minutes)
-            {
                 return true;
-            }
             if (first.Minutes == second.Minutes)
-            {
                 return first.Seconds < second.Seconds ? true : false;
-            }
             return false;
         }
 
         public static bool operator ==(SimpleTime first, SimpleTime second)
         {
-            return first.Minutes == second.Minutes && first.Seconds == second.Seconds;
+            return (first.Minutes == second.Minutes) && (first.Seconds == second.Seconds);
         }
+
         public static bool operator !=(SimpleTime first, SimpleTime second)
         {
-            return first.Minutes != second.Minutes || first.Seconds != second.Seconds;
+            return (first.Minutes != second.Minutes) || (first.Seconds != second.Seconds);
         }
     }
 }

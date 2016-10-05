@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server.Server
+﻿namespace Server.Server
 {
-
-  
-    class Patient
+    internal class Patient
     {
-        public string Name { get; set; }
-        public int clientId { get; set; }
-
         public Patient(string name, int clientId)
         {
-            this.Name = name;
+            Name = name;
             this.clientId = clientId;
         }
+
+        public string Name { get; set; }
+        public int clientId { get; set; }
     }
 }

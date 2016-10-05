@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace Client.VRConnection.Forms.Program
 {
-    static class RequestCreater
+    internal static class RequestCreater
     {
-        public static string TunnelSend(dynamic command, string tunnelId )
+        public static string TunnelSend(dynamic command, string tunnelId)
         {
-            string toSend = JsonConvert.SerializeObject(new
+            var toSend = JsonConvert.SerializeObject(new
             {
                 id = "tunnel/send",
                 data = new
@@ -31,24 +31,22 @@ namespace Client.VRConnection.Forms.Program
                     id = uuid,
                     transform = new
                     {
-                        position = new [] {x,y,z},
-                        scale = new [] {sx,sy,sz},
-                        rotation = new [] {rx,ry,rz}
+                        position = new[] {x, y, z},
+                        scale = new[] {sx, sy, sz},
+                        rotation = new[] {rx, ry, rz}
                     },
                     animation = new
                     {
                         name = nameValue,
                         speed = speedValue
                     }
-                    
                 }
             }, tunnelId);
         }
 
         public static string SceneNodeMoveTo(string uuid, int x, int y, int z, int timeValue, string tunnelId)
         {
-
-            return RequestCreater.TunnelSend(
+            return TunnelSend(
                 new
                 {
                     id = "scene/node/moveto",
@@ -56,7 +54,7 @@ namespace Client.VRConnection.Forms.Program
                     {
                         id = uuid,
                         stop = "stop",
-                        position = new[] { x, y, z },
+                        position = new[] {x, y, z},
                         rotate = "none",
                         interpolate = "linear",
                         followheight = false,
@@ -84,12 +82,13 @@ namespace Client.VRConnection.Forms.Program
                 id = "scene/node/find",
                 data = new
                 {
-                    name = name
+                    name
                 }
             }, tunnelId);
         }
 
-        public static string SceneNodeAddLayer(string uuid, string diffuseValue, string normalValue, int minHeightValue, int maxHeightValue,
+        public static string SceneNodeAddLayer(string uuid, string diffuseValue, string normalValue, int minHeightValue,
+            int maxHeightValue,
             int fadeDistValue, string tunnelId)
         {
             Console.WriteLine("Terrain id" + uuid);
@@ -112,11 +111,12 @@ namespace Client.VRConnection.Forms.Program
 
         public static string GetScene(string tunnelId)
         {
-            return RequestCreater.TunnelSend(new
+            return TunnelSend(new
             {
                 id = "scene/get"
             }, tunnelId);
         }
+
         //public static string SceneNodeDelLayer()
     }
 }

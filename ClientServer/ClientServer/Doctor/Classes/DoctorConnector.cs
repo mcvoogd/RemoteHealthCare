@@ -69,8 +69,6 @@ namespace Doctor.Classes
                                         string name = patientsList[i].Name;
                                         PatientesList.Add(new Patient(clientid, name));
                                     }
-                                    
-                                    
                                 }
                                     break;
                                 case "login/request":
@@ -117,6 +115,10 @@ namespace Doctor.Classes
             }
         }
 
+        public List<Patient> GetAllPatients()
+        {
+            return PatientesList ?? null;
+        }
         public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp, 6969);

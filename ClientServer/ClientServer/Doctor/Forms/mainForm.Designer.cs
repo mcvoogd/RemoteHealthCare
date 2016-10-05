@@ -1,4 +1,7 @@
-﻿namespace Doctor.Forms
+﻿using System;
+using System.Windows.Forms.DataVisualization.Charting;
+
+namespace Doctor.Forms
 {
     partial class MainForm
     {
@@ -99,6 +102,7 @@
             this.progressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trainingComboBox = new System.Windows.Forms.ComboBox();
             this.userAddButton = new System.Windows.Forms.Button();
+            this.brakeButton = new System.Windows.Forms.Button();
             this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -119,8 +123,12 @@
             this.currentTimeLabel.AutoSize = true;
             this.currentTimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.currentTimeLabel.ForeColor = System.Drawing.Color.White;
+<<<<<<< HEAD
             this.currentTimeLabel.Location = new System.Drawing.Point(977, 49);
             this.currentTimeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+=======
+            this.currentTimeLabel.Location = new System.Drawing.Point(745, 34);
+>>>>>>> cb8016be9958e43069c505673631af30a0da2a5d
             this.currentTimeLabel.Name = "currentTimeLabel";
             this.currentTimeLabel.Size = new System.Drawing.Size(0, 17);
             this.currentTimeLabel.TabIndex = 1;
@@ -527,11 +535,15 @@
             chartArea1.BackSecondaryColor = System.Drawing.Color.White;
             chartArea1.BorderColor = System.Drawing.Color.White;
             chartArea1.Name = "ChartArea1";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 94F;
+            chartArea1.Position.Width = 94F;
+            chartArea1.Position.X = 3F;
+            chartArea1.Position.Y = 5F;
             chartArea1.ShadowColor = System.Drawing.Color.White;
             this.dataChart.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.Transparent;
-            legend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             legend1.ForeColor = System.Drawing.Color.White;
             legend1.HeaderSeparatorColor = System.Drawing.Color.White;
             legend1.IsTextAutoFit = false;
@@ -601,7 +613,7 @@
             this.dataChart.Size = new System.Drawing.Size(1179, 219);
             this.dataChart.TabIndex = 29;
             this.dataChart.Text = "chart1";
-            this.dataChart.Click += new System.EventHandler(this.chart1_Click);
+            this.dataChart.Click += new System.EventHandler(this.dataChart_Click);
             // 
             // userLabel
             // 
@@ -829,6 +841,19 @@
             this.userAddButton.Text = "add user";
             this.userAddButton.UseVisualStyleBackColor = false;
             // 
+            // brakeButton
+            // 
+            this.brakeButton.BackColor = System.Drawing.Color.Red;
+            this.brakeButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.brakeButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.brakeButton.ForeColor = System.Drawing.Color.White;
+            this.brakeButton.Location = new System.Drawing.Point(309, 30);
+            this.brakeButton.Name = "brakeButton";
+            this.brakeButton.Size = new System.Drawing.Size(196, 36);
+            this.brakeButton.TabIndex = 45;
+            this.brakeButton.Text = "Emergency brake";
+            this.brakeButton.UseVisualStyleBackColor = false;
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -850,7 +875,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
+<<<<<<< HEAD
             this.ClientSize = new System.Drawing.Size(1599, 782);
+=======
+            this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.brakeButton);
+>>>>>>> cb8016be9958e43069c505673631af30a0da2a5d
             this.Controls.Add(this.userAddButton);
             this.Controls.Add(this.trainingComboBox);
             this.Controls.Add(this.progressChart);
@@ -953,6 +983,7 @@
         public System.Windows.Forms.DataVisualization.Charting.Chart progressChart;
         private System.Windows.Forms.ComboBox trainingComboBox;
         private System.Windows.Forms.Button userAddButton;
+        private System.Windows.Forms.Button brakeButton;
     }
 }
 

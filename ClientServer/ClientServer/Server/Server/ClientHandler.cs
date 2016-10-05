@@ -148,13 +148,14 @@ namespace Server.Server
         {
             int id = data.clientId;
             ClientHandler client = TcpServer.GetClientHandlerByClientID(id);
-            var measurements = client.Client.TinyDataBaseBase.MeasurementSystem._measurements;
+            var measurement = client.Client.TinyDataBaseBase.MeasurementSystem._measurements
+                [client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count - 1];
             SendMessage(new
             {
                 id = "get/patient/data",
                 data = new
                 {
-                    measurementsList = measurements
+                    measurementsList = measurement
                 }
             });
         }

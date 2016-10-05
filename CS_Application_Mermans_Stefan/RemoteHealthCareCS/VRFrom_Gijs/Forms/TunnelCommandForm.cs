@@ -41,13 +41,28 @@ namespace VRFrom_Gijs.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
+            createScene();
+            //Blocker.WaitOne(5000);
+            //saveScene();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if(_skybox == null)
+            _skybox = new Skybox("skybox", _connection.TunnelId);
+            double time = (float)SetTime.Value/4.0f;
+            _connection.SendMessage(_skybox.SetTime(time));         
+        }
+
+        private void createScene()
+        {
             forest = new Forest();
             city = new City();
-           // deletePane();
-           // Blocker.WaitOne(5000);
             deletePane();
             Blocker.WaitOne(5000);
-            
+            deletePane();
+            Blocker.WaitOne(5000);
+
 
             createPanel();
             Blocker.WaitOne(5000);
@@ -77,12 +92,29 @@ namespace VRFrom_Gijs.Forms
             drawPanel("Satan is love       1337");
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void saveScene()
         {
-            if(_skybox == null)
-            _skybox = new Skybox("skybox", _connection.TunnelId);
-            double time = (float)SetTime.Value/4.0f;
-            _connection.SendMessage(_skybox.SetTime(time));         
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/save",
+                data = new
+                {
+                    filename = "scene.json",
+                    overwrite = true
+                }
+            }, _connection.TunnelId));
+        }
+
+        private void loadScene()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/load",
+                data = new
+                {
+                    filename = "scene.json",
+                }
+            }, _connection.TunnelId));
         }
 
         private void deletePane()

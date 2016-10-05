@@ -265,5 +265,10 @@ namespace Doctor.Classes
             Buffer.BlockCopy(arrayTwo, 0, newArray, arrayOne.Length, count);
             return newArray;
         }
+
+        public List<Measurement> GetAllMeasurements()
+        {
+            return CurrentPatientMeasurements;
+        }
     }
 }

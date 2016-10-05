@@ -146,7 +146,8 @@ namespace Server.Server
         //return all data for individual patient.
         private void HandlePatientData(dynamic data)
         {
-            ClientHandler client = TcpServer.GetClientHandlerByClientID(data.clientId);
+            int id = data.clientId;
+            ClientHandler client = TcpServer.GetClientHandlerByClientID(id);
             var measurements = client.Client.TinyDataBaseBase.MeasurementSystem._measurements;
             SendMessage(new
             {
@@ -166,6 +167,7 @@ namespace Server.Server
             if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
+                if(databaseClient.IsDoctor) continue;
                 var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
                 patientsArray[index] = temp;
                 index++;

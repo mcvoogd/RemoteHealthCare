@@ -85,7 +85,7 @@
             this.avgkmhLabel = new System.Windows.Forms.Label();
             this.clientListBox = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.addClientButton = new System.Windows.Forms.Button();
+            this.refreshClientButton = new System.Windows.Forms.Button();
             this.dataChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.userLabel = new System.Windows.Forms.Label();
             this.connectedLabel = new System.Windows.Forms.Label();
@@ -449,19 +449,20 @@
             this.label9.Text = "Client                      ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // addClientButton
+            // refreshClientButton
             // 
-            this.addClientButton.BackColor = System.Drawing.Color.White;
-            this.addClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.addClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.addClientButton.ForeColor = System.Drawing.Color.Black;
-            this.addClientButton.Location = new System.Drawing.Point(270, 72);
-            this.addClientButton.Name = "addClientButton";
-            this.addClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.addClientButton.Size = new System.Drawing.Size(26, 26);
-            this.addClientButton.TabIndex = 28;
-            this.addClientButton.Text = "+";
-            this.addClientButton.UseVisualStyleBackColor = false;
+            this.refreshClientButton.BackColor = System.Drawing.Color.White;
+            this.refreshClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.refreshClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.refreshClientButton.ForeColor = System.Drawing.Color.Black;
+            this.refreshClientButton.Location = new System.Drawing.Point(270, 72);
+            this.refreshClientButton.Name = "refreshClientButton";
+            this.refreshClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.refreshClientButton.Size = new System.Drawing.Size(26, 26);
+            this.refreshClientButton.TabIndex = 28;
+            this.refreshClientButton.Text = "+";
+            this.refreshClientButton.UseVisualStyleBackColor = false;
+            this.refreshClientButton.Click += new System.EventHandler(this.refreshClientButton_Click);
             // 
             // dataChart
             // 
@@ -807,7 +808,7 @@
             this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.dataChart);
-            this.Controls.Add(this.addClientButton);
+            this.Controls.Add(this.refreshClientButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.clientListBox);
             this.Controls.Add(this.avgkmhLabel);
@@ -884,7 +885,7 @@
         public System.Windows.Forms.Label avgrpmLabel;
         public System.Windows.Forms.Label avgkmhLabel;
         public System.Windows.Forms.ListBox clientListBox;
-        public System.Windows.Forms.Button addClientButton;
+        public System.Windows.Forms.Button refreshClientButton;
         public System.Windows.Forms.DataVisualization.Charting.Chart dataChart;
         public System.Windows.Forms.Label userLabel;
         public System.Windows.Forms.Label connectedLabel;

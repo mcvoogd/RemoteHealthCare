@@ -106,6 +106,7 @@ namespace Server.Server
                         case "get/patients":
                             Console.WriteLine("Recieved get/patients request.");
                             if (IsDoctor)
+                            { 
                                 HandleGetPatients(data);
                             }
                             else

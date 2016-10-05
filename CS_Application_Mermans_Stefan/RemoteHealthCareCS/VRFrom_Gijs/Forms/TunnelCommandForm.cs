@@ -256,10 +256,12 @@ namespace VRFrom_Gijs.Forms
 
         private void drawPanel(string value)
         {
-            int[] position = {100, 100};
-            double sizeValue = 32;
+            string textValue = "Satan is love";
+            double[] position = {100.0, 100.0};
+            double sizeValue = 64;
             double[] color = {1, 0, 0, 1};
-            string fontValue = "segoeui";
+            double[] clearColor = {1, 0, 0, 0};
+            string fontValue = "Arial";
 
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);

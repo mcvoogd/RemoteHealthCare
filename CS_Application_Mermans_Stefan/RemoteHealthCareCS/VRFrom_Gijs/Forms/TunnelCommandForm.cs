@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VRFrom_Gijs.Forms.Program;
 using VRFrom_Gijs.Program;
+
 using VRFrom_Gijs.VrObjects;
 using Panel = VRFrom_Gijs.VrObjects.Panel;
 
@@ -35,19 +36,33 @@ namespace VRFrom_Gijs.Forms
             InitializeComponent();
             Name = name;
             Blocker = new AutoResetEvent(false);
-            ;
-            ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
         }
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
+            createScene();
+            //Blocker.WaitOne(5000);
+            //saveScene();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if(_skybox == null)
+            _skybox = new Skybox("skybox", _connection.TunnelId);
+            double time = (float)SetTime.Value/4.0f;
+            _connection.SendMessage(_skybox.SetTime(time));         
+        }
+
+        private void createScene()
+        {
             forest = new Forest();
             city = new City();
-           // deletePane();
-           // Blocker.WaitOne(5000);
             deletePane();
             Blocker.WaitOne(5000);
+            deletePane();
+            Blocker.WaitOne(5000);
+
 
             createPanel();
             Blocker.WaitOne(5000);
@@ -74,15 +89,32 @@ namespace VRFrom_Gijs.Forms
             followCamera();
             Blocker.WaitOne(5000);
 
-            drawPanel("1");
+            drawPanel("Satan is love       1337");
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void saveScene()
         {
-            if(_skybox == null)
-            _skybox = new Skybox("skybox", _connection.TunnelId);
-            double time = (float)SetTime.Value/4.0f;
-            _connection.SendMessage(_skybox.SetTime(time));         
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/save",
+                data = new
+                {
+                    filename = "scene.json",
+                    overwrite = true
+                }
+            }, _connection.TunnelId));
+        }
+
+        private void loadScene()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/load",
+                data = new
+                {
+                    filename = "scene.json",
+                }
+            }, _connection.TunnelId));
         }
 
         private void deletePane()
@@ -127,14 +159,11 @@ namespace VRFrom_Gijs.Forms
                 {
                     nodes = new[]
                    {
-
                         new {pos = new[] {-20,-0.1,-40} , dir = new[] {5, 0, -5 }},
                         new {pos = new[] {90,-0.1,-40} , dir = new[] {5,0,5}},
                         new {pos = new[] {75,-0.1,80}, dir = new[] {-5,0,5}},
                         new {pos = new[] {-40,-0.1,70}, dir = new[] {-5,0,-5}}
-
-
-                     }
+                   }
                 }
             }, _connection.TunnelId));
 
@@ -221,7 +250,6 @@ namespace VRFrom_Gijs.Forms
 
         private void followBike()
         {
-
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/node/update",
@@ -245,7 +273,6 @@ namespace VRFrom_Gijs.Forms
             _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
-
         }
 
         private void MakePanelId()
@@ -281,11 +308,10 @@ namespace VRFrom_Gijs.Forms
         private void createForest()
         {
             points = forest.getForest();
-
             foreach (Punt point in points)
             {
                 Thread.Sleep(10);
-                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, getRandom());
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, random.NextDouble() * 0.6 + 1);
                 _connection.Nodes.Add(_tree);
 
                 Thread.Sleep(10);
@@ -296,7 +322,6 @@ namespace VRFrom_Gijs.Forms
         private void createCity()
         {
             points = city.getCity();
-
             foreach (Punt point in points)
             {
                 Thread.Sleep(10);
@@ -306,11 +331,6 @@ namespace VRFrom_Gijs.Forms
                 Thread.Sleep(10);
                 _connection.SendMessage(_house.SendString);
             }
-        }
-
-        private Double getRandom()
-        {
-            return random.NextDouble() * 0.6 + 1;
         }
 
         private void createWater()

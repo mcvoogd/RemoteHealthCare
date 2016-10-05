@@ -154,6 +154,19 @@ namespace Doctor.Forms
         {
             _currentPatient = (Patient)clientListBox.SelectedItem;
             _setCurrentPatient(_currentPatient);
+            
+        }
+
+        public void SetAllMeasurementData(Measurement m)
+        {
+            timeLabel.Text = m.Time.ToString();
+            kmLabel.Text = m.Distance.ToString();
+            wattsLabel.Text = m.Power.ToString();
+            kmhLabel.Text = m.Speed.ToString();
+            kjLabel.Text = m.Burned.ToString();
+            rpmLabel.Text = m.Rotations.ToString();
+            powerLabel.Text = m.Power.ToString();
+            bpmLabel.Text = m.Pulse.ToString();
         }
     }
 }

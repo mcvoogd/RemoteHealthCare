@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Client.Connection;
 using Client.Simulator;
@@ -17,48 +11,48 @@ using Message = Client.Connection.Message;
 namespace Client.Forms
 {
     public delegate void SendMessage(dynamic message);
+
     public delegate void AddMessage(string message);
+
     public delegate void SendStatistics(Measurement measurement);
 
     public partial class RemoteHealthcare : Form
     {
+        private readonly AddMessage _addMessage;
+        private readonly List<Message> _messages = new List<Message>();
         private readonly SendMessage _sendMessage;
         private readonly SendStatistics _sendStatistics;
-        private readonly AddMessage _addMessage;
-
-        public string name { get; set; }
-        private readonly List<Message> _messages = new List<Message>();
-
-        public int ConnectionId { get; set; }
         private string _message;
-        public string[] PortStrings { get; }
-        public DataReceiver DataReceiver { get; set; }
-        public List<Measurement> Measurements { get; set; }
 
-        public RemoteHealthcare(SendMessage sendMessage,SendStatistics sendStatistics ,int connectionId)
+        public RemoteHealthcare(SendMessage sendMessage, SendStatistics sendStatistics, int connectionId)
         {
             _sendMessage = sendMessage;
             _sendStatistics = sendStatistics;
             _addMessage = AddMessageMethod;
 
 
-            this.FormClosing += RemoteHealthCare_FormClosing;
+            FormClosing += RemoteHealthCare_FormClosing;
             ConnectionId = connectionId;
             _message = null;
             InitializeComponent();
-            this.Paint += RemoteHealthcare_Paint;
+            Paint += RemoteHealthcare_Paint;
             Measurements = new List<Measurement>();
 
             PortStrings = SerialPort.GetPortNames();
-            foreach (string port in PortStrings)
-            {
+            foreach (var port in PortStrings)
                 comportBox.Items.Add(port);
-            }
             comportBox.Items.Add("Simulation");
 
             connectStatusLabel.Text = "Connected";
             timer1.Start();
         }
+
+        public string name { get; set; }
+
+        public int ConnectionId { get; set; }
+        public string[] PortStrings { get; }
+        public DataReceiver DataReceiver { get; set; }
+        public List<Measurement> Measurements { get; set; }
 
         public void AddMessageMethod(string message)
         {
@@ -69,19 +63,15 @@ namespace Client.Forms
         {
             Console.WriteLine("GUI Message");
             if (InvokeRequired)
-            {
                 Invoke(_addMessage, message);
-            }
             else
-            {
                 chatTextBox.Text += message;
-            }
         }
 
         public void AddMessage(Message msg)
         {
             _messages.Add(msg);
-           // RefreshMessageList();
+            // RefreshMessageList();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -92,7 +82,7 @@ namespace Client.Forms
                 clientid = ConnectionId,
                 data = new
                 {
-                    message = (messageTextBox.Text += "\n")
+                    message = messageTextBox.Text += "\n"
                 }
             });
             chatTextBox.Text += messageTextBox.Text;
@@ -139,17 +129,17 @@ namespace Client.Forms
             {
                 var simulationForm = new SimulationForm();
 
-                DataReceiver = new DataReceiver(this,simulationForm,AddMeasurement);
+                DataReceiver = new DataReceiver(this, simulationForm, AddMeasurement);
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
             }
-            else if(comportBox.SelectedItem != null)
+            else if (comportBox.SelectedItem != null)
             {
                 var serialPort = new SerialPort(comportBox.SelectedItem.ToString());
                 serialPort.Open();
-                DataReceiver = new DataReceiver(serialPort,this, AddMeasurement);
+                DataReceiver = new DataReceiver(serialPort, this, AddMeasurement);
                 var dataReceiverThread = new Thread(DataReceiver.Run);
-                dataReceiverThread.Start();  
+                dataReceiverThread.Start();
             }
         }
 
@@ -174,7 +164,6 @@ namespace Client.Forms
         {
             if (Measurements.Count <= 0) return;
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
-            
         }
     }
 }

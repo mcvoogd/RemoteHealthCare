@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client.VRConnection.Forms.Program;
+﻿using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {
-    class Panel
+    internal class Panel
     {
-        public string Uuid { get; set; }
-        public string ToSend { get; set; }
-        public string TunnelId { get; }
-        public string Name { get; set; }
-
-        public Panel(string name, int scaleValue, double x, double y, double z, int xR, int yR, int zR, double size1, double size2 ,int width, int height, float bckground1, float bckground2, float bckground3, float bckground4, string tunnelId, string parentID)
+        public Panel(string name, int scaleValue, double x, double y, double z, int xR, int yR, int zR, double size1,
+            double size2, int width, int height, float bckground1, float bckground2, float bckground3, float bckground4,
+            string tunnelId, string parentID)
         {
             TunnelId = tunnelId;
             Name = name;
@@ -29,21 +21,25 @@ namespace Client.VRConnection.VRObjects
                     {
                         transform = new
                         {
-                            position = new[] { x, y, z },
+                            position = new[] {x, y, z},
                             scale = scaleValue,
-                            rotation = new[] { xR, yR, zR }
+                            rotation = new[] {xR, yR, zR}
                         },
-                        panel = new {
+                        panel = new
+                        {
                             size = new[] {size1, size2},
                             resolution = new[] {width, height},
                             background = new[] {bckground1, bckground2, bckground3, bckground4}
-                        
                         }
                     }
-
                 }
             }, tunnelId);
         }
+
+        public string Uuid { get; set; }
+        public string ToSend { get; set; }
+        public string TunnelId { get; }
+        public string Name { get; set; }
 
         public void ClearPanel()
         {
@@ -59,7 +55,7 @@ namespace Client.VRConnection.VRObjects
 
         public void SwapPanel()
         {
-          ToSend =  RequestCreater.TunnelSend(new
+            ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/swap",
                 data = new
@@ -86,7 +82,7 @@ namespace Client.VRConnection.VRObjects
 
         public void SetClearColor(double[] kleur)
         {
-           ToSend = RequestCreater.TunnelSend(new
+            ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/setclearcolor",
                 data = new
@@ -99,7 +95,7 @@ namespace Client.VRConnection.VRObjects
 
         public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
         {
-           ToSend = RequestCreater.TunnelSend(new
+            ToSend = RequestCreater.TunnelSend(new
             {
                 id = "scene/panel/drawtext",
                 data = new
@@ -113,6 +109,5 @@ namespace Client.VRConnection.VRObjects
                 }
             }, TunnelId);
         }
-
     }
 }

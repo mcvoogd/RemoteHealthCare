@@ -1,30 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {
     public class Node
     {
-        public string Naam { get; set; }
-        public string Uuid { get; set; } = null;
         public readonly string SendString;
         public readonly string TunnelId;
 
         public Node(string naam, string tunnelId, string filename, int x, int y, int z, double scale)
         {
-            this.Naam = naam;
-            this.TunnelId = tunnelId;
+            Naam = naam;
+            TunnelId = tunnelId;
             SendString = AddModelNode(tunnelId, Naam, filename, x, y, z, scale);
         }
 
         public Node(string naam, string tunnelId, string filename, int x, int y, int z, double scale, bool hasAnimation)
         {
-            this.Naam = naam;
-            this.TunnelId = tunnelId;
+            Naam = naam;
+            TunnelId = tunnelId;
             SendString = AddMovingModelNode(tunnelId, Naam, filename, x, y, z, scale, 0, 0, 0, hasAnimation);
         }
 
@@ -46,51 +40,55 @@ namespace Client.VRConnection.VRObjects
             }
             else
             {
-               new Node(name, tunnelId, x, y, z);
+                new Node(name, tunnelId, x, y, z);
             }
         }
 
-        private dynamic AddModelNode(string tunnelId, string name, string fileName, int x, int y, int z, double scaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
+        public string Naam { get; set; }
+        public string Uuid { get; set; }
+
+        private dynamic AddModelNode(string tunnelId, string name, string fileName, int x, int y, int z,
+            double scaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/node/add",
                 data = new
                 {
-                    name = name,
+                    name,
                     components = new
                     {
                         transform = new
                         {
-                            position = new[] { x, y, z },
+                            position = new[] {x, y, z},
                             scale = scaleValue,
-                            rotation = new[] { xR, yR, zR }
+                            rotation = new[] {xR, yR, zR}
                         },
                         model = new
                         {
                             file = fileName
                         }
                     }
-
                 }
             }, tunnelId);
         }
 
-        private dynamic AddMovingModelNode(string tunnelId, string name, string fileName, int x, int y, int z, double scaleValue, double xR, double yR, double zR, bool hasAnimation)
+        private dynamic AddMovingModelNode(string tunnelId, string name, string fileName, int x, int y, int z,
+            double scaleValue, double xR, double yR, double zR, bool hasAnimation)
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/node/add",
                 data = new
                 {
-                    name = name,
+                    name,
                     components = new
                     {
                         transform = new
                         {
-                            position = new[] { x, y, z },
+                            position = new[] {x, y, z},
                             scale = scaleValue,
-                            rotation = new[] { xR, yR, zR }
+                            rotation = new[] {xR, yR, zR}
                         },
                         model = new
                         {
@@ -99,12 +97,12 @@ namespace Client.VRConnection.VRObjects
                             animation = "Armature|Fietsen"
                         }
                     }
-
                 }
             }, tunnelId);
         }
 
-        private dynamic AddTerrainNode(string tunnelId, string Name, double x, double y, double z, double scaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
+        private dynamic AddTerrainNode(string tunnelId, string Name, double x, double y, double z, double scaleValue = 1,
+            double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
             {
@@ -116,16 +114,15 @@ namespace Client.VRConnection.VRObjects
                     {
                         transform = new
                         {
-                            position = new[] { x, y, z },
+                            position = new[] {x, y, z},
                             scale = scaleValue,
-                            rotation = new[] { xR, yR, zR }
+                            rotation = new[] {xR, yR, zR}
                         },
-                       terrain = new
-                       {
+                        terrain = new
+                        {
 //                           smoothnormals = true
-                       }
+                        }
                     }
-
                 }
             }, TunnelId);
         }
@@ -133,7 +130,7 @@ namespace Client.VRConnection.VRObjects
         public string MoveNode(int x, int y, int z, int timeValue)
         {
             if (Uuid == null)
-            {          
+            {
                 string temp;
                 Forms.Program.VrConnection.VRobjecten.TryGetValue(Naam, out temp);
                 Uuid = temp;
@@ -144,8 +141,8 @@ namespace Client.VRConnection.VRObjects
                     id = "scene/node/moveto",
                     data = new
                     {
-                        id = Uuid,                      
-                        position = new []{x,y,z},
+                        id = Uuid,
+                        position = new[] {x, y, z},
                         rotate = "none",
                         interpolate = "linear",
                         followheight = true,
@@ -154,7 +151,8 @@ namespace Client.VRConnection.VRObjects
                 }, TunnelId);
         }
 
-        public string WaterNode(string tunnelId, string Name, double x, double y, double z, double scaleValue = 1, double xR = 0, double yR = 0, double zR = 0)
+        public string WaterNode(string tunnelId, string Name, double x, double y, double z, double scaleValue = 1,
+            double xR = 0, double yR = 0, double zR = 0)
         {
             return RequestCreater.TunnelSend(new
             {
@@ -166,21 +164,18 @@ namespace Client.VRConnection.VRObjects
                     {
                         transform = new
                         {
-                            position = new[] { x, y, z },
+                            position = new[] {x, y, z},
                             scale = scaleValue,
-                            rotation = new[] { xR, yR, zR }
+                            rotation = new[] {xR, yR, zR}
                         },
                         water = new
                         {
-                            size = new[] { 120, 120 },
+                            size = new[] {120, 120},
                             resolution = 0.1
                         }
                     }
-
                 }
             }, TunnelId);
         }
-
-
     }
 }

@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client.VRConnection.Forms.Program;
+﻿using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {
-    class Skybox
+    internal class Skybox
     {
-        public string Name { get; set; }
-        public string TunnelId { get; set; }
-
         public Skybox(string name, string tunnelId)
         {
             Name = name;
             TunnelId = tunnelId;
         }
+
+        public string Name { get; set; }
+        public string TunnelId { get; set; }
 
         public string SetTime(double time)
         {
@@ -25,7 +20,7 @@ namespace Client.VRConnection.VRObjects
                 id = "scene/skybox/settime",
                 data = new
                 {
-                    time = time
+                    time
                 }
             }, TunnelId);
         }
@@ -34,8 +29,7 @@ namespace Client.VRConnection.VRObjects
         {
             return RequestCreater.TunnelSend(new
             {
-                id = "scene/skybox/update",
-                
+                id = "scene/skybox/update"
             }, TunnelId);
         }
     }

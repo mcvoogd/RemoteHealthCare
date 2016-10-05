@@ -1,11 +1,7 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Security.Cryptography;
+using System.Linq;
 using Newtonsoft.Json;
 using Server.Server;
 
@@ -13,17 +9,17 @@ namespace Server.BigDB
 {
     public class BigDatabase
     {
-        public List<Client> Clients { get; set; }
-
         public BigDatabase()
         {
             Clients = new List<Client>();
         }
 
+        public List<Client> Clients { get; set; }
+
         public void AddClient(Client client)
         {
             var alreadyThere = Enumerable.Contains(Clients, client);
-            if (!alreadyThere) { Clients.Add(client); }
+            if (!alreadyThere) Clients.Add(client);
         }
 
         #region saving and loading clients
@@ -37,7 +33,7 @@ namespace Server.BigDB
         public void LoadClients(string filePath)
         {
             ReadFromJsonFile(filePath);
-        } 
+        }
 
         #endregion
 
@@ -79,7 +75,7 @@ namespace Server.BigDB
                 {
                     var contentsToWriteToFile = JsonConvert.SerializeObject(clients);
                     writer = new StreamWriter(filePath, append);
-                    writer.WriteLine(StringCipher.Encrypt(contentsToWriteToFile,"Password"));
+                    writer.WriteLine(StringCipher.Encrypt(contentsToWriteToFile, "Password"));
                 }
                 finally
                 {
@@ -99,31 +95,25 @@ namespace Server.BigDB
                     writer?.Close();
                 }
             }
-            
         }
 
         private void ReadFromJsonFile(string filePath)
         {
             TextReader reader = null;
-            try{
+            try
+            {
                 reader = new StreamReader(filePath);
                 var fileContents = reader.ReadToEnd();
-                fileContents = StringCipher.Decrypt(fileContents,"Password");
+                fileContents = StringCipher.Decrypt(fileContents, "Password");
                 var c = JsonConvert.DeserializeObject<List<Client>>(fileContents);
                 foreach (var toAdd in c)
-                {
                     if (!Clients.Contains(toAdd))
-                    {
                         Clients.AddRange(c);
-                    }
-                }
             }
             finally
             {
                 reader?.Close();
             }
-                
-           
         }
 
         #endregion

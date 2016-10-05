@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Client.VRConnection.Forms.Program
-{ 
-
+{
     public class Clientinfo
     {
         public string file { get; set; }

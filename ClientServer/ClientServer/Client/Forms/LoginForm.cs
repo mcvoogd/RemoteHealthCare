@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Windows.Forms;
+using Client.Connection;
+using Client.Forms;
 
 namespace Client.Forms
 {
     public delegate bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare);
+
     public partial class LoginForm : Form
     {
-        private RemoteHealthcare RemoteHealthcare;
-        private Connect _connect;
+        private readonly Connect _connect;
+        private readonly RemoteHealthcare RemoteHealthcare;
 
         public LoginForm(RemoteHealthcare RemoteHealthcare, Connect connect)
         {
-            this.FormClosing += LoginForm_FormClosing;
+            FormClosing += LoginForm_FormClosing;
             InitializeComponent();
             this.RemoteHealthcare = RemoteHealthcare;
             _connect = connect;
@@ -24,15 +27,11 @@ namespace Client.Forms
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                DialogResult result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
-                {
                     Environment.Exit(0);
-                }
                 else
-                {
                     e.Cancel = true;
-                }
             }
             else
             {
@@ -42,26 +41,28 @@ namespace Client.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            if(_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text, RemoteHealthcare))
+            if (_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text, RemoteHealthcare))
             {
                 Visible = false;
                 RemoteHealthcare.Visible = true;
                 RemoteHealthcare.name = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
                 RemoteHealthcare.Invalidate();
-            } else
+            }
+            else
             {
                 wrongLogin.Visible = true;
             }
-            
+
             //            wrongLogin.Visible = true;
         }
 
-//        ToolTip toolTipCaps = new ToolTip();
-//        void passwordTextBox_MouseLeave(object sender, EventArgs e)
-//        {
-//            toolTipCaps.Hide(passwordTextBox);
 //        }
+//            toolTipCaps.Hide(passwordTextBox);
+//        {
+//        void passwordTextBox_MouseLeave(object sender, EventArgs e)
+
+//        ToolTip toolTipCaps = new ToolTip();
 //        void passwordTextBox_MouseHover(object sender, EventArgs e)
 //        {
 //            if (Control.IsKeyLocked(Keys.CapsLock))

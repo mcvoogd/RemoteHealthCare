@@ -9,7 +9,15 @@ namespace DataScreen.Forms
         public readonly Measurement Measurement;
         private int _time;
 
-        delegate void SetTextCallBack();
+        public SimulationForm()
+        {
+            _time = 120;
+            Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0*_time*70.0,
+                new SimpleTime(_time/60, _time%60), 500);
+            InitializeComponent();
+            RefreshText();
+            Visible = true;
+        }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -33,85 +41,59 @@ namespace DataScreen.Forms
             distanceCount.Text = "" + (int) Measurement.Distance;
         }
 
-        public SimulationForm()
-        {
-            _time = 120;
-            Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0*_time*70.0,
-                new SimpleTime(_time/60, _time%60), 500);
-            InitializeComponent();
-            RefreshText();
-            Visible = true;
-        }
-
         private void pulseMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Pulse > 0)
-            {
                 Measurement.Pulse--;
-            }
             pulseCount.Text = "" + Measurement.Pulse;
         }
 
         private void pulsePlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Pulse < 230)
-            {
                 Measurement.Pulse++;
-            }
             pulseCount.Text = "" + Measurement.Pulse;
         }
 
         private void rotationMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Rotations > 0)
-            {
                 Measurement.Rotations--;
-            }
             rotationsCount.Text = "" + Measurement.Rotations;
         }
 
         private void rotationPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Rotations < 240)
-            {
                 Measurement.Rotations++;
-            }
             rotationsCount.Text = "" + Measurement.Rotations;
         }
 
         private void speedMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Speed > 0)
-            {
                 Measurement.Speed--;
-            }
             speedCount.Text = "" + Measurement.Speed;
         }
 
         private void speedPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Speed < 60)
-            {
                 Measurement.Speed++;
-            }
             speedCount.Text = "" + Measurement.Speed;
         }
 
         private void powerMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Power > 0)
-            {
                 Measurement.Power--;
-            }
             powerCount.Text = "" + Measurement.Power;
         }
 
         private void powerPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Power < 400)
-            {
                 Measurement.Power++;
-            }
             powerCount.Text = "" + Measurement.Power;
         }
 
@@ -136,34 +118,29 @@ namespace DataScreen.Forms
         private void reachedPowerMin_Click(object sender, EventArgs e)
         {
             if (Measurement.ReachedPower > 0)
-            {
                 Measurement.ReachedPower--;
-            }
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 
         private void reachedPowerPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.ReachedPower < 999)
-            {
                 Measurement.ReachedPower++;
-            }
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 
         public void updateSim()
         {
-
-            if (this.timeCount.InvokeRequired)
+            if (timeCount.InvokeRequired)
             {
-                SetTextCallBack d = new SetTextCallBack(updateSim);
-                this.Invoke(d);
+                SetTextCallBack d = updateSim;
+                Invoke(d);
             }
             else
             {
                 updateMeshPlus();
 
-                Random random = new Random();
+                var random = new Random();
 
                 switch ((int) (random.NextDouble()*2))
                 {
@@ -179,8 +156,6 @@ namespace DataScreen.Forms
 
                 RefreshText();
             }
-
-
         }
 
         public void updateMeshPlus()
@@ -211,5 +186,6 @@ namespace DataScreen.Forms
             }
         }
 
+        private delegate void SetTextCallBack();
     }
 }

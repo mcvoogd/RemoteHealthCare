@@ -68,6 +68,9 @@
   <ItemGroup>
     <Compile Include="Classes\Connector.cs" />
     <Compile Include="Classes\Patient.cs" />
+    <Compile Include="Classes\SplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>

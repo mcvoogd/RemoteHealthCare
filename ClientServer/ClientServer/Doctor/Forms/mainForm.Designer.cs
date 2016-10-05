@@ -87,7 +87,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.chatReceiveTextBox = new System.Windows.Forms.RichTextBox();
             this.chatSendTextBox = new System.Windows.Forms.TextBox();
-            this.chatSendButton = new System.Windows.Forms.Button();
+            this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -674,17 +674,21 @@
             this.chatSendTextBox.Font = new System.Drawing.Font("Arial Unicode MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chatSendTextBox.Location = new System.Drawing.Point(897, 223);
             this.chatSendTextBox.Name = "chatSendTextBox";
-            this.chatSendTextBox.Size = new System.Drawing.Size(218, 29);
+            this.chatSendTextBox.Size = new System.Drawing.Size(210, 29);
             this.chatSendTextBox.TabIndex = 39;
             // 
             // chatSendButton
             // 
+            this.chatSendButton.AutoSize = true;
             this.chatSendButton.BackColor = System.Drawing.Color.White;
+            this.chatSendButton.FlatAppearance.BorderSize = 0;
             this.chatSendButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.chatSendButton.Location = new System.Drawing.Point(1121, 223);
+            this.chatSendButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chatSendButton.ForeColor = System.Drawing.Color.Black;
+            this.chatSendButton.Location = new System.Drawing.Point(1113, 223);
             this.chatSendButton.Name = "chatSendButton";
-            this.chatSendButton.Size = new System.Drawing.Size(66, 29);
-            this.chatSendButton.TabIndex = 40;
+            this.chatSendButton.Size = new System.Drawing.Size(74, 29);
+            this.chatSendButton.TabIndex = 41;
             this.chatSendButton.Text = "Verzenden";
             this.chatSendButton.UseVisualStyleBackColor = false;
             // 
@@ -789,7 +793,7 @@
         public System.Windows.Forms.Label connectedLabel;
         public System.Windows.Forms.RichTextBox chatReceiveTextBox;
         public System.Windows.Forms.TextBox chatSendTextBox;
-        public System.Windows.Forms.Button chatSendButton;
+        public Classes.SplitButton chatSendButton;
     }
 }
 

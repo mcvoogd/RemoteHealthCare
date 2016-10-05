@@ -66,7 +66,7 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
             followCamera();
             Blocker.WaitOne(5000);
-            drawPanel();
+            drawPanel("Satan is love");
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -225,17 +225,13 @@ namespace Client.VRConnection.Forms
                 _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
+
             MakePanelId();
-            //_panel.SwapPanel();
-            //_connection.SendMessage(_panel.ToSend);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
 
-            //Console.WriteLine(_panel.Uuid);
-            //Blocker.WaitOne(5000);
-            //drawPanel();
-
-        }
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+       }
 
         private void MakePanelId()
         {
@@ -248,19 +244,14 @@ namespace Client.VRConnection.Forms
             }
         }
 
-        private void drawPanel()
+        private void drawPanel(string textValue)
         {
-            string textValue = "Satan is love";
             int[] position = {100, 100};
             double sizeValue = 32;
             double[] color = {1, 0, 0, 1};
             string fontValue = "segoeui";
 
             _panel.ClearPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

@@ -262,7 +262,7 @@ namespace VRFrom_Gijs.Forms
         {
             int[] position = {100, 100};
             double sizeValue = 63;
-            double[] color = {1, 0, 0, 1};
+            float[] color = {1, 0, 0, 1};
             string fontValue = "Arial";
 
             _panel.ClearPanel();

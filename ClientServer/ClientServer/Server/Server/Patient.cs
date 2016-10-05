@@ -13,7 +13,7 @@ namespace Server.Server
         public string Name { get; set; }
         public int clientId { get; set; }
 
-        public Patient(string name, int clientId)
+        public Patient(int clientId, string name)
         {
             this.Name = name;
             this.clientId = clientId;

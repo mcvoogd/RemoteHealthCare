@@ -111,9 +111,14 @@ namespace Server.Server
                             }
                             break;
                         case "get/patients":
+                            Console.WriteLine("Recieved get/patients request.");
                             if (IsDoctor)
                             {
                                 HandleGetPatients(data);
+                            }
+                            else
+                            {
+                                Console.WriteLine("IS NOT DOCTOR");
                             }
                             break;
                         case "get/patient/data":
@@ -158,7 +163,7 @@ namespace Server.Server
             if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
-                var temp = new Patient(databaseClient.Name, databaseClient.UniqueId);
+                var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
                 patientsArray[index] = temp;
                 index++;
             }
@@ -297,13 +302,17 @@ namespace Server.Server
                 _database.AddClient(Client);
                 if (isDoctorData)
                 {
-                    this.IsDoctor = true;
+                    IsDoctor = true;
                 }
                 Console.WriteLine("Did not exist");
                 return true;
             }
             //null == tunnelID. <VR>
             _database.GetClientById(clientid, out Client);
+            if (isDoctorData)
+            {
+                IsDoctor = true;
+            }
             return true;
         }
 

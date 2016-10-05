@@ -101,16 +101,7 @@ namespace VRFrom_Gijs.VrObjects
         {
             ToSend = RequestCreater.TunnelSend(new
             {
-                id = "scene/node/addLayer",
-                data = new
-                {
-                    id = Uuid,
-                    diffuse = @"..\..\res/bikePanel.jpg",
-                    normal = @"..\..\res/bikePanel.jpg",
-                    minHeight = 0,
-                    maxHeight = 10,
-                    fadeDist = 0
-                }
+                
             }, TunnelId);
         }
 

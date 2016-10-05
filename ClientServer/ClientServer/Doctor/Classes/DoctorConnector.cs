@@ -14,6 +14,7 @@ namespace Doctor.Classes
     {
         private readonly List<Message> _messageList;
         private Patient _currentPatient;
+        private readonly List<Patient> _patientesList = new List<Patient>();
         private int _loginAccepted;
         private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
@@ -58,18 +59,16 @@ namespace Doctor.Classes
                             Console.WriteLine("Recieved ID : " + id);
                             switch (id)
                             {
-
                                 case "get/patients":
                                 {
-                                    Console.WriteLine("WOEHOE RECIEVED PATIENTS");
                                     var patientsList = data.patients;
-                                    //patients = data.patients;
-                                    Patient[] patients = new Patient[patientsList.Count];
                                     for (int i = 0; i < patientsList.Count; i++)
                                     {
-                                        patients[i] = patientsList[i];
-                                        Console.WriteLine(patients[i]);
+                                        int clientid = patientsList[i].ClientId;
+                                        string name = patientsList[i].Name;
+                                        _patientesList.Add(new Patient(clientid, name));
                                     }
+
                                 }
                                     break;
                                 case "login/request":

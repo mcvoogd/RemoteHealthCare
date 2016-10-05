@@ -14,13 +14,13 @@ namespace Client.VRConnection.Forms.Program
     public partial class Form1 : Form
     {
         private int _selectedIndex;
-        private Connection _connection;
+        private VrConnection _connection;
         private List<Client> _clients = new List<Client>();
 
         public Form1()
         {
             InitializeComponent();
-            _connection = new Connection("145.48.6.10", 6666, this);
+            _connection = new VrConnection("145.48.6.10", 6666, this);
             var thread = new Thread(_connection.StartConnection);
             thread.Start();
         }

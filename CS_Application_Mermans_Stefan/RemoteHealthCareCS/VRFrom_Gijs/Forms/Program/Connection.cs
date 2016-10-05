@@ -110,25 +110,21 @@ namespace VRFrom_Gijs.Program
                                         if (GetNodeInList(tempNaam) != null)
                                             GetNodeInList(tempNaam).Uuid = tempUuid;
                                     }
-                                    TunnelCommandForm.Blocker.Set();
                                     break;
                                 case "scene/get":
                                     GroundPlanId =
                                         red.data.data.data.children[red.data.data.data.children.Count - 1].uuid;
                                     cameraID = red.data.data.data.children[1].uuid;
                                     headID = red.data.data.data.children[4].uuid;
-                                    TunnelCommandForm.Blocker.Set();
                                     break;
                                 case "scene/node/delete":
                                     Console.WriteLine("Deleted.");
-                                    TunnelCommandForm.Blocker.Set();
                                     break;
                                 case "route/add":
                                     RouteId = red.data.data.data.uuid;
-                                    TunnelCommandForm.Blocker.Set();
                                     break;
                             }
-                           
+                            TunnelCommandForm.Blocker.Set();
                             break;
                     }
                     bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));

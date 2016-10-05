@@ -135,7 +135,7 @@ namespace Client.VRConnection.VRObjects
             if (Uuid == null)
             {          
                 string temp;
-                Forms.Program.Connection.VRobjecten.TryGetValue(Naam, out temp); //TODO ????????????????????????
+                Forms.Program.VrConnection.VRobjecten.TryGetValue(Naam, out temp);
                 Uuid = temp;
             }
             return RequestCreater.TunnelSend(

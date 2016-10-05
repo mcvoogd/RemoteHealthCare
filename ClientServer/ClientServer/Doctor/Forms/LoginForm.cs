@@ -4,10 +4,11 @@ using System.Windows.Forms;
 namespace Doctor.Forms
 {
     public delegate bool Connect(string serverIp, string username, string password);
+
     public partial class LoginForm : Form
     {
-        private Connect _connect;
-        private MainForm _mainForm;
+        private readonly Connect _connect;
+        private readonly MainForm _mainForm;
 
         public LoginForm(Connect connect, MainForm mainForm)
         {
@@ -22,15 +23,11 @@ namespace Doctor.Forms
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                DialogResult result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
-                {
                     Environment.Exit(0);
-                }
                 else
-                {
                     e.Cancel = true;
-                }
             }
             else
             {
@@ -40,14 +37,15 @@ namespace Doctor.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            if(_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
+            if (_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
             {
                 Visible = false;
                 _mainForm.Visible = true;
 
                 _mainForm.userLabel.Text = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
-            } else
+            }
+            else
             {
                 wrongLogin.Visible = true;
             }

@@ -18,59 +18,61 @@ namespace Client.VRConnection.Forms
     public partial class TunnelCommandForm : Form
     {
         public static AutoResetEvent Blocker;
-        private readonly Program.Connection _connection;
+        private Program.VrConnection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
-        private readonly Random _random = new Random();
-        private List<Punt> _points;
-        private Forest _forest;
-        private City _city;
+        private Random random = new Random();
+        private List<Punt> points;
+        private Forest forest;
+        private City city;
 
-        public TunnelCommandForm(Program.Connection connection, string name)
+        public TunnelCommandForm(Program.VrConnection connection, string name)
         {
             InitializeComponent();
             Name = name;
             Blocker = new AutoResetEvent(false);
+            ;
+            ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
         }
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
-            _forest = new Forest();
-            _city = new City();
-            DeletePane();
+            forest = new Forest();
+            city = new City();
+            deletePane();
             Blocker.WaitOne(5000);
-            DeletePane();
-            Blocker.WaitOne(5000);
-
-            CreatePanel();
+            deletePane();
             Blocker.WaitOne(5000);
 
-            CreateTerrain();
+            createPanel();
+            Blocker.WaitOne(5000);
+
+            createTerrain();
             Thread.Sleep(3000);
-            PaintTerrain();
+            paintTerrain();
             Blocker.WaitOne(5000);
-            CreateWater();
+            createWater();
             Blocker.WaitOne(5000);
-            CreateForest();
+            createForest();
             Blocker.WaitOne(5000);
-            CreateCity();
+            createCity();
             Blocker.WaitOne(5000);
 
-            CreateBike();
+            createBike();
             Blocker.WaitOne(5000);
-            CreateRoad();
+            createRoad();
             Blocker.WaitOne(5000);
-            FollowRoad();
+            followRoad();
             Blocker.WaitOne(5000);
-            FollowBike();
+            followBike();
             Blocker.WaitOne(5000);
-            FollowCamera();
+            followCamera();
             Blocker.WaitOne(5000);
-            DrawPanel();
+            drawPanel();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -81,8 +83,9 @@ namespace Client.VRConnection.Forms
             _connection.SendMessage(_skybox.SetTime(time));         
         }
 
-        private void DeletePane()
+        private void deletePane()
         {
+            
             if (!_send)
             {
                 _send = true;
@@ -95,7 +98,7 @@ namespace Client.VRConnection.Forms
             }
         }
 
-        private void CreateTerrain()
+        private void createTerrain()
         {
             Terrain terrain = new Terrain(_connection.TunnelId, _connection);
             var terrainNode = new Node("Terrain node", _connection.TunnelId, -100, -0.1, -100);
@@ -103,7 +106,7 @@ namespace Client.VRConnection.Forms
 
         }
 
-        private void CreateBike()
+        private void createBike()
         {
             _bike = new Node("bike", _connection.TunnelId, "data/NetworkEngine/models/bike/bike_anim.fbx", 0, 0, 0, 0.025, true);
             _connection.Nodes.Add(_bike);
@@ -113,7 +116,7 @@ namespace Client.VRConnection.Forms
 
         }
 
-        private void CreateRoad()
+        private void createRoad()
         {
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
@@ -145,7 +148,7 @@ namespace Client.VRConnection.Forms
             }, _connection.TunnelId));
         }
 
-        private void PaintTerrain()
+        private void paintTerrain()
         {
             _connection.SendMessage(
                 RequestCreater.TunnelSend(new
@@ -193,7 +196,7 @@ namespace Client.VRConnection.Forms
                 }, _connection.TunnelId));
         }
 
-        private void FollowRoad()
+        private void followRoad()
         {
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
@@ -214,7 +217,7 @@ namespace Client.VRConnection.Forms
             Blocker.Set();
         }
 
-        private void FollowBike()
+        private void followBike()
         {
 
             _connection.SendMessage(RequestCreater.TunnelSend(new
@@ -230,7 +233,7 @@ namespace Client.VRConnection.Forms
             }, _connection.TunnelId));
         }
 
-        private void CreatePanel()
+        private void createPanel()
         {
             _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1080, 1920, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
@@ -244,23 +247,27 @@ namespace Client.VRConnection.Forms
             //Console.WriteLine(_panel.Uuid);
             //Blocker.WaitOne(5000);
             //drawPanel();
+
         }
 
         private void MakePanelId()
         {
-            if (_panel.Uuid != null) return;
-            Thread.Sleep(10);
-            _panel.Uuid = _connection.PanelId;
-            MakePanelId();
+            if (_panel.Uuid == null)
+            {
+                Thread.Sleep(10);
+                _panel.Uuid = _connection.PanelId;
+
+                MakePanelId();
+            }
         }
 
-        private void DrawPanel()
+        private void drawPanel()
         {
-            const string textValue = "Satan is love";
+            string textValue = "Satan is love";
             int[] position = {100, 100};
-            const int sizeValue = 32;
+            double sizeValue = 32;
             double[] color = {1, 0, 0, 1};
-            const string fontValue = "segoeui";
+            string fontValue = "segoeui";
 
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);
@@ -279,14 +286,14 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
         }
 
-        private void CreateForest()
+        private void createForest()
         {
-            _points = _forest.getForest();
+            points = forest.getForest();
 
-            foreach (var point in _points)
+            foreach (Punt point in points)
             {
                 Thread.Sleep(10);
-                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, GetRandom());
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, getRandom());
                 _connection.Nodes.Add(_tree);
 
                 Thread.Sleep(10);
@@ -294,25 +301,27 @@ namespace Client.VRConnection.Forms
             }
         }
 
-        private void CreateCity()
+        private void createCity()
         {
-            _points = _city.getCity();
-            foreach (var point in _points)
+            points = city.getCity();
+
+            foreach (Punt point in points)
             {
                 Thread.Sleep(10);
                 _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", point.X, point.Z, point.Y, 8);
                 _connection.Nodes.Add(_house);
+
                 Thread.Sleep(10);
                 _connection.SendMessage(_house.SendString);
             }
         }
 
-        private double GetRandom()
+        private Double getRandom()
         {
-            return _random.NextDouble() * 0.6 + 1;
+            return random.NextDouble() * 0.6 + 1;
         }
 
-        private void CreateWater()
+        private void createWater()
         {
             Thread.Sleep(10);
             _water = new Node("water", _connection.TunnelId, 50, 2, 15, true);
@@ -322,7 +331,7 @@ namespace Client.VRConnection.Forms
             _connection.SendMessage(_water.SendString);
         }
 
-        private void FollowCamera()
+        private void followCamera()
         {
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {

@@ -265,7 +265,7 @@ namespace VRFrom_Gijs.Forms
             string textValue = "Satan is love";
             int[] position = {100, 100};
             double sizeValue = 52;
-            double[] color = {1, 0, 0, 1};
+            float[] color = {1, 0, 0, 1};
             string fontValue = "Arial";
 
             _panel.ClearPanel();

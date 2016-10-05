@@ -4,14 +4,23 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Doctor.Classes;
 
 namespace Doctor.Forms
 {
+    public delegate void SetCurrentPatient(Patient patient);
+
+    public delegate void SendMessage(dynamic message);
+
     public partial class MainForm : Form
     {
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
         FontFamily _goodTimes;
+
+        private SetCurrentPatient _setCurrentPatient;
+        private SendMessage _sendMessage;
+        private Patient _currentPatient;
 
         private void CargoPrivateFontCollection()
         {
@@ -37,8 +46,12 @@ namespace Doctor.Forms
             _goodTimes = pfc.Families[0];
         }
 
-        public MainForm()
+        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage)
         {
+            _setCurrentPatient = setCurrentPatient;
+            _sendMessage = sendMessage;
+            _currentPatient = null;
+
             InitializeComponent();
             timeTimer.Start();
 
@@ -94,6 +107,32 @@ namespace Doctor.Forms
             {
                 MessageBox.Show("Whoops, try again!");
             }
+        }
+
+        private void clientListBox_DoubleClick(object sender, EventArgs e)
+        {
+            // TODO find the clientID associated with the selected patient
+            _currentPatient = new Patient(123/*clientId*/);
+            _setCurrentPatient(_currentPatient);
+        }
+
+        private void chatSendButton_Click(object sender, EventArgs e)
+        {
+            if (_currentPatient == null)
+            {
+                Console.WriteLine("Not connected to a patient");
+                return;
+            }
+
+            _sendMessage(new
+            {
+                id = "message/send",
+                clientid = _currentPatient.clientId,
+                data = new
+                {
+                    message = chatSendTextBox.Text
+                }
+            });
         }
     }
 }

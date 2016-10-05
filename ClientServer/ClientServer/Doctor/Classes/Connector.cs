@@ -18,11 +18,13 @@ namespace Doctor.Classes
         public int ConnectionId { get; set; }
         private byte[] _messageBuffer = new byte[0];
         private readonly List<Message> _messageList;
-        private int loginAccepted = 0;
+        private int _loginAccepted = 0;
+        private Patient _currentPatient;
 
         public Connector()
         {
             _sslStream = null;
+            _currentPatient = null;
             _messageList = new List<Message>();
         }
 
@@ -67,10 +69,10 @@ namespace Doctor.Classes
                                 case "login/request":
                                     if (data.ack == false)
                                     {
-                                        loginAccepted = -1;
+                                        _loginAccepted = -1;
                                         return;
                                     }
-                                    loginAccepted = 1;
+                                    _loginAccepted = 1;
 
                                     break;
                                 case "message/send":
@@ -125,12 +127,12 @@ namespace Doctor.Classes
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
 
-            while (loginAccepted == 0){}
+            while (_loginAccepted == 0){}
 
-            switch (loginAccepted)
+            switch (_loginAccepted)
             {
                 case 1:
-                    loginAccepted = 0;
+                    _loginAccepted = 0;
 
                     SendMessage(new
                     {
@@ -138,7 +140,7 @@ namespace Doctor.Classes
                     });
                     return true;
                 case -1:
-                    loginAccepted = 0;
+                    _loginAccepted = 0;
                     return false;
             }
             return false;
@@ -181,6 +183,11 @@ namespace Doctor.Classes
                     isDoctor = true
                 }
             });
+        }
+
+        public void SetCurrentPatient(Patient patient)
+        {
+            _currentPatient = patient;
         }
 
         public Message ParseMessage(dynamic data)

@@ -18,7 +18,7 @@ namespace Client.VRConnection.Forms
     public partial class TunnelCommandForm : Form
     {
         public static AutoResetEvent Blocker;
-        private Program.Connection _connection;
+        private Program.VrConnection _connection;
         public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
@@ -29,7 +29,7 @@ namespace Client.VRConnection.Forms
         private Forest forest;
         private City city;
 
-        public TunnelCommandForm(Program.Connection connection, string name)
+        public TunnelCommandForm(Program.VrConnection connection, string name)
         {
             InitializeComponent();
             Name = name;

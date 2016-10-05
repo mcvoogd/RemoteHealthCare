@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Client.Connection;
 using Client.Forms;
-using DataScreen.Forms;
+using Client.VRConnection.Forms.Program;
 
 namespace Client
 {
@@ -20,11 +20,11 @@ namespace Client
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var connector = new Connector();
-            var remoteHealthcare = new RemoteHealthcare(connector.SendMessage,connector.SendStatistics,connector.ConnectionId);
-            var loginForm = new LoginForm(remoteHealthcare,connector.Connect);
+            //var connector = new Connector();
+            //var remoteHealthcare = new RemoteHealthcare(connector.SendMessage,connector.SendStatistics,connector.ConnectionId);
+            //var loginForm = new LoginForm(remoteHealthcare,connector.Connect);
 
-            Application.Run(loginForm);
+            Application.Run(new Form1());
             Application.Exit();
         }
     }

@@ -11,10 +11,9 @@ using Doctor.Properties;
 namespace Doctor.Forms
 {
     public delegate void SetCurrentPatient(Patient patient);
-
     public delegate void SendMessage(dynamic message);
-
     public delegate List<Patient> GetAllPatients();
+    public delegate List<Measurement> GetMeasurementsFromPatient();
 
     public partial class MainForm : Form
     {
@@ -28,16 +27,19 @@ namespace Doctor.Forms
         VerticalLineAnnotation VA;
         RectangleAnnotation RA;
 
+        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
+        private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
 
         private readonly SetCurrentPatient _setCurrentPatient;
 
-        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients)
+        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients, GetMeasurementsFromPatient getMeasurementsFromPatient)
         {
             _setCurrentPatient = setCurrentPatient;
             _sendMessage = sendMessage;
             _getAllPatients = getAllPatients;
+            _GetMeasurementsFromPatient = getMeasurementsFromPatient;
             _currentPatient = null;
 
             InitializeComponent();
@@ -162,7 +164,7 @@ namespace Doctor.Forms
             label7.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            addClientButton.Font = new Font(_goodTimes, 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            refreshClientButton.Font = new Font(_goodTimes, 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             userLabel.Font = new Font(_goodTimes, 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
@@ -223,7 +225,16 @@ namespace Doctor.Forms
         {
             _currentPatient = (Patient)clientListBox.SelectedItem;
             _setCurrentPatient(_currentPatient);
-            
+            _sendMessage(new
+            {
+                id = "get/patient/data",
+                data = new
+                {
+                    clientId = _currentPatient.ClientId
+                }
+            });
+            List<Measurement> measurements =  _GetMeasurementsFromPatient();
+            //SetAllMeasurementData(measurements[0]);
         }
 
         public void SetAllMeasurementData(Measurement m)
@@ -236,6 +247,11 @@ namespace Doctor.Forms
             rpmLabel.Text = m.Rotations.ToString();
             powerLabel.Text = m.Power.ToString();
             bpmLabel.Text = m.Pulse.ToString();
+        }
+
+        private void refreshClientButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

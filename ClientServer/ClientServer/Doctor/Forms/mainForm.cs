@@ -141,7 +141,7 @@ namespace Doctor.Forms
             _sendMessage(new
             {
                 id = "message/send",
-                clientid = _currentPatient.clientId,
+                clientid = _currentPatient.ClientId,
                 data = new
                 {
                     message = chatSendTextBox.Text

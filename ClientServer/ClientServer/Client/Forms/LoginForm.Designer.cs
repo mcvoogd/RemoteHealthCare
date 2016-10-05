@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace DataScreen.Forms
+namespace Client.Forms
 {
     partial class LoginForm
     {

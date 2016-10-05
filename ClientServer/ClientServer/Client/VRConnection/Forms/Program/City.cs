@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Client.VRConnection.Forms.Program
 {
-    class City
+    internal class City
     {
-        private List<Punt> points = new List<Punt>();
+        private readonly List<Punt> points = new List<Punt>();
 
         public City()
         {

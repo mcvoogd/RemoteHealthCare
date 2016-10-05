@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Sockets;
-using System.Security.AccessControl;
 using System.Text;
-using System.Threading;
-using Newtonsoft.Json;
 using Client.VRConnection.VRObjects;
+using Newtonsoft.Json;
 
 namespace Client.VRConnection.Forms.Program
 {
@@ -14,18 +11,27 @@ namespace Client.VRConnection.Forms.Program
 
     public class VrConnection
     {
+        public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
+        private TcpClient _client;
+        public FillConnectionList FillConnectionList;
+        public List<Node> Nodes = new List<Node>();
+
+        public Connection(string ip, int port, Form1 form)
+        {
+            VrServerIp = ip;
+            VrServerPort = port;
+            Form = form;
+            FillConnectionList = form.FillConnectionList;
+        }
+
         public string VrServerIp { get; set; }
         public int VrServerPort { get; set; }
         public string TunnelId { get; set; }
         public string UserName { get; set; }
-        private TcpClient _client;
         public NetworkStream NetworkStream { get; set; }
         public JsonRawData JsonRawData { get; set; }
         public Form1 Form { get; set; }
-        public FillConnectionList FillConnectionList;
-        public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
-        public List<Node> Nodes = new List<Node>();
-        public string TerrainId { get ; private set; } // TODO store somewhere else
+        public string TerrainId { get; private set; } // TODO store somewhere else
         public string GroundPlanId { get; set; } //TODO SAME AS ABOVE.
         public string RouteId { get; set; }
         public string cameraID { get; set; }
@@ -49,11 +55,11 @@ namespace Client.VRConnection.Forms.Program
                 Console.WriteLine("Connected: " + _client.Connected);
                 NetworkStream = _client.GetStream();
 
-                string request = "{\"id\" : \"session/list\"}";
+                var request = "{\"id\" : \"session/list\"}";
 
                 SendMessage(request);
-                byte[] receiveBuffer = new byte[128];
-                byte[] bufferBytes = new byte[0];
+                var receiveBuffer = new byte[128];
+                var bufferBytes = new byte[0];
 
                 do
                 {
@@ -67,7 +73,7 @@ namespace Client.VRConnection.Forms.Program
                     if (bufferBytes.Length < packetLength + 4) continue;
 
                     var result = GetMessageFromBuffer(bufferBytes, packetLength);
-                   
+
                     dynamic red = JsonConvert.DeserializeObject(result);
                     switch ((string) red.id)
                     {
@@ -78,7 +84,7 @@ namespace Client.VRConnection.Forms.Program
                             break;
                         case "tunnel/create":
                             Console.WriteLine(red);
-                            this.TunnelId = red.data.id;
+                            TunnelId = red.data.id;
                             break;
                         case "tunnel/send":
                             switch ((string) red.data.data.id)
@@ -91,7 +97,7 @@ namespace Client.VRConnection.Forms.Program
 
                                     if (tempNaam == "panel")
                                         PanelId = red.data.data.data.uuid;
-                                   
+
 
                                     if (tempNaam == "Terrain node")
                                     {
@@ -100,7 +106,8 @@ namespace Client.VRConnection.Forms.Program
                                         // Sets the id of the terrain, the storage of this id should probably be moved somewhere else.
                                         // This may not even be necessary at all if the terrain node is stored in VRobjecten
                                         // TODO move
-                                    } else if (!VRobjecten.ContainsKey(tempNaam))
+                                    }
+                                    else if (!VRobjecten.ContainsKey(tempNaam))
                                     {
                                         VRobjecten.Add(tempNaam, tempUuid);
                                         if (GetNodeInList(tempNaam) != null)
@@ -124,11 +131,10 @@ namespace Client.VRConnection.Forms.Program
                                     TunnelCommandForm.Blocker.Set();
                                     break;
                             }
-                           
+
                             break;
                     }
                     bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));
-
                 } while (_client.Connected);
             }
             catch (Exception)
@@ -140,7 +146,7 @@ namespace Client.VRConnection.Forms.Program
         private static string GetMessageFromBuffer(byte[] array, int count)
         {
             var message = new StringBuilder();
-            message.AppendFormat("{0}", Encoding.ASCII.GetString(array,4,count));
+            message.AppendFormat("{0}", Encoding.ASCII.GetString(array, 4, count));
             return message.ToString();
         }
 
@@ -149,14 +155,14 @@ namespace Client.VRConnection.Forms.Program
         public byte[] ConCat(byte[] arrayOne, byte[] arrayTwo, int count)
         {
             var newArray = new byte[arrayOne.Length + count];
-            System.Buffer.BlockCopy(arrayOne,0,newArray,0,arrayOne.Length);
-            System.Buffer.BlockCopy(arrayTwo,0,newArray,arrayOne.Length,count);
+            Buffer.BlockCopy(arrayOne, 0, newArray, 0, arrayOne.Length);
+            Buffer.BlockCopy(arrayTwo, 0, newArray, arrayOne.Length, count);
             return newArray;
         }
 
         public byte[] SubArray(byte[] data, int index, int length)
         {
-            byte[] result = new byte[length];
+            var result = new byte[length];
             Array.Copy(data, index, result, 0, length);
             return result;
         }
@@ -168,13 +174,9 @@ namespace Client.VRConnection.Forms.Program
 
         public Node GetNodeInList(string naam)
         {
-            foreach (Node node in Nodes)
-            {
+            foreach (var node in Nodes)
                 if (node.Naam.Equals(naam))
-                {
                     return node;
-                }
-            }
             return null;
         }
 
@@ -182,17 +184,15 @@ namespace Client.VRConnection.Forms.Program
         public byte[] NotConCat(byte[] array, int count)
         {
             var tempArray = new byte[array.Length - count];
-            for (int i = 0; i < array.Length - count; i++)
-            {
+            for (var i = 0; i < array.Length - count; i++)
                 tempArray[i] = array[count + i];
-            }
             return tempArray;
         }
 
         public void SendMessage(string request)
         {
-            byte[] buffer = Encoding.Default.GetBytes(request);
-            byte[] bufferPrepend = BitConverter.GetBytes(buffer.Length);
+            var buffer = Encoding.Default.GetBytes(request);
+            var bufferPrepend = BitConverter.GetBytes(buffer.Length);
 
             NetworkStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             NetworkStream.Write(buffer, 0, buffer.Length);

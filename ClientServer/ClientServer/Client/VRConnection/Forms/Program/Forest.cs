@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.Forms.Program
 {
-    class Forest
+    internal class Forest
     {
-        private List<Punt> points = new List<Punt>();
+        private readonly List<Punt> points = new List<Punt>();
 
         public Forest()
         {

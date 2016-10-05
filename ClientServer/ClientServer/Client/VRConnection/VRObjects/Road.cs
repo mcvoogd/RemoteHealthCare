@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client.VRConnection.Forms.Program;
+﻿using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {
-    class Road
+    internal class Road
     {
-        public string Name { get; set; }
-        public string TunnelId { get; set; }
-
         public Road(string name, string tunnelId)
         {
             Name = name;
             TunnelId = tunnelId;
         }
+
+        public string Name { get; set; }
+        public string TunnelId { get; set; }
 
         public dynamic Add(string uuid)
         {
@@ -34,8 +29,7 @@ namespace Client.VRConnection.VRObjects
         {
             return RequestCreater.TunnelSend(new
             {
-                id = "scene/road/delete",
-
+                id = "scene/road/delete"
             }, TunnelId);
         }
     }

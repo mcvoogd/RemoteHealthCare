@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client.VRConnection.Forms.Program;
+﻿using Client.VRConnection.Forms.Program;
 
 namespace Client.VRConnection.VRObjects
 {
-    class Scene
+    internal class Scene
     {
-        public string Name { get; set; }
-        public string TunnelId { get; set; }
-        public string Filename { get; set; }
-
         public Scene(string name, string tunnelId, string filename)
         {
             Name = name;
@@ -20,12 +11,15 @@ namespace Client.VRConnection.VRObjects
             Filename = filename;
         }
 
+        public string Name { get; set; }
+        public string TunnelId { get; set; }
+        public string Filename { get; set; }
+
         public dynamic GetScene()
         {
             return RequestCreater.TunnelSend(new
             {
                 id = "scene/get"
-
             }, TunnelId);
         }
 
@@ -36,11 +30,10 @@ namespace Client.VRConnection.VRObjects
                 id = "scene/save",
                 data = new
                 {
-                    filename = filename,
-                    overwrite = overwrite
-                    }
-
-                }, TunnelId);
+                    filename,
+                    overwrite
+                }
+            }, TunnelId);
         }
 
         public dynamic LoadScene(string filename)
@@ -50,9 +43,8 @@ namespace Client.VRConnection.VRObjects
                 id = "scene/load",
                 data = new
                 {
-                    filename = filename
+                    filename
                 }
-
             }, TunnelId);
         }
 
@@ -63,11 +55,10 @@ namespace Client.VRConnection.VRObjects
                 id = "scene/raycast",
                 data = new
                 {
-                    start = start,
-                    direction = direction,
-                    physics = physics
+                    start,
+                    direction,
+                    physics
                 }
-
             }, TunnelId);
         }
     }

@@ -97,6 +97,23 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
+        public void setImage()
+        {
+            ToSend = RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/addLayer",
+                data = new
+                {
+                    id = Uuid,
+                    diffuse = @"..\..\res/bikePanel.jpg",
+                    normal = @"..\..\res/bikePanel.jpg",
+                    minHeight = 0,
+                    maxHeight = 10,
+                    fadeDist = 0
+                }
+            }, TunnelId);
+        }
+
         public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
         {
            ToSend = RequestCreater.TunnelSend(new

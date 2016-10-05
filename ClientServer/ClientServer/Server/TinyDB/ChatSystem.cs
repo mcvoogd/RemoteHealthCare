@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.TinyDB
 {
@@ -17,7 +15,7 @@ namespace Server.TinyDB
 
         public List<Message> GetMessagesBetweenTimes(DateTime startTime, DateTime endTime)
         {
-            var temp = Messages.Where(m => m.Time > startTime && m.Time < endTime).ToList();
+            var temp = Messages.Where(m => (m.Time > startTime) && (m.Time < endTime)).ToList();
             temp.Sort();
             return temp;
         }
@@ -25,9 +23,7 @@ namespace Server.TinyDB
         public void AddMessage(Message m)
         {
             if (m != null)
-            {
-                this.Messages.Add(m);
-            }
+                Messages.Add(m);
         }
 
         public List<Message> GetAllMessages()

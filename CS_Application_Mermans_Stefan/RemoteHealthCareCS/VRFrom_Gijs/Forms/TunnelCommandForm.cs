@@ -260,17 +260,16 @@ namespace VRFrom_Gijs.Forms
 
         private void drawPanel(string value)
         {
-            string textValue = "Satan is love";
             int[] position = {100, 100};
             double sizeValue = 63;
-            double[] color = {1, 0, 0, 1};
+            float[] color = {1, 0, 0, 1};
             string fontValue = "Arial";
 
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 
-            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.DrawText(value, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

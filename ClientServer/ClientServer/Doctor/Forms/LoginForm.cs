@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Doctor.Classes;
 
 namespace Doctor.Forms
 {
@@ -39,6 +40,7 @@ namespace Doctor.Forms
         {
             if (_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
             {
+                _mainForm.ClientId = DoctorConnector.GetUniqueId(usernameTextBox.Text, passwordTextBox.Text);
                 Visible = false;
                 _mainForm.Visible = true;
 

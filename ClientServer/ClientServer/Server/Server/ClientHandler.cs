@@ -12,8 +12,7 @@ namespace Server.Server
 {
     public class ClientHandler
     {
-        private static X509Certificate2 serverCertificate;
-//        private readonly Stream stream;
+        private static X509Certificate2 _serverCertificate;
 
         private readonly BigDatabase _database;
         private readonly SslStream _sslStream;
@@ -27,9 +26,9 @@ namespace Server.Server
             _tcpClient = tcpClient;
             _sslStream = new SslStream(_tcpClient.GetStream());
             _database = databaseValue;
-            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare");
+            _serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare");
 
-            _sslStream.AuthenticateAsServer(serverCertificate, false, SslProtocols.Tls, false);
+            _sslStream.AuthenticateAsServer(_serverCertificate, false, SslProtocols.Tls, false);
 
             DisplaySecurityLevel(_sslStream);
             DisplaySecurityServices(_sslStream);
@@ -39,7 +38,7 @@ namespace Server.Server
             _messageBuffer = new byte[0];
         }
 
-        //RECIEVER
+        //RECEIVER
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
@@ -64,10 +63,9 @@ namespace Server.Server
                     switch ((string) id)
                     {
                         case "message/send":
-                            //SendMessage(readMessage);
                             Client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(readMessage));
-
                             Console.WriteLine("MSG : " + data.message);
+                            if (!forwardMessage(readMessage)) Console.WriteLine("Forwarding failed... target not found!");
                             SendAck("message/received");
                             break;
                         case "client/new":
@@ -131,6 +129,18 @@ namespace Server.Server
                         Console.WriteLine("Client disconnected.");
                     Console.WriteLine(e.StackTrace);
                 }
+        }
+
+        // forward a received message to another client
+        private bool forwardMessage(dynamic message)
+        {
+            foreach (var clientHandler in TcpServer.ClientHandlers)
+            {
+                if (clientHandler.Client.UniqueId != (int) message.targetid) continue;
+                clientHandler.SendMessage(message);
+                return true;
+            }
+            return false;
         }
 
         //return all data for individual patient.

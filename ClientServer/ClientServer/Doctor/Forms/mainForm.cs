@@ -125,7 +125,15 @@ namespace Doctor.Forms
             }
         }
 
-        private void chatSendButton_Click_1(object sender, EventArgs e)
+        private void clientListBox_DoubleClick_1(object sender, EventArgs e)
+        {
+            // TODO find the clientID associated with the selected patient
+            _currentPatient = new Patient(33668 /*clientId*/);
+            _setCurrentPatient(_currentPatient);
+            Console.WriteLine($"Setting patient: {_currentPatient.ClientId}");
+        }
+
+        private void chatSendButton_Click(object sender, EventArgs e)
         {
             if (_currentPatient == null)
             {
@@ -133,6 +141,7 @@ namespace Doctor.Forms
                 return;
             }
 
+            chatReceiveTextBox.Text += $"{userLabel.Text}: {chatSendTextBox.Text}\n";
             _sendMessage(new
             {
                 id = "message/send",
@@ -143,14 +152,7 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
-        }
-
-        private void clientListBox_DoubleClick_1(object sender, EventArgs e)
-        {
-            // TODO find the clientID associated with the selected patient
-            _currentPatient = new Patient(33668 /*clientId*/);
-            _setCurrentPatient(_currentPatient);
-            Console.WriteLine($"Setting patient: {_currentPatient.ClientId}");
+            chatSendTextBox.Text = "";
         }
     }
 }

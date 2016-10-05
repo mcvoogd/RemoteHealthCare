@@ -98,6 +98,7 @@
             this.chatSendTextBox = new System.Windows.Forms.TextBox();
             this.progressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trainingComboBox = new System.Windows.Forms.ComboBox();
+            this.userAddButton = new System.Windows.Forms.Button();
             this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -455,12 +456,11 @@
             this.refreshClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.refreshClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.refreshClientButton.ForeColor = System.Drawing.Color.Black;
+            this.refreshClientButton.Image = global::Doctor.Properties.Resources.refresh;
             this.refreshClientButton.Location = new System.Drawing.Point(270, 72);
             this.refreshClientButton.Name = "refreshClientButton";
-            this.refreshClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.refreshClientButton.Size = new System.Drawing.Size(26, 26);
             this.refreshClientButton.TabIndex = 28;
-            this.refreshClientButton.Text = "+";
             this.refreshClientButton.UseVisualStyleBackColor = false;
             this.refreshClientButton.Click += new System.EventHandler(this.refreshClientButton_Click);
             // 
@@ -774,6 +774,19 @@
             this.trainingComboBox.Size = new System.Drawing.Size(243, 36);
             this.trainingComboBox.TabIndex = 43;
             // 
+            // userAddButton
+            // 
+            this.userAddButton.BackColor = System.Drawing.Color.White;
+            this.userAddButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.userAddButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.userAddButton.ForeColor = System.Drawing.Color.Black;
+            this.userAddButton.Location = new System.Drawing.Point(157, 72);
+            this.userAddButton.Name = "userAddButton";
+            this.userAddButton.Size = new System.Drawing.Size(107, 26);
+            this.userAddButton.TabIndex = 44;
+            this.userAddButton.Text = "add user";
+            this.userAddButton.UseVisualStyleBackColor = false;
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -795,6 +808,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.userAddButton);
             this.Controls.Add(this.trainingComboBox);
             this.Controls.Add(this.progressChart);
             this.Controls.Add(this.chatSendButton);
@@ -894,6 +908,7 @@
         public Classes.SplitButton chatSendButton;
         public System.Windows.Forms.DataVisualization.Charting.Chart progressChart;
         private System.Windows.Forms.ComboBox trainingComboBox;
+        private System.Windows.Forms.Button userAddButton;
     }
 }
 

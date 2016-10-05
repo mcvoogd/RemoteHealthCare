@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -163,14 +164,15 @@ namespace Server.Server
         //return all patient names + id.
         private void HandleGetPatients(dynamic data)
         {
-            Patient[] patientsArray = new Patient[_database.Clients.Count];
+//            Patient[] patientsArray = new Patient[_database.Clients.Count];
+            List<Patient> patientsList = new List<Patient>();
             int index = 0;
             if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
                 if(databaseClient.IsDoctor) continue;
                 var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
-                patientsArray[index] = temp;
+                patientsList.Add(temp);
                 index++;
             }
 
@@ -179,7 +181,7 @@ namespace Server.Server
                 id = "get/patients",
                 data = new
                 {
-                    patients = patientsArray
+                    patients = patientsList.ToArray()
                 }
             });
         }

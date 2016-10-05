@@ -21,6 +21,12 @@ namespace Doctor.Forms
         private FontFamily _goodTimes;
         private readonly SendMessage _sendMessage;
         public readonly GetAllPatients _getAllPatients;
+
+        ChartArea CA;
+        Series S1;
+        VerticalLineAnnotation VA;
+        RectangleAnnotation RA;
+
         private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
@@ -42,6 +48,7 @@ namespace Doctor.Forms
             CargoPrivateFontCollection();
             Fonts();
             AddSplitButton();
+            makeChartSlider();
         }
 
         [DllImport("gdi32.dll")]
@@ -71,6 +78,68 @@ namespace Doctor.Forms
             _goodTimes = pfc.Families[0];
         }
 
+        private void makeChartSlider()
+        {
+            CA = progressChart.ChartAreas[0];  // pick the right ChartArea..
+            S1 = progressChart.Series[0];      // ..and Series!
+
+            // factors to convert values to pixels
+            double xFactor = 0.03;         // use your numbers!
+            double yFactor = 0.02;        // use your numbers!
+
+            // the vertical line
+            VA = new VerticalLineAnnotation();
+            VA.AxisX = CA.AxisX;
+            VA.AllowMoving = true;
+            VA.IsInfinitive = true;
+            VA.ClipToChartArea = CA.Name;
+            VA.Name = "myLine";
+            VA.LineColor = Color.Red;
+            VA.LineWidth = 2;         // use your numbers!
+            VA.X = 1;
+
+            // the rectangle
+            RA = new RectangleAnnotation();
+            RA.AxisX = CA.AxisX;
+            RA.IsSizeAlwaysRelative = false;
+            RA.Width = 20 * xFactor;         // use your numbers!
+            RA.Height = 8 * yFactor;        // use your numbers!
+            VA.Name = "myRect";
+            RA.LineColor = Color.Red;
+            RA.BackColor = Color.Red;
+            RA.AxisY = CA.AxisY;
+            RA.Y = -RA.Height;
+            RA.X = VA.X - RA.Width / 2;
+
+            RA.Text = "Cliënt";
+            RA.ForeColor = Color.White;
+            RA.Font = new System.Drawing.Font("Arial", 8f);
+
+            progressChart.Annotations.Add(VA);
+            progressChart.Annotations.Add(RA);
+        }
+
+        private void progressChart_AnnotationPositionChanging(object sender, AnnotationPositionChangingEventArgs e)
+        {
+            // move the rectangle with the line
+            if (sender == VA) RA.X = VA.X - RA.Width / 2;
+
+            // display the current Y-value
+            int pt1 = (int)e.NewLocationX;
+            double step = (S1.Points[pt1 + 1].YValues[0] - S1.Points[pt1].YValues[0]);
+            double deltaX = e.NewLocationX - S1.Points[pt1].XValue;
+            double val = S1.Points[pt1].YValues[0] + step * deltaX;
+            progressChart.Titles[0].Text = String.Format(
+                                    "X = {0:0.00}   Y = {1:0.00}", e.NewLocationX, val);
+            RA.Text = String.Format("{0:0.00}", val);
+            progressChart.Update();
+        }
+
+        private void progressChart_AnnotationPositionChanged(object sender, EventArgs e)
+        {
+            VA.X = (int)(VA.X + 0.5);
+            RA.X = VA.X - RA.Width / 2;
+        }
         private void AddSplitButton()
         {
             chatSendButton.FlatStyle = FlatStyle.Popup;
@@ -84,8 +153,8 @@ namespace Doctor.Forms
         private void Fonts()
         {
             currentTimeLabel.Font = new Font(_goodTimes, 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            saveButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            loadButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            //saveButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            loadButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -95,7 +164,7 @@ namespace Doctor.Forms
             label7.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            addClientButton.Font = new Font(_goodTimes, 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            refreshClientButton.Font = new Font(_goodTimes, 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             userLabel.Font = new Font(_goodTimes, 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
@@ -178,6 +247,11 @@ namespace Doctor.Forms
             rpmLabel.Text = m.Rotations.ToString();
             powerLabel.Text = m.Power.ToString();
             bpmLabel.Text = m.Pulse.ToString();
+        }
+
+        private void refreshClientButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

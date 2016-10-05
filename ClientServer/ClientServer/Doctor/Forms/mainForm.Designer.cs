@@ -60,7 +60,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
             this.timeTimer = new System.Windows.Forms.Timer(this.components);
-            this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -86,7 +85,7 @@
             this.avgkmhLabel = new System.Windows.Forms.Label();
             this.clientListBox = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.addClientButton = new System.Windows.Forms.Button();
+            this.refreshClientButton = new System.Windows.Forms.Button();
             this.dataChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.userLabel = new System.Windows.Forms.Label();
             this.connectedLabel = new System.Windows.Forms.Label();
@@ -98,6 +97,7 @@
             this.chatReceiveTextBox = new System.Windows.Forms.RichTextBox();
             this.chatSendTextBox = new System.Windows.Forms.TextBox();
             this.progressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.trainingComboBox = new System.Windows.Forms.ComboBox();
             this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -127,30 +127,17 @@
             this.timeTimer.Interval = 1000;
             this.timeTimer.Tick += new System.EventHandler(this.timeTimer_Tick);
             // 
-            // saveButton
-            // 
-            this.saveButton.BackColor = System.Drawing.Color.White;
-            this.saveButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.saveButton.ForeColor = System.Drawing.Color.Black;
-            this.saveButton.Location = new System.Drawing.Point(614, 566);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(135, 35);
-            this.saveButton.TabIndex = 2;
-            this.saveButton.Text = "SAVE";
-            this.saveButton.UseVisualStyleBackColor = false;
-            // 
             // loadButton
             // 
             this.loadButton.BackColor = System.Drawing.Color.White;
             this.loadButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.loadButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.loadButton.ForeColor = System.Drawing.Color.Black;
-            this.loadButton.Location = new System.Drawing.Point(755, 566);
+            this.loadButton.Location = new System.Drawing.Point(780, 566);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(135, 35);
+            this.loadButton.Size = new System.Drawing.Size(110, 36);
             this.loadButton.TabIndex = 3;
-            this.loadButton.Text = "LOAD";
+            this.loadButton.Text = "Start";
             this.loadButton.UseVisualStyleBackColor = false;
             // 
             // label1
@@ -462,19 +449,20 @@
             this.label9.Text = "Client                      ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // addClientButton
+            // refreshClientButton
             // 
-            this.addClientButton.BackColor = System.Drawing.Color.White;
-            this.addClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.addClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.addClientButton.ForeColor = System.Drawing.Color.Black;
-            this.addClientButton.Location = new System.Drawing.Point(270, 72);
-            this.addClientButton.Name = "addClientButton";
-            this.addClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.addClientButton.Size = new System.Drawing.Size(26, 26);
-            this.addClientButton.TabIndex = 28;
-            this.addClientButton.Text = "+";
-            this.addClientButton.UseVisualStyleBackColor = false;
+            this.refreshClientButton.BackColor = System.Drawing.Color.White;
+            this.refreshClientButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.refreshClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.refreshClientButton.ForeColor = System.Drawing.Color.Black;
+            this.refreshClientButton.Location = new System.Drawing.Point(270, 72);
+            this.refreshClientButton.Name = "refreshClientButton";
+            this.refreshClientButton.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.refreshClientButton.Size = new System.Drawing.Size(26, 26);
+            this.refreshClientButton.TabIndex = 28;
+            this.refreshClientButton.Text = "+";
+            this.refreshClientButton.UseVisualStyleBackColor = false;
+            this.refreshClientButton.Click += new System.EventHandler(this.refreshClientButton_Click);
             // 
             // dataChart
             // 
@@ -663,7 +651,7 @@
             this.label13.AutoSize = true;
             this.label13.BackColor = System.Drawing.Color.Transparent;
             this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(306, 576);
+            this.label13.Location = new System.Drawing.Point(306, 572);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(35, 13);
             this.label13.TabIndex = 37;
@@ -773,6 +761,19 @@
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
             // 
+            // trainingComboBox
+            // 
+            this.trainingComboBox.Font = new System.Drawing.Font("Arial Unicode MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trainingComboBox.FormattingEnabled = true;
+            this.trainingComboBox.Items.AddRange(new object[] {
+            "Mountains",
+            "Forest",
+            "Street"});
+            this.trainingComboBox.Location = new System.Drawing.Point(531, 566);
+            this.trainingComboBox.Name = "trainingComboBox";
+            this.trainingComboBox.Size = new System.Drawing.Size(243, 36);
+            this.trainingComboBox.TabIndex = 43;
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -794,6 +795,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.trainingComboBox);
             this.Controls.Add(this.progressChart);
             this.Controls.Add(this.chatSendButton);
             this.Controls.Add(this.chatSendTextBox);
@@ -806,7 +808,7 @@
             this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.dataChart);
-            this.Controls.Add(this.addClientButton);
+            this.Controls.Add(this.refreshClientButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.clientListBox);
             this.Controls.Add(this.avgkmhLabel);
@@ -832,7 +834,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.loadButton);
-            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.currentTimeLabel);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -854,7 +855,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label currentTimeLabel;
         private System.Windows.Forms.Timer timeTimer;
-        private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -885,7 +885,7 @@
         public System.Windows.Forms.Label avgrpmLabel;
         public System.Windows.Forms.Label avgkmhLabel;
         public System.Windows.Forms.ListBox clientListBox;
-        public System.Windows.Forms.Button addClientButton;
+        public System.Windows.Forms.Button refreshClientButton;
         public System.Windows.Forms.DataVisualization.Charting.Chart dataChart;
         public System.Windows.Forms.Label userLabel;
         public System.Windows.Forms.Label connectedLabel;
@@ -893,6 +893,7 @@
         public System.Windows.Forms.TextBox chatSendTextBox;
         public Classes.SplitButton chatSendButton;
         public System.Windows.Forms.DataVisualization.Charting.Chart progressChart;
+        private System.Windows.Forms.ComboBox trainingComboBox;
     }
 }
 

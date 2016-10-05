@@ -11,6 +11,8 @@ namespace Client.VRConnection.Forms.Program
         private readonly VrConnection _connection;
         private int _selectedIndex;
 
+        public TunnelCommandForm _tunnelCommandForm { get; set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -31,8 +33,8 @@ namespace Client.VRConnection.Forms.Program
                     var request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
                                   "\", \"key\" : \"NotConCat\" } }";
                     _connection.SendMessage(request);
-                    var tunnelCommandForm = new TunnelCommandForm(_connection, name);
-                    tunnelCommandForm.Show();
+                    _tunnelCommandForm = new TunnelCommandForm(_connection, name);
+                    _tunnelCommandForm.Show();
                 }
             }
         }

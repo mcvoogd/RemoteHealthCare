@@ -11,12 +11,13 @@ namespace Client.VRConnection.Forms
     public partial class TunnelCommandForm : Form
     {
         public static AutoResetEvent Blocker;
+        public Panel _panel { get; set; }
+
         private readonly VrConnection _connection;
         private readonly Random _random = new Random();
         private Node _bike, _tree, _water, _house;
         private City _city;
         private Forest _forest;
-        private Panel _panel;
         private List<Punt> _points;
         private bool _send;
         private Skybox _skybox;
@@ -42,31 +43,29 @@ namespace Client.VRConnection.Forms
             DeletePane();
             Blocker.WaitOne(5000);
 
+
             CreatePanel();
             Blocker.WaitOne(5000);
-            DrawPanel("Satan is love");
-            Blocker.WaitOne(5000);
+            //CreateTerrain();
+            //Thread.Sleep(3000);
+            //PaintTerrain();
+            //Blocker.WaitOne(5000);
+            //CreateWater();
+            //Blocker.WaitOne(5000);
+            //CreateForest();
+            //Blocker.WaitOne(5000);
+            //CreateCity();
+            //Blocker.WaitOne(5000);
 
-            CreateTerrain();
-            Thread.Sleep(3000);
-            PaintTerrain();
-            Blocker.WaitOne(5000);
-            CreateWater();
-            Blocker.WaitOne(5000);
-            CreateForest();
-            Blocker.WaitOne(5000);
-            CreateCity();
-            Blocker.WaitOne(5000);
-
-            CreateBike();
-            Blocker.WaitOne(5000);
-            CreateRoad();
-            Blocker.WaitOne(5000);
-            FollowRoad();
-            Blocker.WaitOne(5000);
-            FollowBike();
-            Blocker.WaitOne(5000);
-            FollowCamera();
+            //CreateBike();
+            //Blocker.WaitOne(5000);
+            //CreateRoad();
+            //Blocker.WaitOne(5000);
+            //FollowRoad();
+            //Blocker.WaitOne(5000);
+            //FollowBike();
+            //Blocker.WaitOne(5000);
+            //FollowCamera();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -244,13 +243,13 @@ namespace Client.VRConnection.Forms
             }
         }
 
-        private void DrawPanel(string textValue)
+        public void DrawPanel(string textValue)
         {
             int[] position = {100, 100};
             double sizeValue = 32;
             double[] color = {0, 0, 0, 1};
             string fontValue = "segoeui";
-
+;
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);

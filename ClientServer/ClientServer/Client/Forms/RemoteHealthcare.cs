@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Client.Connection;
 using Client.Simulator;
+using Client.VRConnection.Forms.Program;
 using DataScreen.Forms;
 using Message = Client.Connection.Message;
 
@@ -24,12 +26,13 @@ namespace Client.Forms
         private readonly SendStatistics _sendStatistics;
         private string _message;
 
+        public Form1 _form1 { get; set; }
+
         public RemoteHealthcare(SendMessage sendMessage, SendStatistics sendStatistics, int connectionId)
         {
             _sendMessage = sendMessage;
             _sendStatistics = sendStatistics;
             _addMessage = AddMessageMethod;
-
 
             FormClosing += RemoteHealthCare_FormClosing;
             ConnectionId = connectionId;
@@ -130,8 +133,12 @@ namespace Client.Forms
                 var simulationForm = new SimulationForm();
 
                 DataReceiver = new DataReceiver(this, simulationForm, AddMeasurement);
+                _form1 = new Form1();
+
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
+                _form1.Visible = true;
+                _form1.Invalidate();
             }
             else if (comportBox.SelectedItem != null)
             {
@@ -140,6 +147,8 @@ namespace Client.Forms
                 DataReceiver = new DataReceiver(serialPort, this, AddMeasurement);
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
+                _form1.Visible = true;
+                _form1.Invalidate();
             }
         }
 
@@ -147,6 +156,10 @@ namespace Client.Forms
         {
             Measurements.Add(measurement);
             _sendStatistics(measurement);
+
+            if (_form1._tunnelCommandForm._panel != null)
+                _form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+            
         }
 
 

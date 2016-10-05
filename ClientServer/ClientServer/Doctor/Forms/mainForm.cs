@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Doctor.Classes;
+using Doctor.Properties;
 
 namespace Doctor.Forms
 {
@@ -14,37 +15,11 @@ namespace Doctor.Forms
 
     public partial class MainForm : Form
     {
-        [DllImport("gdi32.dll")]
-        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
-        FontFamily _goodTimes;
-
-        private SetCurrentPatient _setCurrentPatient;
-        private SendMessage _sendMessage;
         private Patient _currentPatient;
+        private FontFamily _goodTimes;
+        private readonly SendMessage _sendMessage;
 
-        private void CargoPrivateFontCollection()
-        {
-            // Create the byte array and get its length
-
-            byte[] fontArray = Doctor.Properties.Resources.good_times;
-            int dataLength = Doctor.Properties.Resources.good_times.Length;
-
-            // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
-            IntPtr ptrData = Marshal.AllocCoTaskMem(dataLength);
-            Marshal.Copy(fontArray, 0, ptrData, dataLength);
-
-            uint cFonts = 0;
-            AddFontMemResourceEx(ptrData, (uint)fontArray.Length, IntPtr.Zero, ref cFonts);
-
-            PrivateFontCollection pfc = new PrivateFontCollection();
-            //PASS THE FONT TO THE  PRIVATEFONTCOLLECTION OBJECT
-            pfc.AddMemoryFont(ptrData, dataLength);
-
-            //FREE THE  "UNSAFE" MEMORY
-            Marshal.FreeCoTaskMem(ptrData);
-
-            _goodTimes = pfc.Families[0];
-        }
+        private readonly SetCurrentPatient _setCurrentPatient;
 
         public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage)
         {
@@ -60,50 +35,77 @@ namespace Doctor.Forms
             AddSplitButton();
         }
 
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
+
+        private void CargoPrivateFontCollection()
+        {
+            // Create the byte array and get its length
+
+            var fontArray = Resources.good_times;
+            var dataLength = Resources.good_times.Length;
+
+            // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
+            var ptrData = Marshal.AllocCoTaskMem(dataLength);
+            Marshal.Copy(fontArray, 0, ptrData, dataLength);
+
+            uint cFonts = 0;
+            AddFontMemResourceEx(ptrData, (uint) fontArray.Length, IntPtr.Zero, ref cFonts);
+
+            var pfc = new PrivateFontCollection();
+            //PASS THE FONT TO THE  PRIVATEFONTCOLLECTION OBJECT
+            pfc.AddMemoryFont(ptrData, dataLength);
+
+            //FREE THE  "UNSAFE" MEMORY
+            Marshal.FreeCoTaskMem(ptrData);
+
+            _goodTimes = pfc.Families[0];
+        }
+
         private void AddSplitButton()
         {
             chatSendButton.FlatStyle = FlatStyle.Popup;
             chatSendButton.BackColor = Color.White;
             chatSendButton.ContextMenuStrip = new ContextMenuStrip();
-            chatSendButton.ContextMenuStrip.Font = new System.Drawing.Font(_goodTimes, 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chatSendButton.ContextMenuStrip.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
-            this.Controls.Add(chatSendButton);
+            Controls.Add(chatSendButton);
         }
 
         private void Fonts()
         {
-            this.currentTimeLabel.Font = new System.Drawing.Font(_goodTimes, 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loadButton.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addClientButton.Font = new System.Drawing.Font(_goodTimes, 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userLabel.Font = new System.Drawing.Font(_goodTimes, 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.connectedLabel.Font = new System.Drawing.Font(_goodTimes, 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            currentTimeLabel.Font = new Font(_goodTimes, 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            saveButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            loadButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            addClientButton.Font = new Font(_goodTimes, 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            userLabel.Font = new Font(_goodTimes, 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            label12.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            label13.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
-            this.chatSendButton.Font = new System.Drawing.Font(_goodTimes, 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chatSendButton.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         private void timeTimer_Tick(object sender, EventArgs e)
         {
-            this.currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+            currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
         //http://www.vbdotnetforums.com/charting/61007-hide-chart-series-clicking-series-legend.html
         //http://stackoverflow.com/questions/14124601/display-disabled-series-in-legend
         private void chart1_Click(object sender, EventArgs e)
         {
-            HitTestResult seriesHit = chart1.HitTest(MousePosition.X, MousePosition.Y);
+            var seriesHit = chart1.HitTest(MousePosition.X, MousePosition.Y);
             if (seriesHit.ChartElementType == ChartElementType.DataPoint)
             {
                 MessageBox.Show("Selected by Series!");
@@ -124,7 +126,7 @@ namespace Doctor.Forms
         private void clientListBox_DoubleClick(object sender, EventArgs e)
         {
             // TODO find the clientID associated with the selected patient
-            _currentPatient = new Patient(123/*clientId*/);
+            _currentPatient = new Patient(123 /*clientId*/);
             _setCurrentPatient(_currentPatient);
         }
 

@@ -10,5 +10,10 @@
             Name = name;
             ClientId = clientId;
         }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

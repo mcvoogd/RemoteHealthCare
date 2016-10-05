@@ -15,6 +15,7 @@ namespace Doctor.Classes
     {
         private readonly List<Message> _messageList;
         public Patient CurrentPatient;
+        public List<Measurement> CurrentPatientMeasurements = new List<Measurement>();
         public readonly List<Patient> PatientesList = new List<Patient>();
         private int _loginAccepted;
         private byte[] _messageBuffer = new byte[0];
@@ -61,17 +62,23 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
-                                {
                                     var patientsList = data.patients;
-                                    for (int i = 0; i < patientsList.Count; i++)
+                                    for (var i = 0; i < patientsList.Count; i++)
                                     {
                                         int clientid = patientsList[i].ClientId;
                                         string name = patientsList[i].Name;
                                         PatientesList.Add(new Patient(clientid, name));
                                     }
-                                    
-                                    
-                                }
+                                    break;
+
+                                case "get/patient/data" :
+                                    CurrentPatientMeasurements.Clear();
+                                    var list = data.measurementsList;
+                                    for (var i = 0; i < list.Count; i++)
+                                    {
+                                        Measurement m = list[i];
+                                        CurrentPatientMeasurements.Add(m);
+                                    }
                                     break;
                                 case "login/request":
                                     if (data.ack == false)
@@ -117,6 +124,10 @@ namespace Doctor.Classes
             }
         }
 
+        public List<Patient> GetAllPatients()
+        {
+            return PatientesList ?? null;
+        }
         public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp, 6969);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
@@ -13,11 +14,14 @@ namespace Doctor.Forms
 
     public delegate void SendMessage(dynamic message);
 
+    public delegate List<Patient> GetAllPatients();
+
     public partial class MainForm : Form
     {
         private Patient _currentPatient;
         private FontFamily _goodTimes;
         private readonly SendMessage _sendMessage;
+        public readonly GetAllPatients _getAllPatients;
 
         ChartArea CA;
         Series S1;
@@ -25,13 +29,15 @@ namespace Doctor.Forms
         RectangleAnnotation RA;
 
         public int ClientId { get; set; }
+        private List<Patient> _patients = new List<Patient>();
 
         private readonly SetCurrentPatient _setCurrentPatient;
 
-        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage)
+        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients)
         {
             _setCurrentPatient = setCurrentPatient;
             _sendMessage = sendMessage;
+            _getAllPatients = getAllPatients;
             _currentPatient = null;
 
             InitializeComponent();
@@ -215,10 +221,21 @@ namespace Doctor.Forms
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
-            // TODO find the clientID associated with the selected patient
-            _currentPatient = new Patient(33668 /*clientId*/);
+            _currentPatient = (Patient)clientListBox.SelectedItem;
             _setCurrentPatient(_currentPatient);
-            Console.WriteLine($"Setting patient: {_currentPatient.ClientId}");
+            
+        }
+
+        public void SetAllMeasurementData(Measurement m)
+        {
+            timeLabel.Text = m.Time.ToString();
+            kmLabel.Text = m.Distance.ToString();
+            wattsLabel.Text = m.Power.ToString();
+            kmhLabel.Text = m.Speed.ToString();
+            kjLabel.Text = m.Burned.ToString();
+            rpmLabel.Text = m.Rotations.ToString();
+            powerLabel.Text = m.Power.ToString();
+            bpmLabel.Text = m.Pulse.ToString();
         }
     }
 }

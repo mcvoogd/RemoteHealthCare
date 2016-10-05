@@ -136,7 +136,7 @@ namespace Doctor.Forms
             _sendMessage(new
             {
                 id = "message/send",
-                targetid = _currentPatient.clientId,
+                targetid = _currentPatient.ClientId,
                 originid = ClientId,
                 data = new
                 {
@@ -150,7 +150,7 @@ namespace Doctor.Forms
             // TODO find the clientID associated with the selected patient
             _currentPatient = new Patient(33668 /*clientId*/);
             _setCurrentPatient(_currentPatient);
-            Console.WriteLine($"Setting patient: {_currentPatient.clientId}");
+            Console.WriteLine($"Setting patient: {_currentPatient.ClientId}");
         }
     }
 }

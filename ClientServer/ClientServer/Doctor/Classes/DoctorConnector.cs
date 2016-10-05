@@ -63,6 +63,7 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
+                                    PatientesList.Clear();
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
@@ -74,12 +75,8 @@ namespace Doctor.Classes
 
                                 case "get/patient/data" :
                                     CurrentPatientMeasurements.Clear();
-                                    var list = data.measurementsList;
-                                    for (var i = 0; i < list.Count; i++)
-                                    {
-                                        Measurement m = list[i].ToObject<Measurement>();
-                                        CurrentPatientMeasurements.Add(m);
-                                    }
+                                    Measurement m = data.measurementsList.ToObject<Measurement>();
+                                    CurrentPatientMeasurements.Add(m);
                                     recievedMeasurements = true;
                                     break;
                                 case "login/request":
@@ -128,6 +125,7 @@ namespace Doctor.Classes
 
         public List<Patient> GetAllPatients()
         {
+            
             return PatientesList ?? null;
         }
         public bool Connect(string serverIp, string username, string password)
@@ -275,9 +273,9 @@ namespace Doctor.Classes
 
         public Measurement GetMostRecentMeasurement()
         {
-            if (CurrentPatientMeasurements.Count > 1)
+            if (CurrentPatientMeasurements.Count > 0)
             {
-                return CurrentPatientMeasurements[CurrentPatientMeasurements.Count - 1];
+                return CurrentPatientMeasurements[0];
             }
             else
             {

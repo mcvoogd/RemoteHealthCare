@@ -55,15 +55,21 @@ namespace Doctor.Classes
                         {
                             string id = readMessage.id;
                             dynamic data = readMessage.data;
-
+                            Console.WriteLine("Recieved ID : " + id);
                             switch (id)
                             {
+
                                 case "get/patients":
                                 {
                                     Console.WriteLine("WOEHOE RECIEVED PATIENTS");
-                                    var patients = new Patient[data.patients.Length];
-                                    patients = data.patients;
-                                    Console.WriteLine("Patients count : " + patients.Length);
+                                    var patientsList = data.patients;
+                                    //patients = data.patients;
+                                    Patient[] patients = new Patient[patientsList.Count];
+                                    for (int i = 0; i < patientsList.Count; i++)
+                                    {
+                                        patients[i] = patientsList[i];
+                                        Console.WriteLine(patients[i]);
+                                    }
                                 }
                                     break;
                                 case "login/request":
@@ -134,6 +140,7 @@ namespace Doctor.Classes
                     {
                         id = "get/patients"
                     });
+                    Console.WriteLine("Send Message...");
                     return true;
                 case -1:
                     _loginAccepted = 0;

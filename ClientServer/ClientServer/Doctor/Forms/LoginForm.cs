@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using Doctor.Classes;
 
 namespace Doctor.Forms
 {
@@ -39,9 +41,16 @@ namespace Doctor.Forms
         {
             if (_connect(severIpTextBox.Text, usernameTextBox.Text, passwordTextBox.Text))
             {
+                _mainForm.ClientId = DoctorConnector.GetUniqueId(usernameTextBox.Text, passwordTextBox.Text);
                 Visible = false;
                 _mainForm.Visible = true;
-
+                List<Patient> list = _mainForm._getAllPatients();
+                _mainForm.clientListBox.Text = "";
+                _mainForm.clientListBox.Items.Clear();
+                foreach (var patient in list)
+                {
+                    _mainForm.clientListBox.Items.Add(patient);
+                }
                 _mainForm.userLabel.Text = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
             }

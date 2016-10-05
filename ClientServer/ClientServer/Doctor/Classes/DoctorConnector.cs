@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
+using Doctor.Forms;
 using Newtonsoft.Json;
 
 namespace Doctor.Classes
@@ -13,7 +14,9 @@ namespace Doctor.Classes
     internal class DoctorConnector
     {
         private readonly List<Message> _messageList;
-        private Patient _currentPatient;
+        public Patient CurrentPatient;
+        public List<Measurement> CurrentPatientMeasurements = new List<Measurement>();
+        public readonly List<Patient> PatientesList = new List<Patient>();
         private int _loginAccepted;
         private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
@@ -22,7 +25,7 @@ namespace Doctor.Classes
         public DoctorConnector()
         {
             _sslStream = null;
-            _currentPatient = null;
+            CurrentPatient = null;
             _messageList = new List<Message>();
         }
 
@@ -58,19 +61,24 @@ namespace Doctor.Classes
                             Console.WriteLine("Recieved ID : " + id);
                             switch (id)
                             {
-
                                 case "get/patients":
-                                {
-                                    Console.WriteLine("WOEHOE RECIEVED PATIENTS");
                                     var patientsList = data.patients;
-                                    //patients = data.patients;
-                                    Patient[] patients = new Patient[patientsList.Count];
-                                    for (int i = 0; i < patientsList.Count; i++)
+                                    for (var i = 0; i < patientsList.Count; i++)
                                     {
-                                        patients[i] = patientsList[i];
-                                        Console.WriteLine(patients[i]);
+                                        int clientid = patientsList[i].ClientId;
+                                        string name = patientsList[i].Name;
+                                        PatientesList.Add(new Patient(clientid, name));
                                     }
-                                }
+                                    break;
+
+                                case "get/patient/data" :
+                                    CurrentPatientMeasurements.Clear();
+                                    var list = data.measurementsList;
+                                    for (var i = 0; i < list.Count; i++)
+                                    {
+                                        Measurement m = list[i];
+                                        CurrentPatientMeasurements.Add(m);
+                                    }
                                     break;
                                 case "login/request":
                                     if (data.ack == false)
@@ -116,6 +124,10 @@ namespace Doctor.Classes
             }
         }
 
+        public List<Patient> GetAllPatients()
+        {
+            return PatientesList ?? null;
+        }
         public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp, 6969);
@@ -190,7 +202,7 @@ namespace Doctor.Classes
 
         public void SetCurrentPatient(Patient patient)
         {
-            _currentPatient = patient;
+            CurrentPatient = patient;
         }
 
         public Message ParseMessage(dynamic data)
@@ -199,7 +211,7 @@ namespace Doctor.Classes
             return toSend;
         }
 
-        public int GetUniqueId(string username, string password)
+        public static int GetUniqueId(string username, string password)
         {
             if ((username == null) && (password == null)) return 0;
             var nameV = GetStringInNumbers(username);
@@ -208,7 +220,7 @@ namespace Doctor.Classes
             return (nameV*397) ^ passwordV;
         }
 
-        public int GetStringInNumbers(string text)
+        public static int GetStringInNumbers(string text)
         {
             var nameArray = text.ToCharArray();
             return nameArray.Sum(c => (int) c%32);

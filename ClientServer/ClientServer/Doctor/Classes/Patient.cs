@@ -6,13 +6,19 @@
     /// </summary>
     public class Patient
     {
-        public Patient(int clientId, string naam = "Patient")
+        public Patient(int clientId, string name = "Patient")
         {
-            this.naam = naam;
-            this.clientId = clientId;
+            this.Name = name;
+            this.ClientId = clientId;
         }
 
-        public string naam { get; set; }
-        public int clientId { get; set; }
+        public string Name { get; set; }
+        public int ClientId { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

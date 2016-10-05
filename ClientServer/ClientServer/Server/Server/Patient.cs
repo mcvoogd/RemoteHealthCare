@@ -3,15 +3,17 @@
     internal class Patient
     {
         public string Name { get; set; }
-        public int clientId { get; set; }
+        public int ClientId { get; set; }
 
-        public Patient(string name, int clientId)
+        public Patient(int clientId, string name)
         {
             Name = name;
-            this.clientId = clientId;
+            ClientId = clientId;
         }
 
-        public string Name { get; set; }
-        public int clientId { get; set; }
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

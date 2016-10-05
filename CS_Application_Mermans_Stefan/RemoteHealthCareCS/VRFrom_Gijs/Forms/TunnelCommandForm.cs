@@ -43,8 +43,8 @@ namespace VRFrom_Gijs.Forms
         {
             forest = new Forest();
             city = new City();
-            deletePane();
-            Blocker.WaitOne(5000);
+           // deletePane();
+           // Blocker.WaitOne(5000);
             deletePane();
             Blocker.WaitOne(5000);
             

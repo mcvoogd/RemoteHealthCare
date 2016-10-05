@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Doctor.Classes
 {
     public class SplitButton : Button
     {
-        private PushButtonState _state;
         private const int PushButtonWidth = 14;
-        private static int BorderSize = SystemInformation.Border3DSize.Width * 2;
-        private bool skipNextOpen = false;
-        private Rectangle dropDownRectangle = new Rectangle();
+        private static readonly int BorderSize = SystemInformation.Border3DSize.Width*2;
+        private PushButtonState _state;
+        private Rectangle dropDownRectangle;
         private bool showSplit = true;
+        private bool skipNextOpen;
 
         public SplitButton()
         {
-            this.AutoSize = true;
+            AutoSize = true;
         }
+
         [DefaultValue(true)]
         public bool ShowSplit
         {
@@ -30,20 +29,15 @@ namespace Doctor.Classes
                 {
                     showSplit = value;
                     Invalidate();
-                    if (this.Parent != null)
-                    {
-                        this.Parent.PerformLayout();
-                    }
+                    if (Parent != null)
+                        Parent.PerformLayout();
                 }
             }
         }
 
         private PushButtonState State
         {
-            get
-            {
-                return _state;
-            }
+            get { return _state; }
             set
             {
                 if (!_state.Equals(value))
@@ -56,24 +50,18 @@ namespace Doctor.Classes
 
         public override Size GetPreferredSize(Size proposedSize)
         {
-            Size preferredSize = base.GetPreferredSize(proposedSize);
-            if (showSplit && !string.IsNullOrEmpty(Text) && TextRenderer.MeasureText(Text, Font).Width + PushButtonWidth > preferredSize.Width)
-            {
-                return preferredSize + new Size(PushButtonWidth + BorderSize * 2, 0);
-            }
+            var preferredSize = base.GetPreferredSize(proposedSize);
+            if (showSplit && !string.IsNullOrEmpty(Text) &&
+                (TextRenderer.MeasureText(Text, Font).Width + PushButtonWidth > preferredSize.Width))
+                return preferredSize + new Size(PushButtonWidth + BorderSize*2, 0);
             return preferredSize;
         }
 
         protected override bool IsInputKey(Keys keyData)
         {
             if (keyData.Equals(Keys.Down) && showSplit)
-            {
                 return true;
-            }
-            else
-            {
-                return base.IsInputKey(keyData);
-            }
+            return base.IsInputKey(keyData);
         }
 
         protected override void OnGotFocus(EventArgs e)
@@ -85,24 +73,16 @@ namespace Doctor.Classes
             }
 
             if (!State.Equals(PushButtonState.Pressed) && !State.Equals(PushButtonState.Disabled))
-            {
                 State = PushButtonState.Default;
-            }
         }
 
         protected override void OnKeyDown(KeyEventArgs kevent)
         {
             if (showSplit)
-            {
                 if (kevent.KeyCode.Equals(Keys.Down))
-                {
                     ShowContextMenuStrip();
-                }
-                else if (kevent.KeyCode.Equals(Keys.Space) && kevent.Modifiers == Keys.None)
-                {
+                else if (kevent.KeyCode.Equals(Keys.Space) && (kevent.Modifiers == Keys.None))
                     State = PushButtonState.Pressed;
-                }
-            }
 
             base.OnKeyDown(kevent);
         }
@@ -110,12 +90,8 @@ namespace Doctor.Classes
         protected override void OnKeyUp(KeyEventArgs kevent)
         {
             if (kevent.KeyCode.Equals(Keys.Space))
-            {
-                if (Control.MouseButtons == MouseButtons.None)
-                {
+                if (MouseButtons == MouseButtons.None)
                     State = PushButtonState.Normal;
-                }
-            }
             base.OnKeyUp(kevent);
         }
 
@@ -127,9 +103,7 @@ namespace Doctor.Classes
                 return;
             }
             if (!State.Equals(PushButtonState.Pressed) && !State.Equals(PushButtonState.Disabled))
-            {
                 State = PushButtonState.Normal;
-            }
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -141,13 +115,9 @@ namespace Doctor.Classes
             }
 
             if (dropDownRectangle.Contains(e.Location))
-            {
                 ShowContextMenuStrip();
-            }
             else
-            {
                 State = PushButtonState.Pressed;
-            }
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -159,9 +129,7 @@ namespace Doctor.Classes
             }
 
             if (!State.Equals(PushButtonState.Pressed) && !State.Equals(PushButtonState.Disabled))
-            {
                 State = PushButtonState.Hot;
-            }
         }
 
         protected override void OnMouseLeave(EventArgs e)
@@ -173,16 +141,10 @@ namespace Doctor.Classes
             }
 
             if (!State.Equals(PushButtonState.Pressed) && !State.Equals(PushButtonState.Disabled))
-            {
                 if (Focused)
-                {
                     State = PushButtonState.Default;
-                }
                 else
-                {
                     State = PushButtonState.Normal;
-                }
-            }
         }
 
         protected override void OnMouseUp(MouseEventArgs mevent)
@@ -193,13 +155,12 @@ namespace Doctor.Classes
                 return;
             }
 
-            if (ContextMenuStrip == null || !ContextMenuStrip.Visible)
+            if ((ContextMenuStrip == null) || !ContextMenuStrip.Visible)
             {
                 SetButtonDrawState();
-                if (Bounds.Contains(Parent.PointToClient(Cursor.Position)) && !dropDownRectangle.Contains(mevent.Location))
-                {
+                if (Bounds.Contains(Parent.PointToClient(Cursor.Position)) &&
+                    !dropDownRectangle.Contains(mevent.Location))
                     OnClick(new EventArgs());
-                }
             }
         }
 
@@ -208,39 +169,38 @@ namespace Doctor.Classes
             base.OnPaint(pevent);
 
             if (!showSplit)
-            {
                 return;
-            }
 
-            Graphics g = pevent.Graphics;
-            Rectangle bounds = this.ClientRectangle;
+            var g = pevent.Graphics;
+            var bounds = ClientRectangle;
 
             // draw the button background as according to the current state.
-            if (State != PushButtonState.Pressed && IsDefault && !Application.RenderWithVisualStyles)
+            if ((State != PushButtonState.Pressed) && IsDefault && !Application.RenderWithVisualStyles)
             {
-                Rectangle backgroundBounds = bounds;
+                var backgroundBounds = bounds;
                 backgroundBounds.Inflate(-1, -1);
                 ButtonRenderer.DrawButton(g, backgroundBounds, State);
 
                 // button renderer doesnt draw the black frame when themes are off =(
                 g.DrawRectangle(SystemPens.WindowFrame, 0, 0, bounds.Width - 1, bounds.Height - 1);
-
             }
             else
             {
                 ButtonRenderer.DrawButton(g, bounds, State);
             }
             // calculate the current dropdown rectangle.
-            dropDownRectangle = new Rectangle(bounds.Right - PushButtonWidth - 1, BorderSize, PushButtonWidth, bounds.Height - BorderSize * 2);
+            dropDownRectangle = new Rectangle(bounds.Right - PushButtonWidth - 1, BorderSize, PushButtonWidth,
+                bounds.Height - BorderSize*2);
 
-            int internalBorder = BorderSize;
-            Rectangle focusRect =
+            var internalBorder = BorderSize;
+            var focusRect =
                 new Rectangle(internalBorder,
-                              internalBorder,
-                              bounds.Width - dropDownRectangle.Width - internalBorder,
-                              bounds.Height - (internalBorder * 2));
+                    internalBorder,
+                    bounds.Width - dropDownRectangle.Width - internalBorder,
+                    bounds.Height - internalBorder*2);
 
-            bool drawSplitLine = (State == PushButtonState.Hot || State == PushButtonState.Pressed || !Application.RenderWithVisualStyles);
+            var drawSplitLine = (State == PushButtonState.Hot) || (State == PushButtonState.Pressed) ||
+                                !Application.RenderWithVisualStyles;
 
             if (RightToLeft == RightToLeft.Yes)
             {
@@ -249,8 +209,10 @@ namespace Doctor.Classes
                 if (drawSplitLine)
                 {
                     // draw two lines at the edge of the dropdown button
-                    g.DrawLine(SystemPens.ButtonShadow, bounds.Left + PushButtonWidth, BorderSize, bounds.Left + PushButtonWidth, bounds.Bottom - BorderSize);
-                    g.DrawLine(SystemPens.ButtonFace, bounds.Left + PushButtonWidth + 1, BorderSize, bounds.Left + PushButtonWidth + 1, bounds.Bottom - BorderSize);
+                    g.DrawLine(SystemPens.ButtonShadow, bounds.Left + PushButtonWidth, BorderSize,
+                        bounds.Left + PushButtonWidth, bounds.Bottom - BorderSize);
+                    g.DrawLine(SystemPens.ButtonFace, bounds.Left + PushButtonWidth + 1, BorderSize,
+                        bounds.Left + PushButtonWidth + 1, bounds.Bottom - BorderSize);
                 }
             }
             else
@@ -258,49 +220,47 @@ namespace Doctor.Classes
                 if (drawSplitLine)
                 {
                     // draw two lines at the edge of the dropdown button
-                    g.DrawLine(SystemPens.ButtonShadow, bounds.Right - PushButtonWidth, BorderSize, bounds.Right - PushButtonWidth, bounds.Bottom - BorderSize);
-                    g.DrawLine(SystemPens.ButtonFace, bounds.Right - PushButtonWidth - 1, BorderSize, bounds.Right - PushButtonWidth - 1, bounds.Bottom - BorderSize);
+                    g.DrawLine(SystemPens.ButtonShadow, bounds.Right - PushButtonWidth, BorderSize,
+                        bounds.Right - PushButtonWidth, bounds.Bottom - BorderSize);
+                    g.DrawLine(SystemPens.ButtonFace, bounds.Right - PushButtonWidth - 1, BorderSize,
+                        bounds.Right - PushButtonWidth - 1, bounds.Bottom - BorderSize);
                 }
-
             }
 
             // Draw an arrow in the correct location 
             PaintArrow(g, dropDownRectangle);
 
             // Figure out how to draw the text
-            TextFormatFlags formatFlags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+            var formatFlags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
 
             // If we dont' use mnemonic, set formatFlag to NoPrefix as this will show ampersand.
             if (!UseMnemonic)
-            {
                 formatFlags = formatFlags | TextFormatFlags.NoPrefix;
-            }
             else if (!ShowKeyboardCues)
-            {
                 formatFlags = formatFlags | TextFormatFlags.HidePrefix;
-            }
 
-            if (!string.IsNullOrEmpty(this.Text))
-            {
+            if (!string.IsNullOrEmpty(Text))
                 TextRenderer.DrawText(g, Text, Font, focusRect, SystemColors.ControlText, formatFlags);
-            }
 
             // draw the focus rectangle.
 
-            if (State != PushButtonState.Pressed && Focused)
-            {
+            if ((State != PushButtonState.Pressed) && Focused)
                 ControlPaint.DrawFocusRectangle(g, focusRect);
-            }
         }
 
         private void PaintArrow(Graphics g, Rectangle dropDownRect)
         {
-            Point middle = new Point(Convert.ToInt32(dropDownRect.Left + dropDownRect.Width / 2), Convert.ToInt32(dropDownRect.Top + dropDownRect.Height / 2));
+            var middle = new Point(Convert.ToInt32(dropDownRect.Left + dropDownRect.Width/2),
+                Convert.ToInt32(dropDownRect.Top + dropDownRect.Height/2));
 
             //if the width is odd - favor pushing it over one pixel right.
-            middle.X += (dropDownRect.Width % 2);
+            middle.X += dropDownRect.Width%2;
 
-            Point[] arrow = new Point[] { new Point(middle.X - 2, middle.Y - 1), new Point(middle.X + 3, middle.Y - 1), new Point(middle.X, middle.Y + 2) };
+            Point[] arrow =
+            {
+                new Point(middle.X - 2, middle.Y - 1), new Point(middle.X + 3, middle.Y - 1),
+                new Point(middle.X, middle.Y + 2)
+            };
 
             g.FillPolygon(SystemBrushes.ControlText, arrow);
         }
@@ -318,44 +278,32 @@ namespace Doctor.Classes
 
             if (ContextMenuStrip != null)
             {
-                ContextMenuStrip.Closing += new ToolStripDropDownClosingEventHandler(ContextMenuStrip_Closing);
+                ContextMenuStrip.Closing += ContextMenuStrip_Closing;
                 ContextMenuStrip.Show(this, new Point(0, Height), ToolStripDropDownDirection.BelowRight);
             }
         }
 
-        void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            ContextMenuStrip cms = sender as ContextMenuStrip;
+            var cms = sender as ContextMenuStrip;
             if (cms != null)
-            {
-                cms.Closing -= new ToolStripDropDownClosingEventHandler(ContextMenuStrip_Closing);
-            }
+                cms.Closing -= ContextMenuStrip_Closing;
 
             SetButtonDrawState();
 
             if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked)
-            {
-                skipNextOpen = (dropDownRectangle.Contains(this.PointToClient(Cursor.Position)));
-            }
+                skipNextOpen = dropDownRectangle.Contains(PointToClient(Cursor.Position));
         }
 
 
         private void SetButtonDrawState()
         {
             if (Bounds.Contains(Parent.PointToClient(Cursor.Position)))
-            {
                 State = PushButtonState.Hot;
-            }
             else if (Focused)
-            {
                 State = PushButtonState.Default;
-            }
             else
-            {
                 State = PushButtonState.Normal;
-            }
         }
     }
-
 }
-

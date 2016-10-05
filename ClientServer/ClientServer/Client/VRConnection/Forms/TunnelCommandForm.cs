@@ -35,8 +35,8 @@ namespace Client.VRConnection.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
-            //forest = new Forest();
-            //city = new City();
+            _forest = new Forest();
+            _city = new City();
             deletePane();
             Blocker.WaitOne(5000);
             deletePane();
@@ -51,9 +51,9 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
             createWater();
             Blocker.WaitOne(5000);
-            //createForest();
+            createForest();
             Blocker.WaitOne(5000);
-            //createCity();
+            createCity();
             Blocker.WaitOne(5000);
 
             createBike();
@@ -221,7 +221,7 @@ namespace Client.VRConnection.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.08, 1.92, 1080, 1920, 0, 0, 1, 0,
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 2, 1, 2000, 1000, 0, 0, 1, 0,
                 _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
@@ -264,39 +264,39 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
         }
 
-        //private void createForest()
-        //{
-        //    points = forest.getForest();
+        private void createForest()
+        {
+            _points = _forest.getForest();
 
-        //    foreach (Punt point in points)
-        //    {
-        //        Thread.Sleep(10);
-        //        _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
-        //            point.X, point.Z, point.Y, GetRandom());
-        //        _connection.Nodes.Add(_tree);
+            foreach (Punt point in _points)
+            {
+                Thread.Sleep(10);
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
+                    point.X, point.Z, point.Y, GetRandom());
+                _connection.Nodes.Add(_tree);
 
-        //        Thread.Sleep(10);
-        //        _connection.SendMessage(_tree.SendString);
-        //    }
-        //}
+                Thread.Sleep(10);
+                _connection.SendMessage(_tree.SendString);
+            }
+        }
 
-        //private void createCity()
-        //{
-        //    points = city.getCity();
+        private void createCity()
+        {
+            _points = _city.getCity();
 
-        //    foreach (Punt point in points)
-        //    {
-        //        Thread.Sleep(10);
-        //        _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
-        //            point.X, point.Z, point.Y, 8);
-        //        _connection.Nodes.Add(_house);
+            foreach (Punt point in _points)
+            {
+                Thread.Sleep(10);
+                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
+                    point.X, point.Z, point.Y, 8);
+                _connection.Nodes.Add(_house);
 
-        //        Thread.Sleep(10);
-        //        _connection.SendMessage(_house.SendString);
-        //    }
-        //}
+                Thread.Sleep(10);
+                _connection.SendMessage(_house.SendString);
+            }
+        }
 
-        private Double getRandom()
+        private Double GetRandom()
         {
             return _random.NextDouble()*0.6 + 1;
         }

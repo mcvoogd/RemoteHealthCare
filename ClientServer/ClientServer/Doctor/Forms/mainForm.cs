@@ -105,7 +105,7 @@ namespace Doctor.Forms
         //http://stackoverflow.com/questions/14124601/display-disabled-series-in-legend
         private void chart1_Click(object sender, EventArgs e)
         {
-            var seriesHit = chart1.HitTest(MousePosition.X, MousePosition.Y);
+            var seriesHit = dataChart.HitTest(MousePosition.X, MousePosition.Y);
             if (seriesHit.ChartElementType == ChartElementType.DataPoint)
             {
                 MessageBox.Show("Selected by Series!");

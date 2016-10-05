@@ -30,7 +30,7 @@
         {
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.connectButton = new System.Windows.Forms.Button();
-            this.Refresh = new System.Windows.Forms.Button();
+            this.RefreshButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBox1
@@ -54,23 +54,23 @@
             this.connectButton.UseVisualStyleBackColor = true;
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
-            // Refresh
+            // RefreshButton
             // 
-            this.Refresh.Location = new System.Drawing.Point(70, 12);
-            this.Refresh.Margin = new System.Windows.Forms.Padding(1);
-            this.Refresh.Name = "Refresh";
-            this.Refresh.Size = new System.Drawing.Size(85, 19);
-            this.Refresh.TabIndex = 3;
-            this.Refresh.Text = "Refresh";
-            this.Refresh.UseVisualStyleBackColor = true;
-            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            this.RefreshButton.Location = new System.Drawing.Point(70, 12);
+            this.RefreshButton.Margin = new System.Windows.Forms.Padding(1);
+            this.RefreshButton.Name = "Refresh";
+            this.RefreshButton.Size = new System.Drawing.Size(85, 19);
+            this.RefreshButton.TabIndex = 3;
+            this.RefreshButton.Text = "RefreshButton";
+            this.RefreshButton.UseVisualStyleBackColor = true;
+            this.RefreshButton.Click += new System.EventHandler(this.Refresh_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(261, 198);
-            this.Controls.Add(this.Refresh);
+            this.Controls.Add(this.RefreshButton);
             this.Controls.Add(this.connectButton);
             this.Controls.Add(this.listBox1);
             this.Name = "Form1";
@@ -83,6 +83,6 @@
 
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button connectButton;
-        private System.Windows.Forms.Button Refresh;
+        private System.Windows.Forms.Button RefreshButton;
     }
 }

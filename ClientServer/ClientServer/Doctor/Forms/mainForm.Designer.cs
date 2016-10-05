@@ -46,6 +46,16 @@
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 55D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(7D, 23D);
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(23D, 97D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.StripLine stripLine3 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
+            System.Windows.Forms.DataVisualization.Charting.StripLine stripLine4 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
@@ -77,7 +87,7 @@
             this.clientListBox = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
             this.addClientButton = new System.Windows.Forms.Button();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.dataChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.userLabel = new System.Windows.Forms.Label();
             this.connectedLabel = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
@@ -87,9 +97,11 @@
             this.label13 = new System.Windows.Forms.Label();
             this.chatReceiveTextBox = new System.Windows.Forms.RichTextBox();
             this.chatSendTextBox = new System.Windows.Forms.TextBox();
+            this.progressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chatSendButton = new Doctor.Classes.SplitButton();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.progressChart)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -463,9 +475,9 @@
             this.addClientButton.Text = "+";
             this.addClientButton.UseVisualStyleBackColor = false;
             // 
-            // chart1
+            // dataChart
             // 
-            this.chart1.BackColor = System.Drawing.Color.Transparent;
+            this.dataChart.BackColor = System.Drawing.Color.Transparent;
             chartArea1.AxisX.InterlacedColor = System.Drawing.Color.White;
             chartArea1.AxisX.IsLabelAutoFit = false;
             chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -498,7 +510,7 @@
             chartArea1.BorderColor = System.Drawing.Color.White;
             chartArea1.Name = "ChartArea1";
             chartArea1.ShadowColor = System.Drawing.Color.White;
-            this.chart1.ChartAreas.Add(chartArea1);
+            this.dataChart.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.Transparent;
             legend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -512,11 +524,11 @@
             legend1.Position.Width = 75F;
             legend1.TitleForeColor = System.Drawing.Color.White;
             legend1.TitleSeparatorColor = System.Drawing.Color.White;
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(-32, 385);
-            this.chart1.Name = "chart1";
-            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            this.chart1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dataChart.Legends.Add(legend1);
+            this.dataChart.Location = new System.Drawing.Point(-32, 385);
+            this.dataChart.Name = "dataChart";
+            this.dataChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            this.dataChart.RightToLeft = System.Windows.Forms.RightToLeft.No;
             series1.BorderWidth = 2;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -562,15 +574,15 @@
             series5.Points.Add(dataPoint6);
             series5.Points.Add(dataPoint7);
             series5.Points.Add(dataPoint8);
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Series.Add(series3);
-            this.chart1.Series.Add(series4);
-            this.chart1.Series.Add(series5);
-            this.chart1.Size = new System.Drawing.Size(884, 178);
-            this.chart1.TabIndex = 29;
-            this.chart1.Text = "chart1";
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            this.dataChart.Series.Add(series1);
+            this.dataChart.Series.Add(series2);
+            this.dataChart.Series.Add(series3);
+            this.dataChart.Series.Add(series4);
+            this.dataChart.Series.Add(series5);
+            this.dataChart.Size = new System.Drawing.Size(884, 178);
+            this.dataChart.TabIndex = 29;
+            this.dataChart.Text = "chart1";
+            this.dataChart.Click += new System.EventHandler(this.chart1_Click);
             // 
             // userLabel
             // 
@@ -677,6 +689,89 @@
             this.chatSendTextBox.Size = new System.Drawing.Size(210, 29);
             this.chatSendTextBox.TabIndex = 39;
             // 
+            // progressChart
+            // 
+            this.progressChart.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.InterlacedColor = System.Drawing.Color.White;
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisX.LineWidth = 2;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            stripLine3.BackColor = System.Drawing.Color.White;
+            stripLine3.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX.StripLines.Add(stripLine3);
+            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX2.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY.InterlacedColor = System.Drawing.Color.White;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY.LineWidth = 2;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea2.AxisY.MinorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY.MinorTickMark.LineColor = System.Drawing.Color.White;
+            stripLine4.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.StripLines.Add(stripLine4);
+            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY2.LineColor = System.Drawing.Color.White;
+            chartArea2.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.BackSecondaryColor = System.Drawing.Color.White;
+            chartArea2.BorderColor = System.Drawing.Color.White;
+            chartArea2.Name = "ChartArea1";
+            chartArea2.Position.Auto = false;
+            chartArea2.Position.Height = 100F;
+            chartArea2.Position.Width = 100F;
+            chartArea2.ShadowColor = System.Drawing.Color.White;
+            this.progressChart.ChartAreas.Add(chartArea2);
+            legend2.BackColor = System.Drawing.Color.Transparent;
+            legend2.BorderColor = System.Drawing.Color.Transparent;
+            legend2.Enabled = false;
+            legend2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            legend2.ForeColor = System.Drawing.Color.White;
+            legend2.HeaderSeparatorColor = System.Drawing.Color.White;
+            legend2.IsTextAutoFit = false;
+            legend2.ItemColumnSeparatorColor = System.Drawing.Color.White;
+            legend2.Name = "Legend1";
+            legend2.Position.Auto = false;
+            legend2.Position.Height = 10F;
+            legend2.Position.Width = 75F;
+            legend2.TitleForeColor = System.Drawing.Color.White;
+            legend2.TitleSeparatorColor = System.Drawing.Color.White;
+            this.progressChart.Legends.Add(legend2);
+            this.progressChart.Location = new System.Drawing.Point(302, 72);
+            this.progressChart.Name = "progressChart";
+            this.progressChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            this.progressChart.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            series6.BorderWidth = 2;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineArea;
+            series6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            series6.LabelBackColor = System.Drawing.Color.White;
+            series6.LabelForeColor = System.Drawing.Color.White;
+            series6.Legend = "Legend1";
+            series6.MarkerColor = System.Drawing.Color.White;
+            series6.Name = "Height";
+            dataPoint9.LabelBackColor = System.Drawing.Color.White;
+            dataPoint10.LabelBackColor = System.Drawing.Color.White;
+            dataPoint11.LabelBackColor = System.Drawing.Color.White;
+            dataPoint12.LabelBackColor = System.Drawing.Color.White;
+            dataPoint13.LabelBackColor = System.Drawing.Color.White;
+            series6.Points.Add(dataPoint9);
+            series6.Points.Add(dataPoint10);
+            series6.Points.Add(dataPoint11);
+            series6.Points.Add(dataPoint12);
+            series6.Points.Add(dataPoint13);
+            series6.SmartLabelStyle.CalloutLineColor = System.Drawing.Color.White;
+            this.progressChart.Series.Add(series6);
+            this.progressChart.Size = new System.Drawing.Size(586, 182);
+            this.progressChart.TabIndex = 42;
+            this.progressChart.Text = "chart2";
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -698,6 +793,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.progressChart);
             this.Controls.Add(this.chatSendButton);
             this.Controls.Add(this.chatSendTextBox);
             this.Controls.Add(this.chatReceiveTextBox);
@@ -708,7 +804,7 @@
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.userLabel);
-            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.dataChart);
             this.Controls.Add(this.addClientButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.clientListBox);
@@ -744,8 +840,9 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dokter Console";
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.progressChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -788,12 +885,13 @@
         public System.Windows.Forms.Label avgkmhLabel;
         public System.Windows.Forms.ListBox clientListBox;
         public System.Windows.Forms.Button addClientButton;
-        public System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        public System.Windows.Forms.DataVisualization.Charting.Chart dataChart;
         public System.Windows.Forms.Label userLabel;
         public System.Windows.Forms.Label connectedLabel;
         public System.Windows.Forms.RichTextBox chatReceiveTextBox;
         public System.Windows.Forms.TextBox chatSendTextBox;
         public Classes.SplitButton chatSendButton;
+        public System.Windows.Forms.DataVisualization.Charting.Chart progressChart;
     }
 }
 

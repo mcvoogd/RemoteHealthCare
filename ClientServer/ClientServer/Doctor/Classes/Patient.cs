@@ -14,5 +14,11 @@
 
         public string Name { get; set; }
         public int ClientId { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
+using Doctor.Forms;
 using Newtonsoft.Json;
 
 namespace Doctor.Classes
@@ -13,8 +14,8 @@ namespace Doctor.Classes
     internal class DoctorConnector
     {
         private readonly List<Message> _messageList;
-        private Patient _currentPatient;
-        private readonly List<Patient> _patientesList = new List<Patient>();
+        public Patient CurrentPatient;
+        public readonly List<Patient> PatientesList = new List<Patient>();
         private int _loginAccepted;
         private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
@@ -23,7 +24,7 @@ namespace Doctor.Classes
         public DoctorConnector()
         {
             _sslStream = null;
-            _currentPatient = null;
+            CurrentPatient = null;
             _messageList = new List<Message>();
         }
 
@@ -66,9 +67,8 @@ namespace Doctor.Classes
                                     {
                                         int clientid = patientsList[i].ClientId;
                                         string name = patientsList[i].Name;
-                                        _patientesList.Add(new Patient(clientid, name));
+                                        PatientesList.Add(new Patient(clientid, name));
                                     }
-
                                 }
                                     break;
                                 case "login/request":
@@ -115,6 +115,10 @@ namespace Doctor.Classes
             }
         }
 
+        public List<Patient> GetAllPatients()
+        {
+            return PatientesList ?? null;
+        }
         public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp, 6969);
@@ -189,7 +193,7 @@ namespace Doctor.Classes
 
         public void SetCurrentPatient(Patient patient)
         {
-            _currentPatient = patient;
+            CurrentPatient = patient;
         }
 
         public Message ParseMessage(dynamic data)

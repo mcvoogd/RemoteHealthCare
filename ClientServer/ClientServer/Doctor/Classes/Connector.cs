@@ -1,29 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Client.Simulator;
-using Doctor;
+using Doctor.Forms;
 using Newtonsoft.Json;
 
-namespace Client.Connection
+namespace Doctor.Classes
 {
-   // public delegate void Message(string message);
-
     class Connector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-    //    public Message Message { get; set; }
-
-//        private NetworkStream _stream;
         public int ConnectionId { get; set; }
         private byte[] _messageBuffer = new byte[0];
         private readonly List<Message> _messageList;
@@ -56,7 +47,6 @@ namespace Client.Connection
 
                         var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                         dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                        Console.WriteLine("Read: " + resultMessage);
                         if (readMessage == null)
                         {
                         }
@@ -67,6 +57,13 @@ namespace Client.Connection
 
                             switch (id)
                             {
+                                case "get/patients":
+                                {
+                                    Console.WriteLine("WOEHOE RECIEVED PATIENTS");
+                                    Patient[] patients = data.patients;
+                                        Console.WriteLine("Patients count : " + patients.Length);
+                                }
+                                    break;
                                 case "login/request":
                                     if (data.ack == false)
                                     {
@@ -74,6 +71,7 @@ namespace Client.Connection
                                         return;
                                     }
                                     loginAccepted = 1;
+
                                     break;
                                 case "message/send":
                                     _messageList.Add(ParseMessage(data.message));
@@ -133,7 +131,11 @@ namespace Client.Connection
             {
                 case 1:
                     loginAccepted = 0;
-                    
+
+                    SendMessage(new
+                    {
+                        id = "get/patients",
+                    });
                     return true;
                 case -1:
                     loginAccepted = 0;
@@ -167,6 +169,7 @@ namespace Client.Connection
             if (_sslStream == null) return;
 
             ConnectionId = GetUniqueId(username, password);
+
             SendMessage(new
             {
                 id = "login/request",

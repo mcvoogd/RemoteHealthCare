@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Client.Connection;
-using DataScreen.Forms;
+using Doctor.Forms;
 
-namespace Doctor
+namespace Doctor.Classes
 {
     static class Program
     {
@@ -19,11 +15,13 @@ namespace Doctor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var mainForm = new mainForm { Visible = false };
+            var mainForm = new MainForm { Visible = true };
             var connector = new Connector();
             var loginForm = new LoginForm(connector.Connect, mainForm);
 
             Application.Run(loginForm);
         }
+        }
+
     }
-}
+

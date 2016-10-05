@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoteHealthcare));
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.usernameLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -39,9 +43,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comPortConnectButton = new System.Windows.Forms.Button();
             this.comportBox = new System.Windows.Forms.ComboBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.statusBar.SuspendLayout();
             this.buttonsBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // statusBar
@@ -55,7 +62,7 @@
             this.statusBar.Location = new System.Drawing.Point(0, 0);
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(2, 0, 38, 0);
-            this.statusBar.Size = new System.Drawing.Size(1778, 46);
+            this.statusBar.Size = new System.Drawing.Size(1801, 46);
             this.statusBar.TabIndex = 0;
             this.statusBar.Text = "statusBar";
             // 
@@ -81,7 +88,7 @@
             this.buttonsBox.Margin = new System.Windows.Forms.Padding(16);
             this.buttonsBox.Name = "buttonsBox";
             this.buttonsBox.Padding = new System.Windows.Forms.Padding(16);
-            this.buttonsBox.Size = new System.Drawing.Size(1093, 822);
+            this.buttonsBox.Size = new System.Drawing.Size(1093, 1165);
             this.buttonsBox.TabIndex = 2;
             this.buttonsBox.TabStop = false;
             this.buttonsBox.Text = "Chat";
@@ -89,7 +96,7 @@
             // messageTextBox
             // 
             this.messageTextBox.AcceptsReturn = true;
-            this.messageTextBox.Location = new System.Drawing.Point(28, 764);
+            this.messageTextBox.Location = new System.Drawing.Point(28, 864);
             this.messageTextBox.Margin = new System.Windows.Forms.Padding(12);
             this.messageTextBox.Name = "messageTextBox";
             this.messageTextBox.Size = new System.Drawing.Size(816, 38);
@@ -98,10 +105,10 @@
             // sendButton
             // 
             this.sendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.sendButton.Location = new System.Drawing.Point(856, 757);
+            this.sendButton.Location = new System.Drawing.Point(856, 854);
             this.sendButton.Margin = new System.Windows.Forms.Padding(12);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(202, 45);
+            this.sendButton.Size = new System.Drawing.Size(202, 56);
             this.sendButton.TabIndex = 3;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = false;
@@ -109,11 +116,11 @@
             // 
             // chatTextBox
             // 
-            this.chatTextBox.Location = new System.Drawing.Point(28, 87);
+            this.chatTextBox.Location = new System.Drawing.Point(28, 59);
             this.chatTextBox.Margin = new System.Windows.Forms.Padding(12);
             this.chatTextBox.Name = "chatTextBox";
             this.chatTextBox.ReadOnly = true;
-            this.chatTextBox.Size = new System.Drawing.Size(1030, 641);
+            this.chatTextBox.Size = new System.Drawing.Size(1030, 749);
             this.chatTextBox.TabIndex = 1;
             this.chatTextBox.Text = "";
             // 
@@ -134,10 +141,10 @@
             // comPortConnectButton
             // 
             this.comPortConnectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.comPortConnectButton.Location = new System.Drawing.Point(341, 82);
+            this.comPortConnectButton.Location = new System.Drawing.Point(350, 77);
             this.comPortConnectButton.Margin = new System.Windows.Forms.Padding(12);
             this.comPortConnectButton.Name = "comPortConnectButton";
-            this.comPortConnectButton.Size = new System.Drawing.Size(180, 46);
+            this.comPortConnectButton.Size = new System.Drawing.Size(180, 56);
             this.comPortConnectButton.TabIndex = 1;
             this.comPortConnectButton.Text = "Connect";
             this.comPortConnectButton.UseVisualStyleBackColor = false;
@@ -152,12 +159,48 @@
             this.comportBox.Size = new System.Drawing.Size(294, 39);
             this.comportBox.TabIndex = 0;
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 90F;
+            chartArea1.Position.Width = 94F;
+            chartArea1.Position.Y = 10F;
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.BorderColor = System.Drawing.Color.Transparent;
+            legend1.Name = "Legend1";
+            legend1.Position.Auto = false;
+            legend1.Position.Height = 9.168081F;
+            legend1.Position.Width = 35.57858F;
+            legend1.Position.X = 15F;
+            legend1.Position.Y = 3F;
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(52, 339);
+            this.chart1.Name = "chart1";
+            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineArea;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(580, 590);
+            this.chart1.TabIndex = 3;
+            this.chart1.TabStop = false;
+            this.chart1.Text = "SpeedChart";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // RemoteHealthcare
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1778, 950);
+            this.ClientSize = new System.Drawing.Size(1801, 1048);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonsBox);
             this.Controls.Add(this.statusBar);
@@ -171,6 +214,7 @@
             this.buttonsBox.ResumeLayout(false);
             this.buttonsBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,5 +232,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button comPortConnectButton;
         private System.Windows.Forms.ComboBox comportBox;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Timer timer1;
     }
 }

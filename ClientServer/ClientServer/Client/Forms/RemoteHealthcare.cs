@@ -57,6 +57,7 @@ namespace Client.Forms
             comportBox.Items.Add("Simulation");
 
             connectStatusLabel.Text = "Connected";
+            timer1.Start();
         }
 
         public void AddMessageMethod(string message)
@@ -144,8 +145,8 @@ namespace Client.Forms
             }
             else if(comportBox.SelectedItem != null)
             {
-                var serialPort = new SerialPort(comportBox.SelectedText.ToString());
-
+                var serialPort = new SerialPort(comportBox.SelectedItem.ToString());
+                serialPort.Open();
                 DataReceiver = new DataReceiver(serialPort,this, AddMeasurement);
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();  
@@ -169,5 +170,11 @@ namespace Client.Forms
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Measurements.Count <= 0) return;
+            chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
+            
+        }
     }
 }

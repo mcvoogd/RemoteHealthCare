@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Client.Connection
+namespace Doctor.Classes
 {
     public class Message : IComparable<Message>
     {

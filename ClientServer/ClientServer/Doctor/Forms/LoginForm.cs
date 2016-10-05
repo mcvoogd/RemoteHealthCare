@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
-using Doctor;
 
-namespace DataScreen.Forms
+namespace Doctor.Forms
 {
     public delegate bool Connect(string serverIp, string username, string password);
     public partial class LoginForm : Form
     {
         private Connect _connect;
-        private mainForm _mainForm;
+        private MainForm _mainForm;
 
-        public LoginForm(Connect connect, mainForm mainForm)
+        public LoginForm(Connect connect, MainForm mainForm)
         {
             FormClosing += LoginForm_FormClosing;
             _mainForm = mainForm;
@@ -46,7 +44,8 @@ namespace DataScreen.Forms
             {
                 Visible = false;
                 _mainForm.Visible = true;
-                _mainForm.nameLabel.Text = usernameTextBox.Text;
+
+                _mainForm.userLabel.Text = usernameTextBox.Text;
                 Console.WriteLine("USERNAME: " + usernameTextBox.Text);
             } else
             {

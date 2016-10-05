@@ -146,7 +146,8 @@ namespace Server.Server
         //return all data for individual patient.
         private void HandlePatientData(dynamic data)
         {
-            ClientHandler client = TcpServer.GetClientHandlerByClientID(data.clientId);
+            int id = data.clientId;
+            ClientHandler client = TcpServer.GetClientHandlerByClientID(id);
             var measurements = client.Client.TinyDataBaseBase.MeasurementSystem._measurements;
             SendMessage(new
             {

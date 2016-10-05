@@ -11,10 +11,9 @@ using Doctor.Properties;
 namespace Doctor.Forms
 {
     public delegate void SetCurrentPatient(Patient patient);
-
     public delegate void SendMessage(dynamic message);
-
     public delegate List<Patient> GetAllPatients();
+    public delegate List<Measurement> GetMeasurementsFromPatient();
 
     public partial class MainForm : Form
     {
@@ -22,16 +21,19 @@ namespace Doctor.Forms
         private FontFamily _goodTimes;
         private readonly SendMessage _sendMessage;
         public readonly GetAllPatients _getAllPatients;
+        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
+        private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
 
         private readonly SetCurrentPatient _setCurrentPatient;
 
-        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients)
+        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients, GetMeasurementsFromPatient getMeasurementsFromPatient)
         {
             _setCurrentPatient = setCurrentPatient;
             _sendMessage = sendMessage;
             _getAllPatients = getAllPatients;
+            _GetMeasurementsFromPatient = getMeasurementsFromPatient;
             _currentPatient = null;
 
             InitializeComponent();
@@ -154,7 +156,16 @@ namespace Doctor.Forms
         {
             _currentPatient = (Patient)clientListBox.SelectedItem;
             _setCurrentPatient(_currentPatient);
-            
+            _sendMessage(new
+            {
+                id = "get/patient/data",
+                data = new
+                {
+                    clientId = _currentPatient.ClientId
+                }
+            });
+            List<Measurement> measurements =  _GetMeasurementsFromPatient();
+            //SetAllMeasurementData(measurements[0]);
         }
 
         public void SetAllMeasurementData(Measurement m)

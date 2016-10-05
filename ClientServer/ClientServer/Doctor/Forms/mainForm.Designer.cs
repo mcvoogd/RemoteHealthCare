@@ -123,12 +123,7 @@ namespace Doctor.Forms
             this.currentTimeLabel.AutoSize = true;
             this.currentTimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.currentTimeLabel.ForeColor = System.Drawing.Color.White;
-<<<<<<< HEAD
-            this.currentTimeLabel.Location = new System.Drawing.Point(977, 49);
-            this.currentTimeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-=======
             this.currentTimeLabel.Location = new System.Drawing.Point(745, 34);
->>>>>>> cb8016be9958e43069c505673631af30a0da2a5d
             this.currentTimeLabel.Name = "currentTimeLabel";
             this.currentTimeLabel.Size = new System.Drawing.Size(0, 17);
             this.currentTimeLabel.TabIndex = 1;
@@ -875,12 +870,8 @@ namespace Doctor.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
-<<<<<<< HEAD
-            this.ClientSize = new System.Drawing.Size(1599, 782);
-=======
             this.ClientSize = new System.Drawing.Size(1199, 635);
             this.Controls.Add(this.brakeButton);
->>>>>>> cb8016be9958e43069c505673631af30a0da2a5d
             this.Controls.Add(this.userAddButton);
             this.Controls.Add(this.trainingComboBox);
             this.Controls.Add(this.progressChart);

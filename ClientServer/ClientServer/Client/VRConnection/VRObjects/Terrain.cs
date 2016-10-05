@@ -5,7 +5,7 @@ namespace Client.VRConnection.VRObjects
 {
     internal class Terrain
     {
-        private readonly Forms.Program.Connection _connection;
+        private readonly VrConnection _connection;
         private readonly string _tunnelId;
 
         public Terrain(string tunnelId, Forms.Program.VrConnection connection)

@@ -75,7 +75,7 @@
     </Compile>
     <Compile Include="VRConnection\Forms\Program\City.cs" />
     <Compile Include="VRConnection\Forms\Program\Client.cs" />
-    <Compile Include="VRConnection\Forms\Program\Connection.cs" />
+    <Compile Include="VRConnection\Forms\Program\VrConnection.cs" />
     <Compile Include="VRConnection\Forms\Program\Forest.cs" />
     <Compile Include="VRConnection\Forms\Program\Punt.cs" />
     <Compile Include="VRConnection\Forms\Program\RequestCreater.cs" />

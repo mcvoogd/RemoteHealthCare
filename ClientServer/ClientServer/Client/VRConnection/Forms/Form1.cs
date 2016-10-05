@@ -8,10 +8,8 @@ namespace Client.VRConnection.Forms.Program
     public partial class Form1 : Form
     {
         private readonly List<Client> _clients = new List<Client>();
-        private readonly Connection _connection;
+        private readonly VrConnection _connection;
         private int _selectedIndex;
-        private VrConnection _connection;
-        private List<Client> _clients = new List<Client>();
 
         public Form1()
         {

@@ -243,7 +243,10 @@ namespace VRFrom_Gijs.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
+
             _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
 
         }
 

@@ -239,11 +239,14 @@ namespace VRFrom_Gijs.Forms
 
         private void createPanel()
         {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 2, 1, 2000, 1000, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
+            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 1.98, 1.08, 1920, 1080, 0, 0, 1, 0, _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
+
             _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
 
         }
 
@@ -259,16 +262,17 @@ namespace VRFrom_Gijs.Forms
 
         private void drawPanel(string value)
         {
-            int[] position = {100, 50};
-            double sizeValue = 40;
-            double[] color = {1, 0, 0, 1};
+            string textValue = "Satan is love";
+            int[] position = {100, 100};
+            double sizeValue = 52;
+            float[] color = {1, 0, 0, 1};
             string fontValue = "Arial";
 
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 
-            _panel.DrawText(value, position, sizeValue, color, fontValue);
+            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

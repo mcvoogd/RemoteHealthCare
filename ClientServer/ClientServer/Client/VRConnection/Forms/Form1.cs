@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client.VRConnection.Forms.Program
 {
     public partial class Form1 : Form
     {
+        private readonly List<Client> _clients = new List<Client>();
+        private readonly VrConnection _connection;
         private int _selectedIndex;
-        private VrConnection _connection;
-        private List<Client> _clients = new List<Client>();
 
         public Form1()
         {
@@ -34,8 +28,8 @@ namespace Client.VRConnection.Forms.Program
                 var name = _clients[_selectedIndex].Name;
                 if (clientId != null)
                 {
-                    string request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
-                                     "\", \"key\" : \"NotConCat\" } }";
+                    var request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
+                                  "\", \"key\" : \"NotConCat\" } }";
                     _connection.SendMessage(request);
                     var tunnelCommandForm = new TunnelCommandForm(_connection, name);
                     tunnelCommandForm.Show();
@@ -47,25 +41,21 @@ namespace Client.VRConnection.Forms.Program
         {
             _clients.Clear();
             listBox1.Items.Clear();
-            string request = "{\"id\" : \"session/list\"}";
+            var request = "{\"id\" : \"session/list\"}";
 
             _connection.SendMessage(request);
         }
 
         public void FillConnectionList()
         {
-            for (int i = 0; i < _connection.JsonRawData.data.Count; i++)
-            {
+            for (var i = 0; i < _connection.JsonRawData.data.Count; i++)
                 _clients.Add(new Client(_connection.JsonRawData.data[i].id,
                     _connection.JsonRawData.data[i].clientinfo.user));
-            }
 
             _clients.Sort();
 
-            for (int i = 0; i < _clients.Count; i++)
-            {
+            for (var i = 0; i < _clients.Count; i++)
                 listBox1.Items.Add(_clients[i].Name);
-            }
         }
 
 
@@ -74,6 +64,4 @@ namespace Client.VRConnection.Forms.Program
             _selectedIndex = listBox1.SelectedIndex;
         }
     }
-
-    }
-
+}

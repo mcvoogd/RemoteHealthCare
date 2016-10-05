@@ -84,7 +84,7 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void SetClearColor(double[] kleur)
+        public void SetClearColor(float[] kleur)
         {
            ToSend = RequestCreater.TunnelSend(new
             {
@@ -97,7 +97,15 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
+        public void setImage()
+        {
+            ToSend = RequestCreater.TunnelSend(new
+            {
+                
+            }, TunnelId);
+        }
+
+        public void DrawText(string textValue, int[] positie, double sizeValue, float[] kleur, string fontValue)
         {
            ToSend = RequestCreater.TunnelSend(new
             {

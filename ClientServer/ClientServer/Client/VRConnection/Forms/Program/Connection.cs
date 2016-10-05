@@ -16,13 +16,13 @@ namespace Client.VRConnection.Forms.Program
         public FillConnectionList FillConnectionList;
         public List<Node> Nodes = new List<Node>();
 
-        public Connection(string ip, int port, Form1 form)
-        {
-            VrServerIp = ip;
-            VrServerPort = port;
-            Form = form;
-            FillConnectionList = form.FillConnectionList;
-        }
+//        public Connection(string ip, int port, Form1 form)
+//        {
+//            VrServerIp = ip;
+//            VrServerPort = port;
+//            Form = form;
+//            FillConnectionList = form.FillConnectionList;
+//        }
 
         public string VrServerIp { get; set; }
         public int VrServerPort { get; set; }

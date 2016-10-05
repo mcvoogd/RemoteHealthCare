@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Net.Security;
@@ -110,6 +111,18 @@ namespace Server.Server
                                 HandleResistance(data);
                             }
                             break;
+                        case "get/patients":
+                            if (IsDoctor)
+                            {
+                                HandleGetPatients(data);
+                            }
+                            break;
+                        case "get/patient/data":
+                            if (IsDoctor)
+                            {
+                                HandlePatientData(data);
+                            }
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -125,6 +138,42 @@ namespace Server.Server
                 }
             }
         }
+        //return all data for individual patient.
+        private void HandlePatientData(dynamic data)
+        {
+            ClientHandler client = TcpServer.GetClientHandlerByClientID(data.clientId);
+            var measurements = client.Client.TinyDataBaseBase.MeasurementSystem._measurements;
+            SendMessage(new
+            {
+                id = "get/patient/data",
+                data = new {
+                     measurementsList = measurements
+                }
+            });
+        }
+        //return all patient names + id.
+        private void HandleGetPatients(dynamic data)
+        {
+            Patient[] patientsArray = new Patient[_database.Clients.Count];
+            int index = 0;
+            if(_database.Clients.Count > 0 && _database.Clients != null)
+            foreach (var databaseClient in _database.Clients)
+            {
+                var temp = new Patient(databaseClient.Name, databaseClient.UniqueId);
+                patientsArray[index] = temp;
+                index++;
+            }
+
+            SendMessage(new
+            {
+                id = "get/patients",
+                data = new
+                {
+                   patients = patientsArray
+                }
+            });
+        }
+
         //from doctor to client.
         public void HandleResistance(dynamic data)
         {

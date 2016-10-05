@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-    class Connector
+    class DoctorConnector
     {
         private SslStream _sslStream;
         private TcpClient _tcpClient;
@@ -20,7 +20,7 @@ namespace Doctor.Classes
         private readonly List<Message> _messageList;
         private int loginAccepted = 0;
 
-        public Connector()
+        public DoctorConnector()
         {
             _sslStream = null;
             _messageList = new List<Message>();
@@ -57,6 +57,14 @@ namespace Doctor.Classes
 
                             switch (id)
                             {
+                                case "get/patients":
+                                {
+                                    Console.WriteLine("WOEHOE RECIEVED PATIENTS");
+                                    var patients = new Patient[data.patients.Length];
+                                    patients = data.patients;
+                                    Console.WriteLine("Patients count : " + patients.Length);
+                                }
+                                    break;
                                 case "login/request":
                                     if (data.ack == false)
                                     {
@@ -64,6 +72,7 @@ namespace Doctor.Classes
                                         return;
                                     }
                                     loginAccepted = 1;
+
                                     break;
                                 case "message/send":
                                     _messageList.Add(ParseMessage(data.message));
@@ -123,7 +132,11 @@ namespace Doctor.Classes
             {
                 case 1:
                     loginAccepted = 0;
-                    
+
+                    SendMessage(new
+                    {
+                        id = "get/patients",
+                    });
                     return true;
                 case -1:
                     loginAccepted = 0;

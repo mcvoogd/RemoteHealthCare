@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Connection\Connector.cs" />
     <Compile Include="Connection\DataReceiver.cs" />
     <Compile Include="Connection\Message.cs" />
@@ -86,7 +87,6 @@
       <DependentUpon>TunnelCommandForm.cs</DependentUpon>
     </Compile>
     <Compile Include="VRConnection\Program\Punt.cs" />
-    <Compile Include="VRConnection\Properties\AssemblyInfo.cs" />
     <Compile Include="VRConnection\Properties\Resources.Designer.cs" />
     <Compile Include="VRConnection\Properties\Settings.Designer.cs" />
     <Compile Include="VRConnection\VRObjects\Node.cs" />
@@ -96,7 +96,6 @@
     <Compile Include="VRConnection\VRObjects\Skybox.cs" />
     <Compile Include="VRConnection\VRObjects\Terrain.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulator\Measurement.cs" />
     <Compile Include="Simulator\SimulationForm.cs">
       <SubType>Form</SubType>

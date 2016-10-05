@@ -4,6 +4,7 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Doctor.Classes;
 
 namespace Doctor.Forms
 {
@@ -19,7 +20,6 @@ namespace Doctor.Forms
 
             byte[] fontArray = Doctor.Properties.Resources.good_times;
             int dataLength = Doctor.Properties.Resources.good_times.Length;
-
 
             // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
             IntPtr ptrData = Marshal.AllocCoTaskMem(dataLength);
@@ -45,6 +45,17 @@ namespace Doctor.Forms
 
             CargoPrivateFontCollection();
             Fonts();
+            AddSplitButton();
+        }
+
+        private void AddSplitButton()
+        {
+            chatSendButton.FlatStyle = FlatStyle.Popup;
+            chatSendButton.BackColor = Color.White;
+            chatSendButton.ContextMenuStrip = new ContextMenuStrip();
+            chatSendButton.ContextMenuStrip.Font = new System.Drawing.Font(_goodTimes, 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
+            this.Controls.Add(chatSendButton);
         }
 
         private void Fonts()
@@ -62,12 +73,13 @@ namespace Doctor.Forms
             this.label8.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addClientButton.Font = new System.Drawing.Font(_goodTimes, 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-           
             this.userLabel.Font = new System.Drawing.Font(_goodTimes, 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.connectedLabel.Font = new System.Drawing.Font(_goodTimes, 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Font = new System.Drawing.Font(_goodTimes, 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Font = new System.Drawing.Font(_goodTimes, 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+            this.chatSendButton.Font = new System.Drawing.Font(_goodTimes, 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         }
 
         private void timeTimer_Tick(object sender, EventArgs e)

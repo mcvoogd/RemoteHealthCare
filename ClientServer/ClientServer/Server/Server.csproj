@@ -66,6 +66,7 @@
     <Compile Include="BigDB\Client.cs" />
     <Compile Include="Server\ClientHandler.cs" />
     <Compile Include="Server\Encryptor.cs" />
+    <Compile Include="Server\Patient.cs" />
     <Compile Include="Server\TcpServer.cs" />
     <Compile Include="TinyDB\ChatSystem.cs" />
     <Compile Include="TinyDB\Measurement.cs" />

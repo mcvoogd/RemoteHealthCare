@@ -104,8 +104,14 @@ namespace Server.Server
                                 HandleResistance(data);
                             break;
                         case "get/patients":
+                            Console.WriteLine("Recieved get/patients request.");
                             if (IsDoctor)
                                 HandleGetPatients(data);
+                            }
+                            else
+                            {
+                                Console.WriteLine("IS NOT DOCTOR");
+                            }
                             break;
                         case "get/patient/data":
                             if (IsDoctor)
@@ -154,15 +160,15 @@ namespace Server.Server
         //return all patient names + id.
         private void HandleGetPatients(dynamic data)
         {
-            var patientsArray = new Patient[_database.Clients.Count];
-            var index = 0;
-            if ((_database.Clients.Count > 0) && (_database.Clients != null))
-                foreach (var databaseClient in _database.Clients)
-                {
-                    var temp = new Patient(databaseClient.Name, databaseClient.UniqueId);
-                    patientsArray[index] = temp;
-                    index++;
-                }
+            Patient[] patientsArray = new Patient[_database.Clients.Count];
+            int index = 0;
+            if(_database.Clients.Count > 0 && _database.Clients != null)
+            foreach (var databaseClient in _database.Clients)
+            {
+                var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
+                patientsArray[index] = temp;
+                index++;
+            }
 
             SendMessage(new
             {
@@ -299,12 +305,18 @@ namespace Server.Server
                 Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase());
                 _database.AddClient(Client);
                 if (isDoctorData)
-                    IsDoctor = true;
+                {
+                    this.IsDoctor = true;
+                }
                 Console.WriteLine("Did not exist");
                 return true;
             }
             //null == tunnelID. <VR>
             _database.GetClientById(clientid, out Client);
+            if (isDoctorData)
+            {
+                IsDoctor = true;
+            }
             return true;
         }
 

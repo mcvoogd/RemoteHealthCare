@@ -123,7 +123,7 @@ namespace Client.VRConnection.Forms.Program
                                     TunnelCommandForm.Blocker.Set();
                                     break;
                             }
-
+                            TunnelCommandForm.Blocker.Set();
                             break;
                     }
                     bufferBytes = SubArray(bufferBytes, packetLength + 4, bufferBytes.Length - (packetLength + 4));

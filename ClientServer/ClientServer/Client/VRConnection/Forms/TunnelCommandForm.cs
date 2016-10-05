@@ -21,7 +21,7 @@ namespace Client.VRConnection.Forms
         private bool _send;
         private Skybox _skybox;
 
-        public TunnelCommandForm(Program.Connection connection, string name)
+        public TunnelCommandForm(VrConnection connection, string name)
         {
             InitializeComponent();
             Name = name;

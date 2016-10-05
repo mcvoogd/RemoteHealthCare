@@ -9,7 +9,7 @@ namespace Client.VRConnection.Forms.Program
 {
     public delegate void FillConnectionList();
 
-    public class Connection
+    public class VrConnection
     {
         public static Dictionary<string, string> VRobjecten = new Dictionary<string, string>();
         private TcpClient _client;
@@ -37,6 +37,14 @@ namespace Client.VRConnection.Forms.Program
         public string cameraID { get; set; }
         public string headID { get; set; }
         public string PanelId { get; set; }
+
+        public VrConnection(string ip, int port, Form1 form)
+        {
+            VrServerIp = ip;
+            VrServerPort = port;
+            Form = form;
+            FillConnectionList = form.FillConnectionList;
+        }
 
         public void StartConnection()
         {

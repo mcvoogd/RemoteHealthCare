@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using Client.Connection;
 using Client.Forms;
 
-namespace DataScreen.Forms
+namespace Client.Forms
 {
     public delegate bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare);
 

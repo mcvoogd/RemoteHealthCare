@@ -8,7 +8,7 @@ namespace Client.VRConnection.VRObjects
         private readonly Forms.Program.Connection _connection;
         private readonly string _tunnelId;
 
-        public Terrain(string tunnelId, Forms.Program.Connection connection)
+        public Terrain(string tunnelId, Forms.Program.VrConnection connection)
         {
             _tunnelId = tunnelId;
             _connection = connection;

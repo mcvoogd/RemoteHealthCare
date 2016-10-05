@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Client.Connection;
 using Client.Forms;
-using DataScreen.Forms;
+using Client.VRConnection.Forms.Program;
 
 namespace Client
 {
@@ -22,7 +22,7 @@ namespace Client
                 connector.ConnectionId);
             var loginForm = new LoginForm(remoteHealthcare, connector.Connect);
 
-            Application.Run(loginForm);
+            Application.Run(new Form1());
             Application.Exit();
         }
     }

@@ -156,10 +156,11 @@ namespace Server.Server
         {
             Patient[] patientsArray = new Patient[_database.Clients.Count];
             int index = 0;
+            if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
-                patientsArray[index].clientId = databaseClient.UniqueId;
-                patientsArray[index].Name = databaseClient.Name;
+                var temp = new Patient(databaseClient.Name, databaseClient.UniqueId);
+                patientsArray[index] = temp;
                 index++;
             }
 

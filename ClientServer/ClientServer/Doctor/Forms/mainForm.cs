@@ -19,6 +19,8 @@ namespace Doctor.Forms
         private FontFamily _goodTimes;
         private readonly SendMessage _sendMessage;
 
+        public int ClientId { get; set; }
+
         private readonly SetCurrentPatient _setCurrentPatient;
 
         public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage)
@@ -123,13 +125,6 @@ namespace Doctor.Forms
             }
         }
 
-        private void clientListBox_DoubleClick(object sender, EventArgs e)
-        {
-            // TODO find the clientID associated with the selected patient
-            _currentPatient = new Patient(123 /*clientId*/);
-            _setCurrentPatient(_currentPatient);
-        }
-
         private void chatSendButton_Click_1(object sender, EventArgs e)
         {
             if (_currentPatient == null)
@@ -141,12 +136,21 @@ namespace Doctor.Forms
             _sendMessage(new
             {
                 id = "message/send",
-                clientid = _currentPatient.clientId,
+                targetid = _currentPatient.clientId,
+                originid = ClientId,
                 data = new
                 {
                     message = chatSendTextBox.Text
                 }
             });
+        }
+
+        private void clientListBox_DoubleClick_1(object sender, EventArgs e)
+        {
+            // TODO find the clientID associated with the selected patient
+            _currentPatient = new Patient(33668 /*clientId*/);
+            _setCurrentPatient(_currentPatient);
+            Console.WriteLine($"Setting patient: {_currentPatient.clientId}");
         }
     }
 }

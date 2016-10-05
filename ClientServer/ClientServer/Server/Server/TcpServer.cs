@@ -14,6 +14,7 @@ namespace Server.Server
         public static List<ClientHandler> ClientHandlers = new List<ClientHandler>();
         private readonly BigDatabase _dataBase = new BigDatabase();
         private readonly TcpListener _tcpListener;
+
         public List<Thread> threads = new List<Thread>();
 
         public TcpServer()

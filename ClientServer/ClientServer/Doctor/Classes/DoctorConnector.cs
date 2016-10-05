@@ -192,7 +192,7 @@ namespace Doctor.Classes
             return toSend;
         }
 
-        public int GetUniqueId(string username, string password)
+        public static int GetUniqueId(string username, string password)
         {
             if ((username == null) && (password == null)) return 0;
             var nameV = GetStringInNumbers(username);
@@ -201,7 +201,7 @@ namespace Doctor.Classes
             return (nameV*397) ^ passwordV;
         }
 
-        public int GetStringInNumbers(string text)
+        public static int GetStringInNumbers(string text)
         {
             var nameArray = text.ToCharArray();
             return nameArray.Sum(c => (int) c%32);

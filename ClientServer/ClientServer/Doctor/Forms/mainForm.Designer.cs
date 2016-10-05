@@ -463,6 +463,7 @@
             this.clientListBox.Name = "clientListBox";
             this.clientListBox.Size = new System.Drawing.Size(379, 174);
             this.clientListBox.TabIndex = 26;
+            this.clientListBox.DoubleClick += new System.EventHandler(this.clientListBox_DoubleClick_1);
             // 
             // label9
             // 
@@ -725,7 +726,7 @@
             this.chatSendButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chatSendButton.ForeColor = System.Drawing.Color.Black;
             this.chatSendButton.Location = new System.Drawing.Point(1484, 274);
-            this.chatSendButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chatSendButton.Margin = new System.Windows.Forms.Padding(4);
             this.chatSendButton.Name = "chatSendButton";
             this.chatSendButton.Size = new System.Drawing.Size(99, 36);
             this.chatSendButton.TabIndex = 41;

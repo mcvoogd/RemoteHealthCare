@@ -75,6 +75,7 @@ namespace Client.Connection
                                     RemoteHealthcare.ConnectionId = ConnectionId;
                                     break;
                                 case "message/send":
+                                    Console.WriteLine("CLIENT: Received message: " + data.message);
                                     _messageList.Add(ParseMessage(data.message));
                                     RemoteHealthcare.AddMessage(ParseMessage(data.message));
                                     SendMessage(new

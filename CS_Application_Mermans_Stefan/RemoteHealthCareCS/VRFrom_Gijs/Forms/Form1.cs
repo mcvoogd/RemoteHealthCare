@@ -57,8 +57,14 @@ namespace VRFrom_Gijs.Forms
         {
             for (int i = 0; i < _connection.JsonRawData.data.Count; i++)
             {
+                if (_connection.JsonRawData.data[i].clientinfo.host != "CAVE-Left" && 
+                    _connection.JsonRawData.data[i].clientinfo.host != "CAVE-Right" && 
+                    _connection.JsonRawData.data[i].clientinfo.host != "CAVE-Floor" &&
+                    _connection.JsonRawData.data[i].clientinfo.host != "CAVE-Front")
+                { 
                 _clients.Add(new Client(_connection.JsonRawData.data[i].id,
                     _connection.JsonRawData.data[i].clientinfo.user));
+                }
             }
 
             _clients.Sort();

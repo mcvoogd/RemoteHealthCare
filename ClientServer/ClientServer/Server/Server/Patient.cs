@@ -10,8 +10,5 @@
             Name = name;
             this.clientId = clientId;
         }
-
-        public string Name { get; set; }
-        public int clientId { get; set; }
     }
 }

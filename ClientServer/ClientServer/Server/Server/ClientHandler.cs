@@ -31,9 +31,7 @@ namespace Server.Server
             _tcpClient = tcpClient;
             _sslStream = new SslStream(_tcpClient.GetStream());
             this._database = databaseValue;
-//            serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCare.pfx", "password"); // not self-signed
             serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare");
-                // Our own self signed cert with pasword
 
             _sslStream.AuthenticateAsServer(serverCertificate, false, SslProtocols.Tls, false);
 
@@ -73,6 +71,7 @@ namespace Server.Server
                         case "message/send":
                             //SendMessage(readMessage);
                             Client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(readMessage));
+
                             Console.WriteLine("MSG : " + data.message);
                             SendAck("message/received");
                             break;
@@ -156,10 +155,11 @@ namespace Server.Server
         {
             Patient[] patientsArray = new Patient[_database.Clients.Count];
             int index = 0;
+            if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
-                patientsArray[index].clientId = databaseClient.UniqueId;
-                patientsArray[index].Name = databaseClient.Name;
+                var temp = new Patient(databaseClient.Name, databaseClient.UniqueId);
+                patientsArray[index] = temp;
                 index++;
             }
 

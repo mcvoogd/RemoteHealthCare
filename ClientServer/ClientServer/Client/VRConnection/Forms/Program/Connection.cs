@@ -12,7 +12,7 @@ namespace Client.VRConnection.Forms.Program
 {
     public delegate void FillConnectionList();
 
-    public class Connection
+    public class VrConnection
     {
         public string VrServerIp { get; set; }
         public int VrServerPort { get; set; }
@@ -32,7 +32,7 @@ namespace Client.VRConnection.Forms.Program
         public string headID { get; set; }
         public string PanelId { get; set; }
 
-        public Connection(string ip, int port, Form1 form)
+        public VrConnection(string ip, int port, Form1 form)
         {
             VrServerIp = ip;
             VrServerPort = port;

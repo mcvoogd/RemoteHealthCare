@@ -42,38 +42,41 @@ namespace VRFrom_Gijs.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
-            forest = new Forest();
-            city = new City();
-            deletePane();
-            Blocker.WaitOne(5000);
-            deletePane();
-            Blocker.WaitOne(5000);
+            //forest = new Forest();
+            //city = new City();
+            //deletePane();
+            //Blocker.WaitOne(5000);
+            //deletePane();
+            //Blocker.WaitOne(5000);
 
             createPanel();
             Blocker.WaitOne(5000);
 
-            createTerrain();
-            Thread.Sleep(3000);
-            paintTerrain();
-            Blocker.WaitOne(5000);
-            createWater();
-            Blocker.WaitOne(5000);
-            createForest();
-            Blocker.WaitOne(5000);
-            createCity();
-            Blocker.WaitOne(5000);
+            //createTerrain();
+            //Thread.Sleep(3000);
+            //paintTerrain();
+            //Blocker.WaitOne(5000);
+            //createWater();
+            //Blocker.WaitOne(5000);
+            //createForest();
+            //Blocker.WaitOne(5000);
+            //createCity();
+            //Blocker.WaitOne(5000);
 
-            createBike();
-            Blocker.WaitOne(5000);
-            createRoad();
-            Blocker.WaitOne(5000);
-            followRoad();
-            Blocker.WaitOne(5000);
-            followBike();
-            Blocker.WaitOne(5000);
-            followCamera();
-            Blocker.WaitOne(5000);
-            drawPanel("Satan is love.");
+            //createBike();
+            //Blocker.WaitOne(5000);
+            //createRoad();
+            //Blocker.WaitOne(5000);
+            //followRoad();
+            //Blocker.WaitOne(5000);
+            //followBike();
+            //Blocker.WaitOne(5000);
+            //followCamera();
+            //Blocker.WaitOne(5000);
+            int i = 0;
+            while(true)
+                drawPanel($"Gegeven: {i++}\n" +
+                          $"Gegeven: {i+100}");
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -260,7 +263,6 @@ namespace VRFrom_Gijs.Forms
             int[] position = {100, 100};
             double sizeValue = 52;
             double[] color = {1, 0, 0, 1};
-            double[] clearColor = {1, 0, 0, 0};
             string fontValue = "Arial";
 
             _panel.ClearPanel();

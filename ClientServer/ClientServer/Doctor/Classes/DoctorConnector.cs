@@ -6,25 +6,27 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
-using Doctor.Forms;
 using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-    class Connector
+    internal class DoctorConnector
     {
+        private readonly List<Message> _messageList;
+        private Patient _currentPatient;
+        private int _loginAccepted;
+        private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-        public int ConnectionId { get; set; }
-        private byte[] _messageBuffer = new byte[0];
-        private readonly List<Message> _messageList;
-        private int loginAccepted = 0;
 
-        public Connector()
+        public DoctorConnector()
         {
             _sslStream = null;
+            _currentPatient = null;
             _messageList = new List<Message>();
         }
+
+        public int ConnectionId { get; set; }
 
         public void Receiver()
         {
@@ -34,7 +36,6 @@ namespace Doctor.Classes
             try
             {
                 while (_tcpClient.Connected)
-                {
                     try
                     {
                         var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
@@ -60,17 +61,18 @@ namespace Doctor.Classes
                                 case "get/patients":
                                 {
                                     Console.WriteLine("WOEHOE RECIEVED PATIENTS");
-                                    Patient[] patients = data.patients;
-                                        Console.WriteLine("Patients count : " + patients.Length);
+                                    var patients = new Patient[data.patients.Length];
+                                    patients = data.patients;
+                                    Console.WriteLine("Patients count : " + patients.Length);
                                 }
                                     break;
                                 case "login/request":
                                     if (data.ack == false)
                                     {
-                                        loginAccepted = -1;
+                                        _loginAccepted = -1;
                                         return;
                                     }
-                                    loginAccepted = 1;
+                                    _loginAccepted = 1;
 
                                     break;
                                 case "message/send":
@@ -95,29 +97,23 @@ namespace Doctor.Classes
                     {
                         Console.WriteLine(exception.StackTrace);
                         if (!_tcpClient.Connected)
-                        {
                             Console.WriteLine("Client disconnected.");
-                        }
                     }
-                }
             }
             catch (AuthenticationException e)
             {
                 Console.WriteLine("Exception: {0}", e.Message);
                 if (e.InnerException != null)
-                {
                     Console.WriteLine("Inner exception: {0}", e.InnerException.Message);
-                }
                 Console.WriteLine("Authentication failed - closing the connection.");
                 _tcpClient.Close();
-                return;
             }
         }
 
         public bool Connect(string serverIp, string username, string password)
         {
-            _tcpClient = new TcpClient(serverIp,6969);
-            _sslStream = new SslStream(_tcpClient.GetStream(),false, (a, b, c, d) => true,null);
+            _tcpClient = new TcpClient(serverIp, 6969);
+            _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
             _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
 
             Login(username, password);
@@ -125,20 +121,22 @@ namespace Doctor.Classes
             var receiveThread = new Thread(Receiver);
             receiveThread.Start();
 
-            while (loginAccepted == 0){}
+            while (_loginAccepted == 0)
+            {
+            }
 
-            switch (loginAccepted)
+            switch (_loginAccepted)
             {
                 case 1:
-                    loginAccepted = 0;
+                    _loginAccepted = 0;
 
                     SendMessage(new
                     {
-                        id = "get/patients",
+                        id = "get/patients"
                     });
                     return true;
                 case -1:
-                    loginAccepted = 0;
+                    _loginAccepted = 0;
                     return false;
             }
             return false;
@@ -183,31 +181,36 @@ namespace Doctor.Classes
             });
         }
 
+        public void SetCurrentPatient(Patient patient)
+        {
+            _currentPatient = patient;
+        }
+
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message(data.clientid, data.clientid, System.DateTime.Now, data.data.message);
+            var toSend = new Message(data.clientid, data.clientid, DateTime.Now, data.data.message);
             return toSend;
         }
 
         public int GetUniqueId(string username, string password)
         {
-            if (username == null && password == null) return 0;
+            if ((username == null) && (password == null)) return 0;
             var nameV = GetStringInNumbers(username);
             var passwordV = GetStringInNumbers(password);
 
-            return nameV * 397 ^ passwordV;
+            return (nameV*397) ^ passwordV;
         }
 
         public int GetStringInNumbers(string text)
         {
             var nameArray = text.ToCharArray();
-            return nameArray.Sum(c => (int)c % 32);
+            return nameArray.Sum(c => (int) c%32);
         }
 
         public void SendMessage(dynamic message)
         {
-            if(_sslStream == null || !_tcpClient.Connected) return;
-            
+            if ((_sslStream == null) || !_tcpClient.Connected) return;
+
             Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
@@ -228,9 +231,7 @@ namespace Doctor.Classes
             message.AppendFormat("{0}", Encoding.ASCII.GetString(array, 4, count));
 
             for (var i = 0; i < newArray.Length; i++)
-            {
                 newArray[i] = array[i + count + 4];
-            }
             _messageBuffer = newArray;
 
             return message.ToString();
@@ -241,8 +242,8 @@ namespace Doctor.Classes
         private static byte[] ConCat(byte[] arrayOne, byte[] arrayTwo, int count)
         {
             var newArray = new byte[arrayOne.Length + count];
-            System.Buffer.BlockCopy(arrayOne, 0, newArray, 0, arrayOne.Length);
-            System.Buffer.BlockCopy(arrayTwo, 0, newArray, arrayOne.Length, count);
+            Buffer.BlockCopy(arrayOne, 0, newArray, 0, arrayOne.Length);
+            Buffer.BlockCopy(arrayTwo, 0, newArray, arrayOne.Length, count);
             return newArray;
         }
     }

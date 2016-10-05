@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Doctor.Classes;
@@ -17,6 +18,7 @@ namespace Doctor.Forms
 
     public partial class MainForm : Form
     {
+        public bool recieved = false;
         private Patient _currentPatient;
         private FontFamily _goodTimes;
         private readonly SendMessage _sendMessage;
@@ -31,15 +33,16 @@ namespace Doctor.Forms
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
-
+        private DoctorConnector _connector;
         private readonly SetCurrentPatient _setCurrentPatient;
 
-        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients, GetMeasurementsFromPatient getMeasurementsFromPatient)
+        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients, GetMeasurementsFromPatient getMeasurementsFromPatient, DoctorConnector connector1)
         {
             _setCurrentPatient = setCurrentPatient;
             _sendMessage = sendMessage;
             _getAllPatients = getAllPatients;
             _GetMeasurementsFromPatient = getMeasurementsFromPatient;
+            this._connector = connector1;
             _currentPatient = null;
 
             InitializeComponent();
@@ -177,6 +180,17 @@ namespace Doctor.Forms
         private void timeTimer_Tick(object sender, EventArgs e)
         {
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+            if(_currentPatient != null)
+            _sendMessage(new
+            {
+                id = "get/patient/data",
+                data = new
+                {
+                    clientId = _currentPatient.ClientId
+                }
+            });
+            if (_connector.GetMostRecentMeasurement() != null)
+            SetAllMeasurementData(_connector.GetMostRecentMeasurement());
         }
 
         //http://www.vbdotnetforums.com/charting/61007-hide-chart-series-clicking-series-legend.html
@@ -223,20 +237,26 @@ namespace Doctor.Forms
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
+            //TODO GRANTED CLIENT IS ONLINE. YOU KNOW WHAT.
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
                 _setCurrentPatient(_currentPatient);
-            _sendMessage(new
-            {
-                id = "get/patient/data",
-                data = new
-                {
-                    clientId = _currentPatient.ClientId
-                }
-            });
-            List<Measurement> measurements =  _GetMeasurementsFromPatient();
-            SetAllMeasurementData(measurements[0]);
+            //REDUNDANT!
+
+            //            Thread listener = new Thread(ListenMethodMsrsment);
+            //            listener.Start();
         }
+        //REDUNDANT!
+        //        public void ListenMethodMsrsment()
+        //        {
+        //            while (!_connector.recievedMeasurements)
+        //            {
+        //            }
+        //            List<Measurement> measurements = _GetMeasurementsFromPatient();
+        //            _connector.recievedMeasurements = false;
+        //            //SELFDESTRUCTED.
+        //        }
+        //REDUNDANT!
 
         public void SetAllMeasurementData(Measurement m)
         {

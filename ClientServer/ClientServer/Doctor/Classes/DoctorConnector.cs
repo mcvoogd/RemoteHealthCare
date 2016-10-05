@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-    internal class DoctorConnector
+    public class DoctorConnector
     {
         private readonly List<Message> _messageList;
         public Patient CurrentPatient;
@@ -21,6 +21,7 @@ namespace Doctor.Classes
         private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
         private TcpClient _tcpClient;
+        public bool recievedMeasurements = false;
 
         public DoctorConnector()
         {
@@ -76,9 +77,10 @@ namespace Doctor.Classes
                                     var list = data.measurementsList;
                                     for (var i = 0; i < list.Count; i++)
                                     {
-                                        Measurement m = list[i];
+                                        Measurement m = list[i].ToObject<Measurement>();
                                         CurrentPatientMeasurements.Add(m);
                                     }
+                                    recievedMeasurements = true;
                                     break;
                                 case "login/request":
                                     if (data.ack == false)
@@ -269,6 +271,18 @@ namespace Doctor.Classes
         public List<Measurement> GetAllMeasurements()
         {
             return CurrentPatientMeasurements;
+        }
+
+        public Measurement GetMostRecentMeasurement()
+        {
+            if (CurrentPatientMeasurements.Count > 1)
+            {
+                return CurrentPatientMeasurements[CurrentPatientMeasurements.Count - 1];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

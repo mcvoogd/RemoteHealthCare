@@ -130,7 +130,7 @@ namespace Doctor.Forms
             _setCurrentPatient(_currentPatient);
         }
 
-        private void chatSendButton_Click(object sender, EventArgs e)
+        private void chatSendButton_Click_1(object sender, EventArgs e)
         {
             if (_currentPatient == null)
             {

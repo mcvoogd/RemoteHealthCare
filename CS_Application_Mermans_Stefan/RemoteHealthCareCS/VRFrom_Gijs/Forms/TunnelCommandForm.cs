@@ -42,41 +42,39 @@ namespace VRFrom_Gijs.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
-            //forest = new Forest();
-            //city = new City();
-            //deletePane();
-            //Blocker.WaitOne(5000);
-            //deletePane();
-            //Blocker.WaitOne(5000);
+            forest = new Forest();
+            city = new City();
+            deletePane();
+            Blocker.WaitOne(5000);
+            deletePane();
+            Blocker.WaitOne(5000);
 
             createPanel();
             Blocker.WaitOne(5000);
 
-            //createTerrain();
-            //Thread.Sleep(3000);
-            //paintTerrain();
-            //Blocker.WaitOne(5000);
-            //createWater();
-            //Blocker.WaitOne(5000);
-            //createForest();
-            //Blocker.WaitOne(5000);
-            //createCity();
-            //Blocker.WaitOne(5000);
+            createTerrain();
+            Thread.Sleep(3000);
+            paintTerrain();
+            Blocker.WaitOne(5000);
+            createWater();
+            Blocker.WaitOne(5000);
+            createForest();
+            Blocker.WaitOne(5000);
+            createCity();
+            Blocker.WaitOne(5000);
 
-            //createBike();
-            //Blocker.WaitOne(5000);
-            //createRoad();
-            //Blocker.WaitOne(5000);
-            //followRoad();
-            //Blocker.WaitOne(5000);
-            //followBike();
-            //Blocker.WaitOne(5000);
-            //followCamera();
-            //Blocker.WaitOne(5000);
-            int i = 0;
-            while(true)
-                drawPanel($"Gegeven: {i++}\n" +
-                          $"Gegeven: {i+100}");
+            createBike();
+            Blocker.WaitOne(5000);
+            createRoad();
+            Blocker.WaitOne(5000);
+            followRoad();
+            Blocker.WaitOne(5000);
+            followBike();
+            Blocker.WaitOne(5000);
+            followCamera();
+            Blocker.WaitOne(5000);
+
+            drawPanel("1");
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -243,7 +241,10 @@ namespace VRFrom_Gijs.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
             MakePanelId();
+
             _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
 
         }
 
@@ -259,9 +260,8 @@ namespace VRFrom_Gijs.Forms
 
         private void drawPanel(string value)
         {
-            string textValue = "Satan is love";
             int[] position = {100, 100};
-            double sizeValue = 52;
+            double sizeValue = 63;
             double[] color = {1, 0, 0, 1};
             string fontValue = "Arial";
 
@@ -269,7 +269,7 @@ namespace VRFrom_Gijs.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 
-            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _panel.DrawText(value, position, sizeValue, color, fontValue);
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 

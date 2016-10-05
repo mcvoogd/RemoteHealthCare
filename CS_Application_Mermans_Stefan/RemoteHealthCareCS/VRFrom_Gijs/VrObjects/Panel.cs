@@ -84,7 +84,7 @@ namespace VRFrom_Gijs.VrObjects
             }, TunnelId);
         }
 
-        public void SetClearColor(double[] kleur)
+        public void SetClearColor(float[] kleur)
         {
            ToSend = RequestCreater.TunnelSend(new
             {
@@ -101,20 +101,11 @@ namespace VRFrom_Gijs.VrObjects
         {
             ToSend = RequestCreater.TunnelSend(new
             {
-                id = "scene/node/addLayer",
-                data = new
-                {
-                    id = Uuid,
-                    diffuse = @"..\..\res/bikePanel.jpg",
-                    normal = @"..\..\res/bikePanel.jpg",
-                    minHeight = 0,
-                    maxHeight = 10,
-                    fadeDist = 0
-                }
+                
             }, TunnelId);
         }
 
-        public void DrawText(string textValue, int[] positie, double sizeValue, double[] kleur, string fontValue)
+        public void DrawText(string textValue, int[] positie, double sizeValue, float[] kleur, string fontValue)
         {
            ToSend = RequestCreater.TunnelSend(new
             {

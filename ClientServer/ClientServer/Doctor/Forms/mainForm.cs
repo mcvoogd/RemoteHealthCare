@@ -261,5 +261,11 @@ namespace Doctor.Forms
                 clientListBox.Items.Add(patient);
             }
         }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            Training t = (Training)trainingComboBox.SelectedItem;
+            t.SendTraining();
+        }
     }
 }

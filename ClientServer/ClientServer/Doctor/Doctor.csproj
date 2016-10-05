@@ -71,12 +71,7 @@
     <Compile Include="Classes\SplitButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\AcountCreationForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AcountCreationForm.Designer.cs">
-      <DependentUpon>AcountCreationForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Classes\Training.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,9 +88,6 @@
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\AcountCreationForm.resx">
-      <DependentUpon>AcountCreationForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,9 +136,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -257,10 +257,10 @@ namespace VRFrom_Gijs.Forms
         {
             string textValue = "Satan is love";
             double[] position = {100.0, 100.0};
-            double sizeValue = 32;
+            double sizeValue = 64;
             double[] color = {1, 0, 0, 1};
             double[] clearColor = {1, 0, 0, 0};
-            string fontValue = "segoeui";
+            string fontValue = "Arial";
 
             _panel.ClearPanel();
             _connection.SendMessage(_panel.ToSend);

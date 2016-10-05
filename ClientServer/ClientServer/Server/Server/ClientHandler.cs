@@ -167,6 +167,7 @@ namespace Server.Server
             if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
+                if(databaseClient.IsDoctor) continue;
                 var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
                 patientsArray[index] = temp;
                 index++;

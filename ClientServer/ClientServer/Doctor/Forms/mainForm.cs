@@ -224,7 +224,8 @@ namespace Doctor.Forms
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
             _currentPatient = (Patient)clientListBox.SelectedItem;
-            _setCurrentPatient(_currentPatient);
+            if (_currentPatient == null) return;
+                _setCurrentPatient(_currentPatient);
             _sendMessage(new
             {
                 id = "get/patient/data",
@@ -234,7 +235,7 @@ namespace Doctor.Forms
                 }
             });
             List<Measurement> measurements =  _GetMeasurementsFromPatient();
-            //SetAllMeasurementData(measurements[0]);
+            SetAllMeasurementData(measurements[0]);
         }
 
         public void SetAllMeasurementData(Measurement m)
@@ -251,7 +252,13 @@ namespace Doctor.Forms
 
         private void refreshClientButton_Click(object sender, EventArgs e)
         {
-
+            List<Patient> list = _getAllPatients();
+            clientListBox.Text = "";
+            clientListBox.Items.Clear();
+            foreach (var patient in list)
+            {
+                clientListBox.Items.Add(patient);
+            }
         }
     }
 }

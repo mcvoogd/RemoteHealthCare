@@ -181,8 +181,15 @@ namespace Doctor.Forms
 
         private void timeTimer_Tick(object sender, EventArgs e)
         {
+            if(!Visible)return;
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
-            if(_currentPatient != null)
+            FillPatientsToList();
+            _sendMessage(new
+            {
+                id = "get/patients",
+                
+            });
+            if (_currentPatient != null)
             _sendMessage(new
             {
                 id = "get/patient/data",
@@ -192,7 +199,10 @@ namespace Doctor.Forms
                 }
             });
             if (_connector.GetMostRecentMeasurement() != null)
-            SetAllMeasurementData(_connector.GetMostRecentMeasurement());
+            {
+                Console.WriteLine("measurement added..");
+                SetAllMeasurementData(_connector.GetMostRecentMeasurement());
+            }
         }
 
         //http://www.vbdotnetforums.com/charting/61007-hide-chart-series-clicking-series-legend.html
@@ -273,6 +283,11 @@ namespace Doctor.Forms
         }
 
         private void refreshClientButton_Click(object sender, EventArgs e)
+        {
+            FillPatientsToList();
+        }
+
+        public void FillPatientsToList()
         {
             List<Patient> list = _getAllPatients();
             clientListBox.Text = "";

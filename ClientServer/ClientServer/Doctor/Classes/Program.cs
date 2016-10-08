@@ -18,7 +18,7 @@ namespace Doctor.Classes
             var connector = new DoctorConnector();
             var mainForm = new MainForm(connector.SetCurrentPatient, connector.SendMessage, connector.GetAllPatients, connector.GetAllMeasurements, connector) {Visible = false};
             var loginForm = new LoginForm(connector.Connect, mainForm);
-            var Test = new AcountCreationForm() {Visible = false};
+           /// var Test = new AcountCreationForm() {Visible = false};
 
             Application.Run(loginForm);
             

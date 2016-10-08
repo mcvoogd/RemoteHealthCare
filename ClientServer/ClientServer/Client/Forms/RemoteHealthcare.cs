@@ -24,7 +24,6 @@ namespace Client.Forms
         private readonly List<Message> _messages = new List<Message>();
         private readonly SendMessage _sendMessage;
         private readonly SendStatistics _sendStatistics;
-        private string _message;
 
         public Form1 _form1 { get; set; }
 
@@ -36,7 +35,6 @@ namespace Client.Forms
 
             FormClosing += RemoteHealthCare_FormClosing;
             ConnectionId = connectionId;
-            _message = null;
             InitializeComponent();
             Paint += RemoteHealthcare_Paint;
             Measurements = new List<Measurement>();
@@ -133,12 +131,14 @@ namespace Client.Forms
                 var simulationForm = new SimulationForm();
 
                 DataReceiver = new DataReceiver(this, simulationForm, AddMeasurement);
-                _form1 = new Form1();
+                //TODO dit is retarded, waarom iets pushen dat crashed? 
+                //TODO of crashed het alleen wanneer er geen simulatie is om mee te connecten?
+                //  _form1 = new Form1();
 
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
-                _form1.Visible = true;
-                _form1.Invalidate();
+               // _form1.Visible = true;
+                //_form1.Invalidate();
             }
             else if (comportBox.SelectedItem != null)
             {
@@ -149,6 +149,7 @@ namespace Client.Forms
                 dataReceiverThread.Start();
                 _form1.Visible = true;
                 _form1.Invalidate();
+                //TODO wtf doet form1 hier uberhuapt? is dit niet dikke null pointer since form1 != initialized??
             }
         }
 
@@ -157,9 +158,9 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
 
-            if (_form1._tunnelCommandForm._panel != null)
-                _form1._tunnelCommandForm.DrawPanel(measurement.ToString());
-            
+//            if (_form1._tunnelCommandForm._panel != null)
+//                _form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+//            
         }
 
 

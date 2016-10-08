@@ -18,7 +18,7 @@ namespace Doctor.Forms
 
     public partial class MainForm : Form
     {
-        public bool recieved = false;
+        public bool Recieved = false;
         private Patient _currentPatient;
         private FontFamily _goodTimes;
         private readonly SendMessage _sendMessage;
@@ -29,11 +29,11 @@ namespace Doctor.Forms
         VerticalLineAnnotation VA;
         RectangleAnnotation RA;
 
-        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
+        private readonly GetMeasurementsFromPatient _getMeasurementsFromPatient;
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
-        private DoctorConnector _connector;
+        private readonly DoctorConnector _connector;
         private readonly SetCurrentPatient _setCurrentPatient;
 
         public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients, GetMeasurementsFromPatient getMeasurementsFromPatient, DoctorConnector connector1)
@@ -41,7 +41,7 @@ namespace Doctor.Forms
             _setCurrentPatient = setCurrentPatient;
             _sendMessage = sendMessage;
             _getAllPatients = getAllPatients;
-            _GetMeasurementsFromPatient = getMeasurementsFromPatient;
+            _getMeasurementsFromPatient = getMeasurementsFromPatient;
             this._connector = connector1;
             _currentPatient = null;
 

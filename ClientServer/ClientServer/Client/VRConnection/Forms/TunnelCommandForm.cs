@@ -27,8 +27,6 @@ namespace Client.VRConnection.Forms
             InitializeComponent();
             Name = name;
             Blocker = new AutoResetEvent(false);
-            ;
-            ;   //  Console.WriteLine(connection.TunnelID + " <- ID");
             _connection = connection;
         }
 

@@ -157,10 +157,10 @@ namespace Client.Forms
         {
             Measurements.Add(measurement);
             _sendStatistics(measurement);
-
-//            if (_form1._tunnelCommandForm._panel != null)
-//                _form1._tunnelCommandForm.DrawPanel(measurement.ToString());
-//            
+            
+            if (_form1._tunnelCommandForm != null && _form1._tunnelCommandForm._panel != null )
+                _form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+            
         }
 
 

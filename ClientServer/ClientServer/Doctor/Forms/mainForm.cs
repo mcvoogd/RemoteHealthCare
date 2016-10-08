@@ -11,38 +11,28 @@ using Doctor.Properties;
 
 namespace Doctor.Forms
 {
-    public delegate void SetCurrentPatient(Patient patient);
-    public delegate void SendMessage(dynamic message);
-    public delegate List<Patient> GetAllPatients();
-    public delegate List<Measurement> GetMeasurementsFromPatient();
-
     public partial class MainForm : Form
     {
         public bool Recieved = false;
         private Patient _currentPatient;
         private FontFamily _goodTimes;
-        private readonly SendMessage _sendMessage;
-        public readonly GetAllPatients _getAllPatients;
 
-        ChartArea CA;
-        Series S1;
-        VerticalLineAnnotation VA;
-        RectangleAnnotation RA;
+        // What the fuck are these variable names?
+        // TODO fix them looking at you, Martijn.
+        private ChartArea _ca;
+        private Series _s1;
+        private VerticalLineAnnotation _va;
+        private RectangleAnnotation _ra;
 
-        private readonly GetMeasurementsFromPatient _getMeasurementsFromPatient;
+        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
-        private readonly SetCurrentPatient _setCurrentPatient;
 
-        public MainForm(SetCurrentPatient setCurrentPatient, SendMessage sendMessage, GetAllPatients getAllPatients, GetMeasurementsFromPatient getMeasurementsFromPatient, DoctorConnector connector1)
+        public MainForm(DoctorConnector connector)
         {
-            _setCurrentPatient = setCurrentPatient;
-            _sendMessage = sendMessage;
-            _getAllPatients = getAllPatients;
-            _getMeasurementsFromPatient = getMeasurementsFromPatient;
-            this._connector = connector1;
+            this._connector = connector;
             _currentPatient = null;
 
             InitializeComponent();
@@ -51,7 +41,7 @@ namespace Doctor.Forms
             CargoPrivateFontCollection();
             Fonts();
             AddSplitButton();
-            makeChartSlider();
+            MakeChartSlider();
         }
 
         [DllImport("gdi32.dll")]
@@ -81,74 +71,84 @@ namespace Doctor.Forms
             _goodTimes = pfc.Families[0];
         }
 
-        private void makeChartSlider()
+        // This looks like it has been copy pasted...
+        // Dem comments -Stefan
+        private void MakeChartSlider()
         {
-            CA = progressChart.ChartAreas[0];  // pick the right ChartArea..
-            S1 = progressChart.Series[0];      // ..and Series!
+            _ca = progressChart.ChartAreas[0];  // pick the right ChartArea..
+            _s1 = progressChart.Series[0];      // ..and Series!
 
             // factors to convert values to pixels
-            double xFactor = 0.03;         // use your numbers!
-            double yFactor = 0.02;        // use your numbers!
+            const double xFactor = 0.03; // use your numbers!
+            const double yFactor = 0.02; // use your numbers!
 
             // the vertical line
-            VA = new VerticalLineAnnotation();
-            VA.AxisX = CA.AxisX;
-            VA.AllowMoving = true;
-            VA.IsInfinitive = true;
-            VA.ClipToChartArea = CA.Name;
-            VA.Name = "myLine";
-            VA.LineColor = Color.Red;
-            VA.LineWidth = 2;         // use your numbers!
-            VA.X = 1;
+            _va = new VerticalLineAnnotation
+            {
+                AxisX = _ca.AxisX,
+                AllowMoving = true,
+                IsInfinitive = true,
+                ClipToChartArea = _ca.Name,
+                Name = "myLine",
+                LineColor = Color.Red,
+                LineWidth = 2,
+                X = 1
+            };
+            // use your numbers!
 
             // the rectangle
-            RA = new RectangleAnnotation();
-            RA.AxisX = CA.AxisX;
-            RA.IsSizeAlwaysRelative = false;
-            RA.Width = 20 * xFactor;         // use your numbers!
-            RA.Height = 8 * yFactor;        // use your numbers!
-            VA.Name = "myRect";
-            RA.LineColor = Color.Red;
-            RA.BackColor = Color.Red;
-            RA.AxisY = CA.AxisY;
-            RA.Y = -RA.Height;
-            RA.X = VA.X - RA.Width / 2;
+            _ra = new RectangleAnnotation
+            {
+                AxisX = _ca.AxisX,
+                IsSizeAlwaysRelative = false,
+                Width = 20*xFactor,
+                Height = 8*yFactor
+            };
+            // use your numbers!
+            // use your numbers!
+            _va.Name = "myRect";
+            _ra.LineColor = Color.Red;
+            _ra.BackColor = Color.Red;
+            _ra.AxisY = _ca.AxisY;
+            _ra.Y = -_ra.Height;
+            _ra.X = _va.X - _ra.Width / 2;
 
-            RA.Text = "Cliënt";
-            RA.ForeColor = Color.White;
-            RA.Font = new System.Drawing.Font("Arial", 8f);
+            _ra.Text = "Cliënt";
+            _ra.ForeColor = Color.White;
+            _ra.Font = new System.Drawing.Font("Arial", 8f);
 
-            progressChart.Annotations.Add(VA);
-            progressChart.Annotations.Add(RA);
+            progressChart.Annotations.Add(_va);
+            progressChart.Annotations.Add(_ra);
         }
 
         private void progressChart_AnnotationPositionChanging(object sender, AnnotationPositionChangingEventArgs e)
         {
             // move the rectangle with the line
-            if (sender == VA) RA.X = VA.X - RA.Width / 2;
+            if (sender == _va) _ra.X = _va.X - _ra.Width / 2;
 
             // display the current Y-value
             int pt1 = (int)e.NewLocationX;
-            double step = (S1.Points[pt1 + 1].YValues[0] - S1.Points[pt1].YValues[0]);
-            double deltaX = e.NewLocationX - S1.Points[pt1].XValue;
-            double val = S1.Points[pt1].YValues[0] + step * deltaX;
-            progressChart.Titles[0].Text = String.Format(
-                                    "X = {0:0.00}   Y = {1:0.00}", e.NewLocationX, val);
-            RA.Text = String.Format("{0:0.00}", val);
+            double step = (_s1.Points[pt1 + 1].YValues[0] - _s1.Points[pt1].YValues[0]);
+            double deltaX = e.NewLocationX - _s1.Points[pt1].XValue;
+            double val = _s1.Points[pt1].YValues[0] + step * deltaX;
+            progressChart.Titles[0].Text = $"X = {e.NewLocationX:0.00}   Y = {val:0.00}";
+            _ra.Text = $"{val:0.00}";
             progressChart.Update();
         }
 
         private void progressChart_AnnotationPositionChanged(object sender, EventArgs e)
         {
-            VA.X = (int)(VA.X + 0.5);
-            RA.X = VA.X - RA.Width / 2;
+            _va.X = (int)(_va.X + 0.5);
+            _ra.X = _va.X - _ra.Width / 2;
         }
         private void AddSplitButton()
         {
             chatSendButton.FlatStyle = FlatStyle.Popup;
             chatSendButton.BackColor = Color.White;
-            chatSendButton.ContextMenuStrip = new ContextMenuStrip();
-            chatSendButton.ContextMenuStrip.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chatSendButton.ContextMenuStrip = new ContextMenuStrip
+            {
+                Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
+            };
             chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
             Controls.Add(chatSendButton);
         }
@@ -184,13 +184,13 @@ namespace Doctor.Forms
             if(!Visible)return;
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
             FillPatientsToList();
-            _sendMessage(new
+            _connector.SendMessage(new
             {
                 id = "get/patients",
                 
             });
             if (_currentPatient != null)
-            _sendMessage(new
+            _connector.SendMessage(new
             {
                 id = "get/patient/data",
                 data = new
@@ -235,7 +235,7 @@ namespace Doctor.Forms
                 return;
             }
 
-            _sendMessage(new
+            _connector.SendMessage(new
             {
                 id = "message/send",
                 targetid = _currentPatient.ClientId,
@@ -252,7 +252,7 @@ namespace Doctor.Forms
             //TODO GRANTED CLIENT IS ONLINE. YOU KNOW WHAT.
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
-                _setCurrentPatient(_currentPatient);
+                _connector.SetCurrentPatient(_currentPatient);
             //REDUNDANT!
 
             //            Thread listener = new Thread(ListenMethodMsrsment);
@@ -289,7 +289,7 @@ namespace Doctor.Forms
 
         public void FillPatientsToList()
         {
-            List<Patient> list = _getAllPatients();
+            List<Patient> list = _connector.GetAllPatients();
             clientListBox.Text = "";
             clientListBox.Items.Clear();
             foreach (var patient in list)

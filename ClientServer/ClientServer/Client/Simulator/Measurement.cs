@@ -45,8 +45,8 @@ namespace Client.Simulator
                    $"\nRotations : {Rotations}" +
                    $"\nSpeed : {Speed}" +
                    $"\nPower : {Power}" +
-                   $"\nDistance : {Distance}" +
-                   $"\nBurned : {Burned}" +
+                   $"\nDistance : {Distance:##.00}" +
+                   $"\nBurned : {Burned:##.00}" +
                    $"\nTime : {Time}" +
                    $"\nReachedPower : {ReachedPower}";
         }

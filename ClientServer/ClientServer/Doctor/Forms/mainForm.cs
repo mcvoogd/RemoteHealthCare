@@ -312,11 +312,13 @@ namespace Doctor.Forms
             if (rpmLegendaLabel.BackColor != Color.Transparent)
             {
                 rpmLegendaLabel.BackColor = Color.Transparent;
+                rpmLegendaLabel.ForeColor = Color.White;
                 dataChart.Series["RPM"].Enabled = false;
             }
             else
             {
                 rpmLegendaLabel.BackColor = Color.Yellow;
+                rpmLegendaLabel.ForeColor = Color.Black;
                 dataChart.Series["RPM"].Enabled = true;
             }
         }

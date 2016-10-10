@@ -262,7 +262,7 @@ namespace Doctor.Forms
         {
             FillPatientsToList();
         }
-
+        
         public void FillPatientsToList()
         {
             var list = _connector.GetAllPatients();
@@ -272,6 +272,11 @@ namespace Doctor.Forms
             {
                 clientListBox.Items.Add(patient);
             }
+        }
+
+        private void userAddButton_Click(object sender, EventArgs e)
+        {
+            new AcountCreationForm(_connector);
         }
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)

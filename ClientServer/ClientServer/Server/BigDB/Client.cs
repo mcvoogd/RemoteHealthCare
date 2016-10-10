@@ -17,7 +17,6 @@ namespace Server.BigDB
             IsDoctor = isDoctor;
             ClientStatus = Status.CONNECTED;
             UniqueId = uniqueId == 0 ? GetUniqueId(name, password) : uniqueId;
-            Console.WriteLine($"Chosen id : {UniqueId}");
         }
         public bool IsOnline { get; set; }
         public string Name { get; set; }
@@ -38,7 +37,7 @@ namespace Server.BigDB
             ClientStatus = newStatus;
         }
 
-        public int GetUniqueId(string username, string password)
+        public static int GetUniqueId(string username, string password)
         {
             if ((username == null) && (password == null)) return 0;
             var nameV = GetStringInNumbers(username);
@@ -47,7 +46,7 @@ namespace Server.BigDB
             return (nameV*397) ^ passwordV;
         }
 
-        public int GetStringInNumbers(string text)
+        public static int GetStringInNumbers(string text)
         {
             var nameArray = text.ToCharArray();
             return nameArray.Sum(c => (int) c%32);
@@ -60,6 +59,11 @@ namespace Server.BigDB
             READY_TO_GO,
             BIKING,
             FINISHED
+        }
+
+        public override string ToString()
+        {
+            return $"Client: {Name}, Id: {UniqueId}";
         }
     }
 }

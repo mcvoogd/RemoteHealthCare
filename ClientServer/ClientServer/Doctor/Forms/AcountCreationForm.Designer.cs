@@ -32,8 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.NameTextBox = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.passwordBoxOne = new System.Windows.Forms.TextBox();
+            this.passWordBoxTwo = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.errorPasswordsMatchLabel = new System.Windows.Forms.Label();
             this.errorEmptyFIeldLabel = new System.Windows.Forms.Label();
@@ -74,21 +74,21 @@
             this.NameTextBox.Size = new System.Drawing.Size(257, 22);
             this.NameTextBox.TabIndex = 3;
             // 
-            // textBox1
+            // passwordBoxOne
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.PasswordChar = '•';
-            this.textBox1.Size = new System.Drawing.Size(258, 22);
-            this.textBox1.TabIndex = 4;
+            this.passwordBoxOne.Location = new System.Drawing.Point(12, 79);
+            this.passwordBoxOne.Name = "passwordBoxOne";
+            this.passwordBoxOne.PasswordChar = '•';
+            this.passwordBoxOne.Size = new System.Drawing.Size(258, 22);
+            this.passwordBoxOne.TabIndex = 4;
             // 
-            // textBox2
+            // passWordBoxTwo
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 124);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '•';
-            this.textBox2.Size = new System.Drawing.Size(258, 22);
-            this.textBox2.TabIndex = 5;
+            this.passWordBoxTwo.Location = new System.Drawing.Point(12, 124);
+            this.passWordBoxTwo.Name = "passWordBoxTwo";
+            this.passWordBoxTwo.PasswordChar = '•';
+            this.passWordBoxTwo.Size = new System.Drawing.Size(258, 22);
+            this.passWordBoxTwo.TabIndex = 5;
             // 
             // label3
             // 
@@ -108,7 +108,6 @@
             this.errorPasswordsMatchLabel.Size = new System.Drawing.Size(231, 17);
             this.errorPasswordsMatchLabel.TabIndex = 7;
             this.errorPasswordsMatchLabel.Text = "Wachtwoorden komen niet overeen";
-            this.errorPasswordsMatchLabel.Visible = false;
             // 
             // errorEmptyFIeldLabel
             // 
@@ -119,7 +118,6 @@
             this.errorEmptyFIeldLabel.Size = new System.Drawing.Size(115, 17);
             this.errorEmptyFIeldLabel.TabIndex = 8;
             this.errorEmptyFIeldLabel.Text = "Vul alle velden in";
-            this.errorEmptyFIeldLabel.Visible = false;
             // 
             // AcountCreationForm
             // 
@@ -129,8 +127,8 @@
             this.Controls.Add(this.errorEmptyFIeldLabel);
             this.Controls.Add(this.errorPasswordsMatchLabel);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.passWordBoxTwo);
+            this.Controls.Add(this.passwordBoxOne);
             this.Controls.Add(this.NameTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -148,8 +146,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox NameTextBox;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox passwordBoxOne;
+        private System.Windows.Forms.TextBox passWordBoxTwo;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label errorPasswordsMatchLabel;
         private System.Windows.Forms.Label errorEmptyFIeldLabel;

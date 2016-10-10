@@ -68,16 +68,14 @@ namespace Doctor.Forms
             _goodTimes = pfc.Families[0];
         }
 
-        // This looks like it has been copy pasted...
-        // Dem comments -Stefan
         private void MakeChartSlider()
         {
-            _chartHeight = progressChart.ChartAreas[0];  // pick the right ChartArea..
-            _serieHeight = progressChart.Series[0];      // ..and Series!
+            _chartHeight = progressChart.ChartAreas[0];
+            _serieHeight = progressChart.Series[0];
 
             // factors to convert values to pixels
-            const double xFactor = 0.03; // use your numbers!
-            const double yFactor = 0.02; // use your numbers!
+            const double xFactor = 0.03;
+            const double yFactor = 0.02;
 
             // the vertical line
             _verticalLine = new VerticalLineAnnotation
@@ -264,7 +262,7 @@ namespace Doctor.Forms
         {
             FillPatientsToList();
         }
-
+        
         public void FillPatientsToList()
         {
             var list = _connector.GetAllPatients();
@@ -274,6 +272,11 @@ namespace Doctor.Forms
             {
                 clientListBox.Items.Add(patient);
             }
+        }
+
+        private void userAddButton_Click(object sender, EventArgs e)
+        {
+            new AcountCreationForm(_connector);
         }
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)

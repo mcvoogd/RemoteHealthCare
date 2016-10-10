@@ -16,15 +16,12 @@ namespace Doctor.Forms
         public bool Recieved = false;
         private Patient _currentPatient;
         private FontFamily _goodTimes;
+        
+        private ChartArea _chartHeight;
+        private Series _serieHeight;
+        private VerticalLineAnnotation _verticalLine;
+        private RectangleAnnotation _rectangle;
 
-        // What the fuck are these variable names?
-        // TODO fix them looking at you, Martijn.
-        private ChartArea _ca;
-        private Series _s1;
-        private VerticalLineAnnotation _va;
-        private RectangleAnnotation _ra;
-
-        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
@@ -75,71 +72,69 @@ namespace Doctor.Forms
         // Dem comments -Stefan
         private void MakeChartSlider()
         {
-            _ca = progressChart.ChartAreas[0];  // pick the right ChartArea..
-            _s1 = progressChart.Series[0];      // ..and Series!
+            _chartHeight = progressChart.ChartAreas[0];  // pick the right ChartArea..
+            _serieHeight = progressChart.Series[0];      // ..and Series!
 
             // factors to convert values to pixels
             const double xFactor = 0.03; // use your numbers!
             const double yFactor = 0.02; // use your numbers!
 
             // the vertical line
-            _va = new VerticalLineAnnotation
+            _verticalLine = new VerticalLineAnnotation
             {
-                AxisX = _ca.AxisX,
+                AxisX = _chartHeight.AxisX,
                 AllowMoving = true,
                 IsInfinitive = true,
-                ClipToChartArea = _ca.Name,
+                ClipToChartArea = _chartHeight.Name,
                 Name = "myLine",
                 LineColor = Color.Red,
                 LineWidth = 2,
                 X = 1
             };
-            // use your numbers!
 
             // the rectangle
-            _ra = new RectangleAnnotation
+            _rectangle = new RectangleAnnotation
             {
-                AxisX = _ca.AxisX,
+                AxisX = _chartHeight.AxisX,
                 IsSizeAlwaysRelative = false,
                 Width = 20*xFactor,
                 Height = 8*yFactor
             };
-            // use your numbers!
-            // use your numbers!
-            _va.Name = "myRect";
-            _ra.LineColor = Color.Red;
-            _ra.BackColor = Color.Red;
-            _ra.AxisY = _ca.AxisY;
-            _ra.Y = -_ra.Height;
-            _ra.X = _va.X - _ra.Width / 2;
 
-            _ra.Text = "Cliënt";
-            _ra.ForeColor = Color.White;
-            _ra.Font = new System.Drawing.Font("Arial", 8f);
+            _verticalLine.Name = "myRect";
+            _rectangle.LineColor = Color.Red;
+            _rectangle.BackColor = Color.Red;
+            _rectangle.AxisY = _chartHeight.AxisY;
+            _rectangle.Y = -_rectangle.Height;
+            _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
 
-            progressChart.Annotations.Add(_va);
-            progressChart.Annotations.Add(_ra);
+            _rectangle.Text = "Cliënt";
+            _rectangle.ForeColor = Color.White;
+            _rectangle.Font = new System.Drawing.Font("Arial", 8f);
+
+            progressChart.Annotations.Add(_verticalLine);
+            progressChart.Annotations.Add(_rectangle);
         }
 
         private void progressChart_AnnotationPositionChanging(object sender, AnnotationPositionChangingEventArgs e)
         {
             // move the rectangle with the line
-            if (sender == _va) _ra.X = _va.X - _ra.Width / 2;
+            if (sender == _verticalLine) _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
 
             // display the current Y-value
             int pt1 = (int)e.NewLocationX;
-            double step = (_s1.Points[pt1 + 1].YValues[0] - _s1.Points[pt1].YValues[0]);
-            double deltaX = e.NewLocationX - _s1.Points[pt1].XValue;
-            double val = _s1.Points[pt1].YValues[0] + step * deltaX;
+            double step = (_serieHeight.Points[pt1 + 1].YValues[0] - _serieHeight.Points[pt1].YValues[0]);
+            double deltaX = e.NewLocationX - _serieHeight.Points[pt1].XValue;
+            double val = _serieHeight.Points[pt1].YValues[0] + step * deltaX;
             progressChart.Titles[0].Text = $"X = {e.NewLocationX:0.00}   Y = {val:0.00}";
-            _ra.Text = $"{val:0.00}";
+            _rectangle.Text = $"{val:0.00}";
             progressChart.Update();
         }
 
         private void progressChart_AnnotationPositionChanged(object sender, EventArgs e)
         {
-            _va.X = (int)(_va.X + 0.5);
-            _ra.X = _va.X - _ra.Width / 2;
+            _verticalLine.X = (int)(_verticalLine.X + 0.5);
+            _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
         }
         private void AddSplitButton()
         {

@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VRFrom_Gijs.Forms.Program;
 using VRFrom_Gijs.Program;
@@ -21,13 +15,13 @@ namespace VRFrom_Gijs.Forms
     {
         public static AutoResetEvent Blocker;
         private Connection _connection;
-        public string Name { get; set; }
+        //public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
-        private List<Punt> forestPoints;
+        private List<Punt> forestPoints = new List<Punt>();
 
         public TunnelCommandForm(Connection connection, string name)
         {

@@ -806,7 +806,7 @@ namespace Doctor.Forms
             this.kjLegendaLabel.AutoSize = true;
             this.kjLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.kjLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.kjLegendaLabel.Location = new System.Drawing.Point(175, 385);
+            this.kjLegendaLabel.Location = new System.Drawing.Point(178, 385);
             this.kjLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.kjLegendaLabel.Name = "kjLegendaLabel";
             this.kjLegendaLabel.Size = new System.Drawing.Size(19, 13);
@@ -820,7 +820,7 @@ namespace Doctor.Forms
             this.rpmLegendaLabel.AutoSize = true;
             this.rpmLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.rpmLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.rpmLegendaLabel.Location = new System.Drawing.Point(210, 385);
+            this.rpmLegendaLabel.Location = new System.Drawing.Point(213, 385);
             this.rpmLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.rpmLegendaLabel.Name = "rpmLegendaLabel";
             this.rpmLegendaLabel.Size = new System.Drawing.Size(31, 13);
@@ -834,7 +834,7 @@ namespace Doctor.Forms
             this.pulseLegendaLabel.AutoSize = true;
             this.pulseLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.pulseLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.pulseLegendaLabel.Location = new System.Drawing.Point(276, 385);
+            this.pulseLegendaLabel.Location = new System.Drawing.Point(264, 385);
             this.pulseLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.pulseLegendaLabel.Name = "pulseLegendaLabel";
             this.pulseLegendaLabel.Size = new System.Drawing.Size(33, 13);
@@ -848,7 +848,7 @@ namespace Doctor.Forms
             this.kmhLegendaLabel.AutoSize = true;
             this.kmhLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.kmhLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.kmhLegendaLabel.Location = new System.Drawing.Point(329, 385);
+            this.kmhLegendaLabel.Location = new System.Drawing.Point(332, 385);
             this.kmhLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.kmhLegendaLabel.Name = "kmhLegendaLabel";
             this.kmhLegendaLabel.Size = new System.Drawing.Size(33, 13);

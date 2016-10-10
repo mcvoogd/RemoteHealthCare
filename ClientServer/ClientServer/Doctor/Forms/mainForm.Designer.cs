@@ -415,25 +415,6 @@ namespace Doctor.Forms
             this.clientListBox.ForeColor = System.Drawing.Color.White;
             this.clientListBox.FormattingEnabled = true;
             this.clientListBox.ItemHeight = 24;
-            this.clientListBox.Items.AddRange(new object[] {
-            "Kevin",
-            "Martijn",
-            "Menno",
-            "Stefan",
-            "Gijs",
-            "Cas",
-            "Kevin",
-            "Martijn",
-            "Menno",
-            "Stefan",
-            "Gijs",
-            "Cas",
-            "Kevin",
-            "Martijn",
-            "Menno",
-            "Stefan",
-            "Gijs",
-            "Cas"});
             this.clientListBox.Location = new System.Drawing.Point(12, 104);
             this.clientListBox.Name = "clientListBox";
             this.clientListBox.Size = new System.Drawing.Size(284, 120);
@@ -653,7 +634,7 @@ namespace Doctor.Forms
             this.chatReceiveTextBox.ReadOnly = true;
             this.chatReceiveTextBox.Size = new System.Drawing.Size(290, 113);
             this.chatReceiveTextBox.TabIndex = 38;
-            this.chatReceiveTextBox.Text = "Hoi fietser\n\tHallo dokter\nHoe gaat het?\n\tGoed!";
+            this.chatReceiveTextBox.Text = "";
             // 
             // chatSendTextBox
             // 
@@ -878,11 +859,6 @@ namespace Doctor.Forms
             this.historyListBox.ForeColor = System.Drawing.Color.White;
             this.historyListBox.FormattingEnabled = true;
             this.historyListBox.ItemHeight = 25;
-            this.historyListBox.Items.AddRange(new object[] {
-            "10-10-\'16 - 14:50",
-            "10-10-\'16 - 09:19",
-            "09-10-\'16 - 12:34",
-            "09-10-\'16 - 11:45"});
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
             this.historyListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.historyListBox.Name = "historyListBox";

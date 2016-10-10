@@ -203,7 +203,7 @@ namespace Client.Forms
 
         public void SendCommandToBike(dynamic message)
         {
-            DataReceiver.SendCommand(message, DataReceiver.getSerialPort());
+            DataReceiver.SendCommand(message, DataReceiver.GetSerialPort());
         }
     }
 }

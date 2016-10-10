@@ -109,7 +109,7 @@ namespace Client.Connection
             return tempMeasurement;
         }
 
-        public SerialPort getSerialPort()
+        public SerialPort GetSerialPort()
         {
             return _serialPort;
         }

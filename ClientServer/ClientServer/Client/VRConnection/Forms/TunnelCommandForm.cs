@@ -47,8 +47,6 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
             PaintTerrain();
             Blocker.WaitOne(5000);
-            CreateWater();
-            Blocker.WaitOne(5000);
 
             CreateBike();
             Blocker.WaitOne(5000);
@@ -59,7 +57,9 @@ namespace Client.VRConnection.Forms
             FollowBike();
             Blocker.WaitOne(5000);
             FollowCamera();
-
+           
+            Blocker.WaitOne(5000);
+            CreateWater();
             Blocker.WaitOne(5000);
             CreateForest();
             Blocker.WaitOne(5000);

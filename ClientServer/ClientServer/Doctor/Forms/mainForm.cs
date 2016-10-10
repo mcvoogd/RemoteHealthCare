@@ -277,7 +277,6 @@ namespace Doctor.Forms
             }
         }
 
-<<<<<<< HEAD
         private void loadButton_Click(object sender, EventArgs e)
         {
             //TODO fix it menno
@@ -300,7 +299,8 @@ namespace Doctor.Forms
                 }
             };
             return toSend;
-=======
+        }
+
         private void powerLegendaLabel_Click(object sender, EventArgs e)
         {
             if (powerLegendaLabel.BackColor != Color.Transparent)
@@ -369,7 +369,6 @@ namespace Doctor.Forms
                 kmhLegendaLabel.BackColor = Color.Blue;
                 dataChart.Series["Km/h"].Enabled = true;
             }
->>>>>>> 3cf924491e4d0f3f15d2ae54b19f6ec58a36bea3
         }
     }
 }

@@ -158,8 +158,6 @@
             this.comportBox.Name = "comportBox";
             this.comportBox.Size = new System.Drawing.Size(149, 24);
             this.comportBox.TabIndex = 0;
-            this.comportBox.SelectedIndexChanged += new System.EventHandler(this.comportBox_SelectedIndexChanged);
-            // 
             // chart1
             // 
             chartArea1.Name = "ChartArea1";

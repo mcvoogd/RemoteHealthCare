@@ -125,9 +125,9 @@ namespace Doctor.Classes
 
         public List<Patient> GetAllPatients()
         {
-            
             return PatientesList ?? null;
         }
+
         public bool Connect(string serverIp, string username, string password)
         {
             _tcpClient = new TcpClient(serverIp, 6969);

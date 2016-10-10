@@ -147,8 +147,8 @@ namespace Client.Forms
                 DataReceiver = new DataReceiver(serialPort, this, AddMeasurement);
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
-                _form1.Visible = true;
-                _form1.Invalidate();
+              //  _form1.Visible = true;
+               // _form1.Invalidate();
                 //TODO wtf doet form1 hier uberhuapt? is dit niet dikke null pointer since form1 != initialized??
             }
         }

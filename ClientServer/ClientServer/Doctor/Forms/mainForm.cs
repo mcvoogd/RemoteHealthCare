@@ -24,7 +24,6 @@ namespace Doctor.Forms
         private VerticalLineAnnotation _va;
         private RectangleAnnotation _ra;
 
-        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
@@ -32,7 +31,7 @@ namespace Doctor.Forms
 
         public MainForm(DoctorConnector connector)
         {
-            this._connector = connector;
+            _connector = connector;
             _currentPatient = null;
 
             InitializeComponent();
@@ -289,7 +288,7 @@ namespace Doctor.Forms
 
         public void FillPatientsToList()
         {
-            List<Patient> list = _connector.GetAllPatients();
+            var list = _connector.GetAllPatients();
             clientListBox.Text = "";
             clientListBox.Items.Clear();
             foreach (var patient in list)

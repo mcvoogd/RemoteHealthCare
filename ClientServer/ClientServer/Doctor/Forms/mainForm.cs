@@ -172,6 +172,12 @@ namespace Doctor.Forms
             brakeButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataChart.Legends["Legend1"].Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chatSendButton.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            powerLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            kjLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            rpmLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            pulseLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            kmhLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label10.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         }
 
         private void timeTimer_Tick(object sender, EventArgs e)
@@ -200,29 +206,7 @@ namespace Doctor.Forms
             }
         }
 
-        //http://www.vbdotnetforums.com/charting/61007-hide-chart-series-clicking-series-legend.html
-        //http://stackoverflow.com/questions/14124601/display-disabled-series-in-legend
-        private void dataChart_Click(object sender, EventArgs e)
-        {
-            var seriesHit = dataChart.HitTest(MousePosition.X, MousePosition.Y);
-            if (seriesHit.ChartElementType == ChartElementType.DataPoint)
-            {
-                MessageBox.Show("Selected by Series!");
-                // ^^ This, as a test box, works fine...
-                var parameterNameStr = seriesHit.Series.Name;
-                // ^^ This is what I want but is causing trouble!
-            }
-            else if (seriesHit.ChartElementType == ChartElementType.LegendItem)
-            {
-                MessageBox.Show("Selected by Legend!!");
-            }
-            else
-            {
-                MessageBox.Show("Whoops, try again!");
-            }
-        }
-
-        private void chatSendButton_Click_1(object sender, EventArgs e)
+       private void chatSendButton_Click_1(object sender, EventArgs e)
         {
             if (_currentPatient == null)
             {
@@ -290,6 +274,76 @@ namespace Doctor.Forms
             foreach (var patient in list)
             {
                 clientListBox.Items.Add(patient);
+            }
+        }
+
+        private void powerLegendaLabel_Click(object sender, EventArgs e)
+        {
+            if (powerLegendaLabel.BackColor != Color.Transparent)
+            {
+                powerLegendaLabel.BackColor = Color.Transparent;
+                dataChart.Series["Power (Watts)"].Enabled = false;
+            }
+            else
+            {
+                powerLegendaLabel.BackColor = Color.Green;
+                dataChart.Series["Power (Watts)"].Enabled = true;
+            }
+        }
+
+        private void kjLegendaLabel_Click(object sender, EventArgs e)
+        {
+            if (kjLegendaLabel.BackColor != Color.Transparent)
+            {
+                kjLegendaLabel.BackColor = Color.Transparent;
+                dataChart.Series["KJ"].Enabled = false;
+            }
+            else
+            {
+                kjLegendaLabel.BackColor = Color.Purple;
+                dataChart.Series["KJ"].Enabled = true;
+            }
+        }
+
+        private void rpmLegendaLabel_Click(object sender, EventArgs e)
+        {
+            if (rpmLegendaLabel.BackColor != Color.Transparent)
+            {
+                rpmLegendaLabel.BackColor = Color.Transparent;
+                dataChart.Series["RPM"].Enabled = false;
+            }
+            else
+            {
+                rpmLegendaLabel.BackColor = Color.Yellow;
+                dataChart.Series["RPM"].Enabled = true;
+            }
+        }
+
+        private void pulseLegendaLabel_Click(object sender, EventArgs e)
+        {
+            if (pulseLegendaLabel.BackColor != Color.Transparent)
+            {
+                pulseLegendaLabel.BackColor = Color.Transparent;
+                dataChart.Series["Pulse"].Enabled = false;
+            }
+            else
+            {
+                pulseLegendaLabel.BackColor = Color.Red;
+                dataChart.Series["Pulse"].Enabled = true;
+            }
+        }
+
+        private void kmhLegendaLabel_Click(object sender, EventArgs e)
+        {
+            if (kmhLegendaLabel.BackColor != Color.Transparent)
+            {
+                kmhLegendaLabel.BackColor = Color.Transparent;
+                dataChart.Series["Km/h"].Enabled = false;
+            }
+            else
+            {
+                kmhLegendaLabel.BackColor = Color.Blue;
+                dataChart.Series["Km/h"].Enabled = true;
             }
         }
     }

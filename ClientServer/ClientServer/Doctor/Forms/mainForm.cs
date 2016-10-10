@@ -286,7 +286,8 @@ namespace Doctor.Forms
         private void loadButton_Click(object sender, EventArgs e)
         {
             Training t = (Training)trainingComboBox.SelectedItem;
-            t.SendTraining();
+            List<dynamic> ToSend = t.SendTraining();
+            DoctorConnector.Send
         }
     }
 }

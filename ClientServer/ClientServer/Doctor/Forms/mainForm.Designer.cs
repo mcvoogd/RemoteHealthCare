@@ -103,6 +103,12 @@ namespace Doctor.Forms
             this.trainingComboBox = new System.Windows.Forms.ComboBox();
             this.userAddButton = new System.Windows.Forms.Button();
             this.brakeButton = new System.Windows.Forms.Button();
+            this.powerLegendaLabel = new System.Windows.Forms.Label();
+            this.kjLegendaLabel = new System.Windows.Forms.Label();
+            this.rpmLegendaLabel = new System.Windows.Forms.Label();
+            this.pulseLegendaLabel = new System.Windows.Forms.Label();
+            this.kmhLegendaLabel = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -539,6 +545,7 @@ namespace Doctor.Forms
             this.dataChart.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.Transparent;
+            legend1.Enabled = false;
             legend1.ForeColor = System.Drawing.Color.White;
             legend1.HeaderSeparatorColor = System.Drawing.Color.White;
             legend1.IsTextAutoFit = false;
@@ -578,23 +585,29 @@ namespace Doctor.Forms
             series2.BorderWidth = 2;
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.Yellow;
+            series2.Color = System.Drawing.Color.Purple;
+            series2.Enabled = false;
             series2.Legend = "Legend1";
             series2.Name = "KJ";
             series3.BorderWidth = 2;
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Color = System.Drawing.Color.Yellow;
+            series3.Enabled = false;
             series3.Legend = "Legend1";
             series3.Name = "RPM";
             series4.BorderWidth = 2;
             series4.ChartArea = "ChartArea1";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series4.Color = System.Drawing.Color.Red;
+            series4.Enabled = false;
             series4.Legend = "Legend1";
             series4.Name = "Pulse";
             series5.BorderWidth = 2;
             series5.ChartArea = "ChartArea1";
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Color = System.Drawing.Color.Blue;
+            series5.Enabled = false;
             series5.Legend = "Legend1";
             series5.Name = "Km/h";
             series5.Points.Add(dataPoint6);
@@ -608,7 +621,6 @@ namespace Doctor.Forms
             this.dataChart.Size = new System.Drawing.Size(1179, 219);
             this.dataChart.TabIndex = 29;
             this.dataChart.Text = "chart1";
-            this.dataChart.Click += new System.EventHandler(this.dataChart_Click);
             // 
             // userLabel
             // 
@@ -849,6 +861,83 @@ namespace Doctor.Forms
             this.brakeButton.Text = "Emergency brake";
             this.brakeButton.UseVisualStyleBackColor = false;
             // 
+            // powerLegendaLabel
+            // 
+            this.powerLegendaLabel.AutoSize = true;
+            this.powerLegendaLabel.BackColor = System.Drawing.Color.Green;
+            this.powerLegendaLabel.ForeColor = System.Drawing.Color.White;
+            this.powerLegendaLabel.Location = new System.Drawing.Point(41, 385);
+            this.powerLegendaLabel.Name = "powerLegendaLabel";
+            this.powerLegendaLabel.Size = new System.Drawing.Size(74, 13);
+            this.powerLegendaLabel.TabIndex = 46;
+            this.powerLegendaLabel.Text = "Power (Watts)";
+            this.powerLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.powerLegendaLabel.Click += new System.EventHandler(this.powerLegendaLabel_Click);
+            // 
+            // kjLegendaLabel
+            // 
+            this.kjLegendaLabel.AutoSize = true;
+            this.kjLegendaLabel.BackColor = System.Drawing.Color.Transparent;
+            this.kjLegendaLabel.ForeColor = System.Drawing.Color.White;
+            this.kjLegendaLabel.Location = new System.Drawing.Point(177, 385);
+            this.kjLegendaLabel.Name = "kjLegendaLabel";
+            this.kjLegendaLabel.Size = new System.Drawing.Size(19, 13);
+            this.kjLegendaLabel.TabIndex = 47;
+            this.kjLegendaLabel.Text = "KJ";
+            this.kjLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.kjLegendaLabel.Click += new System.EventHandler(this.kjLegendaLabel_Click);
+            // 
+            // rpmLegendaLabel
+            // 
+            this.rpmLegendaLabel.AutoSize = true;
+            this.rpmLegendaLabel.BackColor = System.Drawing.Color.Transparent;
+            this.rpmLegendaLabel.ForeColor = System.Drawing.Color.White;
+            this.rpmLegendaLabel.Location = new System.Drawing.Point(224, 385);
+            this.rpmLegendaLabel.Name = "rpmLegendaLabel";
+            this.rpmLegendaLabel.Size = new System.Drawing.Size(31, 13);
+            this.rpmLegendaLabel.TabIndex = 48;
+            this.rpmLegendaLabel.Text = "RPM";
+            this.rpmLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rpmLegendaLabel.Click += new System.EventHandler(this.rpmLegendaLabel_Click);
+            // 
+            // pulseLegendaLabel
+            // 
+            this.pulseLegendaLabel.AutoSize = true;
+            this.pulseLegendaLabel.BackColor = System.Drawing.Color.Transparent;
+            this.pulseLegendaLabel.ForeColor = System.Drawing.Color.White;
+            this.pulseLegendaLabel.Location = new System.Drawing.Point(283, 385);
+            this.pulseLegendaLabel.Name = "pulseLegendaLabel";
+            this.pulseLegendaLabel.Size = new System.Drawing.Size(33, 13);
+            this.pulseLegendaLabel.TabIndex = 49;
+            this.pulseLegendaLabel.Text = "Pulse";
+            this.pulseLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pulseLegendaLabel.Click += new System.EventHandler(this.pulseLegendaLabel_Click);
+            // 
+            // kmhLegendaLabel
+            // 
+            this.kmhLegendaLabel.AutoSize = true;
+            this.kmhLegendaLabel.BackColor = System.Drawing.Color.Transparent;
+            this.kmhLegendaLabel.ForeColor = System.Drawing.Color.White;
+            this.kmhLegendaLabel.Location = new System.Drawing.Point(353, 385);
+            this.kmhLegendaLabel.Name = "kmhLegendaLabel";
+            this.kmhLegendaLabel.Size = new System.Drawing.Size(33, 13);
+            this.kmhLegendaLabel.TabIndex = 50;
+            this.kmhLegendaLabel.Text = "Km/h";
+            this.kmhLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.kmhLegendaLabel.Click += new System.EventHandler(this.kmhLegendaLabel_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(51, 544);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(50, 13);
+            this.label10.TabIndex = 51;
+            this.label10.Text = "Tijd (sec)";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -871,6 +960,12 @@ namespace Doctor.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.kmhLegendaLabel);
+            this.Controls.Add(this.pulseLegendaLabel);
+            this.Controls.Add(this.rpmLegendaLabel);
+            this.Controls.Add(this.kjLegendaLabel);
+            this.Controls.Add(this.powerLegendaLabel);
             this.Controls.Add(this.brakeButton);
             this.Controls.Add(this.userAddButton);
             this.Controls.Add(this.trainingComboBox);
@@ -975,6 +1070,12 @@ namespace Doctor.Forms
         private System.Windows.Forms.ComboBox trainingComboBox;
         private System.Windows.Forms.Button userAddButton;
         private System.Windows.Forms.Button brakeButton;
+        private System.Windows.Forms.Label powerLegendaLabel;
+        private System.Windows.Forms.Label kjLegendaLabel;
+        private System.Windows.Forms.Label rpmLegendaLabel;
+        private System.Windows.Forms.Label pulseLegendaLabel;
+        private System.Windows.Forms.Label kmhLegendaLabel;
+        private System.Windows.Forms.Label label10;
     }
 }
 

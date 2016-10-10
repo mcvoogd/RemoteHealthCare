@@ -125,7 +125,6 @@ namespace Doctor.Classes
 
         public List<Patient> GetAllPatients()
         {
-            
             return PatientesList ?? null;
         }
 

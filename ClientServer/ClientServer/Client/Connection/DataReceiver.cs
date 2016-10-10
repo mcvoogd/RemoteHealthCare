@@ -43,7 +43,6 @@ namespace Client.Connection
 
                     _addMeasurement(_simulation.Measurement);
 
-
                     Thread.Sleep(1000);
                     Console.WriteLine("updating sim");
                     _simulation.updateSim();

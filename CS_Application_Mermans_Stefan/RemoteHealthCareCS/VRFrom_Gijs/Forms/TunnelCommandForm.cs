@@ -317,7 +317,7 @@ namespace VRFrom_Gijs.Forms
         private void createCity()
         {
             Thread.Sleep(10);
-                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", 60, 68, 2, 8);
+                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", 60, 2, 68, 8);
                 _connection.Nodes.Add(_house);
 
                 Thread.Sleep(10);

@@ -145,13 +145,13 @@
     <Analyzer Include="C:\Program Files %28x86%29\Microsoft Visual Studio 14.0\Common7\IDE\TestAgent\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="VRConnection\Program\res\heightmaptest.jpg" />
-    <Content Include="VRConnection\Program\res\heightmaptest2.jpg" />
-    <Content Include="VRConnection\Program\res\map.jpg" />
-    <Content Include="VRConnection\Program\res\map2 met notes.jpg" />
-    <Content Include="VRConnection\Program\res\map2.jpg" />
-    <Content Include="VRConnection\Program\res\map3.jpg" />
-    <Content Include="VRConnection\Program\res\testmap.jpg" />
+    <Content Include="res\heightmaptest.jpg" />
+    <Content Include="res\heightmaptest2.jpg" />
+    <Content Include="res\map.jpg" />
+    <Content Include="res\map2 met notes.jpg" />
+    <Content Include="res\map2.jpg" />
+    <Content Include="res\map3.jpg" />
+    <Content Include="res\testmap.jpg" />
     <Content Include="VRConnection\VRFrom_Gijs.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

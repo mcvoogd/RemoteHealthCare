@@ -43,6 +43,7 @@ namespace Client.Connection
 
                     _addMeasurement(_simulation.Measurement);
 
+
                     Thread.Sleep(1000);
                     Console.WriteLine("updating sim");
                     _simulation.updateSim();
@@ -58,6 +59,7 @@ namespace Client.Connection
                         var temp = _serialPort.ReadLine();
 
                         _addMeasurement(ParseMeasurement(temp));
+      
                         Thread.Sleep(1000);
                     }
                     catch (Exception exception)

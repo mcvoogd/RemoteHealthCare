@@ -7,8 +7,9 @@ namespace Server.BigDB
     public class Client
     {
         public Client(string name, string password, string tunnelId, int uniqueId, bool isDoctor,
-            TinyDataBase tinyDataBase)
+            TinyDataBase tinyDataBase, bool isOnline)
         {
+            IsOnline = isOnline;
             Name = name;
             Password = password;
             TunnelId = tunnelId;
@@ -18,7 +19,7 @@ namespace Server.BigDB
             UniqueId = uniqueId == 0 ? GetUniqueId(name, password) : uniqueId;
             Console.WriteLine($"Chosen id : {UniqueId}");
         }
-
+        public bool IsOnline { get; set; }
         public string Name { get; set; }
         public TinyDataBase TinyDataBaseBase { get; set; }
         public string TunnelId { get; set; }

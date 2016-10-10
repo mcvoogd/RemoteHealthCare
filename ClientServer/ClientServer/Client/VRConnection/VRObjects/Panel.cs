@@ -2,7 +2,7 @@
 
 namespace Client.VRConnection.VRObjects
 {
-    internal class Panel
+    public class Panel
     {
         public Panel(string name, int scaleValue, double x, double y, double z, int xR, int yR, int zR, double size1,
             double size2, int width, int height, float bckground1, float bckground2, float bckground3, float bckground4,

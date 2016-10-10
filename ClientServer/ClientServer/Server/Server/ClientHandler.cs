@@ -72,7 +72,8 @@ namespace Server.Server
                         case "client/new":
                             //null == tunnelID. <VR>
                             //0 for self generate ID.
-                            Client = new Client(data.username, data.password, null, 0, data.isDoctor, new TinyDataBase());
+                            //Latest argument true is a indication for the client being online.
+                            Client = new Client(data.username, data.password, null, 0, data.isDoctor, new TinyDataBase(), true);
                             Console.WriteLine(
                                 $"Msg added. <{Client.TinyDataBaseBase.ChatSystem.GetAllMessages().Count}>");
                             _database.AddClient(Client);
@@ -96,6 +97,7 @@ namespace Server.Server
                             }
                             break;
                         case "client/disconnect":
+                            Client.IsOnline = false;
                             _sslStream.Close();
                             _tcpClient.Close();
                             break;
@@ -105,7 +107,6 @@ namespace Server.Server
                                 HandleResistance(data);
                             break;
                         case "get/patients":
-                            Console.WriteLine("Recieved get/patients request.");
                             if (IsDoctor)
                             { 
                                 HandleGetPatients(data);
@@ -124,11 +125,13 @@ namespace Server.Server
                             break;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    if (!_tcpClient.Connected)
-                        Console.WriteLine("Client disconnected.");
-                    Console.WriteLine(e.StackTrace);
+                    if (_tcpClient.Connected) continue;
+                    //TODO Is this .isOnline call safe?
+                    Client.IsOnline = false;
+                    Console.WriteLine("Client disconnected.");
+                    //    Console.WriteLine(e.StackTrace);
                 }
         }
 
@@ -164,13 +167,13 @@ namespace Server.Server
         //return all patient names + id.
         private void HandleGetPatients(dynamic data)
         {
-//            Patient[] patientsArray = new Patient[_database.Clients.Count];
             List<Patient> patientsList = new List<Patient>();
             int index = 0;
             if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
                 if(databaseClient.IsDoctor) continue;
+                if(!databaseClient.IsOnline) continue;
                 var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
                 patientsList.Add(temp);
                 index++;
@@ -308,7 +311,7 @@ namespace Server.Server
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
             if (_database.GetClientById(clientid) == null)
             {
-                Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase());
+                Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase(), true);
                 _database.AddClient(Client);
                 if (isDoctorData)
                 {
@@ -323,6 +326,7 @@ namespace Server.Server
             {
                 IsDoctor = true;
             }
+            Client.IsOnline = true;
             return true;
         }
 

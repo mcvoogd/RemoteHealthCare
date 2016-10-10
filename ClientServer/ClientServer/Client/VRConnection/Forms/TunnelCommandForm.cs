@@ -44,9 +44,9 @@ namespace Client.VRConnection.Forms
 
             CreatePanel();
             Blocker.WaitOne(5000);
-            //CreateTerrain();
-            //Thread.Sleep(3000);
-            //PaintTerrain();
+            CreateTerrain();
+            Blocker.WaitOne(5000);
+            PaintTerrain();
             //Blocker.WaitOne(5000);
             //CreateWater();
             //Blocker.WaitOne(5000);
@@ -286,6 +286,17 @@ namespace Client.VRConnection.Forms
 
         private void PaintTerrain()
         {
+          _connection.SendMessage(
+                RequestCreater.TunnelSend(new
+                {
+                    id = "scene/node/addlayer",
+                    data = new
+                    {
+                    }
+                }, _connection.TunnelId));
+
+            Blocker.WaitOne(5000);
+
             _connection.SendMessage(
                 RequestCreater.TunnelSend(new
                 {
@@ -293,13 +304,32 @@ namespace Client.VRConnection.Forms
                     data = new
                     {
                         id = _connection.TerrainId,
-                        normal = "data/NetworkEngine/textures/terrain/mntn_green_n.jpg",
-                        diffuse = "data/NetworkEngine/textures/terrain/mntn_green_d.jpg",
-                        minHeight = 16,
-                        maxHeight = 30,
-                        fadeDist = 0
+                        normal = "data/NetworkEngine/textures/terrain/ground_dry2_n.jpg",
+                        diffuse = "data/NetworkEngine/textures/terrain/ground_dry2_d.jpg",
+                        minHeight = 0,
+                        maxHeight = 1,
+                        fadeDist = 1
                     }
                 }, _connection.TunnelId));
+
+            Blocker.WaitOne(5000);
+
+            _connection.SendMessage(
+              RequestCreater.TunnelSend(new
+              {
+                  id = "scene/node/addlayer",
+                  data = new
+                  {
+                      id = _connection.TerrainId,
+                      normal = "data/NetworkEngine/textures/terrain/snow_grass_n.jpg",
+                      diffuse = "data/NetworkEngine/textures/terrain/snow_grass_d.jpg",
+                      minHeight = 16,
+                      maxHeight = 30,
+                      fadeDist = 1
+                  }
+              }, _connection.TunnelId));
+           
+            Blocker.WaitOne(5000);
 
             _connection.SendMessage(
                 RequestCreater.TunnelSend(new
@@ -316,20 +346,7 @@ namespace Client.VRConnection.Forms
                     }
                 }, _connection.TunnelId));
 
-            _connection.SendMessage(
-                RequestCreater.TunnelSend(new
-                {
-                    id = "scene/node/addlayer",
-                    data = new
-                    {
-                        id = _connection.TerrainId,
-                        normal = "data/NetworkEngine/textures/terrain/ground_dry2_n.jpg",
-                        diffuse = "data/NetworkEngine/textures/terrain/ground_dry2_d.jpg",
-                        minHeight = 0,
-                        maxHeight = 1,
-                        fadeDist = 1
-                    }
-                }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)

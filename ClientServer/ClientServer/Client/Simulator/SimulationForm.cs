@@ -187,5 +187,17 @@ namespace DataScreen.Forms
         }
 
         private delegate void SetTextCallBack();
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // SimulationForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "SimulationForm";
+            this.ResumeLayout(false);
+
+        }
     }
 }

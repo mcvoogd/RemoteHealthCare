@@ -26,6 +26,7 @@ namespace Doctor.Forms
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
+        private Measurement lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
         public MainForm(DoctorConnector connector)
         {
@@ -196,11 +197,22 @@ namespace Doctor.Forms
                     clientId = _currentPatient.ClientId
                 }
             });
-            if (_connector.GetMostRecentMeasurement() != null)
-            {
-                Console.WriteLine("measurement added..");
-                SetAllMeasurementData(_connector.GetMostRecentMeasurement());
-            }
+
+            if (_connector.GetMostRecentMeasurement() == null) return;
+            var tempMeasurement = _connector.GetMostRecentMeasurement();
+            if(tempMeasurement.Equals(lastMeasurement))return;
+            SetAllMeasurementData(tempMeasurement);
+            FillAllCharts(tempMeasurement);
+            lastMeasurement = tempMeasurement;
+        }
+
+        public void FillAllCharts(Measurement tempMeasurement)
+        {
+            dataChart.Series["Power (Watts)"].Points.Add(tempMeasurement.Power); //power
+            dataChart.Series["Km/h"].Points.Add(tempMeasurement.Speed); //speed
+            dataChart.Series["KJ"].Points.Add(tempMeasurement.Burned); //burned
+            dataChart.Series["RPM"].Points.Add(tempMeasurement.Rotations); //rotations
+            dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse); //pulse
         }
 
        private void chatSendButton_Click_1(object sender, EventArgs e)
@@ -229,27 +241,13 @@ namespace Doctor.Forms
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
                 _connector.SetCurrentPatient(_currentPatient);
-            //REDUNDANT!
-
-            //            Thread listener = new Thread(ListenMethodMsrsment);
-            //            listener.Start();
         }
-        //REDUNDANT!
-        //        public void ListenMethodMsrsment()
-        //        {
-        //            while (!_connector.recievedMeasurements)
-        //            {
-        //            }
-        //            List<Measurement> measurements = _GetMeasurementsFromPatient();
-        //            _connector.recievedMeasurements = false;
-        //            //SELFDESTRUCTED.
-        //        }
-        //REDUNDANT!
-
+    
         public void SetAllMeasurementData(Measurement m)
         {
-            timeLabel.Text = m.Time.ToString();
-            kmLabel.Text = m.Distance.ToString();
+            timeLabel.Text = $"{m.Time.Minutes:00}:{m.Time.Seconds:00}";
+            double distance = m.Distance / 10f;
+            kmLabel.Text = $"{distance:00}";
             wattsLabel.Text = m.Power.ToString();
             kmhLabel.Text = m.Speed.ToString();
             kjLabel.Text = m.Burned.ToString();

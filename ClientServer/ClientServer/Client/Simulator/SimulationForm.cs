@@ -12,8 +12,9 @@ namespace DataScreen.Forms
         public SimulationForm()
         {
             _time = 120;
+            SimpleTime temp = new SimpleTime(_time/60, _time%60);
             Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0*_time*70.0,
-                new SimpleTime(_time/60, _time%60), 500);
+               temp.Minutes, temp.Seconds , 500);
             InitializeComponent();
 
             this.ClientSize = new System.Drawing.Size(250, 200);
@@ -40,7 +41,7 @@ namespace DataScreen.Forms
             speedCount.Text = "" + Measurement.Speed;
             powerCount.Text = "" + Measurement.Power;
             burnedCount.Text = "" + (int) Measurement.Burned;
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
             distanceCount.Text = "" + (int) Measurement.Distance;
         }
@@ -105,7 +106,7 @@ namespace DataScreen.Forms
         {
             updateMeasurementhMin();
 
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
             burnedCount.Text = "" + (int) Measurement.Burned;
         }
@@ -114,7 +115,7 @@ namespace DataScreen.Forms
         {
             updateMeasurementPlus();
 
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
             burnedCount.Text = "" + (int) Measurement.Burned;
         }
@@ -133,11 +134,11 @@ namespace DataScreen.Forms
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 
-        public void updateSim()
+        public void UpdateSim()
         {
             if (timeCount.InvokeRequired)
             {
-                SetTextCallBack d = updateSim;
+                SetTextCallBack d = UpdateSim;
                 Invoke(d);
             }
             else

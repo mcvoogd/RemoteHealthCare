@@ -90,7 +90,7 @@ namespace Server
         {
             var passwords = new string[2];
 
-            Console.WriteLine("new Doctor...\nEnter a name: ");
+            Console.WriteLine("new user...\nEnter a name: ");
             var name = Console.ReadLine();
             while (true)
             {

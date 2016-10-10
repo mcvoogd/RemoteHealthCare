@@ -164,14 +164,13 @@ namespace Server.Server
         //return all patient names + id.
         private void HandleGetPatients(dynamic data)
         {
-            List<Patient> patientsList = new List<Patient>();
-            int index = 0;
+            var patientsList = new List<Patient>();
+            var index = 0;
             if(_database.Clients.Count > 0 && _database.Clients != null)
             foreach (var databaseClient in _database.Clients)
             {
                 if(databaseClient.IsDoctor) continue;
-                if(!databaseClient.IsOnline) continue;
-                var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
+                var temp = new Patient(databaseClient.UniqueId,  databaseClient.IsOnline, databaseClient.Name);
                 patientsList.Add(temp);
                 index++;
             }
@@ -265,8 +264,8 @@ namespace Server.Server
             }
             catch (Exception)
             {
-                Console.WriteLine("parsing time fucks up!");
-                tempTime = new SimpleTime(0, 0);
+                Console.WriteLine("parsing time went wrong!");
+                tempTime = new SimpleTime(3, 10);
             }
 
             try
@@ -278,7 +277,7 @@ namespace Server.Server
                     (int) data.power,
                     (double) data.distance,
                     (double) data.burned,
-                    tempTime,
+                    tempTime.Minutes,tempTime.Seconds,
                     (int) data.reachedpower);
 
                 return tempMeasurement;

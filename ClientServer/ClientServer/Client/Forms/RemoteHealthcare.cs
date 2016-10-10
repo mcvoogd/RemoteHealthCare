@@ -168,14 +168,11 @@ namespace Client.Forms
                 string[] textValues =
                 {
                     $"Time : {measurement.Time}",
-                    "",
                     $"Speed : {measurement.Speed} Km/h",
                     $"Distance : {measurement.Distance:##.00} m",
-                    "",
                     $"Pulse : {measurement.Pulse} BPM",
                     $"Burned : {measurement.Burned:##.00} Kcal",
                     $"Rotations : {measurement.Rotations} RPM",
-                    "",
                     $"Power : {measurement.Power} Watt",
                     $"ReachedPower : {measurement.ReachedPower} Watt"
                 };

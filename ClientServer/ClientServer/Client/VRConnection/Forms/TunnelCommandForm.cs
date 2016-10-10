@@ -43,27 +43,27 @@ namespace Client.VRConnection.Forms
 
             CreatePanel();
             Blocker.WaitOne(5000);
-            CreateTerrain();
-            Blocker.WaitOne(5000);
-            PaintTerrain();
-            Blocker.WaitOne(5000);
+            //CreateTerrain();
+            //Blocker.WaitOne(5000);
+            //PaintTerrain();
+            //Blocker.WaitOne(5000);
 
-            CreateBike();
-            Blocker.WaitOne(5000);
-            CreateRoad();
-            Blocker.WaitOne(5000);
-            FollowRoad();
-            Blocker.WaitOne(5000);
-            FollowBike();
-            Blocker.WaitOne(5000);
-            FollowCamera();
+            //CreateBike();
+            //Blocker.WaitOne(5000);
+            //CreateRoad();
+            //Blocker.WaitOne(5000);
+            //FollowRoad();
+            //Blocker.WaitOne(5000);
+            //FollowBike();
+            //Blocker.WaitOne(5000);
+            //FollowCamera();
            
-            Blocker.WaitOne(5000);
-            CreateWater();
-            Blocker.WaitOne(5000);
-            CreateForest();
-            Blocker.WaitOne(5000);
-            CreateCity();
+            //Blocker.WaitOne(5000);
+            //CreateWater();
+            //Blocker.WaitOne(5000);
+            //CreateForest();
+            //Blocker.WaitOne(5000);
+            //CreateCity();
         }
 
         private void CreateTerrain()

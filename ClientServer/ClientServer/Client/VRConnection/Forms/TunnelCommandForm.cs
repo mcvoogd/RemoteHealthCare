@@ -278,12 +278,12 @@ namespace Client.VRConnection.Forms
                 _connection.SendMessage(_panel.ToSend);
                 Blocker.WaitOne(5000);
 
-                _panel.SwapPanel();
-                _connection.SendMessage(_panel.ToSend);
-                Blocker.WaitOne(5000);
-
-                position[0] += 5;
+                position[1] += 25;
             }
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
         }
     
         private void CreateForest()

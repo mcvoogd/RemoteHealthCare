@@ -102,6 +102,8 @@ namespace Doctor.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.historyListBox = new System.Windows.Forms.ListBox();
             this.chatSendButton = new Doctor.Classes.SplitButton();
+            this.startButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressChart)).BeginInit();
@@ -160,11 +162,11 @@ namespace Doctor.Forms
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(210, 269);
+            this.label2.Location = new System.Drawing.Point(208, 269);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(16, 13);
+            this.label2.Size = new System.Drawing.Size(22, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "M";
+            this.label2.Text = "Km";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -882,11 +884,31 @@ namespace Doctor.Forms
             this.chatSendButton.Text = "Verzenden";
             this.chatSendButton.UseVisualStyleBackColor = false;
             // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(555, 34);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 53;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = true;
+            // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(645, 55);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 54;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.stopButton);
+            this.Controls.Add(this.startButton);
             this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.kmhLegendaLabel);
@@ -1002,6 +1024,8 @@ namespace Doctor.Forms
         private System.Windows.Forms.Label kmhLegendaLabel;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.ListBox historyListBox;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button stopButton;
     }
 }
 

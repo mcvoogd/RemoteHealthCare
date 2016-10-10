@@ -29,7 +29,7 @@ namespace Doctor.Forms
 
         public MainForm(DoctorConnector connector)
         {
-            this._connector = connector;
+            _connector = connector;
             _currentPatient = null;
 
             InitializeComponent();
@@ -268,7 +268,7 @@ namespace Doctor.Forms
 
         public void FillPatientsToList()
         {
-            List<Patient> list = _connector.GetAllPatients();
+            var list = _connector.GetAllPatients();
             clientListBox.Text = "";
             clientListBox.Items.Clear();
             foreach (var patient in list)

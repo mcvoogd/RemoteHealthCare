@@ -241,27 +241,13 @@ namespace Doctor.Forms
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
                 _connector.SetCurrentPatient(_currentPatient);
-            //REDUNDANT!
-
-            //            Thread listener = new Thread(ListenMethodMsrsment);
-            //            listener.Start();
         }
-        //REDUNDANT!
-        //        public void ListenMethodMsrsment()
-        //        {
-        //            while (!_connector.recievedMeasurements)
-        //            {
-        //            }
-        //            List<Measurement> measurements = _GetMeasurementsFromPatient();
-        //            _connector.recievedMeasurements = false;
-        //            //SELFDESTRUCTED.
-        //        }
-        //REDUNDANT!
-
+    
         public void SetAllMeasurementData(Measurement m)
         {
-            timeLabel.Text = $"{m.Time.Minutes}:{m.Time.Seconds}";
-            kmLabel.Text = m.Distance.ToString();
+            timeLabel.Text = $"{m.Time.Minutes:00}:{m.Time.Seconds:00}";
+            double distance = m.Distance / 10f;
+            kmLabel.Text = $"{distance:00}";
             wattsLabel.Text = m.Power.ToString();
             kmhLabel.Text = m.Speed.ToString();
             kjLabel.Text = m.Burned.ToString();

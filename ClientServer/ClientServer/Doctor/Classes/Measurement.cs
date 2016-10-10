@@ -108,8 +108,8 @@ namespace Doctor.Classes
             }
         }
 
-        public readonly int Minutes;
-        public readonly int Seconds;
+        public int Minutes;
+        public int Seconds;
 
         public SimpleTime(int min, int sec)
         {

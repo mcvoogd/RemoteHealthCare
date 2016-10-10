@@ -27,7 +27,7 @@ namespace VRFrom_Gijs.Forms
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
-        private List<Punt> points;
+        private List<Punt> forestPoints;
         private Forest forest;
         private City city;
 
@@ -307,8 +307,13 @@ namespace VRFrom_Gijs.Forms
 
         private void createForest()
         {
-            points = forest.getForest();
-            foreach (Punt point in points)
+            forestPoints.Add(new Punt(30, 72, 2));
+            forestPoints.Add(new Punt(34, 73, 2));
+            forestPoints.Add(new Punt(32, 70, 2));
+            forestPoints.Add(new Punt(-20, -45, 4));
+            forestPoints.Add(new Punt(-22, -42, 5));
+
+            foreach (Punt point in forestPoints)
             {
                 Thread.Sleep(10);
                 _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, random.NextDouble() * 0.6 + 1);
@@ -321,16 +326,13 @@ namespace VRFrom_Gijs.Forms
 
         private void createCity()
         {
-            points = city.getCity();
-            foreach (Punt point in points)
-            {
-                Thread.Sleep(10);
-                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", point.X, point.Z, point.Y, 8);
+            Thread.Sleep(10);
+                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", 60, 68, 2, 8);
                 _connection.Nodes.Add(_house);
 
                 Thread.Sleep(10);
                 _connection.SendMessage(_house.SendString);
-            }
+
         }
 
         private void createWater()

@@ -36,7 +36,6 @@ namespace Client.Connection
         {
             while (_remoteHealthcare.Visible)
             {
-                Console.WriteLine("Looping");
                 if (_simulation != null)
                 {
                     if (!_simulation.Visible) return;
@@ -44,8 +43,7 @@ namespace Client.Connection
                     _addMeasurement(_simulation.Measurement);
 
                     Thread.Sleep(1000);
-                    Console.WriteLine("updating sim");
-                    _simulation.updateSim();
+                    _simulation.UpdateSim();
                 }
                 else if ((_serialPort != null) && _serialPort.IsOpen)
                 {
@@ -86,13 +84,11 @@ namespace Client.Connection
 
         public static Measurement ParseMeasurement(string inputString)
         {
-            var stringholder = inputString;
             inputString = inputString.Trim();
             var splitString = inputString.Split();
             var simpleTimeString = splitString[6].Split(':');
 
             splitString[6] = "0";
-            //splitString[8] = "0";
             int[] lijstje = {0, 0, 0, 0, 0, 0, 0, 0, 0};
             var teller = 0;
             foreach (var s in splitString)

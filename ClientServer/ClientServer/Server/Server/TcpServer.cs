@@ -76,6 +76,11 @@ namespace Server.Server
             {
                 Console.WriteLine("Nothing loaded, no file found.");
             }
+
+            foreach (var Client in _dataBase.Clients)
+            {
+                Client.IsOnline = false;
+            }
         }
 
         public static IPAddress GetLocalIpAddress()

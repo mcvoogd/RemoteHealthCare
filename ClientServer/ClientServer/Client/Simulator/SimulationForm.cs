@@ -36,7 +36,7 @@ namespace DataScreen.Forms
             speedCount.Text = "" + Measurement.Speed;
             powerCount.Text = "" + Measurement.Power;
             burnedCount.Text = "" + (int) Measurement.Burned;
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
             distanceCount.Text = "" + (int) Measurement.Distance;
         }
@@ -99,18 +99,18 @@ namespace DataScreen.Forms
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            updateMeshMin();
+            UpdateMeshMin();
 
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
             burnedCount.Text = "" + (int) Measurement.Burned;
         }
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            updateMeshPlus();
+            UpdateMeshPlus();
 
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
             burnedCount.Text = "" + (int) Measurement.Burned;
         }
@@ -129,16 +129,16 @@ namespace DataScreen.Forms
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 
-        public void updateSim()
+        public void UpdateSim()
         {
             if (timeCount.InvokeRequired)
             {
-                SetTextCallBack d = updateSim;
+                SetTextCallBack d = UpdateSim;
                 Invoke(d);
             }
             else
             {
-                updateMeshPlus();
+                UpdateMeshPlus();
 
                 var random = new Random();
 
@@ -158,7 +158,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void updateMeshPlus()
+        public void UpdateMeshPlus()
         {
             if (_time < 5999)
             {
@@ -169,7 +169,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void updateMeshMin()
+        public void UpdateMeshMin()
         {
             if (_time > 0)
             {

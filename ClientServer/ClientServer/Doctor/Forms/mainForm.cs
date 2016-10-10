@@ -198,11 +198,19 @@ namespace Doctor.Forms
                     clientId = _currentPatient.ClientId
                 }
             });
-            if (_connector.GetMostRecentMeasurement() != null)
-            {
-                Console.WriteLine("measurement added..");
-                SetAllMeasurementData(_connector.GetMostRecentMeasurement());
-            }
+            if (_connector.GetMostRecentMeasurement() == null) return;
+            var tempMeasurement = _connector.GetMostRecentMeasurement();
+            SetAllMeasurementData(tempMeasurement);
+            FillAllCharts(tempMeasurement);
+        }
+
+        public void FillAllCharts(Measurement tempMeasurement)
+        {
+            dataChart.Series["Power (Watts)"].Points.Add(tempMeasurement.Power);
+            dataChart.Series["Km/h"].Points.Add(tempMeasurement.Speed);
+            dataChart.Series["KJ"].Points.Add(tempMeasurement.Burned);
+            dataChart.Series["RPM"].Points.Add(tempMeasurement.Rotations);
+            dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse);
         }
 
        private void chatSendButton_Click_1(object sender, EventArgs e)
@@ -251,10 +259,10 @@ namespace Doctor.Forms
         public void SetAllMeasurementData(Measurement m)
         {
             timeLabel.Text = m.Time.ToString();
-            kmLabel.Text = m.Distance.ToString();
+            kmLabel.Text = m.Distance.ToString("N3");
             wattsLabel.Text = m.Power.ToString();
             kmhLabel.Text = m.Speed.ToString();
-            kjLabel.Text = m.Burned.ToString();
+            kjLabel.Text = m.Burned.ToString("N3");
             rpmLabel.Text = m.Rotations.ToString();
             powerLabel.Text = m.Power.ToString();
             bpmLabel.Text = m.Pulse.ToString();

@@ -131,8 +131,7 @@ namespace Client.Forms
                 var simulationForm = new SimulationForm();
 
                 DataReceiver = new DataReceiver(this, simulationForm, AddMeasurement);
-                //TODO dit is retarded, waarom iets pushen dat crashed? 
-                //TODO of crashed het alleen wanneer er geen simulatie is om mee te connecten?
+                
                 Form1 = new Form1();
 
                 var dataReceiverThread = new Thread(DataReceiver.Run);
@@ -149,9 +148,8 @@ namespace Client.Forms
 
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
-              //  _form1.Visible = true;
-               // _form1.Invalidate();
-                //TODO wtf doet form1 hier uberhuapt? is dit niet dikke null pointer since form1 != initialized??
+                Form1.Visible = true;
+                Form1.Invalidate();
             }
         }
 

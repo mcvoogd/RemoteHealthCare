@@ -21,7 +21,8 @@ namespace Doctor.Classes
         private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-        public bool recievedMeasurements = false;
+        public bool RecievedMeasurements = false;
+        private Measurement _latestSendMeasurement = null;
 
         public DoctorConnector()
         {
@@ -69,15 +70,14 @@ namespace Doctor.Classes
                                     {
                                         int clientid = patientsList[i].ClientId;
                                         string name = patientsList[i].Name;
-                                        PatientesList.Add(new Patient(clientid, name));
+                                        bool isOnline = patientsList[i].IsOnline;
+                                        PatientesList.Add(new Patient(clientid, isOnline, name));
                                     }
                                     break;
-
                                 case "get/patient/data" :
-                                    CurrentPatientMeasurements.Clear();
                                     Measurement m = data.measurementsList.ToObject<Measurement>();
                                     CurrentPatientMeasurements.Add(m);
-                                    recievedMeasurements = true;
+                                    RecievedMeasurements = true;
                                     break;
                                 case "login/request":
                                     if (data.ack == false)
@@ -160,26 +160,26 @@ namespace Doctor.Classes
             }
             return false;
         }
-
-        public void SendStatistics(Measurement measurement)
-        {
-            SendMessage(new
-            {
-                id = "measurement/add",
-                clientid = ConnectionId,
-                data = new
-                {
-                    pulse = measurement.Pulse.ToString(),
-                    rotations = measurement.Rotations.ToString(),
-                    speed = measurement.Speed.ToString(),
-                    distance = measurement.Distance.ToString(),
-                    power = measurement.Power.ToString(),
-                    burned = measurement.Burned.ToString(),
-                    time = measurement.Time.ToString(),
-                    reachedpower = measurement.ReachedPower.ToString()
-                }
-            });
-        }
+//not used here.
+//        public void SendStatistics(Measurement measurement)
+//        {
+//            SendMessage(new
+//            {
+//                id = "measurement/add",
+//                clientid = ConnectionId,
+//                data = new
+//                {
+//                    pulse = measurement.Pulse.ToString(),
+//                    rotations = measurement.Rotations.ToString(),
+//                    speed = measurement.Speed.ToString(),
+//                    distance = measurement.Distance.ToString("N3"),
+//                    power = measurement.Power.ToString(),
+//                    burned = measurement.Burned.ToString("N3"),
+//                    time = measurement.Time.ToString(),
+//                    reachedpower = measurement.ReachedPower.ToString()
+//                }
+//            });
+//        }
 
         private void Login(string username, string password)
         {
@@ -273,14 +273,7 @@ namespace Doctor.Classes
 
         public Measurement GetMostRecentMeasurement()
         {
-            if (CurrentPatientMeasurements.Count > 0)
-            {
-                return CurrentPatientMeasurements[0];
-            }
-            else
-            {
-                return null;
-            }
+            return CurrentPatientMeasurements.Count > 0 ? CurrentPatientMeasurements[CurrentPatientMeasurements.Count - 1] : null;
         }
     }
 }

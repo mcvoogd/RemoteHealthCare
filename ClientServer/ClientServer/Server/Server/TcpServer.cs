@@ -81,7 +81,7 @@ namespace Server.Server
                 Console.WriteLine("Nothing loaded, no file found.");
             }
 
-            foreach (var Client in _dataBase.Clients)
+            foreach (var Client in DataBase.Clients)
             {
                 Client.IsOnline = false;
             }

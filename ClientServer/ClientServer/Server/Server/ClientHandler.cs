@@ -70,13 +70,9 @@ namespace Server.Server
                             SendAck("message/received");
                             break;
                         case "client/new":
-                            //null == tunnelID. <VR>
-                            //0 for self generate ID.
-                            //Latest argument true is a indication for the client being online.
-                            Client = new Client(data.username, data.password, null, 0, data.isDoctor, new TinyDataBase(), true);
-                            Console.WriteLine(
-                                $"Msg added. <{Client.TinyDataBaseBase.ChatSystem.GetAllMessages().Count}>");
-                            _database.AddClient(Client);
+                            Console.WriteLine($"Adding new client: {data.name}");
+                            var client = new Client((string)data.name, (string)data.password, null, 0, (bool)data.isDoctor, new TinyDataBase(), false);
+                            _database.AddClient(client);
                             SendAck("client/new");
                             break;
                         case "measurement/add":
@@ -125,13 +121,14 @@ namespace Server.Server
                             break;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    //TODO catch specific exceptions...
+                    Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
                     //TODO Is this .isOnline call safe?
                     Client.IsOnline = false;
                     Console.WriteLine("Client disconnected.");
-                    //    Console.WriteLine(e.StackTrace);
                 }
         }
 
@@ -308,7 +305,8 @@ namespace Server.Server
             bool isDoctorData = data.isDoctor;
 
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
-            if (_database.GetClientById(clientid) == null)
+            // Deprecate
+            /*if (_database.GetClientById(clientid) == null)
             {
                 Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase(), true);
                 _database.AddClient(Client);
@@ -318,6 +316,10 @@ namespace Server.Server
                 }
                 Console.WriteLine("Did not exist");
                 return true;
+            }*/
+            if (_database.GetClientById(clientid) == null)
+            {
+                return false; // Return false if client does not exist
             }
             //null == tunnelID. <VR>
             _database.GetClientById(clientid, out Client);

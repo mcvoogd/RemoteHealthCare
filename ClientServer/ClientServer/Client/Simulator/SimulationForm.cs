@@ -15,6 +15,10 @@ namespace DataScreen.Forms
             Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0*_time*70.0,
                 new SimpleTime(_time/60, _time%60), 500);
             InitializeComponent();
+
+            this.ClientSize = new System.Drawing.Size(250, 200);
+            this.Name = "SimulationForm";
+
             RefreshText();
             Visible = true;
         }
@@ -99,7 +103,7 @@ namespace DataScreen.Forms
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            UpdateMeshMin();
+            updateMeasurementhMin();
 
             timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
@@ -108,7 +112,7 @@ namespace DataScreen.Forms
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            UpdateMeshPlus();
+            updateMeasurementPlus();
 
             timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
@@ -138,7 +142,7 @@ namespace DataScreen.Forms
             }
             else
             {
-                UpdateMeshPlus();
+                updateMeasurementPlus();
 
                 var random = new Random();
 
@@ -158,7 +162,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void UpdateMeshPlus()
+        public void updateMeasurementPlus()
         {
             if (_time < 5999)
             {
@@ -169,7 +173,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void UpdateMeshMin()
+        public void updateMeasurementhMin()
         {
             if (_time > 0)
             {
@@ -187,5 +191,17 @@ namespace DataScreen.Forms
         }
 
         private delegate void SetTextCallBack();
+
+        //private void InitializeComponent()
+        //{
+        //    this.SuspendLayout();
+        //    // 
+        //    // SimulationForm
+        //    // 
+        //    this.ClientSize = new System.Drawing.Size(284, 261);
+        //    this.Name = "SimulationForm";
+        //    this.ResumeLayout(false);
+
+        //}
     }
 }

@@ -37,28 +37,20 @@ namespace Doctor.Forms
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine2 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 55D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(7D, 23D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(23D, 97D);
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine3 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine4 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
@@ -108,6 +100,7 @@ namespace Doctor.Forms
             this.pulseLegendaLabel = new System.Windows.Forms.Label();
             this.kmhLegendaLabel = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.historyListBox = new System.Windows.Forms.ListBox();
             this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -169,9 +162,9 @@ namespace Doctor.Forms
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(210, 269);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(21, 13);
+            this.label2.Size = new System.Drawing.Size(16, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "km";
+            this.label2.Text = "M";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -249,7 +242,7 @@ namespace Doctor.Forms
             // timeLabel
             // 
             this.timeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.timeLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeLabel.ForeColor = System.Drawing.Color.White;
             this.timeLabel.Location = new System.Drawing.Point(20, 298);
             this.timeLabel.Name = "timeLabel";
@@ -261,7 +254,7 @@ namespace Doctor.Forms
             // kmLabel
             // 
             this.kmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.kmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kmLabel.ForeColor = System.Drawing.Color.White;
             this.kmLabel.Location = new System.Drawing.Point(171, 298);
             this.kmLabel.Name = "kmLabel";
@@ -273,7 +266,7 @@ namespace Doctor.Forms
             // avgkmLabel
             // 
             this.avgkmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgkmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgkmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgkmLabel.ForeColor = System.Drawing.Color.White;
             this.avgkmLabel.Location = new System.Drawing.Point(171, 348);
             this.avgkmLabel.Name = "avgkmLabel";
@@ -285,7 +278,7 @@ namespace Doctor.Forms
             // wattsLabel
             // 
             this.wattsLabel.BackColor = System.Drawing.Color.Transparent;
-            this.wattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wattsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wattsLabel.ForeColor = System.Drawing.Color.White;
             this.wattsLabel.Location = new System.Drawing.Point(320, 298);
             this.wattsLabel.Name = "wattsLabel";
@@ -297,7 +290,7 @@ namespace Doctor.Forms
             // avgwattsLabel
             // 
             this.avgwattsLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgwattsLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgwattsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgwattsLabel.ForeColor = System.Drawing.Color.White;
             this.avgwattsLabel.Location = new System.Drawing.Point(320, 348);
             this.avgwattsLabel.Name = "avgwattsLabel";
@@ -309,7 +302,7 @@ namespace Doctor.Forms
             // rpmLabel
             // 
             this.rpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.rpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rpmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rpmLabel.ForeColor = System.Drawing.Color.White;
             this.rpmLabel.Location = new System.Drawing.Point(762, 298);
             this.rpmLabel.Name = "rpmLabel";
@@ -321,7 +314,7 @@ namespace Doctor.Forms
             // kjLabel
             // 
             this.kjLabel.BackColor = System.Drawing.Color.Transparent;
-            this.kjLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kjLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kjLabel.ForeColor = System.Drawing.Color.White;
             this.kjLabel.Location = new System.Drawing.Point(615, 298);
             this.kjLabel.Name = "kjLabel";
@@ -333,7 +326,7 @@ namespace Doctor.Forms
             // kmhLabel
             // 
             this.kmhLabel.BackColor = System.Drawing.Color.Transparent;
-            this.kmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kmhLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kmhLabel.ForeColor = System.Drawing.Color.White;
             this.kmhLabel.Location = new System.Drawing.Point(467, 298);
             this.kmhLabel.Name = "kmhLabel";
@@ -345,7 +338,7 @@ namespace Doctor.Forms
             // bpmLabel
             // 
             this.bpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.bpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bpmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bpmLabel.ForeColor = System.Drawing.Color.White;
             this.bpmLabel.Location = new System.Drawing.Point(1057, 298);
             this.bpmLabel.Name = "bpmLabel";
@@ -357,7 +350,7 @@ namespace Doctor.Forms
             // powerLabel
             // 
             this.powerLabel.BackColor = System.Drawing.Color.Transparent;
-            this.powerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.powerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.powerLabel.ForeColor = System.Drawing.Color.White;
             this.powerLabel.Location = new System.Drawing.Point(911, 298);
             this.powerLabel.Name = "powerLabel";
@@ -369,7 +362,7 @@ namespace Doctor.Forms
             // avgbpmLabel
             // 
             this.avgbpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgbpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgbpmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgbpmLabel.ForeColor = System.Drawing.Color.White;
             this.avgbpmLabel.Location = new System.Drawing.Point(1057, 348);
             this.avgbpmLabel.Name = "avgbpmLabel";
@@ -381,7 +374,7 @@ namespace Doctor.Forms
             // avgpowerLabel
             // 
             this.avgpowerLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgpowerLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgpowerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgpowerLabel.ForeColor = System.Drawing.Color.White;
             this.avgpowerLabel.Location = new System.Drawing.Point(911, 348);
             this.avgpowerLabel.Name = "avgpowerLabel";
@@ -393,7 +386,7 @@ namespace Doctor.Forms
             // avgrpmLabel
             // 
             this.avgrpmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgrpmLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgrpmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgrpmLabel.ForeColor = System.Drawing.Color.White;
             this.avgrpmLabel.Location = new System.Drawing.Point(762, 348);
             this.avgrpmLabel.Name = "avgrpmLabel";
@@ -405,7 +398,7 @@ namespace Doctor.Forms
             // avgkmhLabel
             // 
             this.avgkmhLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgkmhLabel.Font = new System.Drawing.Font("Arial Unicode MS", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgkmhLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.avgkmhLabel.ForeColor = System.Drawing.Color.White;
             this.avgkmhLabel.Location = new System.Drawing.Point(467, 348);
             this.avgkmhLabel.Name = "avgkmhLabel";
@@ -418,32 +411,13 @@ namespace Doctor.Forms
             // 
             this.clientListBox.BackColor = System.Drawing.Color.Black;
             this.clientListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clientListBox.Font = new System.Drawing.Font("Arial Unicode MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clientListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clientListBox.ForeColor = System.Drawing.Color.White;
             this.clientListBox.FormattingEnabled = true;
-            this.clientListBox.ItemHeight = 25;
-            this.clientListBox.Items.AddRange(new object[] {
-            "Kevin",
-            "Martijn",
-            "Menno",
-            "Stefan",
-            "Gijs",
-            "Cas",
-            "Kevin",
-            "Martijn",
-            "Menno",
-            "Stefan",
-            "Gijs",
-            "Cas",
-            "Kevin",
-            "Martijn",
-            "Menno",
-            "Stefan",
-            "Gijs",
-            "Cas"});
+            this.clientListBox.ItemHeight = 24;
             this.clientListBox.Location = new System.Drawing.Point(12, 104);
             this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(284, 150);
+            this.clientListBox.Size = new System.Drawing.Size(284, 120);
             this.clientListBox.TabIndex = 26;
             this.clientListBox.DoubleClick += new System.EventHandler(this.clientListBox_DoubleClick_1);
             // 
@@ -527,16 +501,6 @@ namespace Doctor.Forms
             series1.Legend = "Legend1";
             series1.MarkerColor = System.Drawing.Color.White;
             series1.Name = "Power (Watts)";
-            dataPoint1.LabelBackColor = System.Drawing.Color.White;
-            dataPoint2.LabelBackColor = System.Drawing.Color.White;
-            dataPoint3.LabelBackColor = System.Drawing.Color.White;
-            dataPoint4.LabelBackColor = System.Drawing.Color.White;
-            dataPoint5.LabelBackColor = System.Drawing.Color.White;
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            series1.Points.Add(dataPoint4);
-            series1.Points.Add(dataPoint5);
             series1.SmartLabelStyle.CalloutLineColor = System.Drawing.Color.White;
             series2.BorderWidth = 2;
             series2.ChartArea = "ChartArea1";
@@ -566,15 +530,12 @@ namespace Doctor.Forms
             series5.Enabled = false;
             series5.Legend = "Legend1";
             series5.Name = "Km/h";
-            series5.Points.Add(dataPoint6);
-            series5.Points.Add(dataPoint7);
-            series5.Points.Add(dataPoint8);
             this.dataChart.Series.Add(series1);
             this.dataChart.Series.Add(series2);
             this.dataChart.Series.Add(series3);
             this.dataChart.Series.Add(series4);
             this.dataChart.Series.Add(series5);
-            this.dataChart.Size = new System.Drawing.Size(884, 178);
+            this.dataChart.Size = new System.Drawing.Size(956, 175);
             this.dataChart.TabIndex = 29;
             this.dataChart.Text = "chart1";
             // 
@@ -646,9 +607,9 @@ namespace Doctor.Forms
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(894, 385);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(99, 13);
+            this.label12.Size = new System.Drawing.Size(108, 13);
             this.label12.TabIndex = 36;
-            this.label12.Text = "Historie                   ";
+            this.label12.Text = "Historie                      ";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13
@@ -666,21 +627,21 @@ namespace Doctor.Forms
             // chatReceiveTextBox
             // 
             this.chatReceiveTextBox.BackColor = System.Drawing.Color.Black;
-            this.chatReceiveTextBox.Font = new System.Drawing.Font("Arial Unicode MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chatReceiveTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chatReceiveTextBox.ForeColor = System.Drawing.Color.White;
             this.chatReceiveTextBox.Location = new System.Drawing.Point(897, 104);
             this.chatReceiveTextBox.Name = "chatReceiveTextBox";
             this.chatReceiveTextBox.ReadOnly = true;
             this.chatReceiveTextBox.Size = new System.Drawing.Size(290, 113);
             this.chatReceiveTextBox.TabIndex = 38;
-            this.chatReceiveTextBox.Text = "Hoi fietser\n\tHallo dokter\nHoe gaat het?\n\tGoed!";
+            this.chatReceiveTextBox.Text = "";
             // 
             // chatSendTextBox
             // 
-            this.chatSendTextBox.Font = new System.Drawing.Font("Arial Unicode MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chatSendTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chatSendTextBox.Location = new System.Drawing.Point(897, 223);
             this.chatSendTextBox.Name = "chatSendTextBox";
-            this.chatSendTextBox.Size = new System.Drawing.Size(210, 29);
+            this.chatSendTextBox.Size = new System.Drawing.Size(210, 26);
             this.chatSendTextBox.TabIndex = 39;
             // 
             // progressChart
@@ -750,25 +711,27 @@ namespace Doctor.Forms
             series6.Legend = "Legend1";
             series6.MarkerColor = System.Drawing.Color.White;
             series6.Name = "Height";
-            dataPoint9.LabelBackColor = System.Drawing.Color.White;
-            dataPoint10.LabelBackColor = System.Drawing.Color.White;
-            dataPoint11.LabelBackColor = System.Drawing.Color.White;
-            dataPoint12.LabelBackColor = System.Drawing.Color.White;
-            dataPoint13.LabelBackColor = System.Drawing.Color.White;
-            series6.Points.Add(dataPoint9);
-            series6.Points.Add(dataPoint10);
-            series6.Points.Add(dataPoint11);
-            series6.Points.Add(dataPoint12);
-            series6.Points.Add(dataPoint13);
+            dataPoint1.LabelBackColor = System.Drawing.Color.White;
+            dataPoint2.LabelBackColor = System.Drawing.Color.White;
+            dataPoint3.LabelBackColor = System.Drawing.Color.White;
+            dataPoint4.LabelBackColor = System.Drawing.Color.White;
+            dataPoint5.LabelBackColor = System.Drawing.Color.White;
+            series6.Points.Add(dataPoint1);
+            series6.Points.Add(dataPoint2);
+            series6.Points.Add(dataPoint3);
+            series6.Points.Add(dataPoint4);
+            series6.Points.Add(dataPoint5);
             series6.SmartLabelStyle.CalloutLineColor = System.Drawing.Color.White;
             this.progressChart.Series.Add(series6);
             this.progressChart.Size = new System.Drawing.Size(586, 182);
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
+            this.progressChart.AnnotationPositionChanged += new System.EventHandler(this.progressChart_AnnotationPositionChanged);
+            this.progressChart.AnnotationPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs>(this.progressChart_AnnotationPositionChanging);
             // 
             // trainingComboBox
             // 
-            this.trainingComboBox.Font = new System.Drawing.Font("Arial Unicode MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trainingComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.trainingComboBox.FormattingEnabled = true;
             this.trainingComboBox.Items.AddRange(new object[] {
             "Mountains",
@@ -776,7 +739,7 @@ namespace Doctor.Forms
             "Street"});
             this.trainingComboBox.Location = new System.Drawing.Point(531, 566);
             this.trainingComboBox.Name = "trainingComboBox";
-            this.trainingComboBox.Size = new System.Drawing.Size(243, 36);
+            this.trainingComboBox.Size = new System.Drawing.Size(243, 33);
             this.trainingComboBox.TabIndex = 43;
             // 
             // userAddButton
@@ -785,12 +748,14 @@ namespace Doctor.Forms
             this.userAddButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.userAddButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.userAddButton.ForeColor = System.Drawing.Color.Black;
-            this.userAddButton.Location = new System.Drawing.Point(189, 72);
+            this.userAddButton.Location = new System.Drawing.Point(190, 73);
+            this.userAddButton.Margin = new System.Windows.Forms.Padding(2);
             this.userAddButton.Name = "userAddButton";
             this.userAddButton.Size = new System.Drawing.Size(107, 26);
             this.userAddButton.TabIndex = 44;
             this.userAddButton.Text = "add user";
             this.userAddButton.UseVisualStyleBackColor = false;
+            this.userAddButton.Click += new System.EventHandler(this.userAddButton_Click);
             // 
             // brakeButton
             // 
@@ -810,7 +775,8 @@ namespace Doctor.Forms
             this.powerLegendaLabel.AutoSize = true;
             this.powerLegendaLabel.BackColor = System.Drawing.Color.Green;
             this.powerLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.powerLegendaLabel.Location = new System.Drawing.Point(41, 385);
+            this.powerLegendaLabel.Location = new System.Drawing.Point(47, 385);
+            this.powerLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.powerLegendaLabel.Name = "powerLegendaLabel";
             this.powerLegendaLabel.Size = new System.Drawing.Size(74, 13);
             this.powerLegendaLabel.TabIndex = 46;
@@ -823,7 +789,8 @@ namespace Doctor.Forms
             this.kjLegendaLabel.AutoSize = true;
             this.kjLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.kjLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.kjLegendaLabel.Location = new System.Drawing.Point(177, 385);
+            this.kjLegendaLabel.Location = new System.Drawing.Point(178, 385);
+            this.kjLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.kjLegendaLabel.Name = "kjLegendaLabel";
             this.kjLegendaLabel.Size = new System.Drawing.Size(19, 13);
             this.kjLegendaLabel.TabIndex = 47;
@@ -836,7 +803,8 @@ namespace Doctor.Forms
             this.rpmLegendaLabel.AutoSize = true;
             this.rpmLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.rpmLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.rpmLegendaLabel.Location = new System.Drawing.Point(224, 385);
+            this.rpmLegendaLabel.Location = new System.Drawing.Point(213, 385);
+            this.rpmLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.rpmLegendaLabel.Name = "rpmLegendaLabel";
             this.rpmLegendaLabel.Size = new System.Drawing.Size(31, 13);
             this.rpmLegendaLabel.TabIndex = 48;
@@ -849,7 +817,8 @@ namespace Doctor.Forms
             this.pulseLegendaLabel.AutoSize = true;
             this.pulseLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.pulseLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.pulseLegendaLabel.Location = new System.Drawing.Point(283, 385);
+            this.pulseLegendaLabel.Location = new System.Drawing.Point(264, 385);
+            this.pulseLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.pulseLegendaLabel.Name = "pulseLegendaLabel";
             this.pulseLegendaLabel.Size = new System.Drawing.Size(33, 13);
             this.pulseLegendaLabel.TabIndex = 49;
@@ -862,7 +831,8 @@ namespace Doctor.Forms
             this.kmhLegendaLabel.AutoSize = true;
             this.kmhLegendaLabel.BackColor = System.Drawing.Color.Transparent;
             this.kmhLegendaLabel.ForeColor = System.Drawing.Color.White;
-            this.kmhLegendaLabel.Location = new System.Drawing.Point(353, 385);
+            this.kmhLegendaLabel.Location = new System.Drawing.Point(332, 385);
+            this.kmhLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.kmhLegendaLabel.Name = "kmhLegendaLabel";
             this.kmhLegendaLabel.Size = new System.Drawing.Size(33, 13);
             this.kmhLegendaLabel.TabIndex = 50;
@@ -875,12 +845,27 @@ namespace Doctor.Forms
             this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(51, 544);
+            this.label10.Location = new System.Drawing.Point(57, 541);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 13);
             this.label10.TabIndex = 51;
             this.label10.Text = "Tijd (sec)";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // historyListBox
+            // 
+            this.historyListBox.BackColor = System.Drawing.Color.Black;
+            this.historyListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.historyListBox.Font = new System.Drawing.Font("Arial Unicode MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.historyListBox.ForeColor = System.Drawing.Color.White;
+            this.historyListBox.FormattingEnabled = true;
+            this.historyListBox.ItemHeight = 25;
+            this.historyListBox.Location = new System.Drawing.Point(896, 420);
+            this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
+            this.historyListBox.Name = "historyListBox";
+            this.historyListBox.Size = new System.Drawing.Size(291, 125);
+            this.historyListBox.TabIndex = 52;
             // 
             // chatSendButton
             // 
@@ -899,10 +884,10 @@ namespace Doctor.Forms
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.kmhLegendaLabel);
             this.Controls.Add(this.pulseLegendaLabel);
@@ -1016,6 +1001,7 @@ namespace Doctor.Forms
         private System.Windows.Forms.Label pulseLegendaLabel;
         private System.Windows.Forms.Label kmhLegendaLabel;
         private System.Windows.Forms.Label label10;
+        public System.Windows.Forms.ListBox historyListBox;
     }
 }
 

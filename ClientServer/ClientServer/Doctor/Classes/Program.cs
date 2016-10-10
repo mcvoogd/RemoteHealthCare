@@ -18,7 +18,6 @@ namespace Doctor.Classes
             var connector = new DoctorConnector();
             var mainForm = new MainForm(connector) {Visible = false}; //TODO kutmartijn.exe went retarded.
             var loginForm = new LoginForm(connector.Connect, mainForm);
-           /// var Test = new AcountCreationForm() {Visible = false};
 
             Application.Run(loginForm);
             

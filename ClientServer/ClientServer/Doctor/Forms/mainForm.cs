@@ -281,7 +281,7 @@ namespace Doctor.Forms
         {
             FillPatientsToList();
         }
-
+        
         public void FillPatientsToList()
         {
             List<Patient> list = _connector.GetAllPatients();
@@ -291,6 +291,11 @@ namespace Doctor.Forms
             {
                 clientListBox.Items.Add(patient);
             }
+        }
+
+        private void userAddButton_Click(object sender, EventArgs e)
+        {
+            var acountCreationForm = new AcountCreationForm(_connector) {Visible = true};
         }
     }
 }

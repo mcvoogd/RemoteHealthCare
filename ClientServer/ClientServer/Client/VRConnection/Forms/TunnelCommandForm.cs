@@ -260,6 +260,31 @@ namespace Client.VRConnection.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
         }
+
+        public void DrawRipBackslashNPanel(string[] textValues)
+        {
+            int[] position = { 100, 100 };
+            double sizeValue = 32;
+            double[] color = { 0, 0, 0, 1 };
+            string fontValue = "segoeui";
+
+            _panel.ClearPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            foreach (string s in textValues)
+            {
+                _panel.DrawText(s, position, sizeValue, color, fontValue);
+                _connection.SendMessage(_panel.ToSend);
+                Blocker.WaitOne(5000);
+
+                position[1] += 25;
+            }
+            _panel.SwapPanel();
+            _connection.SendMessage(_panel.ToSend);
+            Blocker.WaitOne(5000);
+
+        }
     
         private void CreateForest()
         {

@@ -25,7 +25,7 @@ namespace Client.Forms
         private readonly SendMessage _sendMessage;
         private readonly SendStatistics _sendStatistics;
 
-        public Form1 _form1 { get; set; }
+        public Form1 Form1 { get; set; }
 
         public RemoteHealthcare(SendMessage sendMessage, SendStatistics sendStatistics, int connectionId)
         {
@@ -133,18 +133,20 @@ namespace Client.Forms
                 DataReceiver = new DataReceiver(this, simulationForm, AddMeasurement);
                 //TODO dit is retarded, waarom iets pushen dat crashed? 
                 //TODO of crashed het alleen wanneer er geen simulatie is om mee te connecten?
-                //  _form1 = new Form1();
+                Form1 = new Form1();
 
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
-               // _form1.Visible = true;
-                //_form1.Invalidate();
+                Form1.Visible = true;
+                Form1.Invalidate();
             }
             else if (comportBox.SelectedItem != null)
             {
                 var serialPort = new SerialPort(comportBox.SelectedItem.ToString());
                 serialPort.Open();
                 DataReceiver = new DataReceiver(serialPort, this, AddMeasurement);
+                Form1 = new Form1();
+
                 var dataReceiverThread = new Thread(DataReceiver.Run);
                 dataReceiverThread.Start();
               //  _form1.Visible = true;
@@ -157,10 +159,27 @@ namespace Client.Forms
         {
             Measurements.Add(measurement);
             _sendStatistics(measurement);
-            
-            if (_form1._tunnelCommandForm != null && _form1._tunnelCommandForm._panel != null )
-                _form1._tunnelCommandForm.DrawPanel(measurement.ToString());
-            
+
+            if (Form1._tunnelCommandForm != null && Form1._tunnelCommandForm._panel != null)
+            {
+               // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+                string[] iets =
+                {
+                    $"Time : {measurement.Time}",
+                    "",
+                    $"Speed : {measurement.Speed} Km/h",
+                    $"Distance : {measurement.Distance:##.00} M",
+                    "",
+                    $"Pulse : {measurement.Pulse} BPM",
+                    $"Burned : {measurement.Burned:##.00} Kcal",
+                    $"Rotations : {measurement.Rotations} RPM",
+                    "",
+                    $"Power : {measurement.Power} Watt",
+                    $"ReachedPower : {measurement.ReachedPower} Watt"
+                };
+                Form1._tunnelCommandForm.DrawRipBackslashNPanel(iets);
+            }
+
         }
 
 

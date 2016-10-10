@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VRFrom_Gijs.Forms.Program;
 using VRFrom_Gijs.Program;
@@ -21,15 +15,13 @@ namespace VRFrom_Gijs.Forms
     {
         public static AutoResetEvent Blocker;
         private Connection _connection;
-        public string Name { get; set; }
+        //public string Name { get; set; }
         private Node _bike = null, _tree = null, _water =null, _house = null;
         private Panel _panel;
         private Skybox _skybox = null;
         private bool _send = false;
         private Random random = new Random();
-        private List<Punt> points;
-        private Forest forest;
-        private City city;
+        private List<Punt> forestPoints = new List<Punt>();
 
         public TunnelCommandForm(Connection connection, string name)
         {
@@ -56,8 +48,6 @@ namespace VRFrom_Gijs.Forms
 
         private void createScene()
         {
-            forest = new Forest();
-            city = new City();
             deletePane();
             Blocker.WaitOne(5000);
             deletePane();
@@ -307,8 +297,13 @@ namespace VRFrom_Gijs.Forms
 
         private void createForest()
         {
-            points = forest.getForest();
-            foreach (Punt point in points)
+            forestPoints.Add(new Punt(30, 72, 2));
+            forestPoints.Add(new Punt(34, 73, 2));
+            forestPoints.Add(new Punt(32, 70, 2));
+            forestPoints.Add(new Punt(-20, -45, 4));
+            forestPoints.Add(new Punt(-22, -42, 5));
+
+            foreach (Punt point in forestPoints)
             {
                 Thread.Sleep(10);
                 _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj", point.X, point.Z, point.Y, random.NextDouble() * 0.6 + 1);
@@ -321,16 +316,13 @@ namespace VRFrom_Gijs.Forms
 
         private void createCity()
         {
-            points = city.getCity();
-            foreach (Punt point in points)
-            {
-                Thread.Sleep(10);
-                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", point.X, point.Z, point.Y, 8);
+            Thread.Sleep(10);
+                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj", 60, 68, 2, 8);
                 _connection.Nodes.Add(_house);
 
                 Thread.Sleep(10);
                 _connection.SendMessage(_house.SendString);
-            }
+
         }
 
         private void createWater()

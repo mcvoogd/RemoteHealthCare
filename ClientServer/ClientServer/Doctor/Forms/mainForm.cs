@@ -26,6 +26,7 @@ namespace Doctor.Forms
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
+        private Measurement lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, new SimpleTime(0, 0), 0);
 
         public MainForm(DoctorConnector connector)
         {
@@ -198,8 +199,10 @@ namespace Doctor.Forms
             });
             if (_connector.GetMostRecentMeasurement() == null) return;
             var tempMeasurement = _connector.GetMostRecentMeasurement();
+            if(tempMeasurement == lastMeasurement)return;
             SetAllMeasurementData(tempMeasurement);
             FillAllCharts(tempMeasurement);
+            lastMeasurement = tempMeasurement;
         }
 
         public void FillAllCharts(Measurement tempMeasurement)

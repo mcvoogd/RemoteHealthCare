@@ -43,7 +43,7 @@ namespace Server.Server
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
-            var message = new byte[128];
+            var message = new byte[1024];
             var sizeBuffer = new byte[0];
             while (_tcpClient.Connected)
                 try
@@ -105,7 +105,7 @@ namespace Server.Server
                         case "get/patients":
                             if (IsDoctor)
                             { 
-                                HandleGetPatients(data);
+                                HandleGetPatients(readMessage);
                             }
                             else
                             {
@@ -148,7 +148,7 @@ namespace Server.Server
         private void HandlePatientData(dynamic data)
         {
             int id = data.clientId;
-            ClientHandler client = TcpServer.GetClientHandlerByClientID(id);
+            var client = TcpServer.GetClientHandlerByClientID(id);
             var measurement = client.Client.TinyDataBaseBase.MeasurementSystem._measurements
                 [client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count - 1];
             SendMessage(new
@@ -156,7 +156,7 @@ namespace Server.Server
                 id = "get/patient/data",
                 data = new
                 {
-                    measurementsList = measurement
+                    LatestMeasurements = measurement
                 }
             });
         }
@@ -165,24 +165,39 @@ namespace Server.Server
         private void HandleGetPatients(dynamic data)
         {
             var patientsList = new List<Patient>();
-            var index = 0;
-            if(_database.Clients.Count > 0 && _database.Clients != null)
-            foreach (var databaseClient in _database.Clients)
+            //            int index = 0;
+            List<Patient> fromDoctor = new List<Patient>();
+            for (int t = 0; t < data.data.patientList.Count; t++)
             {
-                if(databaseClient.IsDoctor) continue;
-                var temp = new Patient(databaseClient.UniqueId,  databaseClient.IsOnline, databaseClient.Name);
-                patientsList.Add(temp);
-                index++;
+                fromDoctor.Add(data.data.patientList[t].ToObject<Patient>());
             }
 
-            SendMessage(new
+            if (_database.Clients.Count > 0 && _database.Clients != null)
             {
-                id = "get/patients",
-                data = new
+                for (int i = 0; i < _database.Clients.Count; i++)
                 {
-                    patients = patientsList.ToArray()
+                    if (_database.Clients[i].IsDoctor) continue;
+                    var temp = new Patient(_database.Clients[i].UniqueId, _database.Clients[i].IsOnline,
+                        _database.Clients[i].Name);
+                    patientsList.Add(temp);
                 }
-            });
+                if (patientsList.Count == fromDoctor.Count) return;
+                Console.WriteLine("Not the same!");
+                    //            var patientsListV2 = new List<Patient>();
+                    //            for (int y = index; y < patientsList.Count; y++)
+                    //            {
+                    //                var temp = patientsList[y];
+                    //                patientsListV2.Add(temp);
+                    //            }
+                SendMessage(new
+                {
+                    id = "get/patients",
+                    data = new
+                    {
+                        patients = patientsList.ToArray()
+                    }
+                });
+            }
         }
 
         //from doctor to client.

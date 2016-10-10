@@ -26,7 +26,10 @@ namespace Doctor.Forms
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
-        private Measurement lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
+        private Measurement _lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        public bool SessionStarted;
+        public bool SessionStopped = true;
 
         public MainForm(DoctorConnector connector)
         {
@@ -35,6 +38,7 @@ namespace Doctor.Forms
 
             InitializeComponent();
             timeTimer.Start();
+            UpdateDataLive.Start();
 
             CargoPrivateFontCollection();
             Fonts();
@@ -182,28 +186,49 @@ namespace Doctor.Forms
         {
             if(!Visible)return;
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+        }
+
+
+        private void UpdateDataLive_Tick(object sender, EventArgs e)
+        {
+            if (!Visible) return;
             FillPatientsToList();
             _connector.SendMessage(new
             {
                 id = "get/patients",
-                
-            });
-            if (_currentPatient != null)
-            _connector.SendMessage(new
-            {
-                id = "get/patient/data",
                 data = new
                 {
-                    clientId = _currentPatient.ClientId
+                    patientList = _connector.CurrentPatients
                 }
             });
+            if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
+            if (_currentPatient.IsOnline)
+            {
+                //TODO ehhh rename this command? dont want this for offline users?
+                _connector.SendMessage(new
+                {
+                    id = "get/patient/data",
+                    data = new
+                    {
+                        clientId = _currentPatient.ClientId
+                    }
+                });
 
-            if (_connector.GetMostRecentMeasurement() == null) return;
-            var tempMeasurement = _connector.GetMostRecentMeasurement();
-            if(tempMeasurement.Equals(lastMeasurement))return;
-            SetAllMeasurementData(tempMeasurement);
-            FillAllCharts(tempMeasurement);
-            lastMeasurement = tempMeasurement;
+                if (_connector.GetMostRecentMeasurement() == null) return;
+                var tempMeasurement = _connector.GetMostRecentMeasurement();
+                if (tempMeasurement.Equals(_lastMeasurement)) return;
+                SetAllMeasurementData(tempMeasurement);
+                FillAllCharts(tempMeasurement);
+                _lastMeasurement = tempMeasurement;
+            }
+            else
+            {
+                historyListBox.Items.Clear();
+                historyListBox.Items.Add("Test1");
+                historyListBox.Items.Add("Test2");
+                historyListBox.Items.Add("UserOffline");
+                historyListBox.Items.Add("Test3");
+            }
         }
 
         public void FillAllCharts(Measurement tempMeasurement)
@@ -237,7 +262,6 @@ namespace Doctor.Forms
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
-            //TODO GRANTED CLIENT IS ONLINE. YOU KNOW WHAT.
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
                 _connector.SetCurrentPatient(_currentPatient);
@@ -256,26 +280,26 @@ namespace Doctor.Forms
             bpmLabel.Text = m.Pulse.ToString();
         }
 
-        private void refreshClientButton_Click(object sender, EventArgs e)
-        {
-            FillPatientsToList();
-        }
-        
         public void FillPatientsToList()
         {
             var list = _connector.GetAllPatients();
-            clientListBox.Text = "";
+            if(list == null) return;
             clientListBox.Items.Clear();
             foreach (var patient in list)
             {
                 clientListBox.Items.Add(patient);
             }
+            _connector.PatientesList.Clear();
         }
 
         private void userAddButton_Click(object sender, EventArgs e)
         {
             new AcountCreationForm(_connector) { Visible = true};
         }
+
+        #region  labels..
+
+        
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)
         {
@@ -348,5 +372,22 @@ namespace Doctor.Forms
                 dataChart.Series["Km/h"].Enabled = true;
             }
         }
+
+#endregion
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            if (SessionStarted) return;
+            SessionStarted = true;
+            SessionStopped = false;
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            if (SessionStopped) return;
+            SessionStopped = true;
+            SessionStarted = false;
+        }
+
     }
 }

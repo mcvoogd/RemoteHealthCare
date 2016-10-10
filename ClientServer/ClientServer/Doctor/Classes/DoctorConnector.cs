@@ -22,6 +22,8 @@ namespace Doctor.Classes
         private SslStream _sslStream;
         private TcpClient _tcpClient;
         public bool RecievedMeasurements = false;
+        public bool UpdateRequired = true;
+        public readonly List<Patient> CurrentPatients = new List<Patient>();
 
         public DoctorConnector()
         {
@@ -34,7 +36,7 @@ namespace Doctor.Classes
 
         public void Receiver()
         {
-            var message = new byte[128];
+            var message = new byte[1024];
             var sizeBuffer = new byte[4];
 
             try
@@ -63,7 +65,6 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
-                                    PatientesList.Clear();
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
@@ -72,9 +73,13 @@ namespace Doctor.Classes
                                         bool isOnline = patientsList[i].IsOnline;
                                         PatientesList.Add(new Patient(clientid, isOnline, name));
                                     }
+                                    CurrentPatients.Clear();
+                                    CurrentPatients.AddRange(PatientesList);
+                                    Console.WriteLine(CurrentPatients.Count + " < Count patientslist" );
+                                    UpdateRequired = true;
                                     break;
                                 case "get/patient/data" :
-                                    Measurement m = data.measurementsList.ToObject<Measurement>();
+                                    Measurement m = data.LatestMeasurements.ToObject<Measurement>();
                                     CurrentPatientMeasurements.Add(m);
                                     RecievedMeasurements = true;
                                     break;
@@ -124,7 +129,13 @@ namespace Doctor.Classes
 
         public List<Patient> GetAllPatients()
         {
-            return PatientesList ?? null;
+            if (!UpdateRequired) return null;
+            if (PatientesList == null) return null;
+            List<Patient> temp = new List<Patient>();
+            temp.AddRange(PatientesList);
+            PatientesList.Clear();
+            UpdateRequired = false;
+            return temp;
         }
 
         public bool Connect(string serverIp, string username, string password)
@@ -149,7 +160,11 @@ namespace Doctor.Classes
 
                     SendMessage(new
                     {
-                        id = "get/patients"
+                        id = "get/patients",
+                        data = new
+                        {
+                            patientList = new List<Patient>() { new Patient(0,false,"0")}
+                        }
                     });
                     Console.WriteLine("Send Message...");
                     return true;
@@ -159,26 +174,6 @@ namespace Doctor.Classes
             }
             return false;
         }
-//not used here.
-//        public void SendStatistics(Measurement measurement)
-//        {
-//            SendMessage(new
-//            {
-//                id = "measurement/add",
-//                clientid = ConnectionId,
-//                data = new
-//                {
-//                    pulse = measurement.Pulse.ToString(),
-//                    rotations = measurement.Rotations.ToString(),
-//                    speed = measurement.Speed.ToString(),
-//                    distance = measurement.Distance.ToString("N3"),
-//                    power = measurement.Power.ToString(),
-//                    burned = measurement.Burned.ToString("N3"),
-//                    time = measurement.Time.ToString(),
-//                    reachedpower = measurement.ReachedPower.ToString()
-//                }
-//            });
-//        }
 
         private void Login(string username, string password)
         {

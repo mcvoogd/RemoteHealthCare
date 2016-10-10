@@ -104,6 +104,7 @@ namespace Doctor.Forms
             this.chatSendButton = new Doctor.Classes.SplitButton();
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
+            this.UpdateDataLive = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressChart)).BeginInit();
@@ -892,6 +893,7 @@ namespace Doctor.Forms
             this.startButton.TabIndex = 53;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // stopButton
             // 
@@ -901,6 +903,12 @@ namespace Doctor.Forms
             this.stopButton.TabIndex = 54;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // UpdateDataLive
+            // 
+            this.UpdateDataLive.Interval = 1000;
+            this.UpdateDataLive.Tick += new System.EventHandler(this.UpdateDataLive_Tick);
             // 
             // MainForm
             // 
@@ -1026,6 +1034,7 @@ namespace Doctor.Forms
         public System.Windows.Forms.ListBox historyListBox;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Timer UpdateDataLive;
     }
 }
 

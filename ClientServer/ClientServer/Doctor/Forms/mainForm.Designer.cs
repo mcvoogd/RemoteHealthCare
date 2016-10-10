@@ -108,6 +108,7 @@ namespace Doctor.Forms
             this.pulseLegendaLabel = new System.Windows.Forms.Label();
             this.kmhLegendaLabel = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.historyListBox = new System.Windows.Forms.ListBox();
             this.chatSendButton = new Doctor.Classes.SplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -602,7 +603,7 @@ namespace Doctor.Forms
             this.dataChart.Series.Add(series3);
             this.dataChart.Series.Add(series4);
             this.dataChart.Series.Add(series5);
-            this.dataChart.Size = new System.Drawing.Size(1179, 219);
+            this.dataChart.Size = new System.Drawing.Size(945, 178);
             this.dataChart.TabIndex = 29;
             this.dataChart.Text = "chart1";
             // 
@@ -680,9 +681,9 @@ namespace Doctor.Forms
             this.label12.Location = new System.Drawing.Point(1192, 474);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(132, 17);
+            this.label12.Size = new System.Drawing.Size(108, 13);
             this.label12.TabIndex = 36;
-            this.label12.Text = "Historie                   ";
+            this.label12.Text = "Historie                      ";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13
@@ -923,6 +924,24 @@ namespace Doctor.Forms
             this.label10.Text = "Tijd (sec)";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // historyListBox
+            // 
+            this.historyListBox.BackColor = System.Drawing.Color.Black;
+            this.historyListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.historyListBox.Font = new System.Drawing.Font("Arial Unicode MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.historyListBox.ForeColor = System.Drawing.Color.White;
+            this.historyListBox.FormattingEnabled = true;
+            this.historyListBox.ItemHeight = 25;
+            this.historyListBox.Items.AddRange(new object[] {
+            "10-10-\'16 - 14:50",
+            "10-10-\'16 - 09:19",
+            "09-10-\'16 - 12:34",
+            "09-10-\'16 - 11:45"});
+            this.historyListBox.Location = new System.Drawing.Point(897, 419);
+            this.historyListBox.Name = "historyListBox";
+            this.historyListBox.Size = new System.Drawing.Size(284, 125);
+            this.historyListBox.TabIndex = 52;
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -945,6 +964,7 @@ namespace Doctor.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.kmhLegendaLabel);
             this.Controls.Add(this.pulseLegendaLabel);
@@ -1059,6 +1079,7 @@ namespace Doctor.Forms
         private System.Windows.Forms.Label pulseLegendaLabel;
         private System.Windows.Forms.Label kmhLegendaLabel;
         private System.Windows.Forms.Label label10;
+        public System.Windows.Forms.ListBox historyListBox;
     }
 }
 

@@ -68,15 +68,15 @@ namespace VRFrom_Gijs.Forms
             createCity();
             Blocker.WaitOne(5000);
 
-            createBike();
-            Blocker.WaitOne(5000);
+            //createBike();
+            //Blocker.WaitOne(5000);
             createRoad();
-            Blocker.WaitOne(5000);
-            followRoad();
-            Blocker.WaitOne(5000);
-            followBike();
-            Blocker.WaitOne(5000);
-            followCamera();
+            //Blocker.WaitOne(5000);
+            //followRoad();
+            //Blocker.WaitOne(5000);
+            //followBike();
+            //Blocker.WaitOne(5000);
+            //followCamera();
             Blocker.WaitOne(5000);
 
             drawPanel("Satan is love       1337");
@@ -328,7 +328,7 @@ namespace VRFrom_Gijs.Forms
         private void createWater()
         {
             Thread.Sleep(10);
-            _water = new Node("water", _connection.TunnelId, 50, 2, 15, true);
+            _water = new Node("water", _connection.TunnelId, 10, 2, 20, true);
             _connection.Nodes.Add(_water);
 
             Thread.Sleep(10);

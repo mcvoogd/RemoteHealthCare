@@ -276,7 +276,7 @@ namespace Doctor.Forms
 
         private void userAddButton_Click(object sender, EventArgs e)
         {
-            new AcountCreationForm(_connector);
+            new AcountCreationForm(_connector) { Visible = true};
         }
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)

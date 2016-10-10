@@ -103,7 +103,7 @@ namespace DataScreen.Forms
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            updateMeshMin();
+            updateMeasurementhMin();
 
             timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
             distanceCount.Text = "" + (int) Measurement.Distance;
@@ -112,7 +112,7 @@ namespace DataScreen.Forms
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            updateMeshPlus();
+            updateMeasurementPlus();
 
             timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
             distanceCount.Text = "" + (int) Measurement.Distance;
@@ -142,7 +142,7 @@ namespace DataScreen.Forms
             }
             else
             {
-                updateMeshPlus();
+                updateMeasurementPlus();
 
                 var random = new Random();
 
@@ -162,7 +162,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void updateMeshPlus()
+        public void updateMeasurementPlus()
         {
             if (_time < 5999)
             {
@@ -173,7 +173,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void updateMeshMin()
+        public void updateMeasurementhMin()
         {
             if (_time > 0)
             {

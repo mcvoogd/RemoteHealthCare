@@ -28,7 +28,8 @@ namespace Doctor.Forms
                         data = new
                         {
                             name = NameTextBox.Text,
-                            password = passwordBoxOne.Text
+                            password = passwordBoxOne.Text,
+                            isDoctor = false
                         }
                     });
                     Close();

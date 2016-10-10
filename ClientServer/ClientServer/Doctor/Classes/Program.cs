@@ -16,9 +16,8 @@ namespace Doctor.Classes
             Application.SetCompatibleTextRenderingDefault(false);
 
             var connector = new DoctorConnector();
-            var mainForm = new MainForm(connector) {Visible = false};
+            var mainForm = new MainForm(connector) {Visible = true};
             var loginForm = new LoginForm(connector.Connect, mainForm);
-           /// var Test = new AcountCreationForm() {Visible = false};
 
             Application.Run(loginForm);
             

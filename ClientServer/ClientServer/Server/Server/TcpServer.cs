@@ -12,7 +12,7 @@ namespace Server.Server
     public class TcpServer
     {
         public static List<ClientHandler> ClientHandlers = new List<ClientHandler>();
-        private readonly BigDatabase _dataBase = new BigDatabase();
+        public readonly BigDatabase DataBase = new BigDatabase();
         private readonly TcpListener _tcpListener;
 
         public List<Thread> threads = new List<Thread>();
@@ -39,7 +39,7 @@ namespace Server.Server
                     var tcpClient = tcpClientTask.Result;
                     Console.WriteLine("Connected to a client");
 
-                    var clienthandler = new ClientHandler(tcpClient, _dataBase);
+                    var clienthandler = new ClientHandler(tcpClient, DataBase);
                     ClientHandlers.Add(clienthandler);
 
                     Console.WriteLine("Clienthandler");
@@ -58,7 +58,7 @@ namespace Server.Server
         public void SaveAllData()
         {
             const string path = @"..\..\ClientData\Clients.save";
-            _dataBase.SaveClients(path);
+            DataBase.SaveClients(path);
         }
 
         public void LoadAllData()
@@ -68,8 +68,12 @@ namespace Server.Server
             {
                 if (File.Exists(path))
                 {
-                    _dataBase.LoadClients(path);
+                    DataBase.LoadClients(path);
                     Console.WriteLine("Loaded ClientData.");
+                    foreach (var client in DataBase.Clients)
+                    {
+                        Console.WriteLine(client.ToString());   
+                    }
                 }
             }
             else

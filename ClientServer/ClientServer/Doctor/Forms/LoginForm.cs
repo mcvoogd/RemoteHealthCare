@@ -44,7 +44,10 @@ namespace Doctor.Forms
                 _mainForm.ClientId = DoctorConnector.GetUniqueId(usernameTextBox.Text, passwordTextBox.Text);
                 Visible = false;
                 _mainForm.Visible = true;
-                List<Patient> list = _mainForm._getAllPatients();
+                // TODO, make it work properly
+                // This was commented out to make the code compile
+//                List<Patient> list = _mainForm._getAllPatients(); 
+                var list = new List<Patient>(); // Temporary fix...
                 _mainForm.clientListBox.Text = "";
                 _mainForm.clientListBox.Items.Clear();
                 foreach (var patient in list)

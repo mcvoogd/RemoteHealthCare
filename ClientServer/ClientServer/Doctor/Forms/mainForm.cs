@@ -24,7 +24,6 @@ namespace Doctor.Forms
         private VerticalLineAnnotation _va;
         private RectangleAnnotation _ra;
 
-        private readonly GetMeasurementsFromPatient _GetMeasurementsFromPatient;
         public int ClientId { get; set; }
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();

@@ -160,15 +160,17 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
 
-            if (Form1._tunnelCommandForm != null && Form1._tunnelCommandForm._panel != null)
+            if (Form1._tunnelCommandForm != null && Form1._tunnelCommandForm.Panel != null)
             {
                // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
-                string[] iets =
+
+               //Voor als Johan /n niet werkend heeft gekregen.
+                string[] textValues =
                 {
                     $"Time : {measurement.Time}",
                     "",
                     $"Speed : {measurement.Speed} Km/h",
-                    $"Distance : {measurement.Distance:##.00} M",
+                    $"Distance : {measurement.Distance:##.00} m",
                     "",
                     $"Pulse : {measurement.Pulse} BPM",
                     $"Burned : {measurement.Burned:##.00} Kcal",
@@ -177,7 +179,7 @@ namespace Client.Forms
                     $"Power : {measurement.Power} Watt",
                     $"ReachedPower : {measurement.ReachedPower} Watt"
                 };
-                Form1._tunnelCommandForm.DrawRipBackslashNPanel(iets);
+                Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
             }
 
         }

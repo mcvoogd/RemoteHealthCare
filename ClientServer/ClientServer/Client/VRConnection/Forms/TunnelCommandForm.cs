@@ -11,7 +11,7 @@ namespace Client.VRConnection.Forms
     public partial class TunnelCommandForm : Form
     {
         public static AutoResetEvent Blocker;
-        public Panel _panel { get; set; }
+        public Panel Panel { get; set; }
 
         private readonly VrConnection _connection;
         private readonly Random _random = new Random();
@@ -66,29 +66,6 @@ namespace Client.VRConnection.Forms
             //FollowCamera();
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            if (_skybox == null)
-                _skybox = new Skybox("skybox", _connection.TunnelId);
-            double time = SetTime.Value/4.0f;
-            _connection.SendMessage(_skybox.SetTime(time));
-        }
-
-        private void DeletePane()
-        {
-            
-            if (!_send)
-            {
-                _send = true;
-                _connection.SendMessage(RequestCreater.GetScene(_connection.TunnelId));
-            }
-            else
-            {
-                _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
-                Blocker.Set();
-            }
-        }
-
         private void CreateTerrain()
         {
             var terrain = new Terrain(_connection.TunnelId, _connection);
@@ -104,6 +81,20 @@ namespace Client.VRConnection.Forms
 
             _connection.SendMessage(_bike.SendString);
         }
+
+        private void CreatePanel()
+        {
+            Panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 2, 1, 2000, 1000, 0, 0, 0, 0,
+                _connection.TunnelId, _connection.cameraID);
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            MakePanelId();
+
+            Panel.SwapPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+       }
 
         private void CreateRoad()
         {
@@ -132,6 +123,165 @@ namespace Client.VRConnection.Forms
                     route = _connection.RouteId
                 }
             }, _connection.TunnelId));
+        }
+
+        private void CreateForest()
+        {
+            _points = _forest.getForest();
+
+            foreach (Punt point in _points)
+            {
+                Thread.Sleep(10);
+                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
+                    point.X, point.Z, point.Y, GetRandom());
+                _connection.Nodes.Add(_tree);
+
+                Thread.Sleep(10);
+                _connection.SendMessage(_tree.SendString);
+            }
+        }
+
+        private void CreateCity()
+        {
+            _points = _city.getCity();
+
+            foreach (Punt point in _points)
+            {
+                Thread.Sleep(10);
+                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
+                    point.X, point.Z, point.Y, 8);
+                _connection.Nodes.Add(_house);
+
+                Thread.Sleep(10);
+                _connection.SendMessage(_house.SendString);
+            }
+        }
+
+        private void CreateWater()
+        {
+            Thread.Sleep(10);
+            _water = new Node("water", _connection.TunnelId, 50, 2, 15, true);
+            _connection.Nodes.Add(_water);
+
+            Thread.Sleep(10);
+            _connection.SendMessage(_water.SendString);
+        }
+        
+        private void FollowRoad()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "route/follow",
+                data = new
+                {
+                    route = _connection.RouteId,
+                    node = _bike.Uuid,
+                    speed = 5.0,
+                    offset = 0.0,
+                    rotate = "XZ",
+                    followHeight = true,
+                    rotateOffset = new[] {0, 0, 0},
+                    positionOffset = new[] {0, 0, 0}
+                }
+            }, _connection.TunnelId));
+            Blocker.Set();
+        }
+
+        private void FollowBike()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _connection.cameraID,
+                    parent = _bike.Uuid,
+                    transform = new {position = new[] {0, 50, 0}, scale = 75.0, rotation = new[] {0, 90, 0}}
+                }
+            }, _connection.TunnelId));
+        }
+
+        private void FollowCamera()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = _connection.PanelId,
+                    parent = _connection.cameraID,
+                    transform = new {position = new[] {0, 1, -0.5}, scale = 0.29, rotation = new[] {-53, 0, 0}}
+                }
+            }, _connection.TunnelId));
+        }
+
+        public void DrawPanel(string textValue)
+        {
+            int[] position = {100, 100};
+            double sizeValue = 32;
+            double[] color = {0, 0, 0, 1};
+            string fontValue = "segoeui";
+;
+            Panel.ClearPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            Panel.DrawText(textValue, position, sizeValue, color, fontValue);
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            Panel.SwapPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+        }
+
+        public void DrawRipBackslashNPanel(string[] textValues)
+        {
+            int[] position = { 100, 100 };
+            double sizeValue = 32;
+            double[] color = { 0, 0, 0, 1 };
+            string fontValue = "segoeui";
+
+            Panel.ClearPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            foreach (var s in textValues)
+            {
+                Panel.DrawText(s, position, sizeValue, color, fontValue);
+                _connection.SendMessage(Panel.ToSend);
+                Blocker.WaitOne(5000);
+
+                position[1] += 25;
+            }
+            Panel.SwapPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+        }
+
+        private void DeletePane()
+        {
+            
+            if (!_send)
+            {
+                _send = true;
+                _connection.SendMessage(RequestCreater.GetScene(_connection.TunnelId));
+            }
+            else
+            {
+                _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
+                Blocker.Set();
+            }
+        }
+
+        private void MakePanelId()
+        {
+            while (Panel.Uuid == null)
+            {
+                Thread.Sleep(10);
+                Panel.Uuid = _connection.PanelId;
+            }
         }
 
         private void PaintTerrain()
@@ -182,169 +332,20 @@ namespace Client.VRConnection.Forms
                 }, _connection.TunnelId));
         }
 
-        private void FollowRoad()
+        private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "route/follow",
-                data = new
-                {
-                    route = _connection.RouteId,
-                    node = _bike.Uuid,
-                    speed = 5.0,
-                    offset = 0.0,
-                    rotate = "XZ",
-                    followHeight = true,
-                    rotateOffset = new[] {0, 0, 0},
-                    positionOffset = new[] {0, 0, 0}
-                }
-            }, _connection.TunnelId));
-            Blocker.Set();
-        }
-
-        private void FollowBike()
-        {
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "scene/node/update",
-                data = new
-                {
-                    id = _connection.cameraID,
-                    parent = _bike.Uuid,
-                    transform = new {position = new[] {0, 50, 0}, scale = 75.0, rotation = new[] {0, 90, 0}}
-                }
-            }, _connection.TunnelId));
-        }
-
-        private void CreatePanel()
-        {
-            _panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 2, 1, 2000, 1000, 0, 0, 0, 0,
-                _connection.TunnelId, _connection.cameraID);
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            MakePanelId();
-
-            _panel.SwapPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-       }
-
-        private void MakePanelId()
-        {
-            if (_panel.Uuid == null)
-            {
-                Thread.Sleep(10);
-                _panel.Uuid = _connection.PanelId;
-
-                MakePanelId();
-            }
-        }
-
-        public void DrawPanel(string textValue)
-        {
-            int[] position = {100, 100};
-            double sizeValue = 32;
-            double[] color = {0, 0, 0, 1};
-            string fontValue = "segoeui";
-;
-            _panel.ClearPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            _panel.DrawText(textValue, position, sizeValue, color, fontValue);
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            _panel.SwapPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-        }
-
-        public void DrawRipBackslashNPanel(string[] textValues)
-        {
-            int[] position = { 100, 100 };
-            double sizeValue = 32;
-            double[] color = { 0, 0, 0, 1 };
-            string fontValue = "segoeui";
-
-            _panel.ClearPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            foreach (string s in textValues)
-            {
-                _panel.DrawText(s, position, sizeValue, color, fontValue);
-                _connection.SendMessage(_panel.ToSend);
-                Blocker.WaitOne(5000);
-
-                position[1] += 25;
-            }
-            _panel.SwapPanel();
-            _connection.SendMessage(_panel.ToSend);
-            Blocker.WaitOne(5000);
-
+            if (_skybox == null)
+                _skybox = new Skybox("skybox", _connection.TunnelId);
+            double time = SetTime.Value/4.0f;
+            _connection.SendMessage(_skybox.SetTime(time));
         }
     
-        private void CreateForest()
-        {
-            _points = _forest.getForest();
-
-            foreach (Punt point in _points)
-            {
-                Thread.Sleep(10);
-                _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
-                    point.X, point.Z, point.Y, GetRandom());
-                _connection.Nodes.Add(_tree);
-
-                Thread.Sleep(10);
-                _connection.SendMessage(_tree.SendString);
-            }
-        }
-
-        private void CreateCity()
-        {
-            _points = _city.getCity();
-
-            foreach (Punt point in _points)
-            {
-                Thread.Sleep(10);
-                _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
-                    point.X, point.Z, point.Y, 8);
-                _connection.Nodes.Add(_house);
-
-                Thread.Sleep(10);
-                _connection.SendMessage(_house.SendString);
-            }
-        }
-
         private Double GetRandom()
         {
             return _random.NextDouble()*0.6 + 1;
         }
 
-        private void CreateWater()
-        {
-            Thread.Sleep(10);
-            _water = new Node("water", _connection.TunnelId, 50, 2, 15, true);
-            _connection.Nodes.Add(_water);
 
-            Thread.Sleep(10);
-            _connection.SendMessage(_water.SendString);
-        }
 
-        private void FollowCamera()
-        {
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "scene/node/update",
-                data = new
-                {
-                    id = _connection.PanelId,
-                    parent = _connection.cameraID,
-                    transform = new {position = new[] {0, 1, -0.5}, scale = 0.29, rotation = new[] {-53, 0, 0}}
-                }
-            }, _connection.TunnelId));
-        }
     }
 }

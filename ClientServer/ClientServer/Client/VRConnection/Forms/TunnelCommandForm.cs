@@ -244,19 +244,16 @@ namespace Client.VRConnection.Forms
 
             Panel.ClearPanel();
             _connection.SendMessage(Panel.ToSend);
-            Blocker.WaitOne(5000);
 
             foreach (var s in textValues)
             {
                 Panel.DrawText(s, position, sizeValue, color, fontValue);
                 _connection.SendMessage(Panel.ToSend);
-                Blocker.WaitOne(5000);
 
                 position[1] += 25;
             }
             Panel.SwapPanel();
             _connection.SendMessage(Panel.ToSend);
-            Blocker.WaitOne(5000);
 
         }
 
@@ -286,15 +283,7 @@ namespace Client.VRConnection.Forms
 
         private void PaintTerrain()
         {
-          _connection.SendMessage(
-                RequestCreater.TunnelSend(new
-                {
-                    id = "scene/node/addlayer",
-                    data = new
-                    {
-                    }
-                }, _connection.TunnelId));
-
+            Thread.Sleep(1000);
             Blocker.WaitOne(5000);
 
             _connection.SendMessage(
@@ -323,8 +312,8 @@ namespace Client.VRConnection.Forms
                       id = _connection.TerrainId,
                       normal = "data/NetworkEngine/textures/terrain/snow_grass_n.jpg",
                       diffuse = "data/NetworkEngine/textures/terrain/snow_grass_d.jpg",
-                      minHeight = 16,
-                      maxHeight = 30,
+                      minHeight = 17,
+                      maxHeight = 32,
                       fadeDist = 1
                   }
               }, _connection.TunnelId));
@@ -342,7 +331,7 @@ namespace Client.VRConnection.Forms
                         diffuse = "data/NetworkEngine/textures/terrain/grass_green_d.jpg",
                         minHeight = 2,
                         maxHeight = 16,
-                        fadeDist = 0
+                        fadeDist = 1
                     }
                 }, _connection.TunnelId));
 

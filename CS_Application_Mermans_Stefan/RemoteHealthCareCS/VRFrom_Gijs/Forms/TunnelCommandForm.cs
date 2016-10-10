@@ -28,8 +28,6 @@ namespace VRFrom_Gijs.Forms
         private bool _send = false;
         private Random random = new Random();
         private List<Punt> forestPoints;
-        private Forest forest;
-        private City city;
 
         public TunnelCommandForm(Connection connection, string name)
         {
@@ -56,8 +54,6 @@ namespace VRFrom_Gijs.Forms
 
         private void createScene()
         {
-            forest = new Forest();
-            city = new City();
             deletePane();
             Blocker.WaitOne(5000);
             deletePane();

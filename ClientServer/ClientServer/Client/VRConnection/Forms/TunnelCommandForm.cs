@@ -49,10 +49,6 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
             CreateWater();
             Blocker.WaitOne(5000);
-            CreateForest();
-            Blocker.WaitOne(5000);
-            CreateCity();
-            Blocker.WaitOne(5000);
 
             CreateBike();
             Blocker.WaitOne(5000);
@@ -63,6 +59,11 @@ namespace Client.VRConnection.Forms
             FollowBike();
             Blocker.WaitOne(5000);
             FollowCamera();
+
+            Blocker.WaitOne(5000);
+            CreateForest();
+            Blocker.WaitOne(5000);
+            CreateCity();
         }
 
         private void CreateTerrain()
@@ -250,7 +251,9 @@ namespace Client.VRConnection.Forms
                 _connection.SendMessage(Panel.ToSend);
 
                 position[1] += 50;
+                Blocker.WaitOne(5000);
             }
+
             Panel.SwapPanel();
             _connection.SendMessage(Panel.ToSend);
 

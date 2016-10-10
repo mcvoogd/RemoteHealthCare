@@ -88,7 +88,6 @@ namespace Doctor.Forms
             this.avgkmhLabel = new System.Windows.Forms.Label();
             this.clientListBox = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.refreshClientButton = new System.Windows.Forms.Button();
             this.dataChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.userLabel = new System.Windows.Forms.Label();
             this.connectedLabel = new System.Windows.Forms.Label();
@@ -487,6 +486,7 @@ namespace Doctor.Forms
             this.label9.Text = "Client                      ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+<<<<<<< HEAD
             // refreshClientButton
             // 
             this.refreshClientButton.BackColor = System.Drawing.Color.White;
@@ -502,6 +502,8 @@ namespace Doctor.Forms
             this.refreshClientButton.UseVisualStyleBackColor = false;
             this.refreshClientButton.Click += new System.EventHandler(this.refreshClientButton_Click);
             // 
+=======
+>>>>>>> 5a8b45c93a56ceb391eb77e0fef437493d5e4067
             // dataChart
             // 
             this.dataChart.BackColor = System.Drawing.Color.Transparent;
@@ -840,8 +842,12 @@ namespace Doctor.Forms
             this.userAddButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.userAddButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.userAddButton.ForeColor = System.Drawing.Color.Black;
+<<<<<<< HEAD
             this.userAddButton.Location = new System.Drawing.Point(209, 89);
             this.userAddButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+=======
+            this.userAddButton.Location = new System.Drawing.Point(189, 72);
+>>>>>>> 5a8b45c93a56ceb391eb77e0fef437493d5e4067
             this.userAddButton.Name = "userAddButton";
             this.userAddButton.Size = new System.Drawing.Size(143, 32);
             this.userAddButton.TabIndex = 44;
@@ -981,7 +987,6 @@ namespace Doctor.Forms
             this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.dataChart);
-            this.Controls.Add(this.refreshClientButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.clientListBox);
             this.Controls.Add(this.avgkmhLabel);
@@ -1059,7 +1064,6 @@ namespace Doctor.Forms
         public System.Windows.Forms.Label avgrpmLabel;
         public System.Windows.Forms.Label avgkmhLabel;
         public System.Windows.Forms.ListBox clientListBox;
-        public System.Windows.Forms.Button refreshClientButton;
         public System.Windows.Forms.DataVisualization.Charting.Chart dataChart;
         public System.Windows.Forms.Label userLabel;
         public System.Windows.Forms.Label connectedLabel;

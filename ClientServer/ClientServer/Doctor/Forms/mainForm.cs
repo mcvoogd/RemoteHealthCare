@@ -162,7 +162,6 @@ namespace Doctor.Forms
             label7.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            refreshClientButton.Font = new Font(_goodTimes, 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             userLabel.Font = new Font(_goodTimes, 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             userAddButton.Font = new Font(_goodTimes, 9.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -279,7 +278,7 @@ namespace Doctor.Forms
 
         private void loadButton_Click(object sender, EventArgs e)
         {
-            //TODO fix it menno
+            //TODO Should work like this. Duration is not used and i've got no idea how to implement this.
             Training t = (Training)trainingComboBox.SelectedItem;
             List<dynamic> toSend = t.SendTraining();
             foreach (var step in toSend)

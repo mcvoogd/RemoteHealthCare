@@ -21,7 +21,7 @@ namespace Doctor.Classes
         private byte[] _messageBuffer = new byte[0];
         private SslStream _sslStream;
         private TcpClient _tcpClient;
-        public bool recievedMeasurements = false;
+        public bool RecievedMeasurements = false;
 
         public DoctorConnector()
         {
@@ -77,7 +77,7 @@ namespace Doctor.Classes
                                     CurrentPatientMeasurements.Clear();
                                     Measurement m = data.measurementsList.ToObject<Measurement>();
                                     CurrentPatientMeasurements.Add(m);
-                                    recievedMeasurements = true;
+                                    RecievedMeasurements = true;
                                     break;
                                 case "login/request":
                                     if (data.ack == false)

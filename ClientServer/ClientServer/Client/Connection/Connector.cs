@@ -87,6 +87,9 @@ namespace Client.Connection
                                         }
                                     });
                                     break;
+                                case "change/resistance":
+                                    RemoteHealthcare.SendCommandToBike(data);
+                                    break;
                                 case "client/disconnect":
                                     _sslStream.Close();
                                     _tcpClient.Close();

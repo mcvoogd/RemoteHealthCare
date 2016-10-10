@@ -179,5 +179,10 @@ namespace Client.Forms
             if (Measurements.Count <= 0) return;
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
         }
+
+        public void SendCommandToBike(dynamic message)
+        {
+            DataReceiver.SendCommand(message, DataReceiver.getSerialPort());
+        }
     }
 }

@@ -300,9 +300,26 @@ namespace Doctor.Forms
 
         private void loadButton_Click(object sender, EventArgs e)
         {
+            //TODO fix it menno
             Training t = (Training)trainingComboBox.SelectedItem;
-            List<dynamic> ToSend = t.SendTraining();
-            DoctorConnector.Send
+            List<dynamic> toSend = t.SendTraining();
+            foreach (var step in toSend)
+            {
+                _connector.SendMessage(GetMessageForServer(step));
+            }
+        }
+
+        private dynamic GetMessageForServer(dynamic message)
+        {
+            dynamic toSend = new
+            {
+                id = _currentPatient,
+                data = new
+                {
+                    message
+                }
+            };
+            return toSend;
         }
     }
 }

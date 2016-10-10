@@ -22,7 +22,6 @@ namespace Doctor.Classes
         private SslStream _sslStream;
         private TcpClient _tcpClient;
         public bool RecievedMeasurements = false;
-        private Measurement _latestSendMeasurement = null;
 
         public DoctorConnector()
         {

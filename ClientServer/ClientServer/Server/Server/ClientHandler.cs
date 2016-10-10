@@ -277,7 +277,7 @@ namespace Server.Server
                     (int) data.power,
                     (double) data.distance,
                     (double) data.burned,
-                    tempTime,
+                    tempTime.Minutes,tempTime.Seconds,
                     (int) data.reachedpower);
 
                 return tempMeasurement;

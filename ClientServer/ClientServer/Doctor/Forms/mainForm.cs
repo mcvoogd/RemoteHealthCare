@@ -26,7 +26,7 @@ namespace Doctor.Forms
         private List<Measurement> _patientMeasurements = new List<Measurement>();
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
-        private Measurement lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, new SimpleTime(0, 0), 0);
+        private Measurement lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
         public MainForm(DoctorConnector connector)
         {
@@ -197,9 +197,10 @@ namespace Doctor.Forms
                     clientId = _currentPatient.ClientId
                 }
             });
+
             if (_connector.GetMostRecentMeasurement() == null) return;
             var tempMeasurement = _connector.GetMostRecentMeasurement();
-            if(tempMeasurement == lastMeasurement)return;
+            if(tempMeasurement.Equals(lastMeasurement))return;
             SetAllMeasurementData(tempMeasurement);
             FillAllCharts(tempMeasurement);
             lastMeasurement = tempMeasurement;
@@ -207,11 +208,11 @@ namespace Doctor.Forms
 
         public void FillAllCharts(Measurement tempMeasurement)
         {
-            dataChart.Series["Power (Watts)"].Points.Add(tempMeasurement.Power);
-            dataChart.Series["Km/h"].Points.Add(tempMeasurement.Speed);
-            dataChart.Series["KJ"].Points.Add(tempMeasurement.Burned);
-            dataChart.Series["RPM"].Points.Add(tempMeasurement.Rotations);
-            dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse);
+            dataChart.Series["Power (Watts)"].Points.Add(tempMeasurement.Power); //power
+            dataChart.Series["Km/h"].Points.Add(tempMeasurement.Speed); //speed
+            dataChart.Series["KJ"].Points.Add(tempMeasurement.Burned); //burned
+            dataChart.Series["RPM"].Points.Add(tempMeasurement.Rotations); //rotations
+            dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse); //pulse
         }
 
        private void chatSendButton_Click_1(object sender, EventArgs e)
@@ -259,11 +260,11 @@ namespace Doctor.Forms
 
         public void SetAllMeasurementData(Measurement m)
         {
-            timeLabel.Text = m.Time.ToString();
-            kmLabel.Text = m.Distance.ToString("N3");
+            timeLabel.Text = $"{m.Time.Minutes}:{m.Time.Seconds}";
+            kmLabel.Text = m.Distance.ToString();
             wattsLabel.Text = m.Power.ToString();
             kmhLabel.Text = m.Speed.ToString();
-            kjLabel.Text = m.Burned.ToString("N3");
+            kjLabel.Text = m.Burned.ToString();
             rpmLabel.Text = m.Rotations.ToString();
             powerLabel.Text = m.Power.ToString();
             bpmLabel.Text = m.Pulse.ToString();

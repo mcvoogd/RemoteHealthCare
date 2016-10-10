@@ -5,7 +5,7 @@ namespace Doctor.Classes
     public class Measurement : IComparable<Measurement>
     {
         public Measurement(int pulse, int rotations, int speed, int power, double distance, double burned,
-            SimpleTime time, int reachedpower)
+            int time1, int time2, int reachedpower)
         {
             Pulse = pulse;
             Rotations = rotations;
@@ -13,9 +13,23 @@ namespace Doctor.Classes
             Distance = distance;
             Power = power;
             Burned = burned;
-            Time = time;
+            Time = new SimpleTime(time1, time2);
             ReachedPower = reachedpower;
             Message = GetMessageToSend();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Measurement)
+            {
+                Measurement temp = (Measurement) obj;
+                return Pulse == temp.Pulse && Rotations == temp.Rotations
+                       && Speed == temp.Speed && Distance == temp.Distance && Power == temp.Power
+                       && Distance == temp.Distance && Power == temp.Power && Burned == temp.Burned
+                       && Time == temp.Time && ReachedPower == temp.ReachedPower;
+
+            }
+            return false;
         }
 
         public int Pulse { get; set; }
@@ -105,6 +119,7 @@ namespace Doctor.Classes
 
         public override string ToString()
         {
+            Console.WriteLine("Minutes : " + Minutes + " Seconds " + Seconds);
             return $"{Minutes:00}:{Seconds:00}";
         }
 

@@ -111,7 +111,7 @@ namespace Doctor.Forms
             _rectangle.Font = new System.Drawing.Font("Arial", 8f);
 
             progressChart.Annotations.Add(_verticalLine);
-            progressChart.Annotations.Add(_rectangle);
+            //progressChart.Annotations.Add(_rectangle);
         }
 
         private void progressChart_AnnotationPositionChanging(object sender, AnnotationPositionChangingEventArgs e)
@@ -121,11 +121,11 @@ namespace Doctor.Forms
 
             // display the current Y-value
             int pt1 = (int)e.NewLocationX;
-            double step = (_serieHeight.Points[pt1 + 1].YValues[0] - _serieHeight.Points[pt1].YValues[0]);
-            double deltaX = e.NewLocationX - _serieHeight.Points[pt1].XValue;
-            double val = _serieHeight.Points[pt1].YValues[0] + step * deltaX;
-            progressChart.Titles[0].Text = $"X = {e.NewLocationX:0.00}   Y = {val:0.00}";
-            _rectangle.Text = $"{val:0.00}";
+            //double step = (_serieHeight.Points[pt1 + 1].YValues[0] - _serieHeight.Points[pt1].YValues[0]);
+            //double deltaX = e.NewLocationX - _serieHeight.Points[pt1].XValue;
+            //double val = _serieHeight.Points[pt1].YValues[0] + step * deltaX;
+            //progressChart.Titles[0].Text = $"X = {e.NewLocationX:0.00}   Y = {val:0.00}";
+            //_rectangle.Text = $"{val:0.00}";
             progressChart.Update();
         }
 
@@ -167,14 +167,14 @@ namespace Doctor.Forms
             label12.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
             label13.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             brakeButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataChart.Legends["Legend1"].Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataChart.Legends["Legend1"].Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chatSendButton.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            powerLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            kjLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            rpmLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            pulseLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            kmhLegendaLabel.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label10.Font = new System.Drawing.Font(_goodTimes, 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            powerLegendaLabel.Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kjLegendaLabel.Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rpmLegendaLabel.Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pulseLegendaLabel.Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kmhLegendaLabel.Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         private void timeTimer_Tick(object sender, EventArgs e)

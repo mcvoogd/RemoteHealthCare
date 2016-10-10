@@ -162,9 +162,9 @@ namespace Doctor.Forms
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(210, 269);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(21, 13);
+            this.label2.Size = new System.Drawing.Size(16, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "km";
+            this.label2.Text = "M";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -726,6 +726,8 @@ namespace Doctor.Forms
             this.progressChart.Size = new System.Drawing.Size(586, 182);
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
+            this.progressChart.AnnotationPositionChanged += new System.EventHandler(this.progressChart_AnnotationPositionChanged);
+            this.progressChart.AnnotationPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs>(this.progressChart_AnnotationPositionChanging);
             // 
             // trainingComboBox
             // 
@@ -747,7 +749,7 @@ namespace Doctor.Forms
             this.userAddButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.userAddButton.ForeColor = System.Drawing.Color.Black;
             this.userAddButton.Location = new System.Drawing.Point(190, 73);
-            this.userAddButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.userAddButton.Margin = new System.Windows.Forms.Padding(2);
             this.userAddButton.Name = "userAddButton";
             this.userAddButton.Size = new System.Drawing.Size(107, 26);
             this.userAddButton.TabIndex = 44;
@@ -860,7 +862,7 @@ namespace Doctor.Forms
             this.historyListBox.FormattingEnabled = true;
             this.historyListBox.ItemHeight = 25;
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
-            this.historyListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.historyListBox.Name = "historyListBox";
             this.historyListBox.Size = new System.Drawing.Size(291, 125);
             this.historyListBox.TabIndex = 52;

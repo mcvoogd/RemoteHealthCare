@@ -860,14 +860,14 @@ namespace Doctor.Forms
             // 
             this.historyListBox.BackColor = System.Drawing.Color.Black;
             this.historyListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.historyListBox.Font = new System.Drawing.Font("Arial Unicode MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.historyListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.historyListBox.ForeColor = System.Drawing.Color.White;
             this.historyListBox.FormattingEnabled = true;
-            this.historyListBox.ItemHeight = 25;
+            this.historyListBox.ItemHeight = 24;
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
             this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.historyListBox.Name = "historyListBox";
-            this.historyListBox.Size = new System.Drawing.Size(291, 125);
+            this.historyListBox.Size = new System.Drawing.Size(291, 120);
             this.historyListBox.TabIndex = 52;
             // 
             // chatSendButton
@@ -884,6 +884,7 @@ namespace Doctor.Forms
             this.chatSendButton.TabIndex = 41;
             this.chatSendButton.Text = "Verzenden";
             this.chatSendButton.UseVisualStyleBackColor = false;
+            this.chatSendButton.Click += new System.EventHandler(this.chatSendButton_Click);
             // 
             // startButton
             // 

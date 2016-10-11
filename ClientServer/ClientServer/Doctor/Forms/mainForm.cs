@@ -240,26 +240,6 @@ namespace Doctor.Forms
             dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse); //pulse
         }
 
-       private void chatSendButton_Click_1(object sender, EventArgs e)
-        {
-            if (_currentPatient == null)
-            {
-                Console.WriteLine("Not connected to a patient");
-                return;
-            }
-
-            _connector.SendMessage(new
-            {
-                id = "message/send",
-                targetid = _currentPatient.ClientId,
-                originid = ClientId,
-                data = new
-                {
-                    message = chatSendTextBox.Text
-                }
-            });
-        }
-
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
             _currentPatient = (Patient)clientListBox.SelectedItem;
@@ -389,5 +369,24 @@ namespace Doctor.Forms
             SessionStarted = false;
         }
 
+        private void chatSendButton_Click(object sender, EventArgs e)
+        {
+            if (_currentPatient == null)
+            {
+                Console.WriteLine("Not connected to a patient");
+                return;
+            }
+
+            _connector.SendMessage(new
+            {
+                id = "message/send",
+                data = new
+                {
+                    targetid = _currentPatient.ClientId,
+                    originid = ClientId,
+                    message = chatSendTextBox.Text
+                }
+            });
+        }
     }
 }

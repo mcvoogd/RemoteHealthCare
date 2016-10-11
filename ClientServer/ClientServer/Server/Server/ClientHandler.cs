@@ -137,7 +137,7 @@ namespace Server.Server
         {
             foreach (var clientHandler in TcpServer.ClientHandlers)
             {
-                if (clientHandler.Client.UniqueId != (int) message.targetid) continue;
+                if (clientHandler.Client.UniqueId != (int) message.data.targetid) continue;
                 clientHandler.SendMessage(message);
                 return true;
             }
@@ -157,6 +157,7 @@ namespace Server.Server
                 Console.WriteLine("Doctor requested patient data, but the list is empty...");
                 return;
             }
+
             var measurement = client.Client.TinyDataBaseBase.MeasurementSystem._measurements
                 [client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count - 1];
             SendMessage(new

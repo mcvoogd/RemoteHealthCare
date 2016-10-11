@@ -80,10 +80,11 @@ namespace Client.Forms
             _sendMessage(new
             {
                 id = "message/send",
-                clientid = ConnectionId,
                 data = new
                 {
-                    message = messageTextBox.Text += "\n"
+                    message = messageTextBox.Text += "\n",
+                    originid = ConnectionId,
+                    targetit = "Unknown" // TODO: send the id of the doctor to the client
                 }
             });
             chatTextBox.Text += messageTextBox.Text;

@@ -18,12 +18,15 @@ namespace Client.Forms
 
     public delegate void SendStatistics(Measurement measurement);
 
+    public delegate void RefreshMessageDelegate();
+
     public partial class RemoteHealthcare : Form
     {
         private readonly AddMessage _addMessage;
         private readonly List<Message> _messages = new List<Message>();
         private readonly SendMessage _sendMessage;
         private readonly SendStatistics _sendStatistics;
+        private readonly RefreshMessageDelegate _refreshMessage;
 
         public Form1 Form1 { get; set; }
 
@@ -32,6 +35,7 @@ namespace Client.Forms
             _sendMessage = sendMessage;
             _sendStatistics = sendStatistics;
             _addMessage = AddMessageMethod;
+            _refreshMessage = RefreshMessageList;
 
             FormClosing += RemoteHealthCare_FormClosing;
             ConnectionId = connectionId;
@@ -72,7 +76,7 @@ namespace Client.Forms
         public void AddMessage(Message msg)
         {
             _messages.Add(msg);
-            // RefreshMessageList();
+            Invoke(_refreshMessage);
         }
 
         private void sendButton_Click(object sender, EventArgs e)

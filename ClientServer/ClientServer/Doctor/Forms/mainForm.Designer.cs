@@ -774,7 +774,7 @@ namespace Doctor.Forms
             this.brakeButton.TabIndex = 45;
             this.brakeButton.Text = "Noodstop";
             this.brakeButton.UseVisualStyleBackColor = false;
-            this.brakeButton.Click += new System.EventHandler(this.brakeButton_Click);
+            //this.brakeButton.Click += new System.EventHandler(this.brakeButton_Click);
             // 
             // powerLegendaLabel
             // 

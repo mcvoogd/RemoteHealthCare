@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Doctor.Classes;
 using Doctor.Properties;
+using Message = Doctor.Classes.Message;
 
 namespace Doctor.Forms
 {
@@ -36,6 +37,7 @@ namespace Doctor.Forms
             FormClosing += mainForm_FormClosing;
 
             _connector = connector;
+            _connector.UpdateMessages = UpdateMessages;
             _currentPatient = null;
 
             InitializeComponent();
@@ -46,6 +48,15 @@ namespace Doctor.Forms
             Fonts();
             AddSplitButton();
             MakeChartSlider();
+        }
+
+        private void UpdateMessages(List<Message> messages)
+        {
+            foreach (var message in messages)
+            {
+                chatReceiveTextBox.Text += message.MessageValue;
+            }
+            messages.Clear();
         }
 
         [DllImport("gdi32.dll")]
@@ -190,7 +201,6 @@ namespace Doctor.Forms
             if(!Visible)return;
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
         }
-
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
         {

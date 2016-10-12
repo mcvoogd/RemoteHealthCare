@@ -66,15 +66,17 @@ namespace Server.Server
                         case "message/send":
                             Client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(readMessage));
                             Console.WriteLine("MSG : " + data.message);
-                            if (!forwardMessage(readMessage)) Console.WriteLine("Forwarding failed... target not found!");
+                            if (!ForwardMessage(readMessage)) Console.WriteLine("Forwarding failed... target not found!");
                             SendAck("message/received");
                             break;
+
                         case "client/new":
                             Console.WriteLine($"Adding new client: {data.name}");
-                            var client = new Client((string)data.name, (string)data.password, null, 0, (bool)data.isDoctor, new TinyDataBase(), false);
+                            var client = new Client((string)data.name, (string)data.password, null, 0, new TinyDataBase(), (bool)data.isDoctor, (int)data.doctorId, false);
                             _database.AddClient(client);
                             SendAck("client/new");
                             break;
+
                         case "measurement/add":
                             Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             Console.WriteLine(
@@ -132,8 +134,10 @@ namespace Server.Server
         }
 
         // forward a received message to another client
-        private bool forwardMessage(dynamic message)
+        private bool ForwardMessage(dynamic message)
         {
+            if (!Client.IsDoctor)
+                message.data.targetid = Client.DoctorId;
             foreach (var clientHandler in TcpServer.ClientHandlers)
             {
                 if (clientHandler.Client.UniqueId != (int) message.data.targetid) continue;

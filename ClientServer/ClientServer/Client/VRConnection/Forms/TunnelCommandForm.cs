@@ -21,6 +21,7 @@ namespace Client.VRConnection.Forms
         private List<Punt> _points;
         private bool _send;
         private Skybox _skybox;
+        private double _currentSpeed;
 
         public TunnelCommandForm(VrConnection connection, string name)
         {
@@ -29,11 +30,12 @@ namespace Client.VRConnection.Forms
             Blocker = new AutoResetEvent(false);
             _connection = connection;
         }
-
+        
         public string Name { get; set; }
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
+            _currentSpeed = 5;
             _forest = new Forest();
             _city = new City();
             DeletePane();
@@ -41,22 +43,22 @@ namespace Client.VRConnection.Forms
             DeletePane();
             Blocker.WaitOne(5000);
 
+            CreateTerrain();
+            Blocker.WaitOne(5000);
+            PaintTerrain();
+            Blocker.WaitOne(5000);
+
+            CreateBike();
+            Blocker.WaitOne(5000);
+            CreateRoad();
+            Blocker.WaitOne(5000);
+            FollowRoad();
+            Blocker.WaitOne(5000);
+            FollowBike();
+            Blocker.WaitOne(5000);
             CreatePanel();
             Blocker.WaitOne(5000);
-            //CreateTerrain();
-            //Blocker.WaitOne(5000);
-            //PaintTerrain();
-            //Blocker.WaitOne(5000);
-
-            //CreateBike();
-            //Blocker.WaitOne(5000);
-            //CreateRoad();
-            //Blocker.WaitOne(5000);
-            //FollowRoad();
-            //Blocker.WaitOne(5000);
-            //FollowBike();
-            //Blocker.WaitOne(5000);
-            //FollowCamera();
+            FollowCamera();
            
             //Blocker.WaitOne(5000);
             //CreateWater();
@@ -169,6 +171,7 @@ namespace Client.VRConnection.Forms
         
         private void FollowRoad()
         {
+
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "route/follow",
@@ -184,7 +187,6 @@ namespace Client.VRConnection.Forms
                     positionOffset = new[] {0, 0, 0}
                 }
             }, _connection.TunnelId));
-            Blocker.Set();
         }
 
         private void FollowBike()
@@ -242,6 +244,7 @@ namespace Client.VRConnection.Forms
             double[] color = { 0, 0, 0, 1 };
             string fontValue = "segoeui";
 
+            if (Panel == null) return;
             Panel.ClearPanel();
             _connection.SendMessage(Panel.ToSend);
 
@@ -347,7 +350,89 @@ namespace Client.VRConnection.Forms
             double time = SetTime.Value/4.0f;
             _connection.SendMessage(_skybox.SetTime(time));
         }
-    
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            ResetScene();
+        }
+
+        public void UpdateSpeed(double speed)
+        {
+            speed /= 5;
+            if ((int)speed == (int)_currentSpeed ) return;
+            double difSpeed = speed - _currentSpeed;
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (difSpeed < 0)
+                {
+                    _currentSpeed -= difSpeed/2;
+                }
+                else
+                {
+                    _currentSpeed += difSpeed/2;
+                }
+
+
+                _connection.SendMessage(RequestCreater.TunnelSend(new
+                {
+                    id = "route/follow/speed",
+                    data = new
+                    {
+                        node = _bike.Uuid,
+                        speed = (float)_currentSpeed + 0.00f
+                    }
+                }, _connection.TunnelId));
+                Blocker.WaitOne(5000);
+            }
+
+        }
+
+        public void ResetScene()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/pause",
+                data = new
+                {
+                }
+            }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
+
+            Thread.Sleep(10000);
+
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/reset",
+                data = new
+                {
+                }
+            }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
+
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/skybox/update",
+                data = new
+                {
+                    type = "static",
+                    files = new
+                    {
+                        xpos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
+                        xneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
+                        ypos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
+                        yneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
+                        zpos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
+                        zneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png"
+
+                    }
+                }
+            }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
+
+
+        }
+
         private Double GetRandom()
         {
             return _random.NextDouble()*0.6 + 1;

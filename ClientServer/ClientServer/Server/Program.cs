@@ -37,10 +37,10 @@ namespace Server
                 clientHandler.Disconnect();
 
             _tcpServer.SaveAllData();
-            serverThread.Interrupt();
-            serverThread.Abort();
 
-            // Environment.Exit(0);
+            // Console app
+            System.Environment.Exit(1);
+            
         }
 
         private void ConsoleLoop()
@@ -61,8 +61,11 @@ namespace Server
                         DeleteUser();
                         break;
                     case "help":
-                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- help");
+                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- showclients\n- help");
                         break;
+                    case "showclients":
+                        ShowUsers();
+                        break; 
                     default:
                         Console.WriteLine("Command not recognised...");
                         break;
@@ -97,12 +100,54 @@ namespace Server
             }
         }
 
+        private int GetDoctorId()
+        {
+            var doctorid = 0;
+
+            Console.WriteLine("Enter the id of the corresponding doctor:");
+            var succes = int.TryParse(Console.ReadLine(), out doctorid);
+            if (succes)
+            {
+                foreach (var databaseClient in _tcpServer.DataBase.Clients)
+                {
+                    if (databaseClient.IsDoctor && databaseClient.UniqueId == doctorid)
+                    {
+                        return doctorid;
+                    }
+                }
+            }
+            while (true)
+            {
+                Console.WriteLine("Inavlid doctor id, continue?(y/n):");
+                var answer = Console.ReadLine().ToLower();
+                if (answer == "y") return 0;
+                if (answer == "n") return -1;
+            }
+        }
+
         private void CreateUser(bool doctor)
         {
             var passwords = new string[2];
+            var doctorid = 0;
 
             Console.WriteLine("new user...\nEnter a name: ");
             var name = Console.ReadLine();
+            if (!doctor)
+            {
+                while (true)
+                {
+                    doctorid = GetDoctorId();
+                    if (doctorid == -1)
+                    {
+                        Console.WriteLine("Cancelling...");
+                        return;
+                    }
+                    if (doctorid != 0)
+                    {
+                        break;
+                    }
+                }
+            }
             while (true)
             {
                 Console.WriteLine("Enter a password:");
@@ -111,8 +156,7 @@ namespace Server
                 passwords[1] = Console.ReadLine();
                 if (passwords[0] == passwords[1]) break;
             }
-
-            var client = new Client(name, passwords[0], null, 0, doctor, new TinyDataBase(), false); //set online state to false.
+            var client = new Client(name,passwords[0],null,0,new TinyDataBase(), doctor,doctorid,false);//set online state to false.
             _tcpServer.DataBase.AddClient(client);
             Console.WriteLine("User created...");
         }

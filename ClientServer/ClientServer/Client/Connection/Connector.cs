@@ -87,8 +87,13 @@ namespace Client.Connection
                                         }
                                     });
                                     break;
+<<<<<<< HEAD
                                 case "change/resistance/sendList":
                                     RemoteHealthcare.SendCommandToBike(data);
+=======
+                                case "bike/break":
+                                    EmergencyBreak();
+>>>>>>> d68ec18fc055229333e5ef8bb8f848dadc0e427a
                                     break;
                                 case "client/disconnect":
                                     _sslStream.Close();
@@ -112,6 +117,11 @@ namespace Client.Connection
                 Console.WriteLine("Authentication failed - closing the connection.");
                 _tcpClient.Close();
             }
+        }
+
+        private void EmergencyBreak()
+        {
+            RemoteHealthcare.Form1._tunnelCommandForm.ResetScene();
         }
 
         public bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare)
@@ -183,7 +193,7 @@ namespace Client.Connection
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message((string)data.targetid, (string)data.originid, DateTime.Now, (string)data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
             return toSend;
         }
 

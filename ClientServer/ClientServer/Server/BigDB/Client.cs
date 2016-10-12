@@ -6,8 +6,8 @@ namespace Server.BigDB
 {
     public class Client
     {
-        public Client(string name, string password, string tunnelId, int uniqueId, bool isDoctor,
-            TinyDataBase tinyDataBase, bool isOnline)
+        public Client(string name, string password, string tunnelId, int uniqueId,
+            TinyDataBase tinyDataBase, bool isDoctor, int doctorId, bool isOnline)
         {
             IsOnline = isOnline;
             Name = name;
@@ -16,8 +16,10 @@ namespace Server.BigDB
             TinyDataBaseBase = tinyDataBase;
             IsDoctor = isDoctor;
             ClientStatus = Status.CONNECTED;
+            DoctorId = doctorId;
             UniqueId = uniqueId == 0 ? GetUniqueId(name, password) : uniqueId;
         }
+
         public bool IsOnline { get; set; }
         public string Name { get; set; }
         public TinyDataBase TinyDataBaseBase { get; set; }
@@ -26,6 +28,7 @@ namespace Server.BigDB
         public string Password { get; set; }
         protected Status ClientStatus { get; set; }
         public bool IsDoctor { get; set; }
+        public int DoctorId { get; set; }
 
         protected Status GetStatus()
         {

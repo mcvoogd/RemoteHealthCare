@@ -66,15 +66,17 @@ namespace Server.Server
                         case "message/send":
                             Client.TinyDataBaseBase.ChatSystem.AddMessage(ParseMessage(readMessage));
                             Console.WriteLine("MSG : " + data.message);
-                            if (!forwardMessage(readMessage)) Console.WriteLine("Forwarding failed... target not found!");
+                            if (!ForwardMessage(readMessage)) Console.WriteLine("Forwarding failed... target not found!");
                             SendAck("message/received");
                             break;
+
                         case "client/new":
                             Console.WriteLine($"Adding new client: {data.name}");
-                            var client = new Client((string)data.name, (string)data.password, null, 0, (bool)data.isDoctor, new TinyDataBase(), false);
+                            var client = new Client((string)data.name, (string)data.password, null, 0, new TinyDataBase(), (bool)data.isDoctor, (int)data.doctorId, false);
                             _database.AddClient(client);
                             SendAck("client/new");
                             break;
+
                         case "measurement/add":
                             Client.TinyDataBaseBase.MeasurementSystem.AddMeasurement(ParseMeasurement(data));
                             Console.WriteLine(
@@ -94,8 +96,7 @@ namespace Server.Server
                             break;
                         case "client/disconnect":
                             Client.IsOnline = false;
-                            _sslStream.Close();
-                            _tcpClient.Close();
+                            Disconnect();
                             break;
 
                         case "change/resistance":
@@ -116,6 +117,18 @@ namespace Server.Server
                             if (IsDoctor)
                                 HandlePatientData(data);
                             break;
+                        case "get/patient/history":
+                            if (IsDoctor)
+                            {
+                                HandlePatientHistory();
+                            }
+                            break;
+                        case "get/patient/history/measurements":
+                            if (IsDoctor)
+                            {
+                                HandlePatientPersonalHistory(data);
+                            }
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -132,9 +145,38 @@ namespace Server.Server
                 }
         }
 
-        // forward a received message to another client
-        private bool forwardMessage(dynamic message)
+        private void HandlePatientPersonalHistory(dynamic data)
         {
+            HistoryItem temp2 = Client.TinyDataBaseBase.MeasurementSystem.History[0];
+            var temp = Client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsBetweenTimes((SimpleTime)temp2.StartTime, (SimpleTime)temp2.EndTime);
+            SendMessage(new
+            {
+                id = "get/patient/history/measurements",
+                data = new
+                {
+                    measurements = temp
+                }
+            });
+        }
+
+        private void HandlePatientHistory()
+        {
+           var temp = Client.TinyDataBaseBase.MeasurementSystem.History;
+          SendMessage(new
+          {
+              id = "get/patient/history",
+              data = new
+              {
+                  history = temp
+              }
+          });
+        }
+
+        // forward a received message to another client
+        private bool ForwardMessage(dynamic message)
+        {
+            if (!Client.IsDoctor)
+                message.data.targetid = Client.DoctorId;
             foreach (var clientHandler in TcpServer.ClientHandlers)
             {
                 if (clientHandler.Client.UniqueId != (int) message.data.targetid) continue;
@@ -152,14 +194,14 @@ namespace Server.Server
 
             // There was a small bug: The measurement array would go out of range if the array was empty.
             // I added a simple check to work around it.
-            if (client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count <= 0)
+            if (client.Client.TinyDataBaseBase.MeasurementSystem.Measurements.Count <= 0)
             {
                 Console.WriteLine("Doctor requested patient data, but the list is empty...");
                 return;
             }
 
-            var measurement = client.Client.TinyDataBaseBase.MeasurementSystem._measurements
-                [client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count - 1];
+            var measurement = client.Client.TinyDataBaseBase.MeasurementSystem.Measurements
+                [client.Client.TinyDataBaseBase.MeasurementSystem.Measurements.Count - 1];
             SendMessage(new
             {
                 id = "get/patient/data",

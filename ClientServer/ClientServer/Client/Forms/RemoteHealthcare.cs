@@ -90,7 +90,7 @@ namespace Client.Forms
                 {
                     message = messageTextBox.Text += "\n",
                     originid = ConnectionId,
-                    targetit = "Unknown" // TODO: send the id of the doctor to the client
+                    targetid = "Unknown" // TODO: send the id of the doctor to the client
                 }
             });
             chatTextBox.Text += messageTextBox.Text;
@@ -118,7 +118,8 @@ namespace Client.Forms
                             Disonnect = true
                         }
                     });
-                    Environment.Exit(0);
+                    Environment.Exit(1);
+                    Application.Exit();
                 }
                 else
                 {
@@ -165,25 +166,24 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
 
-            if (Form1._tunnelCommandForm != null && Form1._tunnelCommandForm.Panel != null)
+            if (Form1._tunnelCommandForm == null || Form1._tunnelCommandForm.Panel == null) return;
+            // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+
+            //Voor als Johan /n niet werkend heeft gekregen.
+            string[] textValues =
             {
-               // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+                $"Time : {measurement.Time}",
+                $"Speed : {measurement.Speed} Km/h",
+                $"Distance : {measurement.Distance:##.00} m",
+                $"Pulse : {measurement.Pulse} BPM",
+                $"Burned : {measurement.Burned:##.00} Kcal",
+                $"Rotations : {measurement.Rotations} RPM",
+                $"Power : {measurement.Power} Watt",
+                $"ReachedPower : {measurement.ReachedPower} Watt"
+            };
+            Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
 
-               //Voor als Johan /n niet werkend heeft gekregen.
-                string[] textValues =
-                {
-                    $"Time : {measurement.Time}",
-                    $"Speed : {measurement.Speed} Km/h",
-                    $"Distance : {measurement.Distance:##.00} m",
-                    $"Pulse : {measurement.Pulse} BPM",
-                    $"Burned : {measurement.Burned:##.00} Kcal",
-                    $"Rotations : {measurement.Rotations} RPM",
-                    $"Power : {measurement.Power} Watt",
-                    $"ReachedPower : {measurement.ReachedPower} Watt"
-                };
-                Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
-            }
-
+            Form1._tunnelCommandForm.UpdateSpeed(measurement.Speed);
         }
 
 
@@ -203,6 +203,7 @@ namespace Client.Forms
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
         }
 
+<<<<<<< HEAD
         public void SendCommandToBike(dynamic message)
         {
             //TODO unpack list of commands into a usable list
@@ -233,5 +234,7 @@ namespace Client.Forms
             t.Start();
             //TODO add a method for the list shenenigans
         }
+=======
+>>>>>>> d68ec18fc055229333e5ef8bb8f848dadc0e427a
     }
 }

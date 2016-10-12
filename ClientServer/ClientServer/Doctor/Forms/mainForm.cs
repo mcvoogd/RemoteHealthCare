@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -27,6 +28,7 @@ namespace Doctor.Forms
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
         private Measurement _lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
+        private List<HistoryItem> _currentHistoryItems = new List<HistoryItem>();
 
         public bool SessionStarted;
         public bool SessionStopped = true;
@@ -223,11 +225,28 @@ namespace Doctor.Forms
             }
             else
             {
-                historyListBox.Items.Clear();
-                historyListBox.Items.Add("Test1");
-                historyListBox.Items.Add("Test2");
-                historyListBox.Items.Add("UserOffline");
-                historyListBox.Items.Add("Test3");
+                _connector.SendMessage(new
+                {
+                    id = "get/patient/history",
+//                    data = new
+//                    {
+//                        clientId = _currentPatient.ClientId
+//                    }
+                });
+                var list = _connector.CurrentPatientHistoryItems;
+                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                {
+                    historyListBox.Items.Clear();
+                    int index = 1;
+                    foreach (var historyItem in list)
+                    {
+                        historyListBox.Items.Add($"Training {index}");
+                        _currentHistoryItems.Add(historyItem);
+                        index++;
+                    }
+                }
+
+                
             }
         }
 
@@ -387,6 +406,26 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+        }
+
+        private void historyListBox_DoubleClick(object sender, EventArgs e)
+        {
+            if(_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
+            _connector.SendMessage(new
+            {
+                id = "get/patient/history/measurements",
+                data = new
+                {
+                    patient = _currentPatient.ClientId,
+                    historyItem = historyListBox.SelectedIndex                
+                }
+            });
+            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
+            {
+                FillAllCharts(connectorCurrentPatientMeasurement);
+            }
+                
         }
     }
 }

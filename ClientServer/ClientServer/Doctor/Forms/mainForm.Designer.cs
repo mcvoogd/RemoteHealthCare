@@ -552,9 +552,9 @@ namespace Doctor.Forms
             this.userLabel.Location = new System.Drawing.Point(920, 9);
             this.userLabel.MaximumSize = new System.Drawing.Size(220, 65);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(87, 13);
+            this.userLabel.Size = new System.Drawing.Size(27, 13);
             this.userLabel.TabIndex = 30;
-            this.userLabel.Text = "Martijn de Voogd";
+            this.userLabel.Text = "user";
             this.userLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // connectedLabel
@@ -773,6 +773,7 @@ namespace Doctor.Forms
             this.brakeButton.TabIndex = 45;
             this.brakeButton.Text = "Emergency brake";
             this.brakeButton.UseVisualStyleBackColor = false;
+            this.brakeButton.Click += new System.EventHandler(this.brakeButton_Click);
             // 
             // powerLegendaLabel
             // 
@@ -912,9 +913,9 @@ namespace Doctor.Forms
             this.printButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.printButton.ForeColor = System.Drawing.Color.Transparent;
             this.printButton.Image = global::Doctor.Properties.Resources.print;
-            this.printButton.Location = new System.Drawing.Point(860, 381);
+            this.printButton.Location = new System.Drawing.Point(857, 381);
             this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(20, 20);
+            this.printButton.Size = new System.Drawing.Size(28, 20);
             this.printButton.TabIndex = 54;
             this.printButton.UseVisualStyleBackColor = false;
             this.printButton.Click += new System.EventHandler(this.printButton_Click);

@@ -55,7 +55,7 @@ namespace Doctor.Forms
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
             this.timeTimer = new System.Windows.Forms.Timer(this.components);
-            this.loadButton = new System.Windows.Forms.Button();
+            this.startButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -101,10 +101,9 @@ namespace Doctor.Forms
             this.kmhLegendaLabel = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.historyListBox = new System.Windows.Forms.ListBox();
-            this.chatSendButton = new Doctor.Classes.SplitButton();
-            this.startButton = new System.Windows.Forms.Button();
-            this.stopButton = new System.Windows.Forms.Button();
             this.UpdateDataLive = new System.Windows.Forms.Timer(this.components);
+            this.chatSendButton = new Doctor.Classes.SplitButton();
+            this.stopButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressChart)).BeginInit();
@@ -133,18 +132,19 @@ namespace Doctor.Forms
             this.timeTimer.Interval = 1000;
             this.timeTimer.Tick += new System.EventHandler(this.timeTimer_Tick);
             // 
-            // loadButton
+            // startButton
             // 
-            this.loadButton.BackColor = System.Drawing.Color.White;
-            this.loadButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.loadButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.loadButton.ForeColor = System.Drawing.Color.Black;
-            this.loadButton.Location = new System.Drawing.Point(780, 566);
-            this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(110, 36);
-            this.loadButton.TabIndex = 3;
-            this.loadButton.Text = "Start";
-            this.loadButton.UseVisualStyleBackColor = false;
+            this.startButton.BackColor = System.Drawing.Color.White;
+            this.startButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.startButton.ForeColor = System.Drawing.Color.Black;
+            this.startButton.Location = new System.Drawing.Point(664, 566);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(110, 33);
+            this.startButton.TabIndex = 3;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = false;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // label1
             // 
@@ -742,7 +742,7 @@ namespace Doctor.Forms
             "Street"});
             this.trainingComboBox.Location = new System.Drawing.Point(531, 566);
             this.trainingComboBox.Name = "trainingComboBox";
-            this.trainingComboBox.Size = new System.Drawing.Size(243, 33);
+            this.trainingComboBox.Size = new System.Drawing.Size(127, 33);
             this.trainingComboBox.TabIndex = 43;
             // 
             // userAddButton
@@ -870,6 +870,11 @@ namespace Doctor.Forms
             this.historyListBox.Size = new System.Drawing.Size(291, 120);
             this.historyListBox.TabIndex = 52;
             // 
+            // UpdateDataLive
+            // 
+            this.UpdateDataLive.Interval = 1000;
+            this.UpdateDataLive.Tick += new System.EventHandler(this.UpdateDataLive_Tick);
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -886,30 +891,19 @@ namespace Doctor.Forms
             this.chatSendButton.UseVisualStyleBackColor = false;
             this.chatSendButton.Click += new System.EventHandler(this.chatSendButton_Click);
             // 
-            // startButton
-            // 
-            this.startButton.Location = new System.Drawing.Point(555, 34);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 53;
-            this.startButton.Text = "Start";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
-            // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(645, 55);
+            this.stopButton.BackColor = System.Drawing.Color.White;
+            this.stopButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.stopButton.ForeColor = System.Drawing.Color.Black;
+            this.stopButton.Location = new System.Drawing.Point(780, 566);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopButton.TabIndex = 54;
+            this.stopButton.Size = new System.Drawing.Size(110, 33);
+            this.stopButton.TabIndex = 53;
             this.stopButton.Text = "Stop";
-            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.UseVisualStyleBackColor = false;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
-            // 
-            // UpdateDataLive
-            // 
-            this.UpdateDataLive.Interval = 1000;
-            this.UpdateDataLive.Tick += new System.EventHandler(this.UpdateDataLive_Tick);
             // 
             // MainForm
             // 
@@ -917,7 +911,6 @@ namespace Doctor.Forms
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
             this.Controls.Add(this.stopButton);
-            this.Controls.Add(this.startButton);
             this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.kmhLegendaLabel);
@@ -964,7 +957,7 @@ namespace Doctor.Forms
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.loadButton);
+            this.Controls.Add(this.startButton);
             this.Controls.Add(this.currentTimeLabel);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -986,7 +979,7 @@ namespace Doctor.Forms
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label currentTimeLabel;
         private System.Windows.Forms.Timer timeTimer;
-        private System.Windows.Forms.Button loadButton;
+        private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -1033,9 +1026,8 @@ namespace Doctor.Forms
         private System.Windows.Forms.Label kmhLegendaLabel;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.ListBox historyListBox;
-        private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Timer UpdateDataLive;
+        private System.Windows.Forms.Button stopButton;
     }
 }
 

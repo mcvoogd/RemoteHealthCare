@@ -46,29 +46,26 @@ namespace Doctor.Forms
             // 
             // usernameTextBox
             // 
-            this.usernameTextBox.Location = new System.Drawing.Point(198, 152);
-            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.usernameTextBox.Location = new System.Drawing.Point(148, 124);
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(132, 22);
+            this.usernameTextBox.Size = new System.Drawing.Size(100, 20);
             this.usernameTextBox.TabIndex = 1;
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(197, 182);
-            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.passwordTextBox.Location = new System.Drawing.Point(148, 148);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '•';
-            this.passwordTextBox.Size = new System.Drawing.Size(132, 22);
+            this.passwordTextBox.Size = new System.Drawing.Size(100, 20);
             this.passwordTextBox.TabIndex = 2;
             // 
             // username
             // 
             this.username.AutoSize = true;
             this.username.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.username.Location = new System.Drawing.Point(16, 149);
-            this.username.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.username.Location = new System.Drawing.Point(12, 121);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(149, 24);
+            this.username.Size = new System.Drawing.Size(118, 18);
             this.username.TabIndex = 3;
             this.username.Text = "Gebruikersnaam";
             // 
@@ -76,20 +73,18 @@ namespace Doctor.Forms
             // 
             this.password.AutoSize = true;
             this.password.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.password.Location = new System.Drawing.Point(17, 179);
-            this.password.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.password.Location = new System.Drawing.Point(13, 145);
             this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(116, 24);
+            this.password.Size = new System.Drawing.Size(93, 18);
             this.password.TabIndex = 4;
             this.password.Text = "Wachtwoord";
             // 
             // loginButton
             // 
             this.loginButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loginButton.Location = new System.Drawing.Point(196, 240);
-            this.loginButton.Margin = new System.Windows.Forms.Padding(4);
+            this.loginButton.Location = new System.Drawing.Point(147, 195);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(133, 28);
+            this.loginButton.Size = new System.Drawing.Size(100, 23);
             this.loginButton.TabIndex = 4;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -98,9 +93,8 @@ namespace Doctor.Forms
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 28);
+            this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 7;
             // 
             // wrongLogin
@@ -108,10 +102,9 @@ namespace Doctor.Forms
             this.wrongLogin.AutoSize = true;
             this.wrongLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wrongLogin.ForeColor = System.Drawing.Color.Red;
-            this.wrongLogin.Location = new System.Drawing.Point(4, 285);
-            this.wrongLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.wrongLogin.Location = new System.Drawing.Point(3, 232);
             this.wrongLogin.Name = "wrongLogin";
-            this.wrongLogin.Size = new System.Drawing.Size(326, 17);
+            this.wrongLogin.Size = new System.Drawing.Size(247, 13);
             this.wrongLogin.TabIndex = 6;
             this.wrongLogin.Text = "De gebruikersnaam of het wachtwoord is incorrect!";
             this.wrongLogin.Visible = false;
@@ -119,37 +112,38 @@ namespace Doctor.Forms
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(20, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(15, 10);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(318, 115);
+            this.pictureBox1.Size = new System.Drawing.Size(238, 93);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
             // severIpTextBox
             // 
-            this.severIpTextBox.Location = new System.Drawing.Point(197, 211);
+            this.severIpTextBox.Location = new System.Drawing.Point(148, 171);
+            this.severIpTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.severIpTextBox.Name = "severIpTextBox";
-            this.severIpTextBox.Size = new System.Drawing.Size(132, 22);
+            this.severIpTextBox.Size = new System.Drawing.Size(100, 20);
             this.severIpTextBox.TabIndex = 3;
             // 
             // serverIpLabel
             // 
             this.serverIpLabel.AutoSize = true;
             this.serverIpLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.serverIpLabel.Location = new System.Drawing.Point(17, 208);
-            this.serverIpLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.serverIpLabel.Location = new System.Drawing.Point(13, 169);
             this.serverIpLabel.Name = "serverIpLabel";
-            this.serverIpLabel.Size = new System.Drawing.Size(85, 24);
+            this.serverIpLabel.Size = new System.Drawing.Size(66, 18);
             this.serverIpLabel.TabIndex = 10;
             this.serverIpLabel.Text = "Server Ip";
             // 
             // LoginForm
             // 
             this.AcceptButton = this.loginButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 314);
+            this.ClientSize = new System.Drawing.Size(268, 255);
             this.Controls.Add(this.serverIpLabel);
             this.Controls.Add(this.severIpTextBox);
             this.Controls.Add(this.pictureBox1);
@@ -161,9 +155,8 @@ namespace Doctor.Forms
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LoginForm";
-            this.Text = "Login";
+            this.Text = "Login Dokter";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

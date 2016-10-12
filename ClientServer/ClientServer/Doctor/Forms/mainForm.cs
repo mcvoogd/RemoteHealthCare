@@ -34,6 +34,8 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private ContextMenuStrip contextMenuStrip;
+
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
@@ -163,7 +165,10 @@ namespace Doctor.Forms
                 Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
             };
             chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
+            contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
+
+                        this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()
@@ -445,6 +450,14 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+        }
+
+        private void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Text == "Verzenden aan allen")
+            {
+                //TODO for you Stefan.
+            }
         }
 
         private void historyListBox_DoubleClick(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Doctor.Forms

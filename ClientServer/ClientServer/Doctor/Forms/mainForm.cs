@@ -439,7 +439,12 @@ namespace Doctor.Forms
         {
             _connector.SendMessage(new
             {
-                id = "bike/break"
+                id = "bike/break",
+                 data = new
+                 {
+                     targetid = _currentPatient.ClientId,
+                     originid = ClientId
+                 }
             });
         }
     }

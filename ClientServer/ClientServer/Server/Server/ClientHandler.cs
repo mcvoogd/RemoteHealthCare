@@ -117,6 +117,9 @@ namespace Server.Server
                             if (IsDoctor)
                                 HandlePatientData(data);
                             break;
+                        case "bike/break":
+                            ForwardMessage(readMessage);
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;

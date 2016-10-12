@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-    public delegate void UpdateMessages(List<Message> messages);
+    public delegate void UpdateMessages(Message message);
 
     public class DoctorConnector
     {
@@ -98,7 +98,7 @@ namespace Doctor.Classes
                                 case "message/send":
                                     Console.WriteLine($"DOCTOR: received message:\n {data}");
                                     MessageList.Add(ParseMessage(data));
-                                    UpdateMessages(MessageList);
+                                    UpdateMessages(ParseMessage(data));
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -137,6 +137,7 @@ namespace Doctor.Classes
                         if (!_tcpClient.Connected)
                             Console.WriteLine("Client disconnected.");
                     }
+                Console.WriteLine("client is gone!");
             }
             catch (AuthenticationException e)
             {
@@ -246,7 +247,7 @@ namespace Doctor.Classes
         {
             if ((_sslStream == null) || !_tcpClient.Connected) return;
 
-            Console.WriteLine("sending message");
+//            Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
@@ -254,7 +255,7 @@ namespace Doctor.Classes
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
             _sslStream.Flush();
-            Console.WriteLine("Message send");
+//            Console.WriteLine("Message send");
         }
 
         // Gets the first message from the buffer that isn't idicating the size

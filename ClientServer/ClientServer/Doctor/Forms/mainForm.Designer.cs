@@ -102,8 +102,9 @@ namespace Doctor.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.historyListBox = new System.Windows.Forms.ListBox();
             this.UpdateDataLive = new System.Windows.Forms.Timer(this.components);
-            this.chatSendButton = new Doctor.Classes.SplitButton();
             this.stopButton = new System.Windows.Forms.Button();
+            this.chatSendButton = new Doctor.Classes.SplitButton();
+            this.printButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressChart)).BeginInit();
@@ -875,6 +876,20 @@ namespace Doctor.Forms
             this.UpdateDataLive.Interval = 1000;
             this.UpdateDataLive.Tick += new System.EventHandler(this.UpdateDataLive_Tick);
             // 
+            // stopButton
+            // 
+            this.stopButton.BackColor = System.Drawing.Color.White;
+            this.stopButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.stopButton.ForeColor = System.Drawing.Color.Black;
+            this.stopButton.Location = new System.Drawing.Point(780, 566);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(110, 33);
+            this.stopButton.TabIndex = 53;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = false;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
             // chatSendButton
             // 
             this.chatSendButton.AutoSize = true;
@@ -891,25 +906,25 @@ namespace Doctor.Forms
             this.chatSendButton.UseVisualStyleBackColor = false;
             this.chatSendButton.Click += new System.EventHandler(this.chatSendButton_Click);
             // 
-            // stopButton
+            // printButton
             // 
-            this.stopButton.BackColor = System.Drawing.Color.White;
-            this.stopButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.stopButton.ForeColor = System.Drawing.Color.Black;
-            this.stopButton.Location = new System.Drawing.Point(780, 566);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(110, 33);
-            this.stopButton.TabIndex = 53;
-            this.stopButton.Text = "Stop";
-            this.stopButton.UseVisualStyleBackColor = false;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.printButton.BackColor = System.Drawing.Color.Black;
+            this.printButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.printButton.ForeColor = System.Drawing.Color.Transparent;
+            this.printButton.Image = global::Doctor.Properties.Resources.print;
+            this.printButton.Location = new System.Drawing.Point(860, 381);
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(20, 20);
+            this.printButton.TabIndex = 54;
+            this.printButton.UseVisualStyleBackColor = false;
+            this.printButton.Click += new System.EventHandler(this.printButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.printButton);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label10);
@@ -1028,6 +1043,7 @@ namespace Doctor.Forms
         public System.Windows.Forms.ListBox historyListBox;
         private System.Windows.Forms.Timer UpdateDataLive;
         private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button printButton;
     }
 }
 

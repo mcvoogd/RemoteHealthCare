@@ -224,7 +224,7 @@ namespace Client.Forms
         private void Delay(int delay)
         {
             Timer t = new Timer();
-            t.Interval = delay;
+            t.Interval = delay * 1000;
             t.Elapsed += (s, e) =>
             {
                 //a();

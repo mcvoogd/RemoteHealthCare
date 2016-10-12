@@ -42,7 +42,6 @@ namespace Doctor.Classes
         {
             var message = new byte[1024];
             var sizeBuffer = new byte[4];
-            int teller = 0;
             try
             {
                 while (_tcpClient.Connected)
@@ -70,7 +69,6 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
-                                    teller++;
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
@@ -122,6 +120,7 @@ namespace Doctor.Classes
                                     
                                     break;
                                 case "get/patient/history/measurements":
+                                    CurrentPatientMeasurements.Clear();
                                     for (var i = 0; i < data.measurements.Count; i++)
                                     {
                                         CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
@@ -132,7 +131,6 @@ namespace Doctor.Classes
                                     _tcpClient.Close();
                                     break;
                             }
-                            Console.WriteLine(teller + "< Ammount of get/patient");
                         }
                     }
                     catch (Exception exception)

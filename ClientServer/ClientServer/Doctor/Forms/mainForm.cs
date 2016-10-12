@@ -220,7 +220,7 @@ namespace Doctor.Forms
         }
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
-            {
+        {
             if (!Visible) return;
             FillPatientsToList();
             _connector.SendMessage(new
@@ -232,6 +232,7 @@ namespace Doctor.Forms
                 }
             });
             if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
+            #region Online case.
             if (_currentPatient.IsOnline)
             {
                 if (!SessionStarted) return;
@@ -251,29 +252,33 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
+            #endregion
+            #region Offline case
             else
             {
-                if (!_historyRequested)
-                {
-                    _connector.SendMessage(new
-                    {
-                        id = "get/patient/history",
-                    });
-                    _historyRequested = true;
-                }
-                var list = _connector.CurrentPatientHistoryItems;
-                if (historyListBox.Items.Count != list.Count && list.Count != 0)
-                {
-                    historyListBox.Items.Clear();
-                    int index = 1;
-                    foreach (var historyItem in list)
-                    {
-                        historyListBox.Items.Add($"Training {index}");
-                        _currentHistoryItems.Add(historyItem);
-                        index++;
-                    }
-                }
+//                if (!_historyRequested)
+//                {
+//                    _connector.SendMessage(new
+//                    {
+//                        id = "get/patient/history"
+//                    });
+//                    _historyRequested = true;
+//                }
+//                var list = _connector.CurrentPatientHistoryItems;
+//                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+//                {
+//                    _currentHistoryItems.Clear();
+//                    historyListBox.Items.Clear();
+//                    int index = 1;
+//                    foreach (var historyItem in list)
+//                    {
+//                        historyListBox.Items.Add($"Training {index}");
+//                        _currentHistoryItems.Add(historyItem);
+//                        index++;
+//                    }
+//                }
             }
+            #endregion
         }
 
         public void FillAllCharts(Measurement tempMeasurement)
@@ -304,9 +309,23 @@ namespace Doctor.Forms
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
+            ResetGui();
+//            _connector.SetCurrentPatient(null); // to reset user, dont know if needed. just for test.
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
-                _connector.SetCurrentPatient(_currentPatient);
+
+            _connector.SetCurrentPatient(_currentPatient);
+            _historyRequested = false;
+            connectedLabel.Text = $"{_currentPatient.Name}";
+        }
+
+        public void ResetGui()
+        {
+            ResetAllCharts();
+            _currentHistoryItems.Clear();
+            historyListBox.Items.Clear();
+            SessionStarted = false;
+            SessionStopped = true;
         }
     
         public void SetAllMeasurementData(Measurement m)
@@ -534,17 +553,19 @@ namespace Doctor.Forms
                     historyItem = historyListBox.SelectedIndex
                 }
             });
-            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
             ResetAllCharts();
-            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
+            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+            var measurements = new List<Measurement>(_connector.CurrentPatientMeasurements);
+            foreach (var measurement in measurements)
             {
-                FillAllCharts(connectorCurrentPatientMeasurement);
+                FillAllCharts(measurement);
             }
         }
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //TODO Should work like this. I must test it
+            //BUG: natuurlijk werkt het niet, je wilt een string casten naar een training?
             Training t = (Training)trainingComboBox.SelectedItem;
             List<dynamic> toSend = t.SendTraining();
             dynamic message = new

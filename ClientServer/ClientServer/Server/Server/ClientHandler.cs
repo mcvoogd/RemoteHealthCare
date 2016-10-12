@@ -94,8 +94,7 @@ namespace Server.Server
                             break;
                         case "client/disconnect":
                             Client.IsOnline = false;
-                            _sslStream.Close();
-                            _tcpClient.Close();
+                            Disconnect();
                             break;
 
                         case "change/resistance":

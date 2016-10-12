@@ -37,10 +37,10 @@ namespace Server
                 clientHandler.Disconnect();
 
             _tcpServer.SaveAllData();
-            serverThread.Interrupt();
-            serverThread.Abort();
 
-            // Environment.Exit(0);
+            // Console app
+            System.Environment.Exit(1);
+            
         }
 
         private void ConsoleLoop()

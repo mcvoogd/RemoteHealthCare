@@ -68,15 +68,15 @@ namespace VRFrom_Gijs.Forms
             createCity();
             Blocker.WaitOne(5000);
 
-            //createBike();
-            //Blocker.WaitOne(5000);
+            createBike();
+            Blocker.WaitOne(5000);
             createRoad();
-            //Blocker.WaitOne(5000);
-            //followRoad();
-            //Blocker.WaitOne(5000);
-            //followBike();
-            //Blocker.WaitOne(5000);
-            //followCamera();
+            Blocker.WaitOne(5000);
+            followRoad();
+            Blocker.WaitOne(5000);
+            followBike();
+            Blocker.WaitOne(5000);
+            followCamera();
             Blocker.WaitOne(5000);
 
             drawPanel("Satan is love       1337");

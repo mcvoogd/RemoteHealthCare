@@ -33,6 +33,8 @@ namespace Doctor.Forms
 
         public MainForm(DoctorConnector connector)
         {
+            FormClosing += mainForm_FormClosing;
+
             _connector = connector;
             _currentPatient = null;
 
@@ -387,6 +389,35 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+        }
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    _connector.SendMessage(new
+                    {
+                        id = "client/disconnect",
+                        data = new
+                        {
+                            Disonnect = true
+                        }
+                    });
+                    Environment.Exit(1);
+                    Application.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

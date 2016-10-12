@@ -116,7 +116,7 @@ namespace Client.Forms
                             Disonnect = true
                         }
                     });
-                    Environment.Exit(0);
+                    Environment.Exit(1);
                 }
                 else
                 {

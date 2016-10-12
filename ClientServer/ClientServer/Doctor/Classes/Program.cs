@@ -20,7 +20,7 @@ namespace Doctor.Classes
             var loginForm = new LoginForm(connector.Connect, mainForm);
 
             Application.Run(loginForm);
-            
+
             Application.Exit();
         }
     }

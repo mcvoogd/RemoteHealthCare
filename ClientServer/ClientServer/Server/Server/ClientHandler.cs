@@ -147,8 +147,11 @@ namespace Server.Server
 
         private void HandlePatientPersonalHistory(dynamic data)
         {
-            HistoryItem temp2 = Client.TinyDataBaseBase.MeasurementSystem.History[0];
-            var temp = Client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsBetweenTimes((SimpleTime)temp2.StartTime, (SimpleTime)temp2.EndTime);
+            int id = data.patient;
+            var client = _database.Clients.Find(p => p.UniqueId == id);
+
+            HistoryItem temp2 = client.TinyDataBaseBase.MeasurementSystem.History[(int)data.historyItem];
+            var temp = client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsBetweenTimes((SimpleTime)temp2.StartTime, (SimpleTime)temp2.EndTime);
             SendMessage(new
             {
                 id = "get/patient/history/measurements",

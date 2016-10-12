@@ -34,6 +34,8 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private ContextMenuStrip contextMenuStrip;
+
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
@@ -163,7 +165,10 @@ namespace Doctor.Forms
                 Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
             };
             chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
+            contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
+
+                        this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()
@@ -217,8 +222,9 @@ namespace Doctor.Forms
                 }
             });
             if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
-            if (_currentPatient.IsOnline && SessionStarted)
+            if (_currentPatient.IsOnline)
             {
+                if (!SessionStarted) return;
                 _connector.SendMessage(new
                 {
                     id = "get/patient/data",
@@ -269,6 +275,23 @@ namespace Doctor.Forms
             dataChart.Series["KJ"].Points.Add(tempMeasurement.Burned); //burned
             dataChart.Series["RPM"].Points.Add(tempMeasurement.Rotations); //rotations
             dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse); //pulse
+        }
+
+        public void ResetAllCharts()
+        {
+            dataChart.Series["Power (Watts)"].Points.Clear();
+            dataChart.Series["Km/h"].Points.Clear();
+            dataChart.Series["KJ"].Points.Clear();
+            dataChart.Series["RPM"].Points.Clear();
+            dataChart.Series["Pulse"].Points.Clear();
+            timeLabel.Text = "0";
+            kmLabel.Text = "0";
+            wattsLabel.Text = "0";
+            kmhLabel.Text = "0";
+            kjLabel.Text = "0";
+            rpmLabel.Text = "0";
+            powerLabel.Text = "0";
+            bpmLabel.Text = "0";
         }
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
@@ -399,6 +422,7 @@ namespace Doctor.Forms
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            if(!_currentPatient.IsOnline)return;
             if (SessionStarted) return;
             SessionStarted = true;
             SessionStopped = false;
@@ -406,7 +430,9 @@ namespace Doctor.Forms
 
         private void stopButton_Click(object sender, EventArgs e)
         {
+            if (!_currentPatient.IsOnline) return;
             if (SessionStopped) return;
+            ResetAllCharts();
             SessionStopped = true;
             SessionStarted = false;
         }
@@ -431,24 +457,12 @@ namespace Doctor.Forms
             });
         }
 
-        private void historyListBox_DoubleClick(object sender, EventArgs e)
+        private void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if(_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
-            _connector.SendMessage(new
+            if (e.ClickedItem.Text == "Verzenden aan allen")
             {
-                id = "get/patient/history/measurements",
-                data = new
-                {
-                    patient = _currentPatient.ClientId,
-                    historyItem = historyListBox.SelectedIndex                
-                }
-            });
-            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
-            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
-            {
-                FillAllCharts(connectorCurrentPatientMeasurement);
+                //TODO for you Stefan.
             }
-                
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -467,7 +481,7 @@ namespace Doctor.Forms
                         }
                     });
                     Environment.Exit(1);
-                    Application.Exit();
+                    Application.Exit(); //wat doet dit hier? dubbel??
                 }
                 else
                 {
@@ -496,6 +510,26 @@ namespace Doctor.Forms
                      originid = ClientId
                  }
             });
+        }
+
+        private void historyListBox_DoubleClick(object sender, EventArgs e)
+        {
+            if (_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
+            _connector.SendMessage(new
+            {
+                id = "get/patient/history/measurements",
+                data = new
+                {
+                    patient = _currentPatient.ClientId,
+                    historyItem = historyListBox.SelectedIndex
+                }
+            });
+            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+            ResetAllCharts();
+            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
+            {
+                FillAllCharts(connectorCurrentPatientMeasurement);
+            }
         }
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)

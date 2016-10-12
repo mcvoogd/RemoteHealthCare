@@ -351,11 +351,6 @@ namespace Client.VRConnection.Forms
             _connection.SendMessage(_skybox.SetTime(time));
         }
 
-        private void ResetButton_Click(object sender, EventArgs e)
-        {
-            ResetScene();
-        }
-
         public void UpdateSpeed(double speed)
         {
             speed /= 5;
@@ -398,8 +393,6 @@ namespace Client.VRConnection.Forms
                 }
             }, _connection.TunnelId));
             Blocker.WaitOne(5000);
-
-            Thread.Sleep(10000);
 
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {

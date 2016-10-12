@@ -275,14 +275,14 @@ namespace Server.Server
             try
             {
                 var tempMeasurement = new Measurement(
-                    (int) data.pulse,
-                    (int) data.rotations,
-                    (int) data.speed,
-                    (int) data.power,
-                    (double) data.distance,
-                    (double) data.burned,
+                    (int)data.pulse,
+                    (int)data.rotations,
+                    (int)data.speed,
+                    (int)data.power,
+                    (double)data.distance,
+                    (double)data.burned,
                     tempTime,
-                    (int) data.reachedpower);
+                    (int)data.reachedpower);
 
                 return tempMeasurement;
             }

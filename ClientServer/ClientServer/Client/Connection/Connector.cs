@@ -148,14 +148,14 @@ namespace Client.Connection
                 clientid = ConnectionId,
                 data = new
                 {
-                    pulse = measurement.Pulse.ToString(),
-                    rotations = measurement.Rotations.ToString(),
-                    speed = measurement.Speed.ToString(),
-                    distance = measurement.Distance.ToString(),
-                    power = measurement.Power.ToString(),
-                    burned = measurement.Burned.ToString(),
-                    time = measurement.Time.ToString(),
-                    reachedpower = measurement.ReachedPower.ToString()
+                    pulse = measurement.Pulse,
+                    rotations = measurement.Rotations,
+                    speed = measurement.Speed,
+                    distance = measurement.Distance,
+                    power = measurement.Power,
+                    burned = measurement.Burned,
+                    time = measurement.Time,
+                    reachedpower = measurement.ReachedPower
                 }
             });
         }

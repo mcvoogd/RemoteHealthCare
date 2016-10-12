@@ -43,7 +43,7 @@ namespace Server.Server
         public void HandleClient()
         {
             Console.WriteLine("Handling client");
-            var message = new byte[128];
+            var message = new byte[1024];
             var sizeBuffer = new byte[0];
             while (_tcpClient.Connected)
                 try
@@ -70,13 +70,9 @@ namespace Server.Server
                             SendAck("message/received");
                             break;
                         case "client/new":
-                            //null == tunnelID. <VR>
-                            //0 for self generate ID.
-                            //Latest argument true is a indication for the client being online.
-                            Client = new Client(data.username, data.password, null, 0, data.isDoctor, new TinyDataBase(), true);
-                            Console.WriteLine(
-                                $"Msg added. <{Client.TinyDataBaseBase.ChatSystem.GetAllMessages().Count}>");
-                            _database.AddClient(Client);
+                            Console.WriteLine($"Adding new client: {data.name}");
+                            var client = new Client((string)data.name, (string)data.password, null, 0, (bool)data.isDoctor, new TinyDataBase(), false);
+                            _database.AddClient(client);
                             SendAck("client/new");
                             break;
                         case "measurement/add":
@@ -109,7 +105,7 @@ namespace Server.Server
                         case "get/patients":
                             if (IsDoctor)
                             { 
-                                HandleGetPatients(data);
+                                HandleGetPatients(readMessage);
                             }
                             else
                             {
@@ -125,13 +121,14 @@ namespace Server.Server
                             break;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    //TODO catch specific exceptions...
+                    Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
                     //TODO Is this .isOnline call safe?
                     Client.IsOnline = false;
                     Console.WriteLine("Client disconnected.");
-                    //    Console.WriteLine(e.StackTrace);
                 }
         }
 
@@ -140,7 +137,7 @@ namespace Server.Server
         {
             foreach (var clientHandler in TcpServer.ClientHandlers)
             {
-                if (clientHandler.Client.UniqueId != (int) message.targetid) continue;
+                if (clientHandler.Client.UniqueId != (int) message.data.targetid) continue;
                 clientHandler.SendMessage(message);
                 return true;
             }
@@ -151,7 +148,16 @@ namespace Server.Server
         private void HandlePatientData(dynamic data)
         {
             int id = data.clientId;
-            ClientHandler client = TcpServer.GetClientHandlerByClientID(id);
+            var client = TcpServer.GetClientHandlerByClientID(id);
+
+            // There was a small bug: The measurement array would go out of range if the array was empty.
+            // I added a simple check to work around it.
+            if (client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count <= 0)
+            {
+                Console.WriteLine("Doctor requested patient data, but the list is empty...");
+                return;
+            }
+
             var measurement = client.Client.TinyDataBaseBase.MeasurementSystem._measurements
                 [client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count - 1];
             SendMessage(new
@@ -159,7 +165,7 @@ namespace Server.Server
                 id = "get/patient/data",
                 data = new
                 {
-                    measurementsList = measurement
+                    LatestMeasurements = measurement
                 }
             });
         }
@@ -167,17 +173,20 @@ namespace Server.Server
         //return all patient names + id.
         private void HandleGetPatients(dynamic data)
         {
-            List<Patient> patientsList = new List<Patient>();
-            int index = 0;
-            if(_database.Clients.Count > 0 && _database.Clients != null)
-            foreach (var databaseClient in _database.Clients)
+            var patientsList = new List<Patient>();
+            List<Patient> fromDoctor = new List<Patient>();
+            for (int t = 0; t < data.data.patientList.Count; t++)
             {
-                if(databaseClient.IsDoctor) continue;
-                if(!databaseClient.IsOnline) continue;
-                var temp = new Patient(databaseClient.UniqueId, databaseClient.Name);
-                patientsList.Add(temp);
-                index++;
+                fromDoctor.Add(data.data.patientList[t].ToObject<Patient>());
             }
+
+            if (_database.Clients.Count <= 0 || _database.Clients == null) return;
+            foreach (Client client in _database.Clients)
+            {
+                if (client.IsDoctor) continue;
+                patientsList.Add(new Patient(client.UniqueId, client.IsOnline, client.Name));
+            }
+            if(CheckSimilar(fromDoctor, patientsList))return;
 
             SendMessage(new
             {
@@ -228,6 +237,8 @@ namespace Server.Server
             });
         }
 
+
+
         public void Disconnect()
         {
             if (!_tcpClient.Connected) return;
@@ -269,8 +280,8 @@ namespace Server.Server
             }
             catch (Exception)
             {
-                Console.WriteLine("parsing time fucks up!");
-                tempTime = new SimpleTime(0, 0);
+                Console.WriteLine("parsing time went wrong!");
+                tempTime = new SimpleTime(3, 10);
             }
 
             try
@@ -282,7 +293,7 @@ namespace Server.Server
                     (int) data.power,
                     (double) data.distance,
                     (double) data.burned,
-                    tempTime,
+                    tempTime.Minutes,tempTime.Seconds,
                     (int) data.reachedpower);
 
                 return tempMeasurement;
@@ -302,6 +313,20 @@ namespace Server.Server
             return toSend;
         }
 
+        public bool CheckSimilar(List<Patient> first, List<Patient> second)
+        {
+            if (first.Count != second.Count) return false;
+            int index = 0;
+            bool answer = false;
+            foreach (var patient in first)
+            {//ehh okay?
+                answer = patient.IsOnline == second[index].IsOnline;
+                index++;
+                if (!answer) return false;
+            }
+            return answer;
+        }
+
         public bool HandleLogin(dynamic data)
         {
             string username = data.username;
@@ -310,7 +335,8 @@ namespace Server.Server
             bool isDoctorData = data.isDoctor;
 
             Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
-            if (_database.GetClientById(clientid) == null)
+            // Deprecate
+            /*if (_database.GetClientById(clientid) == null)
             {
                 Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase(), true);
                 _database.AddClient(Client);
@@ -320,6 +346,10 @@ namespace Server.Server
                 }
                 Console.WriteLine("Did not exist");
                 return true;
+            }*/
+            if (_database.GetClientById(clientid) == null)
+            {
+                return false; // Return false if client does not exist
             }
             //null == tunnelID. <VR>
             _database.GetClientById(clientid, out Client);

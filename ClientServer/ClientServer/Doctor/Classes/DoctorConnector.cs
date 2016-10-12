@@ -22,6 +22,8 @@ namespace Doctor.Classes
         private SslStream _sslStream;
         private TcpClient _tcpClient;
         public bool RecievedMeasurements = false;
+        public bool UpdateRequired = true;
+        public readonly List<Patient> CurrentPatients = new List<Patient>();
 
         public DoctorConnector()
         {
@@ -34,7 +36,7 @@ namespace Doctor.Classes
 
         public void Receiver()
         {
-            var message = new byte[128];
+            var message = new byte[1024];
             var sizeBuffer = new byte[4];
 
             try
@@ -63,19 +65,20 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
-                                    PatientesList.Clear();
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
                                         int clientid = patientsList[i].ClientId;
                                         string name = patientsList[i].Name;
-                                        PatientesList.Add(new Patient(clientid, name));
+                                        bool isOnline = patientsList[i].IsOnline;
+                                        PatientesList.Add(new Patient(clientid, isOnline, name));
                                     }
+                                    CurrentPatients.Clear();
+                                    CurrentPatients.AddRange(PatientesList);
+                                    UpdateRequired = true;
                                     break;
-
                                 case "get/patient/data" :
-                                    CurrentPatientMeasurements.Clear();
-                                    Measurement m = data.measurementsList.ToObject<Measurement>();
+                                    Measurement m = data.LatestMeasurements.ToObject<Measurement>();
                                     CurrentPatientMeasurements.Add(m);
                                     RecievedMeasurements = true;
                                     break;
@@ -125,7 +128,14 @@ namespace Doctor.Classes
 
         public List<Patient> GetAllPatients()
         {
-            return PatientesList ?? null;
+            if (!UpdateRequired || PatientesList == null) return null;
+            List<Patient> temp = new List<Patient>();
+            foreach (var patient in PatientesList)
+            {
+                temp.Add(new Patient(patient.ClientId,patient.IsOnline,patient.Name));
+            }
+            UpdateRequired = false;
+            return temp;
         }
 
         public bool Connect(string serverIp, string username, string password)
@@ -150,7 +160,11 @@ namespace Doctor.Classes
 
                     SendMessage(new
                     {
-                        id = "get/patients"
+                        id = "get/patients",
+                        data = new
+                        {
+                            patientList = new List<Patient>() { new Patient(0,false,"0")}
+                        }
                     });
                     Console.WriteLine("Send Message...");
                     return true;
@@ -159,26 +173,6 @@ namespace Doctor.Classes
                     return false;
             }
             return false;
-        }
-
-        public void SendStatistics(Measurement measurement)
-        {
-            SendMessage(new
-            {
-                id = "measurement/add",
-                clientid = ConnectionId,
-                data = new
-                {
-                    pulse = measurement.Pulse.ToString(),
-                    rotations = measurement.Rotations.ToString(),
-                    speed = measurement.Speed.ToString(),
-                    distance = measurement.Distance.ToString(),
-                    power = measurement.Power.ToString(),
-                    burned = measurement.Burned.ToString(),
-                    time = measurement.Time.ToString(),
-                    reachedpower = measurement.ReachedPower.ToString()
-                }
-            });
         }
 
         private void Login(string username, string password)
@@ -273,14 +267,7 @@ namespace Doctor.Classes
 
         public Measurement GetMostRecentMeasurement()
         {
-            if (CurrentPatientMeasurements.Count > 0)
-            {
-                return CurrentPatientMeasurements[0];
-            }
-            else
-            {
-                return null;
-            }
+            return CurrentPatientMeasurements.Count > 0 ? CurrentPatientMeasurements[CurrentPatientMeasurements.Count - 1] : null;
         }
     }
 }

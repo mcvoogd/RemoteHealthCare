@@ -22,6 +22,7 @@ namespace Client.Connection
             _serialPort = serialPort;
             _simulation = null;
             _addMeasurement = addMeasurement;
+            SendCommand("RS\n\r", serialPort);
         }
 
         public DataReceiver(RemoteHealthcare remoteHealthcare, SimulationForm simulation, AddMeasurement addMeasurement)
@@ -36,7 +37,6 @@ namespace Client.Connection
         {
             while (_remoteHealthcare.Visible)
             {
-                Console.WriteLine("Looping");
                 if (_simulation != null)
                 {
                     if (!_simulation.Visible) return;
@@ -44,8 +44,7 @@ namespace Client.Connection
                     _addMeasurement(_simulation.Measurement);
 
                     Thread.Sleep(1000);
-                    Console.WriteLine("updating sim");
-                    _simulation.updateSim();
+                    _simulation.UpdateSim();
                 }
                 else if ((_serialPort != null) && _serialPort.IsOpen)
                 {
@@ -87,24 +86,22 @@ namespace Client.Connection
 
         public static Measurement ParseMeasurement(string inputString)
         {
-            var stringholder = inputString;
             inputString = inputString.Trim();
             var splitString = inputString.Split();
             var simpleTimeString = splitString[6].Split(':');
 
             splitString[6] = "0";
-            //splitString[8] = "0";
-            int[] lijstje = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-            var teller = 0;
+            int[] list = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+            var index = 0;
             foreach (var s in splitString)
             {
-                lijstje[teller] = int.Parse(s);
-                teller++;
+                list[index] = int.Parse(s);
+                index++;
             }
 
             var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
-            var tempMeasurement = new Measurement(lijstje[0], lijstje[1], lijstje[2], lijstje[3], lijstje[4], lijstje[5],
-                tempTime, lijstje[7]);
+            var tempMeasurement = new Measurement(list[0], list[1], list[2]/10, list[4], list[3], list[5],
+                tempTime.Minutes, tempTime.Seconds, list[7]);
 
             return tempMeasurement;
         }

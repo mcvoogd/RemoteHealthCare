@@ -41,18 +41,11 @@ namespace Client.VRConnection.Forms
             DeletePane();
             Blocker.WaitOne(5000);
 
-
             CreatePanel();
             Blocker.WaitOne(5000);
-            CreateTerrain();
-            Blocker.WaitOne(5000);
-            PaintTerrain();
+            //CreateTerrain();
             //Blocker.WaitOne(5000);
-            //CreateWater();
-            //Blocker.WaitOne(5000);
-            //CreateForest();
-            //Blocker.WaitOne(5000);
-            //CreateCity();
+            //PaintTerrain();
             //Blocker.WaitOne(5000);
 
             //CreateBike();
@@ -64,6 +57,13 @@ namespace Client.VRConnection.Forms
             //FollowBike();
             //Blocker.WaitOne(5000);
             //FollowCamera();
+           
+            //Blocker.WaitOne(5000);
+            //CreateWater();
+            //Blocker.WaitOne(5000);
+            //CreateForest();
+            //Blocker.WaitOne(5000);
+            //CreateCity();
         }
 
         private void CreateTerrain()
@@ -113,7 +113,7 @@ namespace Client.VRConnection.Forms
                 }
             }, _connection.TunnelId));
 
-            Thread.Sleep(1500);
+            Thread.Sleep(1000);
 
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
@@ -131,12 +131,12 @@ namespace Client.VRConnection.Forms
 
             foreach (Punt point in _points)
             {
-                Thread.Sleep(10);
+                Blocker.WaitOne(5000);
                 _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
                     point.X, point.Z, point.Y, GetRandom());
                 _connection.Nodes.Add(_tree);
 
-                Thread.Sleep(10);
+                Blocker.WaitOne(5000);
                 _connection.SendMessage(_tree.SendString);
             }
         }
@@ -147,23 +147,23 @@ namespace Client.VRConnection.Forms
 
             foreach (Punt point in _points)
             {
-                Thread.Sleep(10);
+                Blocker.WaitOne(5000);
                 _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
                     point.X, point.Z, point.Y, 8);
                 _connection.Nodes.Add(_house);
 
-                Thread.Sleep(10);
+                Blocker.WaitOne(5000);
                 _connection.SendMessage(_house.SendString);
             }
         }
 
         private void CreateWater()
         {
-            Thread.Sleep(10);
-            _water = new Node("water", _connection.TunnelId, 50, 2, 15, true);
+            Blocker.WaitOne(5000);
+            _water = new Node("water", _connection.TunnelId, 20, 2, 15, true);
             _connection.Nodes.Add(_water);
 
-            Thread.Sleep(10);
+            Blocker.WaitOne(5000);
             _connection.SendMessage(_water.SendString);
         }
         
@@ -238,7 +238,7 @@ namespace Client.VRConnection.Forms
         public void DrawRipBackslashNPanel(string[] textValues)
         {
             int[] position = { 100, 100 };
-            double sizeValue = 32;
+            double sizeValue = 64;
             double[] color = { 0, 0, 0, 1 };
             string fontValue = "segoeui";
 
@@ -250,8 +250,10 @@ namespace Client.VRConnection.Forms
                 Panel.DrawText(s, position, sizeValue, color, fontValue);
                 _connection.SendMessage(Panel.ToSend);
 
-                position[1] += 25;
+                position[1] += 50;
+                Blocker.WaitOne(5000);
             }
+
             Panel.SwapPanel();
             _connection.SendMessage(Panel.ToSend);
 

@@ -76,8 +76,8 @@ namespace Client.Connection
                                     break;
                                 case "message/send":
                                     Console.WriteLine("CLIENT: Received message: " + data.message);
-                                    _messageList.Add(ParseMessage(data.message));
-                                    RemoteHealthcare.AddMessage(ParseMessage(data.message));
+                                    _messageList.Add(ParseMessage(data));
+                                    RemoteHealthcare.AddMessage(ParseMessage(data));
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -151,14 +151,14 @@ namespace Client.Connection
                 clientid = ConnectionId,
                 data = new
                 {
-                    pulse = measurement.Pulse.ToString(),
-                    rotations = measurement.Rotations.ToString(),
-                    speed = measurement.Speed.ToString(),
-                    distance = measurement.Distance.ToString(),
-                    power = measurement.Power.ToString(),
-                    burned = measurement.Burned.ToString(),
+                    pulse = measurement.Pulse,
+                    rotations = measurement.Rotations,
+                    speed = measurement.Speed,
+                    distance = measurement.Distance,
+                    power = measurement.Power,
+                    burned = measurement.Burned,
                     time = measurement.Time.ToString(),
-                    reachedpower = measurement.ReachedPower.ToString()
+                    reachedpower = measurement.ReachedPower
                 }
             });
         }
@@ -183,7 +183,7 @@ namespace Client.Connection
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message(data.clientid, data.clientid, DateTime.Now, data.data.message);
+            var toSend = new Message((string)data.targetid, (string)data.originid, DateTime.Now, (string)data.message);
             return toSend;
         }
 

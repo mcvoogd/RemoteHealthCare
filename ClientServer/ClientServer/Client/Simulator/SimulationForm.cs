@@ -12,8 +12,9 @@ namespace DataScreen.Forms
         public SimulationForm()
         {
             _time = 120;
+            SimpleTime temp = new SimpleTime(_time/60, _time%60);
             Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0*_time*70.0,
-                new SimpleTime(_time/60, _time%60), 500);
+               temp.Minutes, temp.Seconds , 500);
             InitializeComponent();
 
             this.ClientSize = new System.Drawing.Size(250, 200);
@@ -40,7 +41,7 @@ namespace DataScreen.Forms
             speedCount.Text = "" + Measurement.Speed;
             powerCount.Text = "" + Measurement.Power;
             burnedCount.Text = "" + (int) Measurement.Burned;
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
             distanceCount.Text = "" + (int) Measurement.Distance;
         }
@@ -103,18 +104,18 @@ namespace DataScreen.Forms
 
         private void timeMin_Click(object sender, EventArgs e)
         {
-            updateMeshMin();
+            updateMeasurementhMin();
 
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
             burnedCount.Text = "" + (int) Measurement.Burned;
         }
 
         private void timePlus_Click(object sender, EventArgs e)
         {
-            updateMeshPlus();
+            updateMeasurementPlus();
 
-            timeCount.Text = string.Format("{0:00}:{1:00}", _time/60, _time%60);
+            timeCount.Text = $"{_time/60:00}:{_time%60:00}";
             distanceCount.Text = "" + (int) Measurement.Distance;
             burnedCount.Text = "" + (int) Measurement.Burned;
         }
@@ -133,16 +134,16 @@ namespace DataScreen.Forms
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 
-        public void updateSim()
+        public void UpdateSim()
         {
             if (timeCount.InvokeRequired)
             {
-                SetTextCallBack d = updateSim;
+                SetTextCallBack d = UpdateSim;
                 Invoke(d);
             }
             else
             {
-                updateMeshPlus();
+                updateMeasurementPlus();
 
                 var random = new Random();
 
@@ -162,7 +163,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void updateMeshPlus()
+        public void updateMeasurementPlus()
         {
             if (_time < 5999)
             {
@@ -173,7 +174,7 @@ namespace DataScreen.Forms
             }
         }
 
-        public void updateMeshMin()
+        public void updateMeasurementhMin()
         {
             if (_time > 0)
             {

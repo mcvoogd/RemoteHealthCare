@@ -5,7 +5,7 @@ namespace Server.TinyDB
     public class Measurement : IComparable<Measurement>
     {
         public Measurement(int pulse, int rotations, int speed, int power, double distance, double burned,
-            SimpleTime time, int reachedpower)
+             int time1, int time2, int reachedpower)
         {
             Pulse = pulse;
             Rotations = rotations;
@@ -13,7 +13,7 @@ namespace Server.TinyDB
             Distance = distance;
             Power = power;
             Burned = burned;
-            Time = time;
+            Time = new SimpleTime(time1, time2);
             ReachedPower = reachedpower;
             Message = GetMessageToSend();
         }

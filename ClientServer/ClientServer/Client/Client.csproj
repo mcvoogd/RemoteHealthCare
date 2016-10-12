@@ -141,9 +141,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files %28x86%29\Microsoft Visual Studio 14.0\Common7\IDE\TestAgent\Newtonsoft.Json.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="res\heightmaptest.jpg" />
     <Content Include="res\heightmaptest2.jpg" />
     <Content Include="res\map.jpg" />

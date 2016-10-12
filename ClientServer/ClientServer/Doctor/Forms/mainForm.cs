@@ -13,6 +13,8 @@ using Message = Doctor.Classes.Message;
 
 namespace Doctor.Forms
 {
+    public delegate void UpdateMessagesDelegate(Message message);
+
     public partial class MainForm : Form
     {
         public bool Recieved = false;
@@ -34,10 +36,14 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private UpdateMessagesDelegate _updateMessages;
+        private ContextMenuStrip contextMenuStrip;
+
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
 
+            _updateMessages = UpdateMessagesDelegate;
             _connector = connector;
             _connector.UpdateMessages = UpdateMessages;
             _currentPatient = null;
@@ -52,13 +58,17 @@ namespace Doctor.Forms
             MakeChartSlider();
         }
 
-        private void UpdateMessages(List<Message> messages)
+        private void UpdateMessages(Message message)
         {
-            foreach (var message in messages)
-            {
-                chatReceiveTextBox.Text += message.MessageValue;
-            }
-            messages.Clear();
+            Invoke(_updateMessages, message);
+        }
+
+        private void UpdateMessagesDelegate(Message message)
+        {
+            chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+
+            chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
+            chatReceiveTextBox.ScrollToCaret();
         }
 
         [DllImport("gdi32.dll")]
@@ -163,7 +173,10 @@ namespace Doctor.Forms
                 Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
             };
             chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
+            contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
+
+            this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()
@@ -205,7 +218,7 @@ namespace Doctor.Forms
         }
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
-        {
+            {
             if (!Visible) return;
             FillPatientsToList();
             _connector.SendMessage(new
@@ -228,7 +241,7 @@ namespace Doctor.Forms
                         clientId = _currentPatient.ClientId
                     }
                 });
-
+                //tot else is correct.
                 if (_connector.GetMostRecentMeasurement() == null) return;
                 var tempMeasurement = _connector.GetMostRecentMeasurement();
                 if (tempMeasurement.Equals(_lastMeasurement)) return;
@@ -236,31 +249,26 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
-            else
-            {
-                _connector.SendMessage(new
-                {
-                    id = "get/patient/history",
-//                    data = new
+//            else
+//            {
+//                _connector.SendMessage(new
+//                {
+//                    id = "get/patient/history",
+//                });
+//                Console.WriteLine("Get history send.");
+//                var list = _connector.CurrentPatientHistoryItems;
+//                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+//                {
+//                    historyListBox.Items.Clear();
+//                    int index = 1;
+//                    foreach (var historyItem in list)
 //                    {
-//                        clientId = _currentPatient.ClientId
+//                        historyListBox.Items.Add($"Training {index}");
+//                        _currentHistoryItems.Add(historyItem);
+//                        index++;
 //                    }
-                });
-                var list = _connector.CurrentPatientHistoryItems;
-                if (historyListBox.Items.Count != list.Count && list.Count != 0)
-                {
-                    historyListBox.Items.Clear();
-                    int index = 1;
-                    foreach (var historyItem in list)
-                    {
-                        historyListBox.Items.Add($"Training {index}");
-                        _currentHistoryItems.Add(historyItem);
-                        index++;
-                    }
-                }
-
-                
-            }
+//                }
+//            }
         }
 
         public void FillAllCharts(Measurement tempMeasurement)
@@ -319,22 +327,6 @@ namespace Doctor.Forms
                 clientListBox.Items.Add(patient);
             }
             _connector.PatientesList.Clear();
-        }
-
-        private void loadButton_Click(object sender, EventArgs e)
-        {
-            //TODO Should work like this. I must test it
-            Training t = (Training)trainingComboBox.SelectedItem;
-            List<dynamic> toSend = t.SendTraining();
-            dynamic message = new
-            {
-                id = "change/resistance/sendList",
-                data = new
-                {
-                    toSend
-                }
-            };
-            _connector.SendMessage(GetMessageForServer(message));
         }
 
         private dynamic GetMessageForServer(dynamic message)
@@ -456,6 +448,7 @@ namespace Doctor.Forms
                 return;
             }
 
+            chatReceiveTextBox.Text += $"{DateTime.Now:t}Ik: {chatSendTextBox.Text}\n"; 
             _connector.SendMessage(new
             {
                 id = "message/send",
@@ -466,6 +459,15 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+            chatSendTextBox.Text = "";
+        }
+
+        private void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Text == "Verzenden aan allen")
+            {
+                //TODO for you Stefan.
+            }
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -515,7 +517,7 @@ namespace Doctor.Forms
             });
         }
 
-        private void historyListBox_DoubleClick_1(object sender, EventArgs e)
+        private void historyListBox_DoubleClick(object sender, EventArgs e)
         {
             if (_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
             _connector.SendMessage(new
@@ -537,7 +539,18 @@ namespace Doctor.Forms
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //TODO Should work like this. I must test it
+            Training t = (Training)trainingComboBox.SelectedItem;
+            List<dynamic> toSend = t.SendTraining();
+            dynamic message = new
+            {
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
         }
     }
 }

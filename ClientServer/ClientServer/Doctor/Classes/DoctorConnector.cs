@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-    public delegate void UpdateMessages(List<Message> messages);
+    public delegate void UpdateMessages(Message message);
 
     public class DoctorConnector
     {
@@ -42,12 +42,13 @@ namespace Doctor.Classes
         {
             var message = new byte[1024];
             var sizeBuffer = new byte[4];
-
+            int teller = 0;
             try
             {
                 while (_tcpClient.Connected)
                     try
                     {
+                        Console.WriteLine("RECIEVING DATA IN DOCTOR!!!! :D");
                         var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
                         _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
@@ -69,6 +70,7 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
+                                    teller++;
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
@@ -80,6 +82,7 @@ namespace Doctor.Classes
                                     CurrentPatients.Clear();
                                     CurrentPatients.AddRange(PatientesList);
                                     UpdateRequired = true;
+                                    Console.WriteLine("REcieved patients :D");
                                     break;
                                 case "get/patient/data" :
                                     Measurement m = data.LatestMeasurements.ToObject<Measurement>();
@@ -98,7 +101,7 @@ namespace Doctor.Classes
                                 case "message/send":
                                     Console.WriteLine($"DOCTOR: received message:\n {data}");
                                     MessageList.Add(ParseMessage(data));
-                                    UpdateMessages(MessageList);
+                                    UpdateMessages(ParseMessage(data));
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -129,6 +132,7 @@ namespace Doctor.Classes
                                     _tcpClient.Close();
                                     break;
                             }
+                            Console.WriteLine(teller + "< Ammount of get/patient");
                         }
                     }
                     catch (Exception exception)
@@ -137,6 +141,7 @@ namespace Doctor.Classes
                         if (!_tcpClient.Connected)
                             Console.WriteLine("Client disconnected.");
                     }
+                Console.WriteLine("client is gone!");
             }
             catch (AuthenticationException e)
             {
@@ -246,7 +251,7 @@ namespace Doctor.Classes
         {
             if ((_sslStream == null) || !_tcpClient.Connected) return;
 
-            Console.WriteLine("sending message");
+//            Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
@@ -254,7 +259,7 @@ namespace Doctor.Classes
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
             _sslStream.Flush();
-            Console.WriteLine("Message send");
+//            Console.WriteLine("Message send");
         }
 
         // Gets the first message from the buffer that isn't idicating the size

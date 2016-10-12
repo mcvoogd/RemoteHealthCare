@@ -180,10 +180,13 @@ namespace Server.Server
         {
             if (!Client.IsDoctor)
                 message.data.targetid = Client.DoctorId;
+            Console.WriteLine($"Forwarding to: {message.data.targetid}");
             foreach (var clientHandler in TcpServer.ClientHandlers)
             {
                 if (clientHandler.Client.UniqueId != (int) message.data.targetid) continue;
+                Console.WriteLine("Forwarding...");
                 clientHandler.SendMessage(message);
+                Console.WriteLine("Done!");
                 return true;
             }
             return false;
@@ -232,7 +235,7 @@ namespace Server.Server
                 patientsList.Add(new Patient(client.UniqueId, client.IsOnline, client.Name));
             }
             if(CheckSimilar(fromDoctor, patientsList))return;
-
+            Console.WriteLine(CheckSimilar(fromDoctor, patientsList) + "< similar yes or no..");
             SendMessage(new
             {
                 id = "get/patients",

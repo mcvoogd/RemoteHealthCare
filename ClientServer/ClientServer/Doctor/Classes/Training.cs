@@ -9,7 +9,13 @@ namespace Doctor.Classes
 {
     class Training
     {
-        public List<TrainingStep> AllSteps = new List<TrainingStep>();
+        private List<TrainingStep> AllSteps = new List<TrainingStep>();
+        public string TrainingName;
+
+        public Training(string name)
+        {
+            TrainingName = name;
+        }
 
         public List<dynamic> SendTraining()
         {
@@ -22,6 +28,16 @@ namespace Doctor.Classes
         }
 
         public void AddStep(int resistance, int duration) { AllSteps.Add(new TrainingStep(resistance, duration));}
+
+        public void RemoveStep(TrainingStep step)
+        {
+            int tempCount = 0;
+            foreach (TrainingStep Tstep in AllSteps)
+            {
+                if (step.Equals(Tstep)) {AllSteps.RemoveAt(tempCount); }
+                tempCount++;
+            }
+        }
 
         private dynamic GetMessageToSend(int newResistance, int newDuration)
         {

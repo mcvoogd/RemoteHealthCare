@@ -61,22 +61,22 @@
             this.connectStatusLabel});
             this.statusBar.Location = new System.Drawing.Point(0, 0);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Padding = new System.Windows.Forms.Padding(2, 0, 38, 0);
-            this.statusBar.Size = new System.Drawing.Size(1801, 46);
+            this.statusBar.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusBar.Size = new System.Drawing.Size(900, 25);
             this.statusBar.TabIndex = 0;
             this.statusBar.Text = "statusBar";
             // 
             // usernameLabel
             // 
             this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(218, 41);
+            this.usernameLabel.Size = new System.Drawing.Size(109, 20);
             this.usernameLabel.Text = "usernameLabel";
             // 
             // connectStatusLabel
             // 
             this.connectStatusLabel.Margin = new System.Windows.Forms.Padding(435, 3, 0, 2);
             this.connectStatusLabel.Name = "connectStatusLabel";
-            this.connectStatusLabel.Size = new System.Drawing.Size(216, 41);
+            this.connectStatusLabel.Size = new System.Drawing.Size(107, 20);
             this.connectStatusLabel.Text = "Not connected";
             // 
             // buttonsBox
@@ -84,11 +84,11 @@
             this.buttonsBox.Controls.Add(this.messageTextBox);
             this.buttonsBox.Controls.Add(this.sendButton);
             this.buttonsBox.Controls.Add(this.chatTextBox);
-            this.buttonsBox.Location = new System.Drawing.Point(664, 116);
-            this.buttonsBox.Margin = new System.Windows.Forms.Padding(16);
+            this.buttonsBox.Location = new System.Drawing.Point(332, 60);
+            this.buttonsBox.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
             this.buttonsBox.Name = "buttonsBox";
-            this.buttonsBox.Padding = new System.Windows.Forms.Padding(16);
-            this.buttonsBox.Size = new System.Drawing.Size(1093, 1165);
+            this.buttonsBox.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.buttonsBox.Size = new System.Drawing.Size(546, 601);
             this.buttonsBox.TabIndex = 2;
             this.buttonsBox.TabStop = false;
             this.buttonsBox.Text = "Chat";
@@ -96,19 +96,19 @@
             // messageTextBox
             // 
             this.messageTextBox.AcceptsReturn = true;
-            this.messageTextBox.Location = new System.Drawing.Point(28, 864);
-            this.messageTextBox.Margin = new System.Windows.Forms.Padding(12);
+            this.messageTextBox.Location = new System.Drawing.Point(14, 446);
+            this.messageTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(816, 38);
+            this.messageTextBox.Size = new System.Drawing.Size(410, 22);
             this.messageTextBox.TabIndex = 2;
             // 
             // sendButton
             // 
             this.sendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.sendButton.Location = new System.Drawing.Point(856, 854);
-            this.sendButton.Margin = new System.Windows.Forms.Padding(12);
+            this.sendButton.Location = new System.Drawing.Point(428, 441);
+            this.sendButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(202, 56);
+            this.sendButton.Size = new System.Drawing.Size(101, 29);
             this.sendButton.TabIndex = 3;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = false;
@@ -116,11 +116,11 @@
             // 
             // chatTextBox
             // 
-            this.chatTextBox.Location = new System.Drawing.Point(28, 59);
-            this.chatTextBox.Margin = new System.Windows.Forms.Padding(12);
+            this.chatTextBox.Location = new System.Drawing.Point(14, 30);
+            this.chatTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.chatTextBox.Name = "chatTextBox";
             this.chatTextBox.ReadOnly = true;
-            this.chatTextBox.Size = new System.Drawing.Size(1030, 749);
+            this.chatTextBox.Size = new System.Drawing.Size(517, 389);
             this.chatTextBox.TabIndex = 1;
             this.chatTextBox.Text = "";
             // 
@@ -129,11 +129,11 @@
             this.groupBox1.BackColor = System.Drawing.Color.White;
             this.groupBox1.Controls.Add(this.comPortConnectButton);
             this.groupBox1.Controls.Add(this.comportBox);
-            this.groupBox1.Location = new System.Drawing.Point(52, 116);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(16);
+            this.groupBox1.Location = new System.Drawing.Point(26, 60);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(16);
-            this.groupBox1.Size = new System.Drawing.Size(580, 204);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.groupBox1.Size = new System.Drawing.Size(290, 105);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "fiets connectie";
@@ -141,10 +141,10 @@
             // comPortConnectButton
             // 
             this.comPortConnectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.comPortConnectButton.Location = new System.Drawing.Point(350, 77);
-            this.comPortConnectButton.Margin = new System.Windows.Forms.Padding(12);
+            this.comPortConnectButton.Location = new System.Drawing.Point(175, 40);
+            this.comPortConnectButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comPortConnectButton.Name = "comPortConnectButton";
-            this.comPortConnectButton.Size = new System.Drawing.Size(180, 56);
+            this.comPortConnectButton.Size = new System.Drawing.Size(90, 29);
             this.comPortConnectButton.TabIndex = 1;
             this.comPortConnectButton.Text = "Connect";
             this.comPortConnectButton.UseVisualStyleBackColor = false;
@@ -153,12 +153,11 @@
             // comportBox
             // 
             this.comportBox.FormattingEnabled = true;
-            this.comportBox.Location = new System.Drawing.Point(32, 87);
-            this.comportBox.Margin = new System.Windows.Forms.Padding(12);
+            this.comportBox.Location = new System.Drawing.Point(14, 43);
+            this.comportBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comportBox.Name = "comportBox";
-            this.comportBox.Size = new System.Drawing.Size(294, 39);
+            this.comportBox.Size = new System.Drawing.Size(149, 24);
             this.comportBox.TabIndex = 0;
-            // 
             // chart1
             // 
             chartArea1.Name = "ChartArea1";
@@ -176,7 +175,8 @@
             legend1.Position.X = 15F;
             legend1.Position.Y = 3F;
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(52, 339);
+            this.chart1.Location = new System.Drawing.Point(26, 175);
+            this.chart1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
             series1.ChartArea = "ChartArea1";
@@ -184,7 +184,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(580, 590);
+            this.chart1.Size = new System.Drawing.Size(290, 305);
             this.chart1.TabIndex = 3;
             this.chart1.TabStop = false;
             this.chart1.Text = "SpeedChart";
@@ -196,16 +196,16 @@
             // 
             // RemoteHealthcare
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1801, 1048);
+            this.ClientSize = new System.Drawing.Size(900, 535);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonsBox);
             this.Controls.Add(this.statusBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(16);
+            this.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
             this.Name = "RemoteHealthcare";
             this.Text = "RemoteHealthcare";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.RemoteHealthcare_Paint);

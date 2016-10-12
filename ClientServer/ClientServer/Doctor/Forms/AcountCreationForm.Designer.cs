@@ -79,6 +79,7 @@
             this.passWordBoxTwo.Location = new System.Drawing.Point(152, 172);
             this.passWordBoxTwo.Margin = new System.Windows.Forms.Padding(2);
             this.passWordBoxTwo.Name = "passWordBoxTwo";
+            this.passWordBoxTwo.PasswordChar = '•';
             this.passWordBoxTwo.Size = new System.Drawing.Size(100, 20);
             this.passWordBoxTwo.TabIndex = 13;
             // 
@@ -155,7 +156,7 @@
             this.Controls.Add(this.errorEmptyFIeldLabel);
             this.Controls.Add(this.errorPasswordsMatchLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AcountCreationForm";
             this.Text = "Account aanmaken";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

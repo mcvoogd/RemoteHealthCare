@@ -87,6 +87,9 @@ namespace Client.Connection
                                         }
                                     });
                                     break;
+                                case "bike/break":
+                                    EmergencyBreak();
+                                    break;
                                 case "client/disconnect":
                                     _sslStream.Close();
                                     _tcpClient.Close();
@@ -109,6 +112,11 @@ namespace Client.Connection
                 Console.WriteLine("Authentication failed - closing the connection.");
                 _tcpClient.Close();
             }
+        }
+
+        private void EmergencyBreak()
+        {
+            RemoteHealthcare.Form1._tunnelCommandForm.ResetScene();
         }
 
         public bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare)

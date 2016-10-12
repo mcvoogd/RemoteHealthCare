@@ -393,5 +393,14 @@ namespace Doctor.Forms
         {
             this.dataChart.Printing.PrintPreview();
         }
+
+        private void brakeButton_Click(object sender, EventArgs e)
+        {
+            _connector.SendMessage(new
+                {
+                    id = "bike/break"
+                }
+                );
+        }
     }
 }

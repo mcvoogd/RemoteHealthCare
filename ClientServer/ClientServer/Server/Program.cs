@@ -61,15 +61,37 @@ namespace Server
                         DeleteUser();
                         break;
                     case "help":
-                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- showclients\n- help");
+                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- showclients\n- broadcast\n- help");
                         break;
                     case "showclients":
                         ShowUsers();
-                        break; 
+                        break;
+                    case "broadcast":
+                        BroadCast();
+                        break;
                     default:
                         Console.WriteLine("Command not recognised...");
                         break;
                 }
+            }
+        }
+
+        private void BroadCast()
+        {
+            Console.WriteLine("Enter your broadcast message:");
+            var message = Console.ReadLine();
+            foreach (var client in TcpServer.ClientHandlers)
+            {
+                client.SendMessage(new
+                {
+                    id = "message/send",
+                    data = new
+                    {
+                        message = message,
+                        originid = 100,
+                        targetid = client.Client.UniqueId
+                    }
+                });
             }
         }
 

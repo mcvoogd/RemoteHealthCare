@@ -87,13 +87,11 @@ namespace Client.Connection
                                         }
                                     });
                                     break;
-<<<<<<< HEAD
                                 case "change/resistance/sendList":
                                     RemoteHealthcare.SendCommandToBike(data);
-=======
+                                    break;
                                 case "bike/break":
                                     EmergencyBreak();
->>>>>>> d68ec18fc055229333e5ef8bb8f848dadc0e427a
                                     break;
                                 case "client/disconnect":
                                     _sslStream.Close();

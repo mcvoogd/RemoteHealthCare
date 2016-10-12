@@ -203,7 +203,6 @@ namespace Client.Forms
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
         }
 
-<<<<<<< HEAD
         public void SendCommandToBike(dynamic message)
         {
             //TODO unpack list of commands into a usable list
@@ -234,7 +233,5 @@ namespace Client.Forms
             t.Start();
             //TODO add a method for the list shenenigans
         }
-=======
->>>>>>> d68ec18fc055229333e5ef8bb8f848dadc0e427a
     }
 }

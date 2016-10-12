@@ -577,11 +577,7 @@ namespace Doctor.Forms
             this.userLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userLabel.MaximumSize = new System.Drawing.Size(293, 80);
             this.userLabel.Name = "userLabel";
-<<<<<<< HEAD
-            this.userLabel.Size = new System.Drawing.Size(115, 17);
-=======
             this.userLabel.Size = new System.Drawing.Size(27, 13);
->>>>>>> d68ec18fc055229333e5ef8bb8f848dadc0e427a
             this.userLabel.TabIndex = 30;
             this.userLabel.Text = "user";
             this.userLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

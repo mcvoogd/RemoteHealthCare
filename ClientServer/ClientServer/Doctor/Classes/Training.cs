@@ -13,12 +13,12 @@ namespace Doctor.Classes
 
         public List<dynamic> SendTraining()
         {
-            List<dynamic> ToSend = new List<dynamic>();
+            List<dynamic> toSend = new List<dynamic>();
             foreach (TrainingStep step in AllSteps)
             {    
-                ToSend.Add(GetMessageToSend(step.Resistance, step.Duration));
+                toSend.Add(GetMessageToSend(step.Resistance, step.Duration));
             }
-            return ToSend;
+            return toSend;
         }
 
         public void AddStep(int resistance, int duration) { AllSteps.Add(new TrainingStep(resistance, duration));}

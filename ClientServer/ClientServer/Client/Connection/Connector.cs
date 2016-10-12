@@ -87,7 +87,7 @@ namespace Client.Connection
                                         }
                                     });
                                     break;
-                                case "change/resistance":
+                                case "change/resistance/sendList":
                                     RemoteHealthcare.SendCommandToBike(data);
                                     break;
                                 case "client/disconnect":

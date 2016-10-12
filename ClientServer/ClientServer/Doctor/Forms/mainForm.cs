@@ -277,10 +277,15 @@ namespace Doctor.Forms
             //TODO Should work like this. Duration is not used and i've got no idea how to implement this.
             Training t = (Training)trainingComboBox.SelectedItem;
             List<dynamic> toSend = t.SendTraining();
-            foreach (var step in toSend)
+            dynamic message = new
             {
-                _connector.SendMessage(GetMessageForServer(step));
-            }
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
         }
 
         private dynamic GetMessageForServer(dynamic message)

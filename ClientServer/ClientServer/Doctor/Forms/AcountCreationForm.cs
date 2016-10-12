@@ -29,7 +29,8 @@ namespace Doctor.Forms
                         {
                             name = NameTextBox.Text,
                             password = passwordBoxOne.Text,
-                            isDoctor = false
+                            isDoctor = false,
+                            doctorId = _connector.ConnectionId
                         }
                     });
                     Close();

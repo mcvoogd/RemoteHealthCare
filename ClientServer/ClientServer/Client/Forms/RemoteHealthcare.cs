@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 using Client.Connection;
 using Client.Simulator;
 using Client.VRConnection.Forms.Program;
 using DataScreen.Forms;
 using Message = Client.Connection.Message;
+using Timer = System.Timers.Timer;
 
 namespace Client.Forms
 {
@@ -88,7 +90,7 @@ namespace Client.Forms
                 {
                     message = messageTextBox.Text += "\n",
                     originid = ConnectionId,
-                    targetit = "Unknown" // TODO: send the id of the doctor to the client
+                    targetid = "Unknown" // TODO: send the id of the doctor to the client
                 }
             });
             chatTextBox.Text += messageTextBox.Text;
@@ -201,5 +203,35 @@ namespace Client.Forms
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
         }
 
+        public void SendCommandToBike(dynamic message)
+        {
+            //TODO unpack list of commands into a usable list
+            //TODO send with delay
+            //TODO does this even work, no really
+            List<dynamic> steps = message.data;
+            int control = steps.Count;
+
+            for (int j = 0; j < control; j++)
+            {
+                SerialPort port = DataReceiver.GetSerialPort();
+                DataReceiver.SendCommand("CM", port);
+                DataReceiver.SendCommand($"PW{steps[j].resistance}", port);
+                Delay(steps[j]);
+                //waitTimer.Interval = Double.Parse(steps[j].duration);
+            }
+        }
+
+        private void Delay(int delay)
+        {
+            Timer t = new Timer();
+            t.Interval = delay;
+            t.Elapsed += (s, e) =>
+            {
+                //a();
+                t.Stop();
+            };
+            t.Start();
+            //TODO add a method for the list shenenigans
+        }
     }
 }

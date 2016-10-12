@@ -50,11 +50,12 @@ namespace Client.Connection
                 {
                     try
                     {
+                        //Changed the write and read line to send and receive command
                         Console.WriteLine("Sending");
-                        _serialPort.WriteLine("ST\r\n");
+                        SendCommand("ST\r\n", _serialPort);
 
                         Console.WriteLine("Reading...");
-                        var temp = _serialPort.ReadLine();
+                        var temp = ReceiveCommand(_serialPort);
 
                         _addMeasurement(ParseMeasurement(temp));
       
@@ -103,6 +104,11 @@ namespace Client.Connection
                 tempTime.Minutes, tempTime.Seconds, list[7]);
 
             return tempMeasurement;
+        }
+
+        public SerialPort GetSerialPort()
+        {
+            return _serialPort;
         }
     }
 }

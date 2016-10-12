@@ -305,7 +305,7 @@ namespace Doctor.Forms
 
         private void loadButton_Click(object sender, EventArgs e)
         {
-            //TODO Should work like this. Duration is not used and i've got no idea how to implement this.
+            //TODO Should work like this. I must test it
             Training t = (Training)trainingComboBox.SelectedItem;
             List<dynamic> toSend = t.SendTraining();
             dynamic message = new

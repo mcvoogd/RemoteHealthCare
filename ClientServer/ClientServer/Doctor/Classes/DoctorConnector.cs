@@ -42,12 +42,13 @@ namespace Doctor.Classes
         {
             var message = new byte[1024];
             var sizeBuffer = new byte[4];
-
+            int teller = 0;
             try
             {
                 while (_tcpClient.Connected)
                     try
                     {
+                        Console.WriteLine("RECIEVING DATA IN DOCTOR!!!! :D");
                         var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
                         _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
@@ -69,6 +70,7 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
+                                    teller++;
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
@@ -80,6 +82,7 @@ namespace Doctor.Classes
                                     CurrentPatients.Clear();
                                     CurrentPatients.AddRange(PatientesList);
                                     UpdateRequired = true;
+                                    Console.WriteLine("REcieved patients :D");
                                     break;
                                 case "get/patient/data" :
                                     Measurement m = data.LatestMeasurements.ToObject<Measurement>();
@@ -129,6 +132,7 @@ namespace Doctor.Classes
                                     _tcpClient.Close();
                                     break;
                             }
+                            Console.WriteLine(teller + "< Ammount of get/patient");
                         }
                     }
                     catch (Exception exception)

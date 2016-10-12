@@ -206,7 +206,7 @@ namespace Doctor.Forms
         }
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
-        {
+            {
             if (!Visible) return;
             FillPatientsToList();
             _connector.SendMessage(new
@@ -229,7 +229,7 @@ namespace Doctor.Forms
                         clientId = _currentPatient.ClientId
                     }
                 });
-
+                //tot else is correct.
                 if (_connector.GetMostRecentMeasurement() == null) return;
                 var tempMeasurement = _connector.GetMostRecentMeasurement();
                 if (tempMeasurement.Equals(_lastMeasurement)) return;
@@ -237,31 +237,26 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
-            else
-            {
-                _connector.SendMessage(new
-                {
-                    id = "get/patient/history",
-//                    data = new
+//            else
+//            {
+//                _connector.SendMessage(new
+//                {
+//                    id = "get/patient/history",
+//                });
+//                Console.WriteLine("Get history send.");
+//                var list = _connector.CurrentPatientHistoryItems;
+//                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+//                {
+//                    historyListBox.Items.Clear();
+//                    int index = 1;
+//                    foreach (var historyItem in list)
 //                    {
-//                        clientId = _currentPatient.ClientId
+//                        historyListBox.Items.Add($"Training {index}");
+//                        _currentHistoryItems.Add(historyItem);
+//                        index++;
 //                    }
-                });
-                var list = _connector.CurrentPatientHistoryItems;
-                if (historyListBox.Items.Count != list.Count && list.Count != 0)
-                {
-                    historyListBox.Items.Clear();
-                    int index = 1;
-                    foreach (var historyItem in list)
-                    {
-                        historyListBox.Items.Add($"Training {index}");
-                        _currentHistoryItems.Add(historyItem);
-                        index++;
-                    }
-                }
-
-                
-            }
+//                }
+//            }
         }
 
         public void FillAllCharts(Measurement tempMeasurement)

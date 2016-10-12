@@ -232,7 +232,7 @@ namespace Server.Server
                 patientsList.Add(new Patient(client.UniqueId, client.IsOnline, client.Name));
             }
             if(CheckSimilar(fromDoctor, patientsList))return;
-
+            Console.WriteLine(CheckSimilar(fromDoctor, patientsList) + "< similar yes or no..");
             SendMessage(new
             {
                 id = "get/patients",

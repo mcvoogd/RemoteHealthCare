@@ -1,24 +1,33 @@
-﻿namespace Doctor.Classes
+﻿using System;
+
+namespace Doctor.Classes
 {
-    /// <summary>
-    ///     don't know the original intention for this class, but I will use it to indicate what patient the doctor is
-    ///     connected to -Stefan
-    /// </summary>
+   
     public class Patient
     {
-        public Patient(int clientId, string name = "Patient")
-        {
-            this.Name = name;
-            this.ClientId = clientId;
-        }
 
         public string Name { get; set; }
         public int ClientId { get; set; }
+        public bool IsOnline { get; set; }
 
+        public Patient(int clientId, bool isOnline, string name = "Patient")
+        {
+            Name = name;
+            ClientId = clientId;
+            IsOnline = isOnline;
+        }
 
         public override string ToString()
         {
-            return $"{Name}";
+            switch (IsOnline)
+            {
+                case true:
+                    return $"{Name} - Online";
+                case false:
+                    return $"{Name} - Offline";
+                default:
+                    return $"User error";
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Server.BigDB
         public void AddClient(Client client)
         {
             var alreadyThere = Enumerable.Contains(Clients, client);
+            Console.WriteLine($"Adding client: {!alreadyThere}");
             if (!alreadyThere) Clients.Add(client);
         }
 

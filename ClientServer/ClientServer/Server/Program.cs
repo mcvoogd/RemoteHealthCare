@@ -22,6 +22,7 @@ namespace Server
             var serverThread = new Thread(_tcpServer.Run);
             serverThread.Start();
 
+            Console.WriteLine($"Type 'Help' to show available commands.");
             ConsoleLoop();
 
             // Constantly check user input for the exit command.
@@ -59,11 +60,21 @@ namespace Server
                     case "deleteuser":
                         DeleteUser();
                         break;
+                    case "help":
+                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- help");
+                        break;
                     default:
                         Console.WriteLine("Command not recognised...");
                         break;
-
                 }
+            }
+        }
+
+        private void ShowUsers()
+        {
+            foreach (var client in _tcpServer.DataBase.Clients)
+            {
+                Console.WriteLine(client);
             }
         }
 
@@ -90,7 +101,7 @@ namespace Server
         {
             var passwords = new string[2];
 
-            Console.WriteLine("new Doctor...\nEnter a name: ");
+            Console.WriteLine("new user...\nEnter a name: ");
             var name = Console.ReadLine();
             while (true)
             {
@@ -101,7 +112,7 @@ namespace Server
                 if (passwords[0] == passwords[1]) break;
             }
 
-            var client = new Client(name, passwords[0], null, 0, doctor, new TinyDataBase(), true);
+            var client = new Client(name, passwords[0], null, 0, doctor, new TinyDataBase(), false); //set online state to false.
             _tcpServer.DataBase.AddClient(client);
             Console.WriteLine("User created...");
         }

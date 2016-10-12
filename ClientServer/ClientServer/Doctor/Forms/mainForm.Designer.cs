@@ -102,6 +102,9 @@ namespace Doctor.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.historyListBox = new System.Windows.Forms.ListBox();
             this.chatSendButton = new Doctor.Classes.SplitButton();
+            this.startButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
+            this.UpdateDataLive = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressChart)).BeginInit();
@@ -160,11 +163,11 @@ namespace Doctor.Forms
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(210, 269);
+            this.label2.Location = new System.Drawing.Point(208, 269);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(21, 13);
+            this.label2.Size = new System.Drawing.Size(22, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "km";
+            this.label2.Text = "Km";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -726,6 +729,8 @@ namespace Doctor.Forms
             this.progressChart.Size = new System.Drawing.Size(586, 182);
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
+            this.progressChart.AnnotationPositionChanged += new System.EventHandler(this.progressChart_AnnotationPositionChanged);
+            this.progressChart.AnnotationPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs>(this.progressChart_AnnotationPositionChanging);
             // 
             // trainingComboBox
             // 
@@ -747,7 +752,7 @@ namespace Doctor.Forms
             this.userAddButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.userAddButton.ForeColor = System.Drawing.Color.Black;
             this.userAddButton.Location = new System.Drawing.Point(190, 73);
-            this.userAddButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.userAddButton.Margin = new System.Windows.Forms.Padding(2);
             this.userAddButton.Name = "userAddButton";
             this.userAddButton.Size = new System.Drawing.Size(107, 26);
             this.userAddButton.TabIndex = 44;
@@ -855,14 +860,14 @@ namespace Doctor.Forms
             // 
             this.historyListBox.BackColor = System.Drawing.Color.Black;
             this.historyListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.historyListBox.Font = new System.Drawing.Font("Arial Unicode MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.historyListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.historyListBox.ForeColor = System.Drawing.Color.White;
             this.historyListBox.FormattingEnabled = true;
-            this.historyListBox.ItemHeight = 25;
+            this.historyListBox.ItemHeight = 24;
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
-            this.historyListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.historyListBox.Name = "historyListBox";
-            this.historyListBox.Size = new System.Drawing.Size(291, 125);
+            this.historyListBox.Size = new System.Drawing.Size(291, 120);
             this.historyListBox.TabIndex = 52;
             // 
             // chatSendButton
@@ -879,12 +884,40 @@ namespace Doctor.Forms
             this.chatSendButton.TabIndex = 41;
             this.chatSendButton.Text = "Verzenden";
             this.chatSendButton.UseVisualStyleBackColor = false;
+            this.chatSendButton.Click += new System.EventHandler(this.chatSendButton_Click);
+            // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(555, 34);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 53;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(645, 55);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 54;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // UpdateDataLive
+            // 
+            this.UpdateDataLive.Interval = 1000;
+            this.UpdateDataLive.Tick += new System.EventHandler(this.UpdateDataLive_Tick);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::Doctor.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(1199, 635);
+            this.Controls.Add(this.stopButton);
+            this.Controls.Add(this.startButton);
             this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.kmhLegendaLabel);
@@ -1000,6 +1033,9 @@ namespace Doctor.Forms
         private System.Windows.Forms.Label kmhLegendaLabel;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.ListBox historyListBox;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Timer UpdateDataLive;
     }
 }
 

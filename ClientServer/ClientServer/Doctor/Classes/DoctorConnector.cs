@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
-    public delegate void UpdateMessages(List<Message> messages);
+    public delegate void UpdateMessages(Message message);
 
     public class DoctorConnector
     {
@@ -98,7 +98,7 @@ namespace Doctor.Classes
                                 case "message/send":
                                     Console.WriteLine($"DOCTOR: received message:\n {data}");
                                     MessageList.Add(ParseMessage(data));
-                                    UpdateMessages(MessageList);
+                                    UpdateMessages(ParseMessage(data));
                                     SendMessage(new
                                     {
                                         id = "message/received",

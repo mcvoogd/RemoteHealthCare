@@ -52,13 +52,9 @@ namespace Doctor.Forms
             MakeChartSlider();
         }
 
-        private void UpdateMessages(List<Message> messages)
+        private void UpdateMessages(Message message)
         {
-            foreach (var message in messages)
-            {
-                chatReceiveTextBox.Text += message.MessageValue;
-            }
-            messages.Clear();
+            chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
         }
 
         [DllImport("gdi32.dll")]
@@ -435,6 +431,7 @@ namespace Doctor.Forms
                 return;
             }
 
+            chatReceiveTextBox.Text += $"{DateTime.Now:t}Ik: {chatSendTextBox.Text}\n"; 
             _connector.SendMessage(new
             {
                 id = "message/send",
@@ -445,6 +442,7 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+            chatSendTextBox.Text = "";
         }
 
         private void historyListBox_DoubleClick(object sender, EventArgs e)

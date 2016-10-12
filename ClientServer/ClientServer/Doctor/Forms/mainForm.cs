@@ -155,7 +155,8 @@ namespace Doctor.Forms
         {
             currentTimeLabel.Font = new Font(_goodTimes, 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             //saveButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            loadButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            startButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            stopButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -237,26 +238,6 @@ namespace Doctor.Forms
             dataChart.Series["KJ"].Points.Add(tempMeasurement.Burned); //burned
             dataChart.Series["RPM"].Points.Add(tempMeasurement.Rotations); //rotations
             dataChart.Series["Pulse"].Points.Add(tempMeasurement.Pulse); //pulse
-        }
-
-       private void chatSendButton_Click_1(object sender, EventArgs e)
-        {
-            if (_currentPatient == null)
-            {
-                Console.WriteLine("Not connected to a patient");
-                return;
-            }
-
-            _connector.SendMessage(new
-            {
-                id = "message/send",
-                targetid = _currentPatient.ClientId,
-                originid = ClientId,
-                data = new
-                {
-                    message = chatSendTextBox.Text
-                }
-            });
         }
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
@@ -388,5 +369,24 @@ namespace Doctor.Forms
             SessionStarted = false;
         }
 
+        private void chatSendButton_Click(object sender, EventArgs e)
+        {
+            if (_currentPatient == null)
+            {
+                Console.WriteLine("Not connected to a patient");
+                return;
+            }
+
+            _connector.SendMessage(new
+            {
+                id = "message/send",
+                data = new
+                {
+                    targetid = _currentPatient.ClientId,
+                    originid = ClientId,
+                    message = chatSendTextBox.Text
+                }
+            });
+        }
     }
 }

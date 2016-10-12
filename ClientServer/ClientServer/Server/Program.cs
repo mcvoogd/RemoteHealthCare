@@ -70,6 +70,14 @@ namespace Server
             }
         }
 
+        private void ShowUsers()
+        {
+            foreach (var client in _tcpServer.DataBase.Clients)
+            {
+                Console.WriteLine(client);
+            }
+        }
+
         private void DeleteUser()
         {
             Console.WriteLine("Deleting user...\nEnter a name: ");

@@ -76,8 +76,8 @@ namespace Client.Connection
                                     break;
                                 case "message/send":
                                     Console.WriteLine("CLIENT: Received message: " + data.message);
-                                    _messageList.Add(ParseMessage(data.message));
-                                    RemoteHealthcare.AddMessage(ParseMessage(data.message));
+                                    _messageList.Add(ParseMessage(data));
+                                    RemoteHealthcare.AddMessage(ParseMessage(data));
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -180,7 +180,7 @@ namespace Client.Connection
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message(data.clientid, data.clientid, DateTime.Now, data.data.message);
+            var toSend = new Message((string)data.targetid, (string)data.originid, DateTime.Now, (string)data.message);
             return toSend;
         }
 

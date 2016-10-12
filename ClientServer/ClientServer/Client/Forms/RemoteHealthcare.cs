@@ -88,13 +88,13 @@ namespace Client.Forms
                 id = "message/send",
                 data = new
                 {
-                    message = messageTextBox.Text += "\n",
+                    message = messageTextBox.Text,
                     originid = ConnectionId,
-                    targetid = "Unknown" // TODO: send the id of the doctor to the client
+                    targetid = 0 // TODO: send the id of the doctor to the client
                 }
             });
-            chatTextBox.Text += messageTextBox.Text;
-            messageTextBox.Text = "";
+            chatTextBox.Text += $"{DateTime.Now:t}-{ConnectionId}: {messageTextBox.Text}\n";
+            AddMessage(new Message(0,ConnectionId,new DateTime(),messageTextBox.Text));
         }
 
         private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)
@@ -192,8 +192,7 @@ namespace Client.Forms
             chatTextBox.Text = "";
             foreach (var message in _messages)
             {
-                chatTextBox.Text += message.MessageValue;
-                chatTextBox.Text += "\n";
+                chatTextBox.Text += $"\n{message.Time:t}-{message.Sender}: {message.MessageValue}";
             }
         }
 

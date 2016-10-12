@@ -54,13 +54,9 @@ namespace Doctor.Forms
             MakeChartSlider();
         }
 
-        private void UpdateMessages(List<Message> messages)
+        private void UpdateMessages(Message message)
         {
-            foreach (var message in messages)
-            {
-                chatReceiveTextBox.Text += message.MessageValue;
-            }
-            messages.Clear();
+            chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
         }
 
         [DllImport("gdi32.dll")]
@@ -326,22 +322,6 @@ namespace Doctor.Forms
             _connector.PatientesList.Clear();
         }
 
-        private void loadButton_Click(object sender, EventArgs e)
-        {
-            //TODO Should work like this. I must test it
-            Training t = (Training)trainingComboBox.SelectedItem;
-            List<dynamic> toSend = t.SendTraining();
-            dynamic message = new
-            {
-                id = "change/resistance/sendList",
-                data = new
-                {
-                    toSend
-                }
-            };
-            _connector.SendMessage(GetMessageForServer(message));
-        }
-
         private dynamic GetMessageForServer(dynamic message)
         {
             dynamic toSend = new
@@ -461,6 +441,7 @@ namespace Doctor.Forms
                 return;
             }
 
+            chatReceiveTextBox.Text += $"{DateTime.Now:t}Ik: {chatSendTextBox.Text}\n"; 
             _connector.SendMessage(new
             {
                 id = "message/send",
@@ -471,6 +452,7 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+            chatSendTextBox.Text = "";
         }
 
         private void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -550,7 +532,18 @@ namespace Doctor.Forms
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //TODO Should work like this. I must test it
+            Training t = (Training)trainingComboBox.SelectedItem;
+            List<dynamic> toSend = t.SendTraining();
+            dynamic message = new
+            {
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
         }
     }
 }

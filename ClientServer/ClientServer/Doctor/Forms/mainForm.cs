@@ -66,6 +66,9 @@ namespace Doctor.Forms
         private void UpdateMessagesDelegate(Message message)
         {
             chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+
+            chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
+            chatReceiveTextBox.ScrollToCaret();
         }
 
         [DllImport("gdi32.dll")]
@@ -173,7 +176,7 @@ namespace Doctor.Forms
             contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
 
-                        this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
+            this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()

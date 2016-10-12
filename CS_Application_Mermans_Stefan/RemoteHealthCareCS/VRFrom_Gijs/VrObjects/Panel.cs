@@ -101,7 +101,14 @@ namespace VRFrom_Gijs.VrObjects
         {
             ToSend = RequestCreater.TunnelSend(new
             {
-                
+                id = "scene/panel/image",
+                data = new
+                {
+                    id = Uuid,
+                    image = "data/NetworkEngine/textures/bikePanel.png",
+                    positition = new[] { 0.0, 0.0 },
+                    size = new[] { 1920.0, 1080.0 }
+                }
             }, TunnelId);
         }
 

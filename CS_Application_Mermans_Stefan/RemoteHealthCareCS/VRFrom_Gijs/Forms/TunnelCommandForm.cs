@@ -286,9 +286,13 @@ namespace VRFrom_Gijs.Forms
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
 
-            _panel.DrawText(value, position, sizeValue, color, fontValue);
+            _panel.setImage();
             _connection.SendMessage(_panel.ToSend);
             Blocker.WaitOne(5000);
+
+            //_panel.DrawText(value, position, sizeValue, color, fontValue);
+            //_connection.SendMessage(_panel.ToSend);
+            //Blocker.WaitOne(5000);
 
             _panel.SwapPanel();
             _connection.SendMessage(_panel.ToSend);

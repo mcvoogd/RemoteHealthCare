@@ -246,15 +246,16 @@ namespace Server.Server
         //from doctor to client.
         public void HandleResistance(dynamic data)
         {
-            ClientHandler tosend = TcpServer.GetClientHandlerByClientID(data.clientId);
-            tosend.SendMessage(new
-            {
-                id = "change/resistance",
-                data = new
-                {
-                    Resistance = data.resistance
-                }
-            });
+            ForwardMessage(data);
+            //ClientHandler tosend = TcpServer.GetClientHandlerByClientID(data.clientId);
+            //tosend.SendMessage(new
+            //{
+            //    id = "change/resistance",
+            //    data = new
+            //    {
+            //        Resistance = data.resistance
+            //    }
+            //});
         }
 
         private void SendNotAck(string idV)

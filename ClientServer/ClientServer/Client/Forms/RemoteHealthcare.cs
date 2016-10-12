@@ -88,7 +88,7 @@ namespace Client.Forms
                 {
                     message = messageTextBox.Text += "\n",
                     originid = ConnectionId,
-                    targetit = "Unknown" // TODO: send the id of the doctor to the client
+                    targetid = "Unknown" // TODO: send the id of the doctor to the client
                 }
             });
             chatTextBox.Text += messageTextBox.Text;

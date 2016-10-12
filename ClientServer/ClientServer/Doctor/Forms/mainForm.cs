@@ -34,6 +34,8 @@ namespace Doctor.Forms
 
         public MainForm(DoctorConnector connector)
         {
+            FormClosing += mainForm_FormClosing;
+
             _connector = connector;
             _connector.UpdateMessages = UpdateMessages;
             _currentPatient = null;
@@ -166,7 +168,8 @@ namespace Doctor.Forms
         {
             currentTimeLabel.Font = new Font(_goodTimes, 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             //saveButton.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            loadButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            startButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            stopButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -179,7 +182,7 @@ namespace Doctor.Forms
             userLabel.Font = new Font(_goodTimes, 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             userAddButton.Font = new Font(_goodTimes, 9.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            printButton.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             label12.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
             label13.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             brakeButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -212,9 +215,8 @@ namespace Doctor.Forms
                 }
             });
             if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
-            if (_currentPatient.IsOnline)
+            if (_currentPatient.IsOnline && SessionStarted)
             {
-                //TODO ehhh rename this command? dont want this for offline users?
                 _connector.SendMessage(new
                 {
                     id = "get/patient/data",
@@ -397,6 +399,45 @@ namespace Doctor.Forms
                     message = chatSendTextBox.Text
                 }
             });
+        }
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    _connector.SendMessage(new
+                    {
+                        id = "client/disconnect",
+                        data = new
+                        {
+                            Disonnect = true
+                        }
+                    });
+                    Environment.Exit(1);
+                    Application.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            this.dataChart.Printing.PrintPreview();
+        }
+
+        private void brakeButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

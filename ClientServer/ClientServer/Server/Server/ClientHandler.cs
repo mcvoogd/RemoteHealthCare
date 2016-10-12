@@ -96,8 +96,7 @@ namespace Server.Server
                             break;
                         case "client/disconnect":
                             Client.IsOnline = false;
-                            _sslStream.Close();
-                            _tcpClient.Close();
+                            Disconnect();
                             break;
 
                         case "change/resistance":
@@ -178,39 +177,28 @@ namespace Server.Server
         private void HandleGetPatients(dynamic data)
         {
             var patientsList = new List<Patient>();
-            //            int index = 0;
             List<Patient> fromDoctor = new List<Patient>();
             for (int t = 0; t < data.data.patientList.Count; t++)
             {
                 fromDoctor.Add(data.data.patientList[t].ToObject<Patient>());
             }
 
-            if (_database.Clients.Count > 0 && _database.Clients != null)
+            if (_database.Clients.Count <= 0 || _database.Clients == null) return;
+            foreach (Client client in _database.Clients)
             {
-                for (int i = 0; i < _database.Clients.Count; i++)
-                {
-                    if (_database.Clients[i].IsDoctor) continue;
-                    var temp = new Patient(_database.Clients[i].UniqueId, _database.Clients[i].IsOnline,
-                        _database.Clients[i].Name);
-                    patientsList.Add(temp);
-                }
-                if (patientsList.Count == fromDoctor.Count) return;
-                Console.WriteLine("Not the same!");
-                    //            var patientsListV2 = new List<Patient>();
-                    //            for (int y = index; y < patientsList.Count; y++)
-                    //            {
-                    //                var temp = patientsList[y];
-                    //                patientsListV2.Add(temp);
-                    //            }
-                SendMessage(new
-                {
-                    id = "get/patients",
-                    data = new
-                    {
-                        patients = patientsList.ToArray()
-                    }
-                });
+                if (client.IsDoctor) continue;
+                patientsList.Add(new Patient(client.UniqueId, client.IsOnline, client.Name));
             }
+            if(CheckSimilar(fromDoctor, patientsList))return;
+
+            SendMessage(new
+            {
+                id = "get/patients",
+                data = new
+                {
+                    patients = patientsList.ToArray()
+                }
+            });
         }
 
         //from doctor to client.
@@ -250,6 +238,8 @@ namespace Server.Server
                 }
             });
         }
+
+
 
         public void Disconnect()
         {
@@ -323,6 +313,20 @@ namespace Server.Server
             var toSend = new Message((string) data.clientid, (string) data.clientid, DateTime.Now,
                 (string) data.data.message);
             return toSend;
+        }
+
+        public bool CheckSimilar(List<Patient> first, List<Patient> second)
+        {
+            if (first.Count != second.Count) return false;
+            int index = 0;
+            bool answer = false;
+            foreach (var patient in first)
+            {//ehh okay?
+                answer = patient.IsOnline == second[index].IsOnline;
+                index++;
+                if (!answer) return false;
+            }
+            return answer;
         }
 
         public bool HandleLogin(dynamic data)

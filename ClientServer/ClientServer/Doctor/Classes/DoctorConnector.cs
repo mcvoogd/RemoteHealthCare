@@ -78,7 +78,6 @@ namespace Doctor.Classes
                                     }
                                     CurrentPatients.Clear();
                                     CurrentPatients.AddRange(PatientesList);
-                                    Console.WriteLine(CurrentPatients.Count + " < Count patientslist" );
                                     UpdateRequired = true;
                                     break;
                                 case "get/patient/data" :
@@ -134,11 +133,12 @@ namespace Doctor.Classes
 
         public List<Patient> GetAllPatients()
         {
-            if (!UpdateRequired) return null;
-            if (PatientesList == null) return null;
+            if (!UpdateRequired || PatientesList == null) return null;
             List<Patient> temp = new List<Patient>();
-            temp.AddRange(PatientesList);
-            PatientesList.Clear();
+            foreach (var patient in PatientesList)
+            {
+                temp.Add(new Patient(patient.ClientId,patient.IsOnline,patient.Name));
+            }
             UpdateRequired = false;
             return temp;
         }

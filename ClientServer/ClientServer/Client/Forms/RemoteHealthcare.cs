@@ -116,7 +116,8 @@ namespace Client.Forms
                             Disonnect = true
                         }
                     });
-                    Environment.Exit(0);
+                    Environment.Exit(1);
+                    Application.Exit();
                 }
                 else
                 {
@@ -163,25 +164,24 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
 
-            if (Form1._tunnelCommandForm != null && Form1._tunnelCommandForm.Panel != null)
+            if (Form1._tunnelCommandForm == null || Form1._tunnelCommandForm.Panel == null) return;
+            // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+
+            //Voor als Johan /n niet werkend heeft gekregen.
+            string[] textValues =
             {
-               // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+                $"Time : {measurement.Time}",
+                $"Speed : {measurement.Speed} Km/h",
+                $"Distance : {measurement.Distance:##.00} m",
+                $"Pulse : {measurement.Pulse} BPM",
+                $"Burned : {measurement.Burned:##.00} Kcal",
+                $"Rotations : {measurement.Rotations} RPM",
+                $"Power : {measurement.Power} Watt",
+                $"ReachedPower : {measurement.ReachedPower} Watt"
+            };
+            Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
 
-               //Voor als Johan /n niet werkend heeft gekregen.
-                string[] textValues =
-                {
-                    $"Time : {measurement.Time}",
-                    $"Speed : {measurement.Speed} Km/h",
-                    $"Distance : {measurement.Distance:##.00} m",
-                    $"Pulse : {measurement.Pulse} BPM",
-                    $"Burned : {measurement.Burned:##.00} Kcal",
-                    $"Rotations : {measurement.Rotations} RPM",
-                    $"Power : {measurement.Power} Watt",
-                    $"ReachedPower : {measurement.ReachedPower} Watt"
-                };
-                Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
-            }
-
+            Form1._tunnelCommandForm.UpdateSpeed(measurement.Speed);
         }
 
 
@@ -200,5 +200,6 @@ namespace Client.Forms
             if (Measurements.Count <= 0) return;
             chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
         }
+
     }
 }

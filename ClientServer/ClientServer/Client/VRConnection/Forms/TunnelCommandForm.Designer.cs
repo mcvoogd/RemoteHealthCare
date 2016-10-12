@@ -34,6 +34,7 @@ namespace Client.VRConnection.Forms
             this.NameLabel = new System.Windows.Forms.Label();
             this.SetTime = new System.Windows.Forms.TrackBar();
             this.createSceneButton = new System.Windows.Forms.Button();
+            this.ResetButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SetTime)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,11 +76,22 @@ namespace Client.VRConnection.Forms
             this.createSceneButton.UseVisualStyleBackColor = true;
             this.createSceneButton.Click += new System.EventHandler(this.createSceneButton_Click);
             // 
+            // ResetButton
+            // 
+            this.ResetButton.Location = new System.Drawing.Point(118, 12);
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.Size = new System.Drawing.Size(78, 23);
+            this.ResetButton.TabIndex = 12;
+            this.ResetButton.Text = "Reset scene";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
+            // 
             // TunnelCommandForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(325, 114);
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.createSceneButton);
             this.Controls.Add(this.SetTime);
             this.Controls.Add(this.NameLabel);
@@ -98,5 +110,6 @@ namespace Client.VRConnection.Forms
         private System.Windows.Forms.Label NameLabel;
         private TrackBar SetTime;
         private Button createSceneButton;
+        private Button ResetButton;
     }
 }

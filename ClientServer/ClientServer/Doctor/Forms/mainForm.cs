@@ -168,7 +168,7 @@ namespace Doctor.Forms
             contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
 
-                        this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
+            this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()

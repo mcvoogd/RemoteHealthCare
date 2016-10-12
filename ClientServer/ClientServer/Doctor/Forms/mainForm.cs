@@ -388,5 +388,10 @@ namespace Doctor.Forms
                 }
             });
         }
+
+        private void brakeButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -772,6 +772,7 @@ namespace Doctor.Forms
             this.brakeButton.TabIndex = 45;
             this.brakeButton.Text = "Emergency brake";
             this.brakeButton.UseVisualStyleBackColor = false;
+            this.brakeButton.Click += new System.EventHandler(this.brakeButton_Click);
             // 
             // powerLegendaLabel
             // 

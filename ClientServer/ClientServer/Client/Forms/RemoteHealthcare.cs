@@ -117,6 +117,7 @@ namespace Client.Forms
                         }
                     });
                     Environment.Exit(1);
+                    Application.Exit();
                 }
                 else
                 {

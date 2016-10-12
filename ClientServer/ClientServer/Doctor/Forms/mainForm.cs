@@ -13,6 +13,8 @@ using Message = Doctor.Classes.Message;
 
 namespace Doctor.Forms
 {
+    public delegate void UpdateMessagesDelegate(Message message);
+
     public partial class MainForm : Form
     {
         public bool Recieved = false;
@@ -34,12 +36,14 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
 
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
 
+            _updateMessages = UpdateMessagesDelegate;
             _connector = connector;
             _connector.UpdateMessages = UpdateMessages;
             _currentPatient = null;
@@ -56,7 +60,15 @@ namespace Doctor.Forms
 
         private void UpdateMessages(Message message)
         {
+            Invoke(_updateMessages, message);
+        }
+
+        private void UpdateMessagesDelegate(Message message)
+        {
             chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+
+            chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
+            chatReceiveTextBox.ScrollToCaret();
         }
 
         [DllImport("gdi32.dll")]
@@ -164,7 +176,7 @@ namespace Doctor.Forms
             contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
 
-                        this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
+            this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()

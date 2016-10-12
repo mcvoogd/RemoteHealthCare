@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Doctor.Forms
@@ -872,7 +873,7 @@ namespace Doctor.Forms
             this.historyListBox.Name = "historyListBox";
             this.historyListBox.Size = new System.Drawing.Size(291, 108);
             this.historyListBox.TabIndex = 52;
-            this.historyListBox.DoubleClick += new System.EventHandler(this.historyListBox_DoubleClick_1);
+            this.historyListBox.DoubleClick += new System.EventHandler(this.historyListBox_DoubleClick);
             // 
             // UpdateDataLive
             // 

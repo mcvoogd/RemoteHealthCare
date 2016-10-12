@@ -34,6 +34,8 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private ContextMenuStrip contextMenuStrip;
+
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
@@ -163,7 +165,10 @@ namespace Doctor.Forms
                 Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
             };
             chatSendButton.ContextMenuStrip.Items.Add("Verzenden aan allen");
+            contextMenuStrip = chatSendButton.ContextMenuStrip;
             Controls.Add(chatSendButton);
+
+                        this.contextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuStrip_ItemClicked);
         }
 
         private void Fonts()
@@ -321,22 +326,6 @@ namespace Doctor.Forms
             _connector.PatientesList.Clear();
         }
 
-        private void loadButton_Click(object sender, EventArgs e)
-        {
-            //TODO Should work like this. I must test it
-            Training t = (Training)trainingComboBox.SelectedItem;
-            List<dynamic> toSend = t.SendTraining();
-            dynamic message = new
-            {
-                id = "change/resistance/sendList",
-                data = new
-                {
-                    toSend
-                }
-            };
-            _connector.SendMessage(GetMessageForServer(message));
-        }
-
         private dynamic GetMessageForServer(dynamic message)
         {
             dynamic toSend = new
@@ -468,6 +457,14 @@ namespace Doctor.Forms
             });
         }
 
+        private void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Text == "Verzenden aan allen")
+            {
+                //TODO for you Stefan.
+            }
+        }
+
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -515,7 +512,7 @@ namespace Doctor.Forms
             });
         }
 
-        private void historyListBox_DoubleClick_1(object sender, EventArgs e)
+        private void historyListBox_DoubleClick(object sender, EventArgs e)
         {
             if (_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
             _connector.SendMessage(new
@@ -537,7 +534,18 @@ namespace Doctor.Forms
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //TODO Should work like this. I must test it
+            Training t = (Training)trainingComboBox.SelectedItem;
+            List<dynamic> toSend = t.SendTraining();
+            dynamic message = new
+            {
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
         }
     }
 }

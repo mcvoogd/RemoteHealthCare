@@ -243,7 +243,7 @@ namespace Server.Server
         //from doctor to client.
         public void HandleResistance(dynamic data)
         {
-            forwardMessage(data);
+            ForwardMessage(data);
             //ClientHandler tosend = TcpServer.GetClientHandlerByClientID(data.clientId);
             //tosend.SendMessage(new
             //{

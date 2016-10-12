@@ -303,14 +303,41 @@ namespace Doctor.Forms
             _connector.PatientesList.Clear();
         }
 
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            //TODO Should work like this. Duration is not used and i've got no idea how to implement this.
+            Training t = (Training)trainingComboBox.SelectedItem;
+            List<dynamic> toSend = t.SendTraining();
+            dynamic message = new
+            {
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
+        }
+
+        private dynamic GetMessageForServer(dynamic message)
+        {
+            dynamic toSend = new
+            {
+                id = _currentPatient,
+                data = new
+                {
+                    message
+                }
+            };
+            return toSend;
+        }
+
         private void userAddButton_Click(object sender, EventArgs e)
         {
             new AcountCreationForm(_connector) { Visible = true};
         }
 
         #region  labels..
-
-        
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)
         {

@@ -227,15 +227,14 @@ namespace Server.Server
             {
                 fromDoctor.Add(data.data.patientList[t].ToObject<Patient>());
             }
-
             if (_database.Clients.Count <= 0 || _database.Clients == null) return;
             foreach (Client client in _database.Clients)
             {
                 if (client.IsDoctor) continue;
                 patientsList.Add(new Patient(client.UniqueId, client.IsOnline, client.Name));
             }
+            if (patientsList.Count == 0) return;
             if(CheckSimilar(fromDoctor, patientsList))return;
-            Console.WriteLine(CheckSimilar(fromDoctor, patientsList) + "< similar yes or no..");
             SendMessage(new
             {
                 id = "get/patients",

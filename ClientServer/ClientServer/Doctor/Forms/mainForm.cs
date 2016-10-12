@@ -36,6 +36,8 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private bool _historyRequested = false;
+
         private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
 
@@ -249,26 +251,29 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
-//            else
-//            {
-//                _connector.SendMessage(new
-//                {
-//                    id = "get/patient/history",
-//                });
-//                Console.WriteLine("Get history send.");
-//                var list = _connector.CurrentPatientHistoryItems;
-//                if (historyListBox.Items.Count != list.Count && list.Count != 0)
-//                {
-//                    historyListBox.Items.Clear();
-//                    int index = 1;
-//                    foreach (var historyItem in list)
-//                    {
-//                        historyListBox.Items.Add($"Training {index}");
-//                        _currentHistoryItems.Add(historyItem);
-//                        index++;
-//                    }
-//                }
-//            }
+            else
+            {
+                if (!_historyRequested)
+                {
+                    _connector.SendMessage(new
+                    {
+                        id = "get/patient/history",
+                    });
+                    _historyRequested = true;
+                }
+                var list = _connector.CurrentPatientHistoryItems;
+                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                {
+                    historyListBox.Items.Clear();
+                    int index = 1;
+                    foreach (var historyItem in list)
+                    {
+                        historyListBox.Items.Add($"Training {index}");
+                        _currentHistoryItems.Add(historyItem);
+                        index++;
+                    }
+                }
+            }
         }
 
         public void FillAllCharts(Measurement tempMeasurement)

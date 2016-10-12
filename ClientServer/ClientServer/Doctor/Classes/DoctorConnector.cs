@@ -11,9 +11,11 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
+    public delegate void UpdateMessages(List<Message> messages);
+
     public class DoctorConnector
     {
-        private readonly List<Message> _messageList;
+        public List<Message> MessageList { get; set; }
         public Patient CurrentPatient;
         public List<HistoryItem> CurrentPatientHistoryItems = new List<HistoryItem>();
         public List<Measurement> CurrentPatientMeasurements = new List<Measurement>();
@@ -25,12 +27,13 @@ namespace Doctor.Classes
         public bool RecievedMeasurements = false;
         public bool UpdateRequired = true;
         public readonly List<Patient> CurrentPatients = new List<Patient>();
+        public UpdateMessages UpdateMessages;
 
         public DoctorConnector()
         {
             _sslStream = null;
             CurrentPatient = null;
-            _messageList = new List<Message>();
+            MessageList = new List<Message>();
         }
 
         public int ConnectionId { get; set; }
@@ -93,7 +96,9 @@ namespace Doctor.Classes
 
                                     break;
                                 case "message/send":
-                                    _messageList.Add(ParseMessage(data.message));
+                                    Console.WriteLine($"DOCTOR: received message:\n {data}");
+                                    MessageList.Add(ParseMessage(data));
+                                    UpdateMessages(MessageList);
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -218,7 +223,7 @@ namespace Doctor.Classes
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message(data.clientid, data.clientid, DateTime.Now, data.data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
             return toSend;
         }
 

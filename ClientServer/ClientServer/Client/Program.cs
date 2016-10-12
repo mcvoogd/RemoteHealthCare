@@ -23,7 +23,17 @@ namespace Client
             var loginForm = new LoginForm(remoteHealthcare, connector.Connect);
 
             Application.Run(loginForm);
-            Application.Exit();
+
+            if (System.Windows.Forms.Application.MessageLoop)
+            {
+                // WinForms app
+                System.Windows.Forms.Application.Exit();
+            }
+            else
+            {
+                // Console app
+                System.Environment.Exit(1);
+            }
         }
     }
 }

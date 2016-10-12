@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Doctor.Classes;
 using Doctor.Properties;
+using Message = Doctor.Classes.Message;
 
 namespace Doctor.Forms
 {
@@ -35,7 +36,10 @@ namespace Doctor.Forms
 
         public MainForm(DoctorConnector connector)
         {
+            FormClosing += mainForm_FormClosing;
+
             _connector = connector;
+            _connector.UpdateMessages = UpdateMessages;
             _currentPatient = null;
 
             InitializeComponent();
@@ -46,6 +50,15 @@ namespace Doctor.Forms
             Fonts();
             AddSplitButton();
             MakeChartSlider();
+        }
+
+        private void UpdateMessages(List<Message> messages)
+        {
+            foreach (var message in messages)
+            {
+                chatReceiveTextBox.Text += message.MessageValue;
+            }
+            messages.Clear();
         }
 
         [DllImport("gdi32.dll")]
@@ -171,7 +184,7 @@ namespace Doctor.Forms
             userLabel.Font = new Font(_goodTimes, 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             userAddButton.Font = new Font(_goodTimes, 9.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            printButton.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             label12.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
             label13.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             brakeButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -190,7 +203,6 @@ namespace Doctor.Forms
             if(!Visible)return;
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
         }
-
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
         {
@@ -426,6 +438,53 @@ namespace Doctor.Forms
                 FillAllCharts(connectorCurrentPatientMeasurement);
             }
                 
+        }
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    _connector.SendMessage(new
+                    {
+                        id = "client/disconnect",
+                        data = new
+                        {
+                            Disonnect = true
+                        }
+                    });
+                    Environment.Exit(1);
+                    Application.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            this.dataChart.Printing.PrintPreview();
+        }
+
+        private void brakeButton_Click(object sender, EventArgs e)
+        {
+            _connector.SendMessage(new
+            {
+                id = "bike/break",
+                 data = new
+                 {
+                     targetid = _currentPatient.ClientId,
+                     originid = ClientId
+                 }
+            });
         }
     }
 }

@@ -49,56 +49,56 @@ namespace DataScreen.Forms
         private void pulseMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Pulse > 0)
-                Measurement.Pulse--;
+                Measurement.Pulse -= 5;
             pulseCount.Text = "" + Measurement.Pulse;
         }
 
         private void pulsePlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Pulse < 230)
-                Measurement.Pulse++;
+                Measurement.Pulse += 5;
             pulseCount.Text = "" + Measurement.Pulse;
         }
 
         private void rotationMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Rotations > 0)
-                Measurement.Rotations--;
+                Measurement.Rotations -= 5;
             rotationsCount.Text = "" + Measurement.Rotations;
         }
 
         private void rotationPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Rotations < 240)
-                Measurement.Rotations++;
+                Measurement.Rotations += 5;
             rotationsCount.Text = "" + Measurement.Rotations;
         }
 
         private void speedMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Speed > 0)
-                Measurement.Speed--;
+                Measurement.Speed -= 5;
             speedCount.Text = "" + Measurement.Speed;
         }
 
         private void speedPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Speed < 60)
-                Measurement.Speed++;
+                Measurement.Speed += 5;
             speedCount.Text = "" + Measurement.Speed;
         }
 
         private void powerMin_Click(object sender, EventArgs e)
         {
             if (Measurement.Power > 0)
-                Measurement.Power--;
+                Measurement.Power -= 5;
             powerCount.Text = "" + Measurement.Power;
         }
 
         private void powerPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.Power < 400)
-                Measurement.Power++;
+                Measurement.Power += 5;
             powerCount.Text = "" + Measurement.Power;
         }
 
@@ -123,14 +123,14 @@ namespace DataScreen.Forms
         private void reachedPowerMin_Click(object sender, EventArgs e)
         {
             if (Measurement.ReachedPower > 0)
-                Measurement.ReachedPower--;
+                Measurement.ReachedPower -= 5;
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 
         private void reachedPowerPlus_Click(object sender, EventArgs e)
         {
             if (Measurement.ReachedPower < 999)
-                Measurement.ReachedPower++;
+                Measurement.ReachedPower += 5;
             reachedPowerCount.Text = "" + Measurement.ReachedPower;
         }
 

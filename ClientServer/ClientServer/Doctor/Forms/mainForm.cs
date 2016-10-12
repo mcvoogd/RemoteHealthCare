@@ -303,22 +303,6 @@ namespace Doctor.Forms
             _connector.PatientesList.Clear();
         }
 
-        private void loadButton_Click(object sender, EventArgs e)
-        {
-            //TODO Should work like this. I must test it
-            Training t = (Training)trainingComboBox.SelectedItem;
-            List<dynamic> toSend = t.SendTraining();
-            dynamic message = new
-            {
-                id = "change/resistance/sendList",
-                data = new
-                {
-                    toSend
-                }
-            };
-            _connector.SendMessage(GetMessageForServer(message));
-        }
-
         private dynamic GetMessageForServer(dynamic message)
         {
             dynamic toSend = new
@@ -516,7 +500,18 @@ namespace Doctor.Forms
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //TODO Should work like this. I must test it
+            Training t = (Training)trainingComboBox.SelectedItem;
+            List<dynamic> toSend = t.SendTraining();
+            dynamic message = new
+            {
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
         }
     }
 }

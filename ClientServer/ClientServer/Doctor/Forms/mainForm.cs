@@ -57,6 +57,9 @@ namespace Doctor.Forms
         private void UpdateMessages(Message message)
         {
             chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+
+            chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
+            chatReceiveTextBox.ScrollToCaret();
         }
 
         [DllImport("gdi32.dll")]

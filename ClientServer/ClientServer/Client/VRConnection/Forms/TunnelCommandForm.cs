@@ -393,7 +393,19 @@ namespace Client.VRConnection.Forms
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/pause",
-                data = new {
+                data = new
+                {
+                }
+            }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
+
+            Thread.Sleep(10000);
+
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/reset",
+                data = new
+                {
                 }
             }, _connection.TunnelId));
             Blocker.WaitOne(5000);
@@ -416,54 +428,9 @@ namespace Client.VRConnection.Forms
                     }
                 }
             }, _connection.TunnelId));
-           Blocker.WaitOne(5000);
-
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "scene/node/delete",
-                data = new
-                {
-                    id = Panel.Uuid
-                }
-            }, _connection.TunnelId));
-            Blocker.WaitOne(5000);
-            Panel = null;
-
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "scene/node/delete",
-                data = new
-                {
-                    id = _bike.Uuid
-                }
-            }, _connection.TunnelId));
             Blocker.WaitOne(5000);
 
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "scene/route/delete",
-                data = new
-                {
-                    id = _connection.RouteId
-                }
-            }, _connection.TunnelId));
-            Blocker.WaitOne(5000);
 
-            _connection.SendMessage(RequestCreater.TunnelSend(new
-            {
-                id = "scene/terrain/delete",
-                data = new
-                {
-                }
-            }, _connection.TunnelId));
-            Blocker.WaitOne(5000);
-
-            //DeletePane();
-            //Blocker.WaitOne(5000);
-            //DeletePane();
-            //Blocker.WaitOne(5000);
-
-           
         }
 
         private Double GetRandom()

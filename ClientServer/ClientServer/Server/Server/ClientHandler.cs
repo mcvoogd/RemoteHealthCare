@@ -117,6 +117,18 @@ namespace Server.Server
                             if (IsDoctor)
                                 HandlePatientData(data);
                             break;
+                        case "get/patient/history":
+                            if (IsDoctor)
+                            {
+                                HandlePatientHistory();
+                            }
+                            break;
+                        case "get/patient/history/measurements":
+                            if (IsDoctor)
+                            {
+                                HandlePatientPersonalHistory(data);
+                            }
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -131,6 +143,33 @@ namespace Server.Server
                     Client.IsOnline = false;
                     Console.WriteLine("Client disconnected.");
                 }
+        }
+
+        private void HandlePatientPersonalHistory(dynamic data)
+        {
+            HistoryItem temp2 = Client.TinyDataBaseBase.MeasurementSystem.History[0];
+            var temp = Client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsBetweenTimes((SimpleTime)temp2.StartTime, (SimpleTime)temp2.EndTime);
+            SendMessage(new
+            {
+                id = "get/patient/history/measurements",
+                data = new
+                {
+                    measurements = temp
+                }
+            });
+        }
+
+        private void HandlePatientHistory()
+        {
+           var temp = Client.TinyDataBaseBase.MeasurementSystem.History;
+          SendMessage(new
+          {
+              id = "get/patient/history",
+              data = new
+              {
+                  history = temp
+              }
+          });
         }
 
         // forward a received message to another client
@@ -155,14 +194,14 @@ namespace Server.Server
 
             // There was a small bug: The measurement array would go out of range if the array was empty.
             // I added a simple check to work around it.
-            if (client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count <= 0)
+            if (client.Client.TinyDataBaseBase.MeasurementSystem.Measurements.Count <= 0)
             {
                 Console.WriteLine("Doctor requested patient data, but the list is empty...");
                 return;
             }
 
-            var measurement = client.Client.TinyDataBaseBase.MeasurementSystem._measurements
-                [client.Client.TinyDataBaseBase.MeasurementSystem._measurements.Count - 1];
+            var measurement = client.Client.TinyDataBaseBase.MeasurementSystem.Measurements
+                [client.Client.TinyDataBaseBase.MeasurementSystem.Measurements.Count - 1];
             SendMessage(new
             {
                 id = "get/patient/data",
@@ -204,15 +243,16 @@ namespace Server.Server
         //from doctor to client.
         public void HandleResistance(dynamic data)
         {
-            ClientHandler tosend = TcpServer.GetClientHandlerByClientID(data.clientId);
-            tosend.SendMessage(new
-            {
-                id = "change/resistance",
-                data = new
-                {
-                    Resistance = data.resistance
-                }
-            });
+            forwardMessage(data);
+            //ClientHandler tosend = TcpServer.GetClientHandlerByClientID(data.clientId);
+            //tosend.SendMessage(new
+            //{
+            //    id = "change/resistance",
+            //    data = new
+            //    {
+            //        Resistance = data.resistance
+            //    }
+            //});
         }
 
         private void SendNotAck(string idV)

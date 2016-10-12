@@ -37,7 +37,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,6 +71,7 @@
     <Compile Include="Classes\SplitButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\Training.cs" />
     <Compile Include="Forms\AcountCreationForm.cs">
       <SubType>Form</SubType>
     </Compile>

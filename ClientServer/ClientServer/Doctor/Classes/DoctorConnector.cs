@@ -17,6 +17,7 @@ namespace Doctor.Classes
     {
         public List<Message> MessageList { get; set; }
         public Patient CurrentPatient;
+        public List<HistoryItem> CurrentPatientHistoryItems = new List<HistoryItem>();
         public List<Measurement> CurrentPatientMeasurements = new List<Measurement>();
         public readonly List<Patient> PatientesList = new List<Patient>();
         private int _loginAccepted;
@@ -106,6 +107,22 @@ namespace Doctor.Classes
                                             received = true
                                         }
                                     });
+                                    break;
+                                case "get/patient/history":
+                                    if(CurrentPatientHistoryItems.Count == data.history.Count) return;
+                                    for (var i = 0; i < data.history.Count; i++)
+                                    {
+                                        CurrentPatientHistoryItems.Add(new HistoryItem(
+                                            new SimpleTime((int)data.history[i].StartTime.Minutes, (int)data.history[i].StartTime.Seconds), 
+                                            new SimpleTime((int)data.history[i].EndTime.Minutes, (int)data.history[i].EndTime.Seconds)));
+                                    }
+                                    
+                                    break;
+                                case "get/patient/history/measurements":
+                                    for (var i = 0; i < data.measurements.Count; i++)
+                                    {
+                                        CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
+                                    }
                                     break;
                                 case "client/disconnect":
                                     _sslStream.Close();
@@ -274,5 +291,18 @@ namespace Doctor.Classes
         {
             return CurrentPatientMeasurements.Count > 0 ? CurrentPatientMeasurements[CurrentPatientMeasurements.Count - 1] : null;
         }
+    }
+
+    public struct HistoryItem
+    {
+        public SimpleTime StartTime { get; set; }
+        public SimpleTime EndTime { get; set; }
+
+        public HistoryItem(SimpleTime startTime, SimpleTime endTime)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+
     }
 }

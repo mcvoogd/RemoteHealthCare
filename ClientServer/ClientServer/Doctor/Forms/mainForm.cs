@@ -429,5 +429,10 @@ namespace Doctor.Forms
         {
 
         }
+
+        private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

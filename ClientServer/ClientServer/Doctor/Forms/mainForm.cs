@@ -203,9 +203,8 @@ namespace Doctor.Forms
                 }
             });
             if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
-            if (_currentPatient.IsOnline)
+            if (_currentPatient.IsOnline && SessionStarted)
             {
-                //TODO ehhh rename this command? dont want this for offline users?
                 _connector.SendMessage(new
                 {
                     id = "get/patient/data",

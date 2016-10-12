@@ -481,26 +481,6 @@ namespace Doctor.Forms
             }
         }
 
-        private void historyListBox_DoubleClick(object sender, EventArgs e)
-        {
-            if(_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
-            _connector.SendMessage(new
-            {
-                id = "get/patient/history/measurements",
-                data = new
-                {
-                    patient = _currentPatient.ClientId,
-                    historyItem = historyListBox.SelectedIndex                
-                }
-            });
-            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
-            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
-            {
-                FillAllCharts(connectorCurrentPatientMeasurement);
-            }
-                
-        }
-
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -548,7 +528,7 @@ namespace Doctor.Forms
             });
         }
 
-        private void historyListBox_DoubleClick_1(object sender, EventArgs e)
+        private void historyListBox_DoubleClick(object sender, EventArgs e)
         {
             if (_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
             _connector.SendMessage(new

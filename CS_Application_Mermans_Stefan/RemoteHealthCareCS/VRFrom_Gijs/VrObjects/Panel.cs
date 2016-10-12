@@ -105,7 +105,7 @@ namespace VRFrom_Gijs.VrObjects
                 data = new
                 {
                     id = Uuid,
-                    image = @"..\..\res/bikePanel.png",
+                    image = "data/NetworkEngine/textures/bikePanel.png",
                     positition = new[] { 0.0, 0.0 },
                     size = new[] { 1920.0, 1080.0 }
                 }

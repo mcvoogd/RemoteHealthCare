@@ -393,5 +393,10 @@ namespace Doctor.Forms
         {
             this.dataChart.Printing.PrintPreview();
         }
+
+        private void brakeButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

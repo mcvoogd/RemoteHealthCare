@@ -757,7 +757,7 @@ namespace Doctor.Forms
             this.userAddButton.Name = "userAddButton";
             this.userAddButton.Size = new System.Drawing.Size(107, 26);
             this.userAddButton.TabIndex = 44;
-            this.userAddButton.Text = "add user";
+            this.userAddButton.Text = "+ Client";
             this.userAddButton.UseVisualStyleBackColor = false;
             this.userAddButton.Click += new System.EventHandler(this.userAddButton_Click);
             // 
@@ -771,7 +771,7 @@ namespace Doctor.Forms
             this.brakeButton.Name = "brakeButton";
             this.brakeButton.Size = new System.Drawing.Size(196, 36);
             this.brakeButton.TabIndex = 45;
-            this.brakeButton.Text = "Emergency brake";
+            this.brakeButton.Text = "Noodstop";
             this.brakeButton.UseVisualStyleBackColor = false;
             this.brakeButton.Click += new System.EventHandler(this.brakeButton_Click);
             // 

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Doctor.Classes;
 using Doctor.Properties;
+using Message = Doctor.Classes.Message;
 
 namespace Doctor.Forms
 {
@@ -27,6 +29,7 @@ namespace Doctor.Forms
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
         private Measurement _lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
+        private List<HistoryItem> _currentHistoryItems = new List<HistoryItem>();
 
         public bool SessionStarted;
         public bool SessionStopped = true;
@@ -36,6 +39,7 @@ namespace Doctor.Forms
             FormClosing += mainForm_FormClosing;
 
             _connector = connector;
+            _connector.UpdateMessages = UpdateMessages;
             _currentPatient = null;
 
             InitializeComponent();
@@ -46,6 +50,15 @@ namespace Doctor.Forms
             Fonts();
             AddSplitButton();
             MakeChartSlider();
+        }
+
+        private void UpdateMessages(List<Message> messages)
+        {
+            foreach (var message in messages)
+            {
+                chatReceiveTextBox.Text += message.MessageValue;
+            }
+            messages.Clear();
         }
 
         [DllImport("gdi32.dll")]
@@ -191,7 +204,6 @@ namespace Doctor.Forms
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
-
         private void UpdateDataLive_Tick(object sender, EventArgs e)
         {
             if (!Visible) return;
@@ -225,11 +237,28 @@ namespace Doctor.Forms
             }
             else
             {
-                historyListBox.Items.Clear();
-                historyListBox.Items.Add("Test1");
-                historyListBox.Items.Add("Test2");
-                historyListBox.Items.Add("UserOffline");
-                historyListBox.Items.Add("Test3");
+                _connector.SendMessage(new
+                {
+                    id = "get/patient/history",
+//                    data = new
+//                    {
+//                        clientId = _currentPatient.ClientId
+//                    }
+                });
+                var list = _connector.CurrentPatientHistoryItems;
+                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                {
+                    historyListBox.Items.Clear();
+                    int index = 1;
+                    foreach (var historyItem in list)
+                    {
+                        historyListBox.Items.Add($"Training {index}");
+                        _currentHistoryItems.Add(historyItem);
+                        index++;
+                    }
+                }
+
+                
             }
         }
 
@@ -274,14 +303,41 @@ namespace Doctor.Forms
             _connector.PatientesList.Clear();
         }
 
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            //TODO Should work like this. Duration is not used and i've got no idea how to implement this.
+            Training t = (Training)trainingComboBox.SelectedItem;
+            List<dynamic> toSend = t.SendTraining();
+            dynamic message = new
+            {
+                id = "change/resistance/sendList",
+                data = new
+                {
+                    toSend
+                }
+            };
+            _connector.SendMessage(GetMessageForServer(message));
+        }
+
+        private dynamic GetMessageForServer(dynamic message)
+        {
+            dynamic toSend = new
+            {
+                id = _currentPatient,
+                data = new
+                {
+                    message
+                }
+            };
+            return toSend;
+        }
+
         private void userAddButton_Click(object sender, EventArgs e)
         {
             new AcountCreationForm(_connector) { Visible = true};
         }
 
         #region  labels..
-
-        
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)
         {
@@ -391,6 +447,26 @@ namespace Doctor.Forms
             });
         }
 
+        private void historyListBox_DoubleClick(object sender, EventArgs e)
+        {
+            if(_currentHistoryItems == null || _currentHistoryItems.Count <= 0) return;
+            _connector.SendMessage(new
+            {
+                id = "get/patient/history/measurements",
+                data = new
+                {
+                    patient = _currentPatient.ClientId,
+                    historyItem = historyListBox.SelectedIndex                
+                }
+            });
+            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
+            {
+                FillAllCharts(connectorCurrentPatientMeasurement);
+            }
+                
+        }
+
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -423,6 +499,24 @@ namespace Doctor.Forms
         private void printButton_Click(object sender, EventArgs e)
         {
             this.dataChart.Printing.PrintPreview();
+        }
+
+        private void brakeButton_Click(object sender, EventArgs e)
+        {
+            _connector.SendMessage(new
+            {
+                id = "bike/break",
+                 data = new
+                 {
+                     targetid = _currentPatient.ClientId,
+                     originid = ClientId
+                 }
+            });
+        }
+
+        private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

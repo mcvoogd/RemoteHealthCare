@@ -4,7 +4,7 @@ namespace Doctor.Classes
 {
     public class Message : IComparable<Message>
     {
-        public Message(string destination, string senderValue, DateTime time, string messageValue)
+        public Message(int destination, int senderValue, DateTime time, string messageValue)
         {
             Destination = destination;
             Sender = senderValue;
@@ -14,8 +14,8 @@ namespace Doctor.Classes
 
         public string MessageValue { get; set; }
         public DateTime Time { get; set; }
-        public string Sender { get; set; }
-        public string Destination { get; set; }
+        public int Sender { get; set; }
+        public int Destination { get; set; }
 
         public int CompareTo(Message other)
         {

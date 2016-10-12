@@ -11,10 +11,13 @@ using Newtonsoft.Json;
 
 namespace Doctor.Classes
 {
+    public delegate void UpdateMessages(List<Message> messages);
+
     public class DoctorConnector
     {
-        private readonly List<Message> _messageList;
+        public List<Message> MessageList { get; set; }
         public Patient CurrentPatient;
+        public List<HistoryItem> CurrentPatientHistoryItems = new List<HistoryItem>();
         public List<Measurement> CurrentPatientMeasurements = new List<Measurement>();
         public readonly List<Patient> PatientesList = new List<Patient>();
         private int _loginAccepted;
@@ -24,12 +27,13 @@ namespace Doctor.Classes
         public bool RecievedMeasurements = false;
         public bool UpdateRequired = true;
         public readonly List<Patient> CurrentPatients = new List<Patient>();
+        public UpdateMessages UpdateMessages;
 
         public DoctorConnector()
         {
             _sslStream = null;
             CurrentPatient = null;
-            _messageList = new List<Message>();
+            MessageList = new List<Message>();
         }
 
         public int ConnectionId { get; set; }
@@ -92,7 +96,9 @@ namespace Doctor.Classes
 
                                     break;
                                 case "message/send":
-                                    _messageList.Add(ParseMessage(data.message));
+                                    Console.WriteLine($"DOCTOR: received message:\n {data}");
+                                    MessageList.Add(ParseMessage(data));
+                                    UpdateMessages(MessageList);
                                     SendMessage(new
                                     {
                                         id = "message/received",
@@ -101,6 +107,22 @@ namespace Doctor.Classes
                                             received = true
                                         }
                                     });
+                                    break;
+                                case "get/patient/history":
+                                    if(CurrentPatientHistoryItems.Count == data.history.Count) return;
+                                    for (var i = 0; i < data.history.Count; i++)
+                                    {
+                                        CurrentPatientHistoryItems.Add(new HistoryItem(
+                                            new SimpleTime((int)data.history[i].StartTime.Minutes, (int)data.history[i].StartTime.Seconds), 
+                                            new SimpleTime((int)data.history[i].EndTime.Minutes, (int)data.history[i].EndTime.Seconds)));
+                                    }
+                                    
+                                    break;
+                                case "get/patient/history/measurements":
+                                    for (var i = 0; i < data.measurements.Count; i++)
+                                    {
+                                        CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
+                                    }
                                     break;
                                 case "client/disconnect":
                                     _sslStream.Close();
@@ -201,7 +223,7 @@ namespace Doctor.Classes
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message(data.clientid, data.clientid, DateTime.Now, data.data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
             return toSend;
         }
 
@@ -269,5 +291,18 @@ namespace Doctor.Classes
         {
             return CurrentPatientMeasurements.Count > 0 ? CurrentPatientMeasurements[CurrentPatientMeasurements.Count - 1] : null;
         }
+    }
+
+    public struct HistoryItem
+    {
+        public SimpleTime StartTime { get; set; }
+        public SimpleTime EndTime { get; set; }
+
+        public HistoryItem(SimpleTime startTime, SimpleTime endTime)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+
     }
 }

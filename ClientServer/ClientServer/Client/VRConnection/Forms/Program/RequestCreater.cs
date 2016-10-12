@@ -5,7 +5,7 @@ namespace Client.VRConnection.Forms.Program
 {
     internal static class RequestCreater
     {
-        public static string TunnelSend(dynamic command, string tunnelId)
+        public static dynamic TunnelSend(dynamic command, string tunnelId)
         {
             var toSend = JsonConvert.SerializeObject(new
             {
@@ -20,7 +20,7 @@ namespace Client.VRConnection.Forms.Program
             return toSend;
         }
 
-        public static string SceneNodeUpdate(string uuid, int x, int y, int z, int sx, int sy, int sz, int rx, int ry,
+        public static dynamic SceneNodeUpdate(string uuid, int x, int y, int z, int sx, int sy, int sz, int rx, int ry,
             int rz, string nameValue, int speedValue, string tunnelId)
         {
             return TunnelSend(new
@@ -44,7 +44,7 @@ namespace Client.VRConnection.Forms.Program
             }, tunnelId);
         }
 
-        public static string SceneNodeMoveTo(string uuid, int x, int y, int z, int timeValue, string tunnelId)
+        public static dynamic SceneNodeMoveTo(string uuid, int x, int y, int z, int timeValue, string tunnelId)
         {
             return TunnelSend(
                 new
@@ -63,7 +63,7 @@ namespace Client.VRConnection.Forms.Program
                 }, tunnelId);
         }
 
-        public static string SceneNodeDelete(string uuid, string tunnelId)
+        public static dynamic SceneNodeDelete(string uuid, string tunnelId)
         {
             return TunnelSend(new
             {
@@ -75,7 +75,7 @@ namespace Client.VRConnection.Forms.Program
             }, tunnelId);
         }
 
-        public static string SceneNodeFind(string name, string tunnelId)
+        public static dynamic SceneNodeFind(string name, string tunnelId)
         {
             return TunnelSend(new
             {
@@ -87,7 +87,7 @@ namespace Client.VRConnection.Forms.Program
             }, tunnelId);
         }
 
-        public static string SceneNodeAddLayer(string uuid, string diffuseValue, string normalValue, int minHeightValue,
+        public static dynamic SceneNodeAddLayer(string uuid, string diffuseValue, string normalValue, int minHeightValue,
             int maxHeightValue,
             int fadeDistValue, string tunnelId)
         {
@@ -109,7 +109,7 @@ namespace Client.VRConnection.Forms.Program
                 , tunnelId);
         }
 
-        public static string GetScene(string tunnelId)
+        public static dynamic GetScene(string tunnelId)
         {
             return TunnelSend(new
             {

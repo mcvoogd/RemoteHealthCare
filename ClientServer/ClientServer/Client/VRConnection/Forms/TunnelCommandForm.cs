@@ -21,7 +21,7 @@ namespace Client.VRConnection.Forms
         private List<Punt> _points;
         private bool _send;
         private Skybox _skybox;
-        private double _currentSpeed;
+        private float _currentSpeed;
 
         public TunnelCommandForm(VrConnection connection, string name)
         {
@@ -35,7 +35,7 @@ namespace Client.VRConnection.Forms
 
         private void createSceneButton_Click(object sender, EventArgs e)
         {
-            _currentSpeed = 5;
+            _currentSpeed = 5f;
             _forest = new Forest();
             _city = new City();
             DeletePane();
@@ -248,6 +248,10 @@ namespace Client.VRConnection.Forms
             Panel.ClearPanel();
             _connection.SendMessage(Panel.ToSend);
 
+            Panel.SetClearColor(new double[]{0,0,0,0});
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
             foreach (var s in textValues)
             {
                 Panel.DrawText(s, position, sizeValue, color, fontValue);
@@ -351,11 +355,11 @@ namespace Client.VRConnection.Forms
             _connection.SendMessage(_skybox.SetTime(time));
         }
 
-        public void UpdateSpeed(double speed)
+        public void UpdateSpeed(float speed)
         {
-            speed /= 5;
-            if ((int)speed == (int)_currentSpeed ) return;
-            double difSpeed = speed - _currentSpeed;
+            speed /= 5f;
+            if ((int) _currentSpeed == (int) speed) return;
+            float difSpeed = speed - _currentSpeed;
 
             for (int i = 0; i < 2; i++)
             {
@@ -368,17 +372,18 @@ namespace Client.VRConnection.Forms
                     _currentSpeed += difSpeed/2;
                 }
 
-
-                _connection.SendMessage(RequestCreater.TunnelSend(new
-                {
-                    id = "route/follow/speed",
-                    data = new
-                    {
-                        node = _bike.Uuid,
-                        speed = (float)_currentSpeed + 0.00f
-                    }
-                }, _connection.TunnelId));
-                Blocker.WaitOne(5000);
+                Console.WriteLine(_bike.Uuid);
+                //_connection.SendMessage(RequestCreater.TunnelSend(new
+                //{
+                //    id = "route/follow/speed",
+                //    data = new
+                //    {
+                //        id = _bike.Uuid,
+                //        speed = _currentSpeed
+                        
+                //    }
+                //}, _connection.TunnelId));
+                //Blocker.WaitOne(5000);
             }
 
         }

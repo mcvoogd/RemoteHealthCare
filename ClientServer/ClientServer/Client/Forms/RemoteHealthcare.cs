@@ -183,7 +183,7 @@ namespace Client.Forms
             };
             Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
 
-            //Form1._tunnelCommandForm.UpdateSpeed(measurement.Speed);
+            Form1._tunnelCommandForm.UpdateSpeed(measurement.Speed);
         }
 
 

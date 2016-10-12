@@ -181,7 +181,7 @@ namespace Client.VRConnection.Forms.Program
             return tempArray;
         }
 
-        public void SendMessage(string request)
+        public void SendMessage(dynamic request)
         {
             var buffer = Encoding.Default.GetBytes(request);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);

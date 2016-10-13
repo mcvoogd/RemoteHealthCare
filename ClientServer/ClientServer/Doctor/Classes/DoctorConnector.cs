@@ -165,39 +165,48 @@ namespace Doctor.Classes
 
         public bool Connect(string serverIp, string username, string password)
         {
-            _tcpClient = new TcpClient(serverIp, 6969);
-            _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
-            _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
-
-            Login(username, password);
-
-            var receiveThread = new Thread(Receiver);
-            receiveThread.Start();
-
-            while (_loginAccepted == 0)
+            try
             {
-            }
+                _tcpClient = new TcpClient(serverIp, 6969);
+                _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
+                _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
 
-            switch (_loginAccepted)
-            {
-                case 1:
-                    _loginAccepted = 0;
+                Login(username, password);
 
-                    SendMessage(new
-                    {
-                        id = "get/patients",
-                        data = new
+                var receiveThread = new Thread(Receiver);
+                receiveThread.Start();
+
+                while (_loginAccepted == 0)
+                {
+                }
+
+                switch (_loginAccepted)
+                {
+                    case 1:
+                        _loginAccepted = 0;
+
+                        SendMessage(new
                         {
-                            patientList = new List<Patient>() { new Patient(0,false,"0")}
-                        }
-                    });
-                    Console.WriteLine("Send Message...");
-                    return true;
-                case -1:
-                    _loginAccepted = 0;
-                    return false;
+                            id = "get/patients",
+                            data = new
+                            {
+                                patientList = new List<Patient>() {new Patient(0, false, "0")}
+                            }
+                        });
+                        Console.WriteLine("Send Message...");
+                        return true;
+                    case -1:
+                        _loginAccepted = 0;
+                        return false;
+                }
+                return false;
             }
-            return false;
+            catch (Exception exception)
+            {
+                //                Console.WriteLine(exception.StackTrace);
+                return false;
+            }
+            
         }
 
         private void Login(string username, string password)

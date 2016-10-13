@@ -96,6 +96,7 @@ namespace Client.Forms
             });
             chatTextBox.Text += $"{DateTime.Now:t}--{usernameLabel.Text}: {messageTextBox.Text}\n";
             AddMessage(new Message(0,ConnectionId,DateTime.Now,usernameLabel.Text,messageTextBox.Text));
+            messageTextBox.Text = "";
         }
 
         private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)

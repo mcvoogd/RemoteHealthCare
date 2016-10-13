@@ -92,10 +92,7 @@ namespace Server.Server
                             else
                             {
                                 SendNotAck("login/request");
-                                Disconnect();
-                                Client = null;
-                                _database = null;
-                                TcpServer.ClientHandlers.Remove(this); // Client handler seppuku
+                                ClientHandlerSeppuku();
                                 return; // Make sure to end the thread if the login is incorrect
                             }
                             break;
@@ -144,10 +141,28 @@ namespace Server.Server
                     //TODO catch specific exceptions...
                     Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
-                    //TODO Is this .isOnline call safe?
-                    Client.IsOnline = false;
+                    try
+                    {
+                        //TODO Is this .isOnline call safe?
+                        Client.IsOnline = false;
+                    }
+                    catch (Exception)
+                    {
+                        // no more stacktrace printing on IsOnline
+                    }
+                    ClientHandlerSeppuku();
                     Console.WriteLine("Client disconnected.");
                 }
+            ClientHandlerSeppuku();
+        }
+
+        // Have the clienthandler kill itself
+        private void ClientHandlerSeppuku()
+        {
+            Disconnect();
+            Client = null;
+            _database = null;
+            TcpServer.ClientHandlers.Remove(this); // Client handler seppuku
         }
 
         private void HandlePatientPersonalHistory(dynamic data)
@@ -293,17 +308,24 @@ namespace Server.Server
 
         public void Disconnect()
         {
-            if (!_tcpClient.Connected) return;
-            SendMessage(new
+            try
             {
-                id = "client/disconnect",
-                data = new
+                if (!_tcpClient.Connected) return;
+                SendMessage(new
                 {
-                    Disconnect = true
-                }
-            });
-            _tcpClient.GetStream().Close();
-            _tcpClient.Close();
+                    id = "client/disconnect",
+                    data = new
+                    {
+                        Disconnect = true
+                    }
+                });
+                _tcpClient.GetStream().Close();
+                _tcpClient.Close();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
         }
 
         public void SendMessage(dynamic message)

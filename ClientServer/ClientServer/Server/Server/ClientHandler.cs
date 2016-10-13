@@ -15,7 +15,7 @@ namespace Server.Server
     {
         private static X509Certificate2 _serverCertificate;
 
-        private readonly BigDatabase _database;
+        private BigDatabase _database;
         private readonly SslStream _sslStream;
         private readonly TcpClient _tcpClient;
         private byte[] _messageBuffer;
@@ -92,6 +92,11 @@ namespace Server.Server
                             else
                             {
                                 SendNotAck("login/request");
+                                Disconnect();
+                                Client = null;
+                                _database = null;
+                                TcpServer.ClientHandlers.Remove(this); // Client handler seppuku
+                                return; // Make sure to end the thread if the login is incorrect
                             }
                             break;
                         case "client/disconnect":

@@ -191,7 +191,7 @@ namespace Client.Connection
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now,(string)data.name ,(string)data.message);
             return toSend;
         }
 

@@ -4,14 +4,16 @@ namespace Server.TinyDB
 {
     public class Message : IComparable<Message>
     {
-        public Message(string destination, string senderValue, DateTime time, string messageValue)
+        public Message(string destination, string senderValue, DateTime time,string name ,string messageValue)
         {
+            Name = name;
             Destination = destination;
             Sender = senderValue;
             Time = time;
             MessageValue = messageValue;
         }
 
+        public string Name { get; set; }
         public string MessageValue { get; set; }
         public DateTime Time { get; set; }
         public string Sender { get; set; }

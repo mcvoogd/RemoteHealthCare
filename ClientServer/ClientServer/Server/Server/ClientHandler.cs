@@ -356,7 +356,7 @@ namespace Server.Server
         {
             Console.WriteLine("Parse message: " + data);
             var toSend = new Message((string) data.clientid, (string) data.clientid, DateTime.Now,
-                (string) data.data.message);
+                (string)data.name,(string) data.data.message);
             return toSend;
         }
 

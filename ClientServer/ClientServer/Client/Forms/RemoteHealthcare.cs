@@ -90,11 +90,12 @@ namespace Client.Forms
                 {
                     message = messageTextBox.Text,
                     originid = ConnectionId,
-                    targetid = 0 // TODO: send the id of the doctor to the client
+                    name = usernameLabel.Text,
+                    targetid = 0 // the destination is determined in the server
                 }
             });
-            chatTextBox.Text += $"{DateTime.Now:t}-{ConnectionId}: {messageTextBox.Text}\n";
-            AddMessage(new Message(0,ConnectionId,new DateTime(),messageTextBox.Text));
+            chatTextBox.Text += $"{DateTime.Now:t}--{usernameLabel.Text}: {messageTextBox.Text}\n";
+            AddMessage(new Message(0,ConnectionId,DateTime.Now,usernameLabel.Text,messageTextBox.Text));
         }
 
         private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)
@@ -192,7 +193,15 @@ namespace Client.Forms
             chatTextBox.Text = "";
             foreach (var message in _messages)
             {
-                chatTextBox.Text += $"\n{message.Time:t}-{message.Sender}: {message.MessageValue}";
+                if (message.Sender == ConnectionId)
+                {
+                    chatTextBox.Text += $"\n{message.Time:t}--{name}: {message.MessageValue}";
+                }
+                else
+                {
+                    chatTextBox.Text += $"\n{message.Time:t}--{message.Name}: {message.MessageValue}";
+                }
+
             }
         }
 

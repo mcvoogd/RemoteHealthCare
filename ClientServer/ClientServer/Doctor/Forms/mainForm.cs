@@ -67,7 +67,7 @@ namespace Doctor.Forms
 
         private void UpdateMessagesDelegate(Message message)
         {
-            chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+            chatReceiveTextBox.Text += $"{message.Time:t}--{message.Name}: {message.MessageValue}\n";
 
             chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
             chatReceiveTextBox.ScrollToCaret();
@@ -472,7 +472,7 @@ namespace Doctor.Forms
                 return;
             }
 
-            chatReceiveTextBox.Text += $"{DateTime.Now:t}Ik: {chatSendTextBox.Text}\n"; 
+            chatReceiveTextBox.Text += $"{DateTime.Now:t}--{userLabel.Text}: {chatSendTextBox.Text}\n"; 
             _connector.SendMessage(new
             {
                 id = "message/send",
@@ -480,6 +480,7 @@ namespace Doctor.Forms
                 {
                     targetid = _currentPatient.ClientId,
                     originid = ClientId,
+                    name = userLabel.Text,
                     message = chatSendTextBox.Text
                 }
             });
@@ -577,6 +578,11 @@ namespace Doctor.Forms
                 }
             };
             _connector.SendMessage(GetMessageForServer(message));
+        }
+
+        private void userLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

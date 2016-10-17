@@ -89,6 +89,7 @@ namespace Server
                     {
                         message = message,
                         originid = 100,
+                        name = "Server",
                         targetid = client.Client.UniqueId
                     }
                 });

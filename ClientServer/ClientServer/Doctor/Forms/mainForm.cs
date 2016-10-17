@@ -36,6 +36,8 @@ namespace Doctor.Forms
         public bool SessionStarted;
         public bool SessionStopped = true;
 
+        private bool _historyRequested = false;
+
         private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
 
@@ -65,7 +67,7 @@ namespace Doctor.Forms
 
         private void UpdateMessagesDelegate(Message message)
         {
-            chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+            chatReceiveTextBox.Text += $"{message.Time:t}--{message.Name}: {message.MessageValue}\n";
 
             chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
             chatReceiveTextBox.ScrollToCaret();
@@ -218,7 +220,7 @@ namespace Doctor.Forms
         }
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
-            {
+        {
             if (!Visible) return;
             FillPatientsToList();
             _connector.SendMessage(new
@@ -230,6 +232,7 @@ namespace Doctor.Forms
                 }
             });
             if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
+            #region Online case.
             if (_currentPatient.IsOnline)
             {
                 if (!SessionStarted) return;
@@ -249,16 +252,22 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
-//            else
-//            {
-//                _connector.SendMessage(new
+            #endregion
+            #region Offline case
+            else
+            {
+//                if (!_historyRequested)
 //                {
-//                    id = "get/patient/history",
-//                });
-//                Console.WriteLine("Get history send.");
+//                    _connector.SendMessage(new
+//                    {
+//                        id = "get/patient/history"
+//                    });
+//                    _historyRequested = true;
+//                }
 //                var list = _connector.CurrentPatientHistoryItems;
 //                if (historyListBox.Items.Count != list.Count && list.Count != 0)
 //                {
+//                    _currentHistoryItems.Clear();
 //                    historyListBox.Items.Clear();
 //                    int index = 1;
 //                    foreach (var historyItem in list)
@@ -268,7 +277,8 @@ namespace Doctor.Forms
 //                        index++;
 //                    }
 //                }
-//            }
+            }
+            #endregion
         }
 
         public void FillAllCharts(Measurement tempMeasurement)
@@ -299,9 +309,23 @@ namespace Doctor.Forms
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
+            ResetGui();
+//            _connector.SetCurrentPatient(null); // to reset user, dont know if needed. just for test.
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
-                _connector.SetCurrentPatient(_currentPatient);
+
+            _connector.SetCurrentPatient(_currentPatient);
+            _historyRequested = false;
+            connectedLabel.Text = $"{_currentPatient.Name}";
+        }
+
+        public void ResetGui()
+        {
+            ResetAllCharts();
+            _currentHistoryItems.Clear();
+            historyListBox.Items.Clear();
+            SessionStarted = false;
+            SessionStopped = true;
         }
     
         public void SetAllMeasurementData(Measurement m)
@@ -448,7 +472,7 @@ namespace Doctor.Forms
                 return;
             }
 
-            chatReceiveTextBox.Text += $"{DateTime.Now:t}Ik: {chatSendTextBox.Text}\n"; 
+            chatReceiveTextBox.Text += $"{DateTime.Now:t}--{userLabel.Text}: {chatSendTextBox.Text}\n"; 
             _connector.SendMessage(new
             {
                 id = "message/send",
@@ -456,6 +480,7 @@ namespace Doctor.Forms
                 {
                     targetid = _currentPatient.ClientId,
                     originid = ClientId,
+                    name = userLabel.Text,
                     message = chatSendTextBox.Text
                 }
             });
@@ -529,17 +554,19 @@ namespace Doctor.Forms
                     historyItem = historyListBox.SelectedIndex
                 }
             });
-            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
             ResetAllCharts();
-            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
+            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+            var measurements = new List<Measurement>(_connector.CurrentPatientMeasurements);
+            foreach (var measurement in measurements)
             {
-                FillAllCharts(connectorCurrentPatientMeasurement);
+                FillAllCharts(measurement);
             }
         }
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //TODO Should work like this. I must test it
+            //BUG: natuurlijk werkt het niet, je wilt een string casten naar een training?
             Training t = (Training)trainingComboBox.SelectedItem;
             List<dynamic> toSend = t.SendTraining();
             dynamic message = new
@@ -551,6 +578,11 @@ namespace Doctor.Forms
                 }
             };
             _connector.SendMessage(GetMessageForServer(message));
+        }
+
+        private void userLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

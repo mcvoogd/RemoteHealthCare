@@ -15,7 +15,7 @@ namespace Server.Server
     {
         private static X509Certificate2 _serverCertificate;
 
-        private readonly BigDatabase _database;
+        private BigDatabase _database;
         private readonly SslStream _sslStream;
         private readonly TcpClient _tcpClient;
         private byte[] _messageBuffer;
@@ -92,6 +92,8 @@ namespace Server.Server
                             else
                             {
                                 SendNotAck("login/request");
+                                ClientHandlerSeppuku();
+                                return; // Make sure to end the thread if the login is incorrect
                             }
                             break;
                         case "client/disconnect":
@@ -139,10 +141,28 @@ namespace Server.Server
                     //TODO catch specific exceptions...
                     Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
-                    //TODO Is this .isOnline call safe?
-                    Client.IsOnline = false;
+                    try
+                    {
+                        //TODO Is this .isOnline call safe?
+                        Client.IsOnline = false;
+                    }
+                    catch (Exception)
+                    {
+                        // no more stacktrace printing on IsOnline
+                    }
+                    ClientHandlerSeppuku();
                     Console.WriteLine("Client disconnected.");
                 }
+            ClientHandlerSeppuku();
+        }
+
+        // Have the clienthandler kill itself
+        private void ClientHandlerSeppuku()
+        {
+            Disconnect();
+            Client = null;
+            _database = null;
+            TcpServer.ClientHandlers.Remove(this); // Client handler seppuku
         }
 
         private void HandlePatientPersonalHistory(dynamic data)
@@ -227,15 +247,14 @@ namespace Server.Server
             {
                 fromDoctor.Add(data.data.patientList[t].ToObject<Patient>());
             }
-
             if (_database.Clients.Count <= 0 || _database.Clients == null) return;
             foreach (Client client in _database.Clients)
             {
                 if (client.IsDoctor) continue;
                 patientsList.Add(new Patient(client.UniqueId, client.IsOnline, client.Name));
             }
+            if (patientsList.Count == 0) return;
             if(CheckSimilar(fromDoctor, patientsList))return;
-            Console.WriteLine(CheckSimilar(fromDoctor, patientsList) + "< similar yes or no..");
             SendMessage(new
             {
                 id = "get/patients",
@@ -289,17 +308,24 @@ namespace Server.Server
 
         public void Disconnect()
         {
-            if (!_tcpClient.Connected) return;
-            SendMessage(new
+            try
             {
-                id = "client/disconnect",
-                data = new
+                if (!_tcpClient.Connected) return;
+                SendMessage(new
                 {
-                    Disconnect = true
-                }
-            });
-            _tcpClient.GetStream().Close();
-            _tcpClient.Close();
+                    id = "client/disconnect",
+                    data = new
+                    {
+                        Disconnect = true
+                    }
+                });
+                _tcpClient.GetStream().Close();
+                _tcpClient.Close();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
         }
 
         public void SendMessage(dynamic message)
@@ -357,7 +383,7 @@ namespace Server.Server
         {
             Console.WriteLine("Parse message: " + data);
             var toSend = new Message((string) data.clientid, (string) data.clientid, DateTime.Now,
-                (string) data.data.message);
+                (string)data.name,(string) data.data.message);
             return toSend;
         }
 

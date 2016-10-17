@@ -42,7 +42,6 @@ namespace Doctor.Classes
         {
             var message = new byte[1024];
             var sizeBuffer = new byte[4];
-            int teller = 0;
             try
             {
                 while (_tcpClient.Connected)
@@ -70,7 +69,6 @@ namespace Doctor.Classes
                             switch (id)
                             {
                                 case "get/patients":
-                                    teller++;
                                     var patientsList = data.patients;
                                     for (var i = 0; i < patientsList.Count; i++)
                                     {
@@ -122,6 +120,7 @@ namespace Doctor.Classes
                                     
                                     break;
                                 case "get/patient/history/measurements":
+                                    CurrentPatientMeasurements.Clear();
                                     for (var i = 0; i < data.measurements.Count; i++)
                                     {
                                         CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
@@ -132,7 +131,6 @@ namespace Doctor.Classes
                                     _tcpClient.Close();
                                     break;
                             }
-                            Console.WriteLine(teller + "< Ammount of get/patient");
                         }
                     }
                     catch (Exception exception)
@@ -167,39 +165,48 @@ namespace Doctor.Classes
 
         public bool Connect(string serverIp, string username, string password)
         {
-            _tcpClient = new TcpClient(serverIp, 6969);
-            _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
-            _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
-
-            Login(username, password);
-
-            var receiveThread = new Thread(Receiver);
-            receiveThread.Start();
-
-            while (_loginAccepted == 0)
+            try
             {
-            }
+                _tcpClient = new TcpClient(serverIp, 6969);
+                _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
+                _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
 
-            switch (_loginAccepted)
-            {
-                case 1:
-                    _loginAccepted = 0;
+                Login(username, password);
 
-                    SendMessage(new
-                    {
-                        id = "get/patients",
-                        data = new
+                var receiveThread = new Thread(Receiver);
+                receiveThread.Start();
+
+                while (_loginAccepted == 0)
+                {
+                }
+
+                switch (_loginAccepted)
+                {
+                    case 1:
+                        _loginAccepted = 0;
+
+                        SendMessage(new
                         {
-                            patientList = new List<Patient>() { new Patient(0,false,"0")}
-                        }
-                    });
-                    Console.WriteLine("Send Message...");
-                    return true;
-                case -1:
-                    _loginAccepted = 0;
-                    return false;
+                            id = "get/patients",
+                            data = new
+                            {
+                                patientList = new List<Patient>() {new Patient(0, false, "0")}
+                            }
+                        });
+                        Console.WriteLine("Send Message...");
+                        return true;
+                    case -1:
+                        _loginAccepted = 0;
+                        return false;
+                }
+                return false;
             }
-            return false;
+            catch (Exception exception)
+            {
+                //                Console.WriteLine(exception.StackTrace);
+                return false;
+            }
+            
         }
 
         private void Login(string username, string password)
@@ -228,7 +235,7 @@ namespace Doctor.Classes
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.name,(string)data.message);
             return toSend;
         }
 

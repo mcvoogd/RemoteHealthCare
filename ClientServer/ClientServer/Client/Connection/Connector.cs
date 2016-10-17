@@ -54,7 +54,7 @@ namespace Client.Connection
 
                         var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                         dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                        Console.WriteLine("Read: " + resultMessage);
+                        Console.WriteLine("Client Read: " + resultMessage);
                         if (readMessage == null)
                         {
                         }

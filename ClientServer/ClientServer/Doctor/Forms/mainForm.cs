@@ -256,27 +256,32 @@ namespace Doctor.Forms
             #region Offline case
             else
             {
-//                if (!_historyRequested)
-//                {
-//                    _connector.SendMessage(new
-//                    {
-//                        id = "get/patient/history"
-//                    });
-//                    _historyRequested = true;
-//                }
-//                var list = _connector.CurrentPatientHistoryItems;
-//                if (historyListBox.Items.Count != list.Count && list.Count != 0)
-//                {
-//                    _currentHistoryItems.Clear();
-//                    historyListBox.Items.Clear();
-//                    int index = 1;
-//                    foreach (var historyItem in list)
-//                    {
-//                        historyListBox.Items.Add($"Training {index}");
-//                        _currentHistoryItems.Add(historyItem);
-//                        index++;
-//                    }
-//                }
+                //bug : this breaks everything.
+                if (!_historyRequested)
+                {
+                    _connector.CurrentPatientMeasurements.Clear();
+                    _connector.SendMessage(new
+                    {
+                        id = "get/patient/history",
+                        data = new {
+                        patient = _connector.CurrentPatient.ClientId
+                    }
+                    });
+                    _historyRequested = true;
+                }
+                var list = _connector.CurrentPatientHistoryItems;
+                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                {
+                    _currentHistoryItems.Clear();
+                    historyListBox.Items.Clear();
+                    int index = 1;
+                    foreach (var historyItem in list)
+                    {
+                        historyListBox.Items.Add($"Training {index}");
+                        _currentHistoryItems.Add(historyItem);
+                        index++;
+                    }
+                }
             }
             #endregion
         }

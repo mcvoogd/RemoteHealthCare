@@ -122,7 +122,7 @@ namespace Server.Server
                         case "get/patient/history":
                             if (IsDoctor)
                             {
-                                HandlePatientHistory();
+                                HandlePatientHistory(data);
                             }
                             break;
                         case "get/patient/history/measurements":
@@ -159,6 +159,7 @@ namespace Server.Server
         // Have the clienthandler kill itself
         private void ClientHandlerSeppuku()
         {
+            //seppuku? xD
             Disconnect();
             Client = null;
             _database = null;
@@ -182,9 +183,12 @@ namespace Server.Server
             });
         }
 
-        private void HandlePatientHistory()
+        private void HandlePatientHistory(dynamic data)
         {
-           var temp = Client.TinyDataBaseBase.MeasurementSystem.History;
+            int id = data.patient;
+            var client = _database.Clients.Find(p => p.UniqueId == id);
+            if(client == null) return;
+            var temp = client.TinyDataBaseBase.MeasurementSystem.History;
           SendMessage(new
           {
               id = "get/patient/history",

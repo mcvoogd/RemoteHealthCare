@@ -65,7 +65,7 @@ namespace Doctor.Classes
                         {
                             string id = readMessage.id;
                             dynamic data = readMessage.data;
-                            Console.WriteLine("Recieved ID : " + id);
+                            Console.WriteLine(" Doctor Recieved ID : " + id);
                             switch (id)
                             {
                                 case "get/patients":
@@ -110,14 +110,13 @@ namespace Doctor.Classes
                                     });
                                     break;
                                 case "get/patient/history":
-                                    if(CurrentPatientHistoryItems.Count == data.history.Count) return;
+                                    if(CurrentPatientHistoryItems.Count == data.history.Count) break;
                                     for (var i = 0; i < data.history.Count; i++)
                                     {
                                         CurrentPatientHistoryItems.Add(new HistoryItem(
                                             new SimpleTime((int)data.history[i].StartTime.Minutes, (int)data.history[i].StartTime.Seconds), 
                                             new SimpleTime((int)data.history[i].EndTime.Minutes, (int)data.history[i].EndTime.Seconds)));
                                     }
-                                    
                                     break;
                                 case "get/patient/history/measurements":
                                     CurrentPatientMeasurements.Clear();
@@ -127,8 +126,8 @@ namespace Doctor.Classes
                                     }
                                     break;
                                 case "client/disconnect":
-                                    _sslStream.Close();
-                                    _tcpClient.Close();
+//                                    _sslStream.Close();
+//                                    _tcpClient.Close();
                                     break;
                             }
                         }

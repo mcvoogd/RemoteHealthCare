@@ -28,6 +28,7 @@ namespace Doctor.Classes
         public bool UpdateRequired = true;
         public readonly List<Patient> CurrentPatients = new List<Patient>();
         public UpdateMessages UpdateMessages;
+        public bool receivedHistoryMeasurements;
 
         public DoctorConnector()
         {
@@ -80,7 +81,6 @@ namespace Doctor.Classes
                                     CurrentPatients.Clear();
                                     CurrentPatients.AddRange(PatientesList);
                                     UpdateRequired = true;
-                                    Console.WriteLine("REcieved patients :D");
                                     break;
                                 case "get/patient/data" :
                                     Measurement m = data.LatestMeasurements.ToObject<Measurement>();
@@ -97,7 +97,7 @@ namespace Doctor.Classes
 
                                     break;
                                 case "message/send":
-                                    Console.WriteLine($"DOCTOR: received message:\n {data}");
+                                   // Console.WriteLine($"DOCTOR: received message:\n {data}");
                                     MessageList.Add(ParseMessage(data));
                                     UpdateMessages(ParseMessage(data));
                                     SendMessage(new
@@ -124,10 +124,12 @@ namespace Doctor.Classes
                                     {
                                         CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
                                     }
+                                    receivedHistoryMeasurements = true;
+                            
                                     break;
                                 case "client/disconnect":
-//                                    _sslStream.Close();
-//                                    _tcpClient.Close();
+                                    _sslStream.Close();
+                                    _tcpClient.Close();
                                     break;
                             }
                         }
@@ -230,6 +232,7 @@ namespace Doctor.Classes
         public void SetCurrentPatient(Patient patient)
         {
             CurrentPatient = patient;
+            CurrentPatientHistoryItems.Clear();
         }
 
         public Message ParseMessage(dynamic data)

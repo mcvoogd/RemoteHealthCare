@@ -269,6 +269,17 @@ namespace Doctor.Forms
                     });
                     _historyRequested = true;
                 }
+                if (_connector.receivedHistoryMeasurements)
+                {
+                    ResetAllCharts();
+                    if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+                    var measurements = new List<Measurement>(_connector.CurrentPatientMeasurements);
+                    foreach (var measurement in measurements)
+                    {
+                        FillAllCharts(measurement);
+                    }
+                    _connector.receivedHistoryMeasurements = false;
+                }
                 var list = _connector.CurrentPatientHistoryItems;
                 if (historyListBox.Items.Count != list.Count && list.Count != 0)
                 {
@@ -559,13 +570,7 @@ namespace Doctor.Forms
                     historyItem = historyListBox.SelectedIndex
                 }
             });
-            ResetAllCharts();
-            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
-            var measurements = new List<Measurement>(_connector.CurrentPatientMeasurements);
-            foreach (var measurement in measurements)
-            {
-                FillAllCharts(measurement);
-            }
+            
         }
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)

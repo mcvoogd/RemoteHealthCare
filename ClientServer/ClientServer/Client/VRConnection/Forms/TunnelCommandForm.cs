@@ -372,18 +372,17 @@ namespace Client.VRConnection.Forms
                     _currentSpeed += difSpeed/2;
                 }
 
-                Console.WriteLine(_bike.Uuid);
-                //_connection.SendMessage(RequestCreater.TunnelSend(new
-                //{
-                //    id = "route/follow/speed",
-                //    data = new
-                //    {
-                //        id = _bike.Uuid,
-                //        speed = _currentSpeed
-                        
-                //    }
-                //}, _connection.TunnelId));
-                //Blocker.WaitOne(5000);
+                _connection.SendMessage(RequestCreater.TunnelSend(new
+                {
+                    id = "route/follow/speed",
+                    data = new
+                    {
+                        id = _bike.Uuid,
+                        speed = _currentSpeed
+
+                    }
+                }, _connection.TunnelId));
+                Blocker.WaitOne(5000);
             }
 
         }

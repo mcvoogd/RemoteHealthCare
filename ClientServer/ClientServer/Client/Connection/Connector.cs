@@ -119,7 +119,7 @@ namespace Client.Connection
 
         private void EmergencyBreak()
         {
-            RemoteHealthcare.Form1._tunnelCommandForm.ResetScene();
+            RemoteHealthcare.Form1.Tunnel.ResetScene();
         }
 
         public bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare)

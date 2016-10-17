@@ -168,8 +168,8 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
 
-            if (Form1._tunnelCommandForm == null || Form1._tunnelCommandForm.Panel == null) return;
-            // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+            if (Form1.Tunnel == null || Form1.Tunnel.Panel == null) return;
+            // Form1.Tunnel.DrawPanel(measurement.ToString());
 
             //Voor als Johan /n niet werkend heeft gekregen.
             string[] textValues =
@@ -183,9 +183,9 @@ namespace Client.Forms
                 $"Power : {measurement.Power} Watt",
                 $"ReachedPower : {measurement.ReachedPower} Watt"
             };
-            Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
+            Form1.Tunnel.DrawRipBackslashNPanel(textValues);
 
-            Form1._tunnelCommandForm.UpdateSpeed(measurement.Speed);
+           // Form1.Tunnel.UpdateSpeed(measurement.Speed);
         }
 
 

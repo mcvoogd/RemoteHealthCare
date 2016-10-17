@@ -65,7 +65,7 @@ namespace Doctor.Classes
                         {
                             string id = readMessage.id;
                             dynamic data = readMessage.data;
-                            Console.WriteLine("Recieved ID : " + id);
+                            Console.WriteLine(" Doctor Recieved ID : " + id);
                             switch (id)
                             {
                                 case "get/patients":

@@ -51,6 +51,18 @@ namespace Client.Simulator
                    $"\nReachedPower : {ReachedPower}";
         }
 
+        public string BackSlashNToString()
+        {
+           return $"Time : {Time}\\n" +
+                  $"\\nSpeed : {Speed}" +
+                  $"\\nRotations : {Rotations}" +
+                  $"\\nPulse : {Pulse}\\n" +
+                  $"\\nDistance : {Distance:##.00}" +
+                  $"\\nBurned : {Burned:##.00}\\n" +
+                  $"\\nPower : {Power}" +
+                  $"\\nReachedPower : {ReachedPower}";
+        }
+
         private dynamic GetMessageToSend()
         {
             dynamic toSend = new

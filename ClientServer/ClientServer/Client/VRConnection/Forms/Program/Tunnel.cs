@@ -209,12 +209,17 @@ namespace Client.VRConnection.Forms.Program
 
         public void DrawPanel(string textValue)
         {
-            int[] position = { 100, 100 };
-            double sizeValue = 32;
+            int[] position = { 0, 100 };
+            double sizeValue = 150;
             double[] color = { 0, 0, 0, 1 };
             string fontValue = "segoeui";
-            ;
+            
+            if (Panel == null) return;
             Panel.ClearPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            Panel.SetClearColor(new double[] { 1, 1, 1, 1 });
             _connection.SendMessage(Panel.ToSend);
             Blocker.WaitOne(5000);
 
@@ -225,35 +230,6 @@ namespace Client.VRConnection.Forms.Program
             Panel.SwapPanel();
             _connection.SendMessage(Panel.ToSend);
             Blocker.WaitOne(5000);
-        }
-
-        public void DrawRipBackslashNPanel(string[] textValues)
-        {
-            int[] position = {0, 100 };
-            double sizeValue = 150;
-            double[] color = { 0, 0, 0, 1 };
-            string fontValue = "segoeui";
-
-            if (Panel == null) return;
-            Panel.ClearPanel();
-            _connection.SendMessage(Panel.ToSend);
-
-            Panel.SetClearColor(new double[] { 1, 1, 1, 1});
-            _connection.SendMessage(Panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            foreach (var s in textValues)
-            {
-                Panel.DrawText(s, position, sizeValue, color, fontValue);
-                _connection.SendMessage(Panel.ToSend);
-
-                position[1] += 100;
-                Blocker.WaitOne(5000);
-            }
-
-            Panel.SwapPanel();
-            _connection.SendMessage(Panel.ToSend);
-
         }
 
         private void DeletePane()

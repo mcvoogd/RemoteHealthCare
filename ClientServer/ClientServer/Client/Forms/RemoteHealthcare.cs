@@ -169,21 +169,7 @@ namespace Client.Forms
             _sendStatistics(measurement);
 
             if (Form1.Tunnel == null || Form1.Tunnel.Panel == null) return;
-            // Form1.Tunnel.DrawPanel(measurement.ToString());
-
-            //Voor als Johan /n niet werkend heeft gekregen.
-            string[] textValues =
-            {
-                $"Time : {measurement.Time}",
-                $"Speed : {measurement.Speed} Km/h",
-                $"Distance : {measurement.Distance:##.00} m",
-                $"Pulse : {measurement.Pulse} BPM",
-                $"Burned : {measurement.Burned:##.00} Kcal",
-                $"Rotations : {measurement.Rotations} RPM",
-                $"Power : {measurement.Power} Watt",
-                $"ReachedPower : {measurement.ReachedPower} Watt"
-            };
-            Form1.Tunnel.DrawRipBackslashNPanel(textValues);
+            Form1.Tunnel.DrawPanel(measurement.BackSlashNToString());
 
            // Form1.Tunnel.UpdateSpeed(measurement.Speed);
         }

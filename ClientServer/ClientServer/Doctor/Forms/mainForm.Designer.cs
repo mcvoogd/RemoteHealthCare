@@ -854,7 +854,7 @@ namespace Doctor.Forms
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
             this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.historyListBox.Name = "historyListBox";
-            this.historyListBox.Size = new System.Drawing.Size(291, 48);
+            this.historyListBox.Size = new System.Drawing.Size(291, 144);
             this.historyListBox.TabIndex = 52;
             this.historyListBox.DoubleClick += new System.EventHandler(this.historyListBox_DoubleClick);
             // 

@@ -449,8 +449,7 @@ namespace Doctor.Forms
                 powerLegendaLabel.BackColor = Color.Green;
                 dataChart.Series["Power (Watts)"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
         }
 
         private void kjLegendaLabel_Click(object sender, EventArgs e)
@@ -465,8 +464,8 @@ namespace Doctor.Forms
                 kjLegendaLabel.BackColor = Color.Purple;
                 dataChart.Series["KJ"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
         private void rpmLegendaLabel_Click(object sender, EventArgs e)
@@ -483,8 +482,8 @@ namespace Doctor.Forms
                 rpmLegendaLabel.ForeColor = Color.Black;
                 dataChart.Series["RPM"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
         private void pulseLegendaLabel_Click(object sender, EventArgs e)
@@ -499,8 +498,8 @@ namespace Doctor.Forms
                 pulseLegendaLabel.BackColor = Color.Red;
                 dataChart.Series["Pulse"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
         private void kmhLegendaLabel_Click(object sender, EventArgs e)
@@ -515,11 +514,11 @@ namespace Doctor.Forms
                 kmhLegendaLabel.BackColor = Color.Blue;
                 dataChart.Series["Km/h"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
-#endregion
+        #endregion
 
         private void startButton_Click(object sender, EventArgs e)
         {

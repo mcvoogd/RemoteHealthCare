@@ -273,6 +273,7 @@ namespace Client.VRConnection.Forms
             {
                 _send = true;
                 _connection.SendMessage(RequestCreater.GetScene(_connection.TunnelId));
+                DeletePane();
             }
             else
             {
@@ -405,6 +406,10 @@ namespace Client.VRConnection.Forms
                 {
                 }
             }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
+
+            _send = false;
+            DeletePane();
             Blocker.WaitOne(5000);
 
             _connection.SendMessage(RequestCreater.TunnelSend(new

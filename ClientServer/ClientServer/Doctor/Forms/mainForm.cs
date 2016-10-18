@@ -22,8 +22,8 @@ namespace Doctor.Forms
         private FontFamily _goodTimes;
         
         private ChartArea _chartHeight;
-        private Series _serieHeight;
         private VerticalLineAnnotation _verticalLine;
+        private Series _serieHeight;
         private RectangleAnnotation _rectangle;
 
         public int ClientId { get; set; }
@@ -137,40 +137,20 @@ namespace Doctor.Forms
                 Height = 8*yFactor
             };
 
-            _verticalLine.Name = "myRect";
-            _rectangle.LineColor = Color.Red;
-            _rectangle.BackColor = Color.Red;
-            _rectangle.AxisY = _chartHeight.AxisY;
-            _rectangle.Y = -_rectangle.Height;
-            _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
-
-            _rectangle.Text = "Cliënt";
-            _rectangle.ForeColor = Color.White;
-            _rectangle.Font = new System.Drawing.Font("Arial", 8f);
+            _verticalLine.Name = "line";
 
             progressChart.Annotations.Add(_verticalLine);
             //progressChart.Annotations.Add(_rectangle);
         }
 
-        private void progressChart_AnnotationPositionChanging(object sender, AnnotationPositionChangingEventArgs e)
-        {
-            // move the rectangle with the line
-            if (sender == _verticalLine) _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
-
-            // display the current Y-value
-            int pt1 = (int)e.NewLocationX;
-            //double step = (_serieHeight.Points[pt1 + 1].YValues[0] - _serieHeight.Points[pt1].YValues[0]);
-            //double deltaX = e.NewLocationX - _serieHeight.Points[pt1].XValue;
-            //double val = _serieHeight.Points[pt1].YValues[0] + step * deltaX;
-            //progressChart.Titles[0].Text = $"X = {e.NewLocationX:0.00}   Y = {val:0.00}";
-            //_rectangle.Text = $"{val:0.00}";
-            progressChart.Update();
-        }
-
         private void progressChart_AnnotationPositionChanged(object sender, EventArgs e)
         {
-            _verticalLine.X = (int)(_verticalLine.X + 0.5);
-            _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
+            if (_verticalLine.X > progressChart.Series[0].Points[progressChart.Series[0].Points.Count -1].XValue)
+                _verticalLine.X = progressChart.Series[0].Points[progressChart.Series[0].Points.Count - 1].XValue;
+            else if (_verticalLine.X < progressChart.Series[0].Points[0].XValue)
+                _verticalLine.X = progressChart.Series[0].Points[0].XValue;
+            else
+                _verticalLine.X = (int)(_verticalLine.X + 0.5);
         }
         private void AddSplitButton()
         {
@@ -590,7 +570,7 @@ namespace Doctor.Forms
         {
             _connector.SendMessage(new
             {
-                id = "bike/break",
+                 id = "bike/break",
                  data = new
                  {
                      targetid = _currentPatient.ClientId,
@@ -632,6 +612,11 @@ namespace Doctor.Forms
         }
 
         private void userLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressChart_Click(object sender, EventArgs e)
         {
 
         }

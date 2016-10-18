@@ -35,12 +35,12 @@ namespace Client.VRConnection.Forms.Program
             _city = new City();
             DeletePane();
             Blocker.WaitOne(5000);
-            DeletePane();
-            Blocker.WaitOne(5000);
 
             CreateTerrain();
             Blocker.WaitOne(5000);
             PaintTerrain();
+            Blocker.WaitOne(5000);
+            CreateSkybox();
             Blocker.WaitOne(5000);
 
             CreateBike();
@@ -54,6 +54,27 @@ namespace Client.VRConnection.Forms.Program
             CreatePanel();
             Blocker.WaitOne(5000);
             FollowCamera();
+        }
+
+        private void CreateSkybox()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/skybox/update",
+                data = new
+                {
+                    type = "static",
+                    files = new
+                    {
+                        xpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_ft.jpg",
+                        xneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_bk.jpg",
+                        ypos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_up.jpg",
+                        yneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_dn.jpg",
+                        zpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_rt.jpg",
+                        zneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_lf.jpg"
+                    }
+                }
+            }, _connection.TunnelId));
         }
 
         public void CreateProps()
@@ -132,7 +153,7 @@ namespace Client.VRConnection.Forms.Program
             foreach (Punt point in _points)
             {
                 _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
-                    point.X, point.Z, point.Y, GetRandom());
+                    point.X, point.Z, point.Y, _random.NextDouble() * 0.6 + 1);
                 _connection.Nodes.Add(_tree);
                 _connection.SendMessage(_tree.SendString);
             }
@@ -209,12 +230,17 @@ namespace Client.VRConnection.Forms.Program
 
         public void DrawPanel(string textValue)
         {
-            int[] position = { 100, 100 };
-            double sizeValue = 32;
+            int[] position = { 0, 100 };
+            double sizeValue = 150;
             double[] color = { 0, 0, 0, 1 };
             string fontValue = "segoeui";
-            ;
+            
+            if (Panel == null) return;
             Panel.ClearPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            Panel.SetClearColor(new double[] { 1, 1, 1, 1 });
             _connection.SendMessage(Panel.ToSend);
             Blocker.WaitOne(5000);
 
@@ -227,35 +253,6 @@ namespace Client.VRConnection.Forms.Program
             Blocker.WaitOne(5000);
         }
 
-        public void DrawRipBackslashNPanel(string[] textValues)
-        {
-            int[] position = {0, 100 };
-            double sizeValue = 150;
-            double[] color = { 0, 0, 0, 1 };
-            string fontValue = "segoeui";
-
-            if (Panel == null) return;
-            Panel.ClearPanel();
-            _connection.SendMessage(Panel.ToSend);
-
-            Panel.SetClearColor(new double[] { 1, 1, 1, 1});
-            _connection.SendMessage(Panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            foreach (var s in textValues)
-            {
-                Panel.DrawText(s, position, sizeValue, color, fontValue);
-                _connection.SendMessage(Panel.ToSend);
-
-                position[1] += 100;
-                Blocker.WaitOne(5000);
-            }
-
-            Panel.SwapPanel();
-            _connection.SendMessage(Panel.ToSend);
-
-        }
-
         private void DeletePane()
         {
 
@@ -263,6 +260,8 @@ namespace Client.VRConnection.Forms.Program
             {
                 _send = true;
                 _connection.SendMessage(RequestCreater.GetScene(_connection.TunnelId));
+                Blocker.WaitOne(5000);
+                DeletePane();
             }
             else
             {
@@ -389,6 +388,11 @@ namespace Client.VRConnection.Forms.Program
             }, _connection.TunnelId));
             Blocker.WaitOne(5000);
 
+            _send = false;
+
+            DeletePane();
+            Blocker.WaitOne(5000);
+
             _connection.SendMessage(RequestCreater.TunnelSend(new
             {
                 id = "scene/skybox/update",
@@ -397,12 +401,12 @@ namespace Client.VRConnection.Forms.Program
                     type = "static",
                     files = new
                     {
-                        xpos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        xneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        ypos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        yneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        zpos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        zneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png"
+                        xpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_rt.png",
+                        xneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_lf.png",
+                        ypos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_up.png",
+                        yneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_dn.png",
+                        zpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_bk.png",
+                        zneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_ft.png"
 
                     }
                 }
@@ -411,13 +415,5 @@ namespace Client.VRConnection.Forms.Program
 
 
         }
-
-        private Double GetRandom()
-        {
-            return _random.NextDouble() * 0.6 + 1;
-        }
-
-
-
     }
 }

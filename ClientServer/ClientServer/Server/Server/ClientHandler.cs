@@ -131,6 +131,9 @@ namespace Server.Server
                                 HandlePatientPersonalHistory(data);
                             }
                             break;
+                        case "bike/break":
+                            ForwardMessage(readMessage);
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;

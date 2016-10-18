@@ -12,11 +12,12 @@ namespace Server.TinyDB
         public MeasurementSystem()
         {
             Measurements = new List<Measurement>();
-            History = new List<HistoryItem>
-            {
-                new HistoryItem(new SimpleTime(0, 1), new SimpleTime(0, 20)),
-                new HistoryItem(new SimpleTime(2, 0), new SimpleTime(2, 40))
-            };
+            History = new List<HistoryItem>();
+//            History = new List<HistoryItem>
+//            {
+//                new HistoryItem(new SimpleTime(0, 1), new SimpleTime(0, 20)),
+//                new HistoryItem(new SimpleTime(2, 0), new SimpleTime(2, 40))
+//            };
         }
 
         public List<Measurement> GetMeasurementsBetweenTimes(SimpleTime startTime, SimpleTime endTime)

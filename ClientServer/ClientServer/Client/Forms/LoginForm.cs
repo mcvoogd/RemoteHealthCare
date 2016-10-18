@@ -27,7 +27,7 @@ namespace Client.Forms
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Wil je afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                     Environment.Exit(0);
                 else

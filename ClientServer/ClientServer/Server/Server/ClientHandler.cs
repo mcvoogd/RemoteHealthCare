@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -42,6 +43,7 @@ namespace Server.Server
         //RECEIVER
         public void HandleClient()
         {
+
             Console.WriteLine("Handling client");
             var message = new byte[1024];
             var sizeBuffer = new byte[0];
@@ -131,6 +133,16 @@ namespace Server.Server
                                 HandlePatientPersonalHistory(data);
                             }
                             break;
+
+                        case "broadcast":
+                            BroadCast(data);
+                            break;
+                        case "new/history/item":
+                            if (IsDoctor)
+                            {
+                                HandleNewHistoryItem(data);
+                            }
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -138,12 +150,11 @@ namespace Server.Server
                 }
                 catch (Exception e)
                 {
-                    //TODO catch specific exceptions...
-                    Console.WriteLine(e.StackTrace);
+                //   Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
                     try
                     {
-                        //TODO Is this .isOnline call safe?
+                        //TODO Is this .isOnline call safe?//no..?
                         Client.IsOnline = false;
                     }
                     catch (Exception)
@@ -154,6 +165,15 @@ namespace Server.Server
                     Console.WriteLine("Client disconnected.");
                 }
             ClientHandlerSeppuku();
+        }
+
+        private void HandleNewHistoryItem(dynamic data)
+        {
+            int id = data.id;
+            var client = _database.Clients.Find(p => p.UniqueId == id);
+            HistoryItem temp = new HistoryItem((SimpleTime)data.historyItem.StartTime.ToObject<SimpleTime>(), 
+                (SimpleTime)data.historyItem.EndTime.ToObject<SimpleTime>());
+            client.TinyDataBaseBase.MeasurementSystem.History.Add(temp);
         }
 
         // Have the clienthandler kill itself
@@ -183,12 +203,32 @@ namespace Server.Server
             });
         }
 
+        public void BroadCast(dynamic data)
+        {
+            Console.WriteLine("Send broadcast message : " + data.Message);
+            foreach (var client in TcpServer.ClientHandlers)
+            {
+                client.SendMessage(new
+                {
+                    id = "message/send",
+                    data = new
+                    {
+                        message = data.message,
+                        originid = data.originid,
+                        name = data.name,
+                        targetid = client.Client.UniqueId
+                    }
+                });
+            }
+        }
+
         private void HandlePatientHistory(dynamic data)
         {
             int id = data.patient;
             var client = _database.Clients.Find(p => p.UniqueId == id);
             if(client == null) return;
-            var temp = client.TinyDataBaseBase.MeasurementSystem.History;
+            List<HistoryItem> temp = client.TinyDataBaseBase.MeasurementSystem.History;
+            if(temp.Count <= 0) return;
           SendMessage(new
           {
               id = "get/patient/history",
@@ -378,7 +418,7 @@ namespace Server.Server
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {exception}\nStack trace: {exception.StackTrace}");
+               // Console.WriteLine($"Exception: {exception}\nStack trace: {exception.StackTrace}");
                 return null;
             }
         }
@@ -412,19 +452,9 @@ namespace Server.Server
             int clientid = data.clientid;
             bool isDoctorData = data.isDoctor;
 
-            Console.WriteLine($"Name {username} | password {password} | clientid {clientid}");
-            // Deprecate
-            /*if (_database.GetClientById(clientid) == null)
-            {
-                Client = new Client(username, password, null, 0, isDoctorData, new TinyDataBase(), true);
-                _database.AddClient(Client);
-                if (isDoctorData)
-                {
-                    this.IsDoctor = true;
-                }
-                Console.WriteLine("Did not exist");
-                return true;
-            }*/
+            
+            Console.WriteLine($"Name {username} | password {string.Concat(Enumerable.Repeat("*", password.Length))} | clientid {clientid}");
+        
             if (_database.GetClientById(clientid) == null)
             {
                 return false; // Return false if client does not exist

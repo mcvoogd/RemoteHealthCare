@@ -48,7 +48,6 @@ namespace Doctor.Classes
                 while (_tcpClient.Connected)
                     try
                     {
-                        Console.WriteLine("RECIEVING DATA IN DOCTOR!!!! :D");
                         var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
                         _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
@@ -66,7 +65,7 @@ namespace Doctor.Classes
                         {
                             string id = readMessage.id;
                             dynamic data = readMessage.data;
-                            Console.WriteLine(" Doctor Recieved ID : " + id);
+                            Console.WriteLine($"DOCTOR Received:\n{readMessage}");
                             switch (id)
                             {
                                 case "get/patients":
@@ -97,7 +96,6 @@ namespace Doctor.Classes
 
                                     break;
                                 case "message/send":
-                                   // Console.WriteLine($"DOCTOR: received message:\n {data}");
                                     MessageList.Add(ParseMessage(data));
                                     UpdateMessages(ParseMessage(data));
                                     SendMessage(new
@@ -179,6 +177,7 @@ namespace Doctor.Classes
 
                 while (_loginAccepted == 0)
                 {
+                    Console.WriteLine("In loop...waiting.");
                 }
 
                 switch (_loginAccepted)
@@ -204,7 +203,7 @@ namespace Doctor.Classes
             }
             catch (Exception exception)
             {
-                //                Console.WriteLine(exception.StackTrace);
+                                Console.WriteLine(exception.StackTrace);
                 return false;
             }
             

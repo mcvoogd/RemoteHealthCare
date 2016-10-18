@@ -35,8 +35,6 @@ namespace Client.VRConnection.Forms.Program
             _city = new City();
             DeletePane();
             Blocker.WaitOne(5000);
-            DeletePane();
-            Blocker.WaitOne(5000);
 
             CreateTerrain();
             Blocker.WaitOne(5000);
@@ -262,6 +260,8 @@ namespace Client.VRConnection.Forms.Program
             {
                 _send = true;
                 _connection.SendMessage(RequestCreater.GetScene(_connection.TunnelId));
+                Blocker.WaitOne(5000);
+                DeletePane();
             }
             else
             {
@@ -386,6 +386,11 @@ namespace Client.VRConnection.Forms.Program
                 {
                 }
             }, _connection.TunnelId));
+            Blocker.WaitOne(5000);
+
+            _send = false;
+
+            DeletePane();
             Blocker.WaitOne(5000);
 
             _connection.SendMessage(RequestCreater.TunnelSend(new

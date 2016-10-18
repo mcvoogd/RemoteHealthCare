@@ -213,6 +213,7 @@ namespace Client.Forms
             for (int j = 0; j < control; j++)
             {
                 SerialPort port = DataReceiver.GetSerialPort();
+                Console.WriteLine("HELLO, NOW RECEIVING");
                 DataReceiver.SendCommand("CM", port);
                 DataReceiver.SendCommand($"PW{steps[j].resistance}", port);
                 Delay(steps[j]);
@@ -227,6 +228,7 @@ namespace Client.Forms
             t.Elapsed += (s, e) =>
             {
                 //a();
+                Console.WriteLine("DELAY DONE");
                 t.Stop();
             };
             t.Start();

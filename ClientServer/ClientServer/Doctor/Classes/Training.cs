@@ -17,6 +17,16 @@ namespace Doctor.Classes
             TrainingName = name;
         }
 
+        public Training()
+        {
+            TrainingName = "Dummy";
+            AddStep(100, 60);
+            AddStep(200, 30);
+            AddStep(150, 30);
+            AddStep(300, 120);
+            AddStep(50, 60);
+        }
+
         public List<dynamic> SendTraining()
         {
             List<dynamic> toSend = new List<dynamic>();
@@ -37,17 +47,6 @@ namespace Doctor.Classes
                 if (step.Equals(Tstep)) {AllSteps.RemoveAt(tempCount); }
                 tempCount++;
             }
-        }
-
-        public Training CreateDummyTraining()
-        {
-            Training t = new Training("Dummy");
-            t.AddStep(100, 60);
-            t.AddStep(200, 30);
-            t.AddStep(150, 30);
-            t.AddStep(300, 120);
-            t.AddStep(50, 60);
-            return t;
         }
 
         private dynamic GetMessageToSend(int newResistance, int newDuration)

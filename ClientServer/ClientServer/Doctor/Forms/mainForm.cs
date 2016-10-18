@@ -39,6 +39,8 @@ namespace Doctor.Forms
         private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
 
+        private Training testTraining = new Training();
+
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
@@ -56,6 +58,8 @@ namespace Doctor.Forms
             Fonts();
             AddSplitButton();
             MakeChartSlider();
+
+            trainingComboBox.Items.Add(testTraining);
         }
 
         private void UpdateMessages(Message message)

@@ -154,13 +154,44 @@ namespace Doctor.Forms
             if (progressChart.Series[0].Points == null) return;
             if (progressChart.Series[0].Points.Count <= 0) return;
 
-            if (_verticalLine.X > progressChart.Series[0].Points[progressChart.Series[0].Points.Count -1].XValue)
-                _verticalLine.X = progressChart.Series[0].Points[progressChart.Series[0].Points.Count - 1].XValue;
+            if (_verticalLine.X > progressChart.Series[0].Points.Count)
+            {
+                _verticalLine.X = progressChart.Series[0].Points.Count;
+            }
             else if (_verticalLine.X < progressChart.Series[0].Points[0].XValue)
+            {
                 _verticalLine.X = progressChart.Series[0].Points[0].XValue;
+            }
             else
-                _verticalLine.X = (int)(_verticalLine.X + 0.5);
+            { 
+                    _verticalLine.X = (int) (_verticalLine.X + 0.5);
+            }
+            if (_verticalLine.X <= 0)
+            {
+                _verticalLine.X = 1;
+            }
+            SetAllMeasurementData(_connector.CurrentPatientMeasurements[(int) _verticalLine.X - 1]);
+            List<Measurement> tempList = new List<Measurement>();
+            for (int i = 0; i < _verticalLine.X; i++)
+            {
+                tempList.Add(_connector.CurrentPatientMeasurements[i]);
+            }
+            ResetAllChartsMartijn();
+            foreach (Measurement m in tempList)
+            {
+                FillAllCharts(m);
+            }
         }
+
+        private void ResetAllChartsMartijn()
+        {
+            dataChart.Series["Power (Watts)"].Points.Clear();
+            dataChart.Series["Km/h"].Points.Clear();
+            dataChart.Series["KJ"].Points.Clear();
+            dataChart.Series["RPM"].Points.Clear();
+            dataChart.Series["Pulse"].Points.Clear();
+        }
+
         private void AddSplitButton()
         {
             chatSendButton.FlatStyle = FlatStyle.Popup;
@@ -418,8 +449,7 @@ namespace Doctor.Forms
                 powerLegendaLabel.BackColor = Color.Green;
                 dataChart.Series["Power (Watts)"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
         }
 
         private void kjLegendaLabel_Click(object sender, EventArgs e)
@@ -434,8 +464,8 @@ namespace Doctor.Forms
                 kjLegendaLabel.BackColor = Color.Purple;
                 dataChart.Series["KJ"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
         private void rpmLegendaLabel_Click(object sender, EventArgs e)
@@ -452,8 +482,8 @@ namespace Doctor.Forms
                 rpmLegendaLabel.ForeColor = Color.Black;
                 dataChart.Series["RPM"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
         private void pulseLegendaLabel_Click(object sender, EventArgs e)
@@ -468,8 +498,8 @@ namespace Doctor.Forms
                 pulseLegendaLabel.BackColor = Color.Red;
                 dataChart.Series["Pulse"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
         private void kmhLegendaLabel_Click(object sender, EventArgs e)
@@ -484,11 +514,11 @@ namespace Doctor.Forms
                 kmhLegendaLabel.BackColor = Color.Blue;
                 dataChart.Series["Km/h"].Enabled = true;
             }
-            dataChart.Invalidate();
-            dataChart.Update();
+            dataChart.Refresh();
+
         }
 
-#endregion
+        #endregion
 
         private void startButton_Click(object sender, EventArgs e)
         {

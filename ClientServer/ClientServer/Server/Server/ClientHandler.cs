@@ -187,7 +187,7 @@ namespace Server.Server
             int id = data.id;
             var client = _database.Clients.Find(p => p.UniqueId == id);
             HistoryItem temp = new HistoryItem((SimpleTime)data.historyItem.StartTime.ToObject<SimpleTime>(), 
-                (SimpleTime)data.historyItem.EndTime.ToObject<SimpleTime>());
+                (SimpleTime)data.historyItem.EndTime.ToObject<SimpleTime>(), client.TinyDataBaseBase.MeasurementSystem.History.Count+1);
             client.TinyDataBaseBase.MeasurementSystem.History.Add(temp);
         }
 
@@ -244,14 +244,14 @@ namespace Server.Server
             if(client == null) return;
             List<HistoryItem> temp = client.TinyDataBaseBase.MeasurementSystem.History;
             if(temp.Count <= 0) return;
-          SendMessage(new
-          {
-              id = "get/patient/history",
-              data = new
-              {
-                  history = temp
-              }
-          });
+            SendMessage(new
+            {
+                id = "get/patient/history",
+                data = new
+                {
+                    history = temp
+                }
+            });
         }
 
         // forward a received message to another client

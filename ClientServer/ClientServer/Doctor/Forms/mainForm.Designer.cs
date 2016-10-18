@@ -62,7 +62,6 @@ namespace Doctor.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.kmLabel = new System.Windows.Forms.Label();
-            this.avgkmLabel = new System.Windows.Forms.Label();
             this.wattsLabel = new System.Windows.Forms.Label();
             this.avgwattsLabel = new System.Windows.Forms.Label();
             this.rpmLabel = new System.Windows.Forms.Label();
@@ -262,18 +261,6 @@ namespace Doctor.Forms
             this.kmLabel.TabIndex = 13;
             this.kmLabel.Text = "00,0";
             this.kmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // avgkmLabel
-            // 
-            this.avgkmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgkmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.avgkmLabel.ForeColor = System.Drawing.Color.White;
-            this.avgkmLabel.Location = new System.Drawing.Point(171, 348);
-            this.avgkmLabel.Name = "avgkmLabel";
-            this.avgkmLabel.Size = new System.Drawing.Size(118, 23);
-            this.avgkmLabel.TabIndex = 14;
-            this.avgkmLabel.Text = "00,0";
-            this.avgkmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // wattsLabel
             // 
@@ -948,7 +935,6 @@ namespace Doctor.Forms
             this.Controls.Add(this.kmhLabel);
             this.Controls.Add(this.avgwattsLabel);
             this.Controls.Add(this.wattsLabel);
-            this.Controls.Add(this.avgkmLabel);
             this.Controls.Add(this.kmLabel);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.label8);
@@ -998,7 +984,6 @@ namespace Doctor.Forms
         private System.Windows.Forms.Label statusLabel;
         public System.Windows.Forms.Label timeLabel;
         public System.Windows.Forms.Label kmLabel;
-        public System.Windows.Forms.Label avgkmLabel;
         public System.Windows.Forms.Label wattsLabel;
         public System.Windows.Forms.Label avgwattsLabel;
         public System.Windows.Forms.Label rpmLabel;

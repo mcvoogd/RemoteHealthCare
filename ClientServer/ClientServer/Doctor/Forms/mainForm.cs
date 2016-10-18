@@ -407,6 +407,43 @@ namespace Doctor.Forms
             rpmLabel.Text = m.Rotations.ToString();
             powerLabel.Text = m.Power.ToString();
             bpmLabel.Text = m.Pulse.ToString();
+
+            //AVG Power
+            double avg = 0;
+            foreach (DataPoint point in dataChart.Series["Power (Watts)"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg / dataChart.Series["Power (Watts)"].Points.Count;
+            avgpowerLabel.Text = ((int)avg).ToString();
+            avgwattsLabel.Text = ((int)avg).ToString();
+
+            //AVG RPM
+            avg = 0;
+            foreach (DataPoint point in dataChart.Series["RPM"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg/dataChart.Series["RPM"].Points.Count;
+            avgrpmLabel.Text = ((int)avg).ToString();
+
+            //AVG Km/h
+            avg = 0;
+            foreach (DataPoint point in dataChart.Series["Km/h"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg / dataChart.Series["Km/h"].Points.Count;
+            avgkmhLabel.Text = ((int)avg).ToString();
+
+            //AVG BPM
+            avg = 0;
+            foreach (DataPoint point in dataChart.Series["Pulse"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg / dataChart.Series["Pulse"].Points.Count;
+            avgbpmLabel.Text = ((int)avg).ToString();
         }
 
         public void FillPatientsToList()
@@ -631,7 +668,6 @@ namespace Doctor.Forms
             doc.DefaultPageSettings.Landscape = true;
             PrintPreviewDialog dialog = new PrintPreviewDialog();
             dialog.Document = doc;
-            // Show PrintPreview Dialog
             dialog.ShowDialog();
         }
 

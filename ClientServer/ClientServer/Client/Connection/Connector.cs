@@ -102,7 +102,7 @@ namespace Client.Connection
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine(exception.StackTrace);
+                        //Console.WriteLine(exception.StackTrace);
                         if (!_tcpClient.Connected)
                             Console.WriteLine("Client disconnected.");
                     }

@@ -76,7 +76,7 @@ namespace Server.Server
                     var id = readMessage.id;
                     dynamic data = readMessage.data;
 
-                    Console.WriteLine($"received:\n {readMessage}");
+//                    Console.WriteLine($"received:\n {readMessage}");
                     switch ((string) id)
                     {
                         case "message/send":

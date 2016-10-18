@@ -158,6 +158,9 @@ namespace Server.Server
                                 HandleNewHistoryItem(data);
                             }
                             break;
+                        case "change/resistance/sendList":
+                            ForwardMessage(data);
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;
@@ -466,12 +469,13 @@ namespace Server.Server
             string password = data.password;
             int clientid = data.clientid;
             bool isDoctorData = data.isDoctor;
-
+            bool isClientData = data.isClient;
             
             Console.WriteLine($"Name {username} | password {string.Concat(Enumerable.Repeat("*", password.Length))} | clientid {clientid}");
         
             if (_database.GetClientById(clientid) == null)
             {
+                Console.WriteLine("Login niet succesvol!");
                 return false; // Return false if client does not exist
             }
             //null == tunnelID. <VR>
@@ -480,7 +484,13 @@ namespace Server.Server
             {
                 IsDoctor = true;
             }
+            if (Client.IsDoctor != isDoctorData)
+            {
+                Console.WriteLine("Login niet succesvol!");
+                return false;
+            }
             Client.IsOnline = true;
+            Console.WriteLine("Login succesvol!");
             return true;
         }
 

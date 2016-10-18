@@ -613,6 +613,7 @@ namespace Doctor.Forms
             Training t = null;
             foreach (Training temp in trainings)
             {
+                Console.WriteLine("Selecting a training");
                 if (trainingComboBox.SelectedItem.Equals(temp.TrainingName))
                 {
                     t = temp;
@@ -620,6 +621,7 @@ namespace Doctor.Forms
             }
             if (t != null)
             {
+                Console.WriteLine("Sending a training");
                 List<dynamic> toSend = t.SendTraining();
                 dynamic message = new
                 {

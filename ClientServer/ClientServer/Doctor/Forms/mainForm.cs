@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -522,7 +523,12 @@ namespace Doctor.Forms
 
         private void printButton_Click(object sender, EventArgs e)
         {
-            this.dataChart.Printing.PrintPreview();
+            PrintDocument doc = dataChart.Printing.PrintDocument;
+            doc.DefaultPageSettings.Landscape = true;
+            PrintPreviewDialog dialog = new PrintPreviewDialog();
+            dialog.Document = doc;
+            // Show PrintPreview Dialog
+            dialog.ShowDialog();
         }
 
         private void brakeButton_Click(object sender, EventArgs e)

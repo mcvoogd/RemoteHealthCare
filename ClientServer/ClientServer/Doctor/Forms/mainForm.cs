@@ -67,7 +67,7 @@ namespace Doctor.Forms
             MakeChartSlider();
 
             trainings.Add(new Training());
-            updateTrainingBox();
+            UpdateTrainingBox();
             ResetAllCharts();
         }
 
@@ -610,10 +610,10 @@ namespace Doctor.Forms
         {
             //TODO Should work like this. I must test it
             //BUG: natuurlijk werkt het niet, je wilt een string casten naar een training?
+            //BUG: zou nu een training moeten sturen maar er komt niets aan.
             Training t = null;
             foreach (Training temp in trainings)
             {
-                Console.WriteLine("Selecting a training");
                 if (trainingComboBox.SelectedItem.Equals(temp.TrainingName))
                 {
                     t = temp;
@@ -621,7 +621,6 @@ namespace Doctor.Forms
             }
             if (t != null)
             {
-                Console.WriteLine("Sending a training");
                 List<dynamic> toSend = t.SendTraining();
                 dynamic message = new
                 {
@@ -631,15 +630,16 @@ namespace Doctor.Forms
                         toSend
                     }
                 };
-                _connector.SendMessage(GetMessageForServer(message));
+                _connector.SendMessage(message);
             }
             else
             {
-                Console.WriteLine("Nothing to send Boss!");
+                //TODO catch this nicely
+                Console.WriteLine("Nothing to send Boss.");
             }
         }
 
-        private void updateTrainingBox()
+        private void UpdateTrainingBox()
         {
             trainingComboBox.Items.Clear();
             foreach (Training t in trainings)

@@ -260,7 +260,7 @@ namespace Doctor.Classes
         {
             if ((_sslStream == null) || !_tcpClient.Connected) return;
 
-//            Console.WriteLine("sending message");
+            Console.WriteLine("sending message");
             message = JsonConvert.SerializeObject(message);
             var buffer = Encoding.Default.GetBytes(message);
             var bufferPrepend = BitConverter.GetBytes(buffer.Length);
@@ -268,7 +268,7 @@ namespace Doctor.Classes
             _sslStream.Write(bufferPrepend, 0, bufferPrepend.Length);
             _sslStream.Write(buffer, 0, buffer.Length);
             _sslStream.Flush();
-//            Console.WriteLine("Message send");
+            Console.WriteLine("Message send");
         }
 
         // Gets the first message from the buffer that isn't idicating the size

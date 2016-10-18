@@ -142,6 +142,9 @@ namespace Server.Server
                                 HandleNewHistoryItem(data);
                             }
                             break;
+                        case "change/resistance/sendList":
+                            ForwardMessage(data);
+                            break;
                         default:
                             Console.WriteLine("Id: " + id);
                             break;

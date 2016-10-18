@@ -101,7 +101,6 @@ namespace Client.Forms
 
         private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)
         {
-            Console.WriteLine("PAINT");
             usernameLabel.Text = name;
         }
 
@@ -109,7 +108,7 @@ namespace Client.Forms
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Wil je afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     _sendMessage(new

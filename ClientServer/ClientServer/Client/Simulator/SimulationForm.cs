@@ -11,7 +11,7 @@ namespace DataScreen.Forms
 
         public SimulationForm()
         {
-            _time = 120;
+            _time = 0;
             SimpleTime temp = new SimpleTime(_time/60, _time%60);
             Measurement = new Measurement(120, 100, 25, 50, _time*(25/3.6), 10.0/3600.0*_time*70.0,
                temp.Minutes, temp.Seconds , 500);

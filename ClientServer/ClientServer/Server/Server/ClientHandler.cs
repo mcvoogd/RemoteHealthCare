@@ -169,7 +169,7 @@ namespace Server.Server
                 }
                 catch (Exception e)
                 {
-                //   Console.WriteLine(e.StackTrace);
+                   Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
                     try
                     {
@@ -208,9 +208,8 @@ namespace Server.Server
         {
             int id = data.patient;
             var client = _database.Clients.Find(p => p.UniqueId == id);
-            List<Measurement> temp = new List<Measurement>();
-            temp.AddRange(client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsHistory(data.historyItem));
-            //Runtime binder exception. fix dat : bug : <-
+            var temp = new List<Measurement>();
+            temp.AddRange(client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsHistory((int)data.historyItem));
             SendMessage(new
             {
                 id = "get/patient/history/measurements",

@@ -28,7 +28,7 @@ namespace Doctor.Classes
         public bool UpdateRequired = true;
         public readonly List<Patient> CurrentPatients = new List<Patient>();
         public UpdateMessages UpdateMessages;
-        public bool receivedHistoryMeasurements;
+        public bool ReceivedHistoryMeasurements;
 
         public DoctorConnector()
         {
@@ -124,7 +124,7 @@ namespace Doctor.Classes
                                     {
                                         CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
                                     }
-                                    receivedHistoryMeasurements = true;
+                                    ReceivedHistoryMeasurements = true;
                             
                                     break;
                                 case "client/disconnect":
@@ -136,7 +136,7 @@ namespace Doctor.Classes
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine(exception.StackTrace);
+                   //     Console.WriteLine(exception.StackTrace);
                         if (!_tcpClient.Connected)
                             Console.WriteLine("Client disconnected.");
                     }

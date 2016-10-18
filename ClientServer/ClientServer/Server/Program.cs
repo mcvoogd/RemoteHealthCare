@@ -150,8 +150,9 @@ namespace Server
 
         private void CreateUser(bool doctor)
         {
-            var passwords = new string[2];
             var doctorid = 0;
+            string password = null;
+            string password2 = null;
 
             Console.WriteLine("new user...\nEnter a name: ");
             var name = Console.ReadLine();
@@ -174,12 +175,33 @@ namespace Server
             while (true)
             {
                 Console.WriteLine("Enter a password:");
-                passwords[0] = Console.ReadLine();
+                while (true)
+                {
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        Console.WriteLine();
+                        break;
+                    }
+                    password += key.KeyChar;
+                    Console.Write("*");
+                }
                 Console.WriteLine("Re-enter password:");
-                passwords[1] = Console.ReadLine();
-                if (passwords[0] == passwords[1]) break;
+                while (true)
+                {
+
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        Console.WriteLine();
+                        break;
+                    }
+                    password2 += key.KeyChar;
+                    Console.Write("*");
+                }
+                if (password == password2) break;
             }
-            var client = new Client(name,passwords[0],null,0,new TinyDataBase(), doctor,doctorid,false);//set online state to false.
+            var client = new Client(name,password,null,0,new TinyDataBase(), doctor,doctorid,false);//set online state to false.
             _tcpServer.DataBase.AddClient(client);
             Console.WriteLine("User created...");
         }

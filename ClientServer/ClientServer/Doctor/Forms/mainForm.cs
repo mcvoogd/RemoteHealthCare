@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -31,20 +32,25 @@ namespace Doctor.Forms
         private List<Patient> _patients = new List<Patient>();
         private readonly DoctorConnector _connector;
         private Measurement _lastMeasurement = new Measurement(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
         private List<HistoryItem> _currentHistoryItems = new List<HistoryItem>();
+        private SimpleTime endTime = new SimpleTime(0,0);
 
         public bool SessionStarted;
         public bool SessionStopped = true;
+        private bool _shownPopUp;
+        private bool _countTime = false;
 
         private bool _historyRequested = false;
 
         private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
 
+        public HistoryItem CurrentHistoryItem = new HistoryItem();
+
         public MainForm(DoctorConnector connector)
         {
             FormClosing += mainForm_FormClosing;
-
             _updateMessages = UpdateMessagesDelegate;
             _connector = connector;
             _connector.UpdateMessages = UpdateMessages;
@@ -58,6 +64,7 @@ namespace Doctor.Forms
             Fonts();
             AddSplitButton();
             MakeChartSlider();
+            ResetAllCharts();
         }
 
         private void UpdateMessages(Message message)
@@ -197,6 +204,13 @@ namespace Doctor.Forms
         {
             if(!Visible)return;
             currentTimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+            if (_countTime)
+            {
+                endTime.Seconds++;
+                if (endTime.Seconds != 60) return;
+                endTime.Minutes++;
+                endTime.Seconds = 0;
+            }
         }
 
         private void UpdateDataLive_Tick(object sender, EventArgs e)
@@ -249,7 +263,7 @@ namespace Doctor.Forms
                     });
                     _historyRequested = true;
                 }
-                if (_connector.receivedHistoryMeasurements)
+                if (_connector.ReceivedHistoryMeasurements)
                 {
                     ResetAllCharts();
                     if (_connector.CurrentPatientMeasurements.Count <= 0) return;
@@ -258,7 +272,7 @@ namespace Doctor.Forms
                     {
                         FillAllCharts(measurement);
                     }
-                    _connector.receivedHistoryMeasurements = false;
+                    _connector.ReceivedHistoryMeasurements = false;
                 }
                 var list = _connector.CurrentPatientHistoryItems;
                 if (historyListBox.Items.Count != list.Count && list.Count != 0)
@@ -273,6 +287,10 @@ namespace Doctor.Forms
                         index++;
                     }
                 }
+
+                if (historyListBox.Items.Count != 0 || _shownPopUp) return;
+                _shownPopUp = true;
+                MessageBox.Show(this, "Patient heeft geen historie!","Historie");
             }
             #endregion
         }
@@ -312,6 +330,7 @@ namespace Doctor.Forms
 
             _connector.SetCurrentPatient(_currentPatient);
             _historyRequested = false;
+            _shownPopUp = false;
             connectedLabel.Text = $"{_currentPatient.Name}";
         }
 
@@ -445,19 +464,34 @@ namespace Doctor.Forms
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            if (_currentPatient == null) return;
             if(!_currentPatient.IsOnline)return;
             if (SessionStarted) return;
+            CurrentHistoryItem.StartTime = new SimpleTime(0,0);
+            _countTime = true;
             SessionStarted = true;
             SessionStopped = false;
         }
 
         private void stopButton_Click(object sender, EventArgs e)
         {
+            if (_currentPatient == null) return;
             if (!_currentPatient.IsOnline) return;
             if (SessionStopped) return;
-            ResetAllCharts();
+            //ResetAllCharts();
+            _countTime = false;
+            CurrentHistoryItem.EndTime = endTime;
             SessionStopped = true;
             SessionStarted = false;
+            _connector.SendMessage(new
+            {
+                id = "new/history/item",
+                data = new
+                {
+                    id = _connector.CurrentPatient.ClientId,
+                    historyItem = CurrentHistoryItem
+                }
+            });
         }
 
         private void chatSendButton_Click(object sender, EventArgs e)
@@ -487,15 +521,25 @@ namespace Doctor.Forms
         {
             if (e.ClickedItem.Text == "Verzenden aan allen")
             {
-                //TODO for you Stefan.
+                _connector.SendMessage(new
+                {
+                   id = "broadcast",
+                   data = new
+                   {
+                       originid = ClientId,
+                       name = userLabel.Text,
+                       message = chatSendTextBox.Text
+                   }
+                });
             }
+            chatSendTextBox.Text = "";
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Wil je afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     _connector.SendMessage(new
@@ -522,7 +566,12 @@ namespace Doctor.Forms
 
         private void printButton_Click(object sender, EventArgs e)
         {
-            this.dataChart.Printing.PrintPreview();
+            PrintDocument doc = dataChart.Printing.PrintDocument;
+            doc.DefaultPageSettings.Landscape = true;
+            PrintPreviewDialog dialog = new PrintPreviewDialog();
+            dialog.Document = doc;
+            // Show PrintPreview Dialog
+            dialog.ShowDialog();
         }
 
         private void brakeButton_Click(object sender, EventArgs e)

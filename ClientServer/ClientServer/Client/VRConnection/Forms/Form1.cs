@@ -35,7 +35,7 @@ namespace Client.VRConnection.Forms.Program
                     this.Visible = false;
                     Tunnel = new Tunnel(_connection, name);
                     Tunnel.CreateScene();
-                    //Tunnel.CreateProps();
+                    Tunnel.CreateProps();
                     this.Dispose();
                 }
             }

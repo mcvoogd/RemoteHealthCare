@@ -47,11 +47,6 @@ namespace Doctor.Forms
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine4 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 5D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3D, 7D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4D, 6D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(24D, 80D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.currentTimeLabel = new System.Windows.Forms.Label();
@@ -422,7 +417,7 @@ namespace Doctor.Forms
             this.clientListBox.ItemHeight = 24;
             this.clientListBox.Location = new System.Drawing.Point(12, 104);
             this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(284, 96);
+            this.clientListBox.Size = new System.Drawing.Size(284, 72);
             this.clientListBox.TabIndex = 26;
             this.clientListBox.DoubleClick += new System.EventHandler(this.clientListBox_DoubleClick_1);
             // 
@@ -557,6 +552,7 @@ namespace Doctor.Forms
             this.userLabel.TabIndex = 30;
             this.userLabel.Text = "user";
             this.userLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.userLabel.Click += new System.EventHandler(this.userLabel_Click);
             // 
             // connectedLabel
             // 
@@ -716,23 +712,13 @@ namespace Doctor.Forms
             series6.Legend = "Legend1";
             series6.MarkerColor = System.Drawing.Color.White;
             series6.Name = "Height";
-            dataPoint1.LabelBackColor = System.Drawing.Color.White;
-            dataPoint2.LabelBackColor = System.Drawing.Color.White;
-            dataPoint3.LabelBackColor = System.Drawing.Color.White;
-            dataPoint4.LabelBackColor = System.Drawing.Color.White;
-            dataPoint5.LabelBackColor = System.Drawing.Color.White;
-            series6.Points.Add(dataPoint1);
-            series6.Points.Add(dataPoint2);
-            series6.Points.Add(dataPoint3);
-            series6.Points.Add(dataPoint4);
-            series6.Points.Add(dataPoint5);
             series6.SmartLabelStyle.CalloutLineColor = System.Drawing.Color.White;
             this.progressChart.Series.Add(series6);
             this.progressChart.Size = new System.Drawing.Size(586, 182);
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
             this.progressChart.AnnotationPositionChanged += new System.EventHandler(this.progressChart_AnnotationPositionChanged);
-            this.progressChart.AnnotationPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs>(this.progressChart_AnnotationPositionChanging);
+            this.progressChart.Click += new System.EventHandler(this.progressChart_Click);
             // 
             // trainingComboBox
             // 
@@ -871,7 +857,7 @@ namespace Doctor.Forms
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
             this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.historyListBox.Name = "historyListBox";
-            this.historyListBox.Size = new System.Drawing.Size(291, 96);
+            this.historyListBox.Size = new System.Drawing.Size(291, 72);
             this.historyListBox.TabIndex = 52;
             this.historyListBox.DoubleClick += new System.EventHandler(this.historyListBox_DoubleClick);
             // 

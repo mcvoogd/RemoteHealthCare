@@ -34,6 +34,7 @@ namespace Client
                 // Console app
                 System.Environment.Exit(1);
             }
+            //Cas bug: wtf doe je hier?
         }
     }
 }

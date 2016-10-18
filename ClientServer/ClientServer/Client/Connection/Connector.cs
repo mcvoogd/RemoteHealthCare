@@ -54,7 +54,7 @@ namespace Client.Connection
 
                         var resultMessage = GetMessageFromBuffer(_messageBuffer, packetLength);
                         dynamic readMessage = JsonConvert.DeserializeObject(resultMessage);
-                        Console.WriteLine("Read: " + resultMessage);
+                        Console.WriteLine("Client Read: " + resultMessage);
                         if (readMessage == null)
                         {
                         }
@@ -120,36 +120,45 @@ namespace Client.Connection
 
         private void EmergencyBreak()
         {
-            RemoteHealthcare.Form1._tunnelCommandForm.ResetScene();
+            RemoteHealthcare.Form1.Tunnel.ResetScene();
         }
 
         public bool Connect(string serverIp, string username, string password, RemoteHealthcare remoteHealthcare)
         {
-            RemoteHealthcare = remoteHealthcare;
-
-            _tcpClient = new TcpClient(serverIp, 6969);
-            _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
-            _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
-
-            Login(username, password);
-
-            var receiveThread = new Thread(Receiver);
-            receiveThread.Start();
-
-            while (loginAccepted == 0)
+            try
             {
-            }
+                RemoteHealthcare = remoteHealthcare;
 
-            switch (loginAccepted)
-            {
-                case 1:
-                    loginAccepted = 0;
-                    return true;
-                case -1:
-                    loginAccepted = 0;
-                    return false;
+                _tcpClient = new TcpClient(serverIp, 6969);
+                _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
+                _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
+
+                Login(username, password);
+
+                var receiveThread = new Thread(Receiver);
+                receiveThread.Start();
+
+                while (loginAccepted == 0)
+                {
+                }
+
+                switch (loginAccepted)
+                {
+                    case 1:
+                        loginAccepted = 0;
+                        return true;
+                    case -1:
+                        loginAccepted = 0;
+                        return false;
+                }
+                return false;
             }
-            return false;
+            catch (Exception exception)
+            {
+                //                Console.WriteLine(exception.StackTrace);
+                return false;
+            }
+            
         }
 
         public void SendStatistics(Measurement measurement)
@@ -192,7 +201,7 @@ namespace Client.Connection
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now,(string)data.name ,(string)data.message);
             return toSend;
         }
 

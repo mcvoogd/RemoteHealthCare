@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Forms;
-using Client.VRConnection.Forms.Program;
 using Client.VRConnection.VRObjects;
-using Panel = Client.VRConnection.VRObjects.Panel;
 
-namespace Client.VRConnection.Forms
+namespace Client.VRConnection.Forms.Program
 {
-    public partial class TunnelCommandForm : Form
+    public class Tunnel
     {
         public static AutoResetEvent Blocker;
         public Panel Panel { get; set; }
@@ -22,18 +19,16 @@ namespace Client.VRConnection.Forms
         private bool _send;
         private Skybox _skybox;
         private float _currentSpeed;
-
-        public TunnelCommandForm(VrConnection connection, string name)
+        public Tunnel(VrConnection connection, string name)
         {
-            InitializeComponent();
             Name = name;
             Blocker = new AutoResetEvent(false);
             _connection = connection;
+            Blocker.WaitOne(5000);
         }
-        
-        public string Name { get; set; }
 
-        private void createSceneButton_Click(object sender, EventArgs e)
+        public string Name { get; set; }
+        public void CreateScene()
         {
             _currentSpeed = 5f;
             _forest = new Forest();
@@ -47,6 +42,8 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
             PaintTerrain();
             Blocker.WaitOne(5000);
+            CreateSkybox();
+            Blocker.WaitOne(5000);
 
             CreateBike();
             Blocker.WaitOne(5000);
@@ -59,7 +56,31 @@ namespace Client.VRConnection.Forms
             CreatePanel();
             Blocker.WaitOne(5000);
             FollowCamera();
-           
+        }
+
+        private void CreateSkybox()
+        {
+            _connection.SendMessage(RequestCreater.TunnelSend(new
+            {
+                id = "scene/skybox/update",
+                data = new
+                {
+                    type = "static",
+                    files = new
+                    {
+                        xpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_ft.jpg",
+                        xneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_bk.jpg",
+                        ypos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_up.jpg",
+                        yneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_dn.jpg",
+                        zpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_rt.jpg",
+                        zneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_lf.jpg"
+                    }
+                }
+            }, _connection.TunnelId));
+        }
+
+        public void CreateProps()
+        {
             Blocker.WaitOne(5000);
             CreateWater();
             Blocker.WaitOne(5000);
@@ -86,7 +107,7 @@ namespace Client.VRConnection.Forms
 
         private void CreatePanel()
         {
-            Panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 2, 1, 2000, 1000, 1, 1, 1, 1,
+            Panel = new Panel("panel", 1, 0, 1.5, -0.5, 0, 0, 0, 2, 1, 1500, 750, 1, 1, 1, 1,
                 _connection.TunnelId, _connection.cameraID);
             _connection.SendMessage(Panel.ToSend);
             Blocker.WaitOne(5000);
@@ -96,7 +117,7 @@ namespace Client.VRConnection.Forms
             Panel.SwapPanel();
             _connection.SendMessage(Panel.ToSend);
             Blocker.WaitOne(5000);
-       }
+        }
 
         private void CreateRoad()
         {
@@ -133,12 +154,9 @@ namespace Client.VRConnection.Forms
 
             foreach (Punt point in _points)
             {
-                Blocker.WaitOne(5000);
                 _tree = new Node("tree", _connection.TunnelId, "data/NetworkEngine/models/trees/fantasy/tree2.obj",
-                    point.X, point.Z, point.Y, GetRandom());
+                    point.X, point.Z, point.Y, _random.NextDouble() * 0.6 + 1);
                 _connection.Nodes.Add(_tree);
-
-                Blocker.WaitOne(5000);
                 _connection.SendMessage(_tree.SendString);
             }
         }
@@ -149,26 +167,21 @@ namespace Client.VRConnection.Forms
 
             foreach (Punt point in _points)
             {
-                Blocker.WaitOne(5000);
                 _house = new Node("building", _connection.TunnelId, "data/NetworkEngine/models/houses/set1/house3.obj",
                     point.X, point.Z, point.Y, 8);
                 _connection.Nodes.Add(_house);
-
-                Blocker.WaitOne(5000);
                 _connection.SendMessage(_house.SendString);
             }
         }
 
         private void CreateWater()
         {
-            Blocker.WaitOne(5000);
             _water = new Node("water", _connection.TunnelId, 20, 2, 15, true);
             _connection.Nodes.Add(_water);
-
-            Blocker.WaitOne(5000);
             _connection.SendMessage(_water.SendString);
+            Blocker.WaitOne(5000);
         }
-        
+
         private void FollowRoad()
         {
 
@@ -183,8 +196,8 @@ namespace Client.VRConnection.Forms
                     offset = 0.0,
                     rotate = "XZ",
                     followHeight = true,
-                    rotateOffset = new[] {0, 0, 0},
-                    positionOffset = new[] {0, 0, 0}
+                    rotateOffset = new[] { 0, 0, 0 },
+                    positionOffset = new[] { 0, 0, 0 }
                 }
             }, _connection.TunnelId));
         }
@@ -198,7 +211,7 @@ namespace Client.VRConnection.Forms
                 {
                     id = _connection.cameraID,
                     parent = _bike.Uuid,
-                    transform = new {position = new[] {0, 50, 0}, scale = 75.0, rotation = new[] {0, 90, 0}}
+                    transform = new { position = new[] { 0, 50, 0 }, scale = 75.0, rotation = new[] { 0, 90, 0 } }
                 }
             }, _connection.TunnelId));
         }
@@ -212,19 +225,24 @@ namespace Client.VRConnection.Forms
                 {
                     id = _connection.PanelId,
                     parent = _connection.cameraID,
-                    transform = new {position = new[] {0, 1, -0.5}, scale = 0.29, rotation = new[] {-53, 0, 0}}
+                    transform = new { position = new[] { 0, 1, -0.5 }, scale = 0.29, rotation = new[] { -53, 0, 0 } }
                 }
             }, _connection.TunnelId));
         }
 
         public void DrawPanel(string textValue)
         {
-            int[] position = {100, 100};
-            double sizeValue = 32;
-            double[] color = {0, 0, 0, 1};
+            int[] position = { 0, 100 };
+            double sizeValue = 150;
+            double[] color = { 0, 0, 0, 1 };
             string fontValue = "segoeui";
-;
+            
+            if (Panel == null) return;
             Panel.ClearPanel();
+            _connection.SendMessage(Panel.ToSend);
+            Blocker.WaitOne(5000);
+
+            Panel.SetClearColor(new double[] { 1, 1, 1, 1 });
             _connection.SendMessage(Panel.ToSend);
             Blocker.WaitOne(5000);
 
@@ -237,38 +255,9 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
         }
 
-        public void DrawRipBackslashNPanel(string[] textValues)
-        {
-            int[] position = { 100, 100 };
-            double sizeValue = 64;
-            double[] color = { 0, 0, 0, 1 };
-            string fontValue = "segoeui";
-
-            if (Panel == null) return;
-            Panel.ClearPanel();
-            _connection.SendMessage(Panel.ToSend);
-
-            Panel.SetClearColor(new double[]{1,1,1,});
-            _connection.SendMessage(Panel.ToSend);
-            Blocker.WaitOne(5000);
-
-            foreach (var s in textValues)
-            {
-                Panel.DrawText(s, position, sizeValue, color, fontValue);
-                _connection.SendMessage(Panel.ToSend);
-
-                position[1] += 50;
-                Blocker.WaitOne(5000);
-            }
-
-            Panel.SwapPanel();
-            _connection.SendMessage(Panel.ToSend);
-
-        }
-
         private void DeletePane()
         {
-            
+
             if (!_send)
             {
                 _send = true;
@@ -326,7 +315,7 @@ namespace Client.VRConnection.Forms
                       fadeDist = 1
                   }
               }, _connection.TunnelId));
-           
+
             Blocker.WaitOne(5000);
 
             _connection.SendMessage(
@@ -347,29 +336,21 @@ namespace Client.VRConnection.Forms
             Blocker.WaitOne(5000);
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            if (_skybox == null)
-                _skybox = new Skybox("skybox", _connection.TunnelId);
-            double time = SetTime.Value/4.0f;
-            _connection.SendMessage(_skybox.SetTime(time));
-        }
-
         public void UpdateSpeed(float speed)
         {
             speed /= 5f;
-            if ((int) _currentSpeed == (int) speed) return;
+            if ((int)_currentSpeed == (int)speed) return;
             float difSpeed = speed - _currentSpeed;
 
             for (int i = 0; i < 2; i++)
             {
                 if (difSpeed < 0)
                 {
-                    _currentSpeed -= difSpeed/2;
+                    _currentSpeed -= difSpeed / 2;
                 }
                 else
                 {
-                    _currentSpeed += difSpeed/2;
+                    _currentSpeed += difSpeed / 2;
                 }
 
                 _connection.SendMessage(RequestCreater.TunnelSend(new
@@ -415,12 +396,12 @@ namespace Client.VRConnection.Forms
                     type = "static",
                     files = new
                     {
-                        xpos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        xneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        ypos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        yneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        zpos = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png",
-                        zneg = "data/networkengine/textures/skyboxes/interstellar/interstellar_dn.png"
+                        xpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_rt.png",
+                        xneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_lf.png",
+                        ypos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_up.png",
+                        yneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_dn.png",
+                        zpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_bk.png",
+                        zneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_ft.png"
 
                     }
                 }
@@ -429,13 +410,5 @@ namespace Client.VRConnection.Forms
 
 
         }
-
-        private Double GetRandom()
-        {
-            return _random.NextDouble()*0.6 + 1;
-        }
-
-
-
     }
 }

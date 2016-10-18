@@ -28,6 +28,7 @@ namespace Doctor.Classes
         public bool UpdateRequired = true;
         public readonly List<Patient> CurrentPatients = new List<Patient>();
         public UpdateMessages UpdateMessages;
+        public bool receivedHistoryMeasurements;
 
         public DoctorConnector()
         {
@@ -42,12 +43,12 @@ namespace Doctor.Classes
         {
             var message = new byte[1024];
             var sizeBuffer = new byte[4];
-
             try
             {
                 while (_tcpClient.Connected)
                     try
                     {
+                        Console.WriteLine("RECIEVING DATA IN DOCTOR!!!! :D");
                         var numberOfBytesRead = _sslStream.Read(message, 0, message.Length);
                         _messageBuffer = ConCat(_messageBuffer, message, numberOfBytesRead);
 
@@ -65,7 +66,7 @@ namespace Doctor.Classes
                         {
                             string id = readMessage.id;
                             dynamic data = readMessage.data;
-                            Console.WriteLine("Recieved ID : " + id);
+                            Console.WriteLine(" Doctor Recieved ID : " + id);
                             switch (id)
                             {
                                 case "get/patients":
@@ -96,7 +97,7 @@ namespace Doctor.Classes
 
                                     break;
                                 case "message/send":
-                                    Console.WriteLine($"DOCTOR: received message:\n {data}");
+                                   // Console.WriteLine($"DOCTOR: received message:\n {data}");
                                     MessageList.Add(ParseMessage(data));
                                     UpdateMessages(ParseMessage(data));
                                     SendMessage(new
@@ -109,20 +110,22 @@ namespace Doctor.Classes
                                     });
                                     break;
                                 case "get/patient/history":
-                                    if(CurrentPatientHistoryItems.Count == data.history.Count) return;
+                                    if(CurrentPatientHistoryItems.Count == data.history.Count) break;
                                     for (var i = 0; i < data.history.Count; i++)
                                     {
                                         CurrentPatientHistoryItems.Add(new HistoryItem(
                                             new SimpleTime((int)data.history[i].StartTime.Minutes, (int)data.history[i].StartTime.Seconds), 
                                             new SimpleTime((int)data.history[i].EndTime.Minutes, (int)data.history[i].EndTime.Seconds)));
                                     }
-                                    
                                     break;
                                 case "get/patient/history/measurements":
+                                    CurrentPatientMeasurements.Clear();
                                     for (var i = 0; i < data.measurements.Count; i++)
                                     {
                                         CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
                                     }
+                                    receivedHistoryMeasurements = true;
+                            
                                     break;
                                 case "client/disconnect":
                                     _sslStream.Close();
@@ -163,39 +166,48 @@ namespace Doctor.Classes
 
         public bool Connect(string serverIp, string username, string password)
         {
-            _tcpClient = new TcpClient(serverIp, 6969);
-            _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
-            _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
-
-            Login(username, password);
-
-            var receiveThread = new Thread(Receiver);
-            receiveThread.Start();
-
-            while (_loginAccepted == 0)
+            try
             {
-            }
+                _tcpClient = new TcpClient(serverIp, 6969);
+                _sslStream = new SslStream(_tcpClient.GetStream(), false, (a, b, c, d) => true, null);
+                _sslStream.AuthenticateAsClient(_tcpClient.Client.AddressFamily.ToString());
 
-            switch (_loginAccepted)
-            {
-                case 1:
-                    _loginAccepted = 0;
+                Login(username, password);
 
-                    SendMessage(new
-                    {
-                        id = "get/patients",
-                        data = new
+                var receiveThread = new Thread(Receiver);
+                receiveThread.Start();
+
+                while (_loginAccepted == 0)
+                {
+                }
+
+                switch (_loginAccepted)
+                {
+                    case 1:
+                        _loginAccepted = 0;
+
+                        SendMessage(new
                         {
-                            patientList = new List<Patient>() { new Patient(0,false,"0")}
-                        }
-                    });
-                    Console.WriteLine("Send Message...");
-                    return true;
-                case -1:
-                    _loginAccepted = 0;
-                    return false;
+                            id = "get/patients",
+                            data = new
+                            {
+                                patientList = new List<Patient>() {new Patient(0, false, "0")}
+                            }
+                        });
+                        Console.WriteLine("Send Message...");
+                        return true;
+                    case -1:
+                        _loginAccepted = 0;
+                        return false;
+                }
+                return false;
             }
-            return false;
+            catch (Exception exception)
+            {
+                //                Console.WriteLine(exception.StackTrace);
+                return false;
+            }
+            
         }
 
         private void Login(string username, string password)
@@ -220,11 +232,12 @@ namespace Doctor.Classes
         public void SetCurrentPatient(Patient patient)
         {
             CurrentPatient = patient;
+            CurrentPatientHistoryItems.Clear();
         }
 
         public Message ParseMessage(dynamic data)
         {
-            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.message);
+            var toSend = new Message((int)data.targetid, (int)data.originid, DateTime.Now, (string)data.name,(string)data.message);
             return toSend;
         }
 

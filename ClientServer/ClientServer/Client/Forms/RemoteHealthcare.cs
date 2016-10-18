@@ -90,11 +90,13 @@ namespace Client.Forms
                 {
                     message = messageTextBox.Text,
                     originid = ConnectionId,
-                    targetid = 0 // TODO: send the id of the doctor to the client
+                    name = usernameLabel.Text,
+                    targetid = 0 // the destination is determined in the server
                 }
             });
-            chatTextBox.Text += $"{DateTime.Now:t}-{ConnectionId}: {messageTextBox.Text}\n";
-            AddMessage(new Message(0,ConnectionId,new DateTime(),messageTextBox.Text));
+            chatTextBox.Text += $"{DateTime.Now:t}--{usernameLabel.Text}: {messageTextBox.Text}\n";
+            AddMessage(new Message(0,ConnectionId,DateTime.Now,usernameLabel.Text,messageTextBox.Text));
+            messageTextBox.Text = "";
         }
 
         private void RemoteHealthcare_Paint(object sender, PaintEventArgs e)
@@ -166,24 +168,10 @@ namespace Client.Forms
             Measurements.Add(measurement);
             _sendStatistics(measurement);
 
-            if (Form1._tunnelCommandForm == null || Form1._tunnelCommandForm.Panel == null) return;
-            // Form1._tunnelCommandForm.DrawPanel(measurement.ToString());
+            if (Form1.Tunnel == null || Form1.Tunnel.Panel == null) return;
+            Form1.Tunnel.DrawPanel(measurement.BackSlashNToString());
 
-            //Voor als Johan /n niet werkend heeft gekregen.
-            string[] textValues =
-            {
-                $"Time : {measurement.Time}",
-                $"Speed : {measurement.Speed} Km/h",
-                $"Distance : {measurement.Distance:##.00} m",
-                $"Pulse : {measurement.Pulse} BPM",
-                $"Burned : {measurement.Burned:##.00} Kcal",
-                $"Rotations : {measurement.Rotations} RPM",
-                $"Power : {measurement.Power} Watt",
-                $"ReachedPower : {measurement.ReachedPower} Watt"
-            };
-            Form1._tunnelCommandForm.DrawRipBackslashNPanel(textValues);
-
-            //Form1._tunnelCommandForm.UpdateSpeed(measurement.Speed);
+           // Form1.Tunnel.UpdateSpeed(measurement.Speed);
         }
 
 
@@ -192,7 +180,15 @@ namespace Client.Forms
             chatTextBox.Text = "";
             foreach (var message in _messages)
             {
-                chatTextBox.Text += $"\n{message.Time:t}-{message.Sender}: {message.MessageValue}";
+                if (message.Sender == ConnectionId)
+                {
+                    chatTextBox.Text += $"\n{message.Time:t}--{name}: {message.MessageValue}";
+                }
+                else
+                {
+                    chatTextBox.Text += $"\n{message.Time:t}--{message.Name}: {message.MessageValue}";
+                }
+
             }
         }
 

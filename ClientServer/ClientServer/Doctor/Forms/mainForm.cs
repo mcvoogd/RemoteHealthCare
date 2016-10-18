@@ -22,8 +22,8 @@ namespace Doctor.Forms
         private FontFamily _goodTimes;
         
         private ChartArea _chartHeight;
-        private Series _serieHeight;
         private VerticalLineAnnotation _verticalLine;
+        private Series _serieHeight;
         private RectangleAnnotation _rectangle;
 
         public int ClientId { get; set; }
@@ -35,6 +35,8 @@ namespace Doctor.Forms
 
         public bool SessionStarted;
         public bool SessionStopped = true;
+
+        private bool _historyRequested = false;
 
         private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
@@ -69,7 +71,7 @@ namespace Doctor.Forms
 
         private void UpdateMessagesDelegate(Message message)
         {
-            chatReceiveTextBox.Text += $"{message.Time:t}-{message.Sender}: {message.MessageValue}\n";
+            chatReceiveTextBox.Text += $"{message.Time:t}--{message.Name}: {message.MessageValue}\n";
 
             chatReceiveTextBox.SelectionStart = chatReceiveTextBox.TextLength;
             chatReceiveTextBox.ScrollToCaret();
@@ -133,40 +135,20 @@ namespace Doctor.Forms
                 Height = 8*yFactor
             };
 
-            _verticalLine.Name = "myRect";
-            _rectangle.LineColor = Color.Red;
-            _rectangle.BackColor = Color.Red;
-            _rectangle.AxisY = _chartHeight.AxisY;
-            _rectangle.Y = -_rectangle.Height;
-            _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
-
-            _rectangle.Text = "Cliënt";
-            _rectangle.ForeColor = Color.White;
-            _rectangle.Font = new System.Drawing.Font("Arial", 8f);
+            _verticalLine.Name = "line";
 
             progressChart.Annotations.Add(_verticalLine);
             //progressChart.Annotations.Add(_rectangle);
         }
 
-        private void progressChart_AnnotationPositionChanging(object sender, AnnotationPositionChangingEventArgs e)
-        {
-            // move the rectangle with the line
-            if (sender == _verticalLine) _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
-
-            // display the current Y-value
-            int pt1 = (int)e.NewLocationX;
-            //double step = (_serieHeight.Points[pt1 + 1].YValues[0] - _serieHeight.Points[pt1].YValues[0]);
-            //double deltaX = e.NewLocationX - _serieHeight.Points[pt1].XValue;
-            //double val = _serieHeight.Points[pt1].YValues[0] + step * deltaX;
-            //progressChart.Titles[0].Text = $"X = {e.NewLocationX:0.00}   Y = {val:0.00}";
-            //_rectangle.Text = $"{val:0.00}";
-            progressChart.Update();
-        }
-
         private void progressChart_AnnotationPositionChanged(object sender, EventArgs e)
         {
-            _verticalLine.X = (int)(_verticalLine.X + 0.5);
-            _rectangle.X = _verticalLine.X - _rectangle.Width / 2;
+            if (_verticalLine.X > progressChart.Series[0].Points[progressChart.Series[0].Points.Count -1].XValue)
+                _verticalLine.X = progressChart.Series[0].Points[progressChart.Series[0].Points.Count - 1].XValue;
+            else if (_verticalLine.X < progressChart.Series[0].Points[0].XValue)
+                _verticalLine.X = progressChart.Series[0].Points[0].XValue;
+            else
+                _verticalLine.X = (int)(_verticalLine.X + 0.5);
         }
         private void AddSplitButton()
         {
@@ -234,6 +216,7 @@ namespace Doctor.Forms
                 }
             });
             if (_currentPatient == null) return; //patient cant be null and must be online to show live data.
+            #region Online case.
             if (_currentPatient.IsOnline)
             {
                 if (!SessionStarted) return;
@@ -245,7 +228,7 @@ namespace Doctor.Forms
                         clientId = _currentPatient.ClientId
                     }
                 });
-
+                //tot else is correct.
                 if (_connector.GetMostRecentMeasurement() == null) return;
                 var tempMeasurement = _connector.GetMostRecentMeasurement();
                 if (tempMeasurement.Equals(_lastMeasurement)) return;
@@ -253,19 +236,38 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
+            #endregion
+            #region Offline case
             else
             {
-                _connector.SendMessage(new
+                //bug : this breaks everything.
+                if (!_historyRequested)
                 {
-                    id = "get/patient/history",
-//                    data = new
-//                    {
-//                        clientId = _currentPatient.ClientId
-//                    }
-                });
+                    _connector.CurrentPatientMeasurements.Clear();
+                    _connector.SendMessage(new
+                    {
+                        id = "get/patient/history",
+                        data = new {
+                        patient = _connector.CurrentPatient.ClientId
+                    }
+                    });
+                    _historyRequested = true;
+                }
+                if (_connector.receivedHistoryMeasurements)
+                {
+                    ResetAllCharts();
+                    if (_connector.CurrentPatientMeasurements.Count <= 0) return;
+                    var measurements = new List<Measurement>(_connector.CurrentPatientMeasurements);
+                    foreach (var measurement in measurements)
+                    {
+                        FillAllCharts(measurement);
+                    }
+                    _connector.receivedHistoryMeasurements = false;
+                }
                 var list = _connector.CurrentPatientHistoryItems;
                 if (historyListBox.Items.Count != list.Count && list.Count != 0)
                 {
+                    _currentHistoryItems.Clear();
                     historyListBox.Items.Clear();
                     int index = 1;
                     foreach (var historyItem in list)
@@ -275,9 +277,8 @@ namespace Doctor.Forms
                         index++;
                     }
                 }
-
-                
             }
+            #endregion
         }
 
         public void FillAllCharts(Measurement tempMeasurement)
@@ -308,9 +309,23 @@ namespace Doctor.Forms
 
         private void clientListBox_DoubleClick_1(object sender, EventArgs e)
         {
+            ResetGui();
+//            _connector.SetCurrentPatient(null); // to reset user, dont know if needed. just for test.
             _currentPatient = (Patient)clientListBox.SelectedItem;
             if (_currentPatient == null) return;
-                _connector.SetCurrentPatient(_currentPatient);
+
+            _connector.SetCurrentPatient(_currentPatient);
+            _historyRequested = false;
+            connectedLabel.Text = $"{_currentPatient.Name}";
+        }
+
+        public void ResetGui()
+        {
+            ResetAllCharts();
+            _currentHistoryItems.Clear();
+            historyListBox.Items.Clear();
+            SessionStarted = false;
+            SessionStopped = true;
         }
     
         public void SetAllMeasurementData(Measurement m)
@@ -457,7 +472,7 @@ namespace Doctor.Forms
                 return;
             }
 
-            chatReceiveTextBox.Text += $"{DateTime.Now:t}Ik: {chatSendTextBox.Text}\n"; 
+            chatReceiveTextBox.Text += $"{DateTime.Now:t}--{userLabel.Text}: {chatSendTextBox.Text}\n"; 
             _connector.SendMessage(new
             {
                 id = "message/send",
@@ -465,6 +480,7 @@ namespace Doctor.Forms
                 {
                     targetid = _currentPatient.ClientId,
                     originid = ClientId,
+                    name = userLabel.Text,
                     message = chatSendTextBox.Text
                 }
             });
@@ -517,7 +533,7 @@ namespace Doctor.Forms
         {
             _connector.SendMessage(new
             {
-                id = "bike/break",
+                 id = "bike/break",
                  data = new
                  {
                      targetid = _currentPatient.ClientId,
@@ -538,17 +554,13 @@ namespace Doctor.Forms
                     historyItem = historyListBox.SelectedIndex
                 }
             });
-            if (_connector.CurrentPatientMeasurements.Count <= 0) return;
-            ResetAllCharts();
-            foreach (var connectorCurrentPatientMeasurement in _connector.CurrentPatientMeasurements)
-            {
-                FillAllCharts(connectorCurrentPatientMeasurement);
-            }
+            
         }
 
         private void trainingComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //TODO Should work like this. I must test it
+            //BUG: natuurlijk werkt het niet, je wilt een string casten naar een training?
             Training t = (Training)trainingComboBox.SelectedItem;
             List<dynamic> toSend = t.SendTraining();
             dynamic message = new
@@ -560,6 +572,16 @@ namespace Doctor.Forms
                 }
             };
             _connector.SendMessage(GetMessageForServer(message));
+        }
+
+        private void userLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressChart_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

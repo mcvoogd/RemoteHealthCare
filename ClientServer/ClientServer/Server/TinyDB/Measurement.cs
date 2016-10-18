@@ -81,19 +81,6 @@ namespace Server.TinyDB
             return obj is SimpleTime && Equals((SimpleTime) obj);
         }
 
-        public bool Equals(SimpleTime other)
-        {
-            return (Minutes == other.Minutes) && (Seconds == other.Seconds);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (Minutes*397) ^ Seconds;
-            }
-        }
-
         public int Minutes;
         public int Seconds;
 

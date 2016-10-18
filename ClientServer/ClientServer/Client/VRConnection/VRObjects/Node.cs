@@ -170,7 +170,7 @@ namespace Client.VRConnection.VRObjects
                         },
                         water = new
                         {
-                            size = new[] {120, 120},
+                            size = new[] {80, 107},
                             resolution = 0.1
                         }
                     }

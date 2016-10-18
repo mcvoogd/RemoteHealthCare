@@ -10,8 +10,7 @@ namespace Client.VRConnection.Forms.Program
         private readonly List<Client> _clients = new List<Client>();
         private readonly VrConnection _connection;
         private int _selectedIndex;
-
-        public TunnelCommandForm _tunnelCommandForm { get; set; }
+        public Tunnel Tunnel { get; set; }
 
         public Form1()
         {
@@ -33,8 +32,11 @@ namespace Client.VRConnection.Forms.Program
                     var request = "{\"id\" : \"tunnel/create\", \"data\" : { \"session\" : \"" + clientId +
                                   "\", \"key\" : \"NotConCat\" } }";
                     _connection.SendMessage(request);
-                    _tunnelCommandForm = new TunnelCommandForm(_connection, name);
-                    _tunnelCommandForm.Show();
+                    this.Visible = false;
+                    Tunnel = new Tunnel(_connection, name);
+                    Tunnel.CreateScene();
+                    //Tunnel.CreateProps();
+                    this.Dispose();
                 }
             }
         }

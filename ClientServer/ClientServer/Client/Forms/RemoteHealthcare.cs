@@ -11,6 +11,10 @@ using Client.VRConnection.Forms.Program;
 using DataScreen.Forms;
 using Message = Client.Connection.Message;
 using Timer = System.Timers.Timer;
+using System.Runtime.InteropServices;
+using Client.Properties;
+using System.Drawing.Text;
+using System.Drawing;
 
 namespace Client.Forms
 {
@@ -30,6 +34,8 @@ namespace Client.Forms
         private readonly SendStatistics _sendStatistics;
         private readonly RefreshMessageDelegate _refreshMessage;
 
+        private FontFamily _goodTimes;
+
         public Form1 Form1 { get; set; }
 
         public RemoteHealthcare(SendMessage sendMessage, SendStatistics sendStatistics, int connectionId)
@@ -45,11 +51,14 @@ namespace Client.Forms
             Paint += RemoteHealthcare_Paint;
             Measurements = new List<Measurement>();
 
+            CargoPrivateFontCollection();
+            Fonts();
+
             PortStrings = SerialPort.GetPortNames();
             foreach (var port in PortStrings)
                 comportBox.Items.Add(port);
             comportBox.Items.Add("Simulation");
-
+            connectStatusLabel.ForeColor = Color.Green;
             connectStatusLabel.Text = "Connected";
             timer1.Start();
         }
@@ -60,6 +69,43 @@ namespace Client.Forms
         public string[] PortStrings { get; }
         public DataReceiver DataReceiver { get; set; }
         public List<Measurement> Measurements { get; set; }
+
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
+
+        private void CargoPrivateFontCollection()
+        {
+            // Create the byte array and get its length
+
+            var fontArray = Resources.good_times;
+            var dataLength = Resources.good_times.Length;
+
+            // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
+            var ptrData = Marshal.AllocCoTaskMem(dataLength);
+            Marshal.Copy(fontArray, 0, ptrData, dataLength);
+
+            uint cFonts = 0;
+            AddFontMemResourceEx(ptrData, (uint)fontArray.Length, IntPtr.Zero, ref cFonts);
+
+            var pfc = new PrivateFontCollection();
+            //PASS THE FONT TO THE  PRIVATEFONTCOLLECTION OBJECT
+            pfc.AddMemoryFont(ptrData, dataLength);
+
+            //FREE THE  "UNSAFE" MEMORY
+            Marshal.FreeCoTaskMem(ptrData);
+
+            _goodTimes = pfc.Families[0];
+        }
+
+        private void Fonts()
+        {
+            connectStatusLabel.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            usernameLabel.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font(_goodTimes, 15F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
+            label2.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular | FontStyle.Regular, GraphicsUnit.Point, 0);
+            comPortConnectButton.Font = new Font(_goodTimes, 7.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            sendButton.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        }
 
         public void AddMessageMethod(string message)
         {

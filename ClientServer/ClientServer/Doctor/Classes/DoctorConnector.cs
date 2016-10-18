@@ -17,7 +17,7 @@ namespace Doctor.Classes
     {
         public List<Message> MessageList { get; set; }
         public Patient CurrentPatient;
-        public List<HistoryItem> CurrentPatientHistoryItems = new List<HistoryItem>();
+        public int CurrentPatientHistoryCount = 0;
         public List<Measurement> CurrentPatientMeasurements = new List<Measurement>();
         public readonly List<Patient> PatientesList = new List<Patient>();
         private int _loginAccepted;
@@ -108,13 +108,8 @@ namespace Doctor.Classes
                                     });
                                     break;
                                 case "get/patient/history":
-                                    if(CurrentPatientHistoryItems.Count == data.history.Count) break;
-                                    for (var i = 0; i < data.history.Count; i++)
-                                    {
-                                        CurrentPatientHistoryItems.Add(new HistoryItem(
-                                            new SimpleTime((int)data.history[i].StartTime.Minutes, (int)data.history[i].StartTime.Seconds), 
-                                            new SimpleTime((int)data.history[i].EndTime.Minutes, (int)data.history[i].EndTime.Seconds)));
-                                    }
+                                    CurrentPatientHistoryCount = data.history;
+                                    //
                                     break;
                                 case "get/patient/history/measurements":
                                     CurrentPatientMeasurements.Clear();
@@ -231,7 +226,7 @@ namespace Doctor.Classes
         public void SetCurrentPatient(Patient patient)
         {
             CurrentPatient = patient;
-            CurrentPatientHistoryItems.Clear();
+            CurrentPatientHistoryCount = 0;
         }
 
         public Message ParseMessage(dynamic data)

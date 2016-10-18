@@ -291,7 +291,7 @@ namespace Doctor.Forms
             else
             {
                 //bug : this breaks everything.
-                if (!_historyRequested)
+                if (true) // More testing Doctor seemed to never send this message somehow...
                 {
                     _connector.CurrentPatientMeasurements.Clear();
                     _connector.SendMessage(new
@@ -315,17 +315,13 @@ namespace Doctor.Forms
                     }
                     _connector.ReceivedHistoryMeasurements = false;
                 }
-                var list = _connector.CurrentPatientHistoryItems;
-                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                var existingCount = _connector.CurrentPatientHistoryCount;
+                if (true) // Testing stuff...
                 {
-                    _currentHistoryItems.Clear();
                     historyListBox.Items.Clear();
-                    int index = 1;
-                    foreach (var historyItem in list)
+                    for (int i = 0; i < existingCount; i++)
                     {
-                        historyListBox.Items.Add($"Training {index}");
-                        _currentHistoryItems.Add(historyItem);
-                        index++;
+                        historyListBox.Items.Add($"Training {i+1}");
                     }
                     if (historyListBox.Items.Count != 0 || _shownPopUp) return;
                     _shownPopUp = true;

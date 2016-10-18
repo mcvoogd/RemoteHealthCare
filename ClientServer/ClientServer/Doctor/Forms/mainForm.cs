@@ -624,7 +624,7 @@ namespace Doctor.Forms
                 data = new
                 {
                     patient = _currentPatient.ClientId,
-                    historyItem = historyListBox.SelectedIndex
+                    historyItem = historyListBox.SelectedIndex,
                 }
             });
             

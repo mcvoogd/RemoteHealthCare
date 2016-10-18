@@ -17,6 +17,16 @@ namespace Doctor.Classes
             TrainingName = name;
         }
 
+        public Training()
+        {
+            TrainingName = "Dummy";
+            AddStep(100, 60);
+            AddStep(200, 30);
+            AddStep(150, 30);
+            AddStep(300, 120);
+            AddStep(50, 60);
+        }
+
         public List<dynamic> SendTraining()
         {
             List<dynamic> toSend = new List<dynamic>();

@@ -89,6 +89,7 @@ namespace Client.Connection
                                     break;
                                 case "change/resistance/sendList":
                                     RemoteHealthcare.SendCommandToBike(data);
+                                    Console.WriteLine("HEllO");
                                     break;
                                 case "bike/break":
                                     EmergencyBreak();

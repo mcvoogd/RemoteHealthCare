@@ -23,7 +23,7 @@ namespace Server.BigDB
             if (!alreadyThere) Clients.Add(client);
         }
 
-        #region saving and loading clients
+#region saving and loading clients
 
         public void SaveClients(string filePath)
         {
@@ -36,9 +36,9 @@ namespace Server.BigDB
             ReadFromJsonFile(filePath);
         }
 
-        #endregion
+#endregion
 
-        #region GetClientById methods
+#region GetClientById methods
 
         public Client GetClientById(int id)
         {
@@ -62,9 +62,9 @@ namespace Server.BigDB
             return false;
         }
 
-        #endregion
+#endregion
 
-        #region JsonWrite and Read methods
+#region JsonWrite and Read methods
 
         private static void WriteToJsonFile<T>(string filePath, List<Client> clients, bool append = true)
         {
@@ -117,6 +117,6 @@ namespace Server.BigDB
             }
         }
 
-        #endregion
+#endregion
     }
 }

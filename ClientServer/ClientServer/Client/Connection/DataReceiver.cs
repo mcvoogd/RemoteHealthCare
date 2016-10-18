@@ -13,14 +13,14 @@ namespace Client.Connection
     {
         private readonly RemoteHealthcare _remoteHealthcare;
         private readonly SerialPort _serialPort;
-        private readonly SimulationForm _simulation;
+        public readonly SimulationForm Simulation;
         private readonly AddMeasurement _addMeasurement;
 
         public DataReceiver(SerialPort serialPort, RemoteHealthcare remoteHealthcare, AddMeasurement addMeasurement)
         {
             _remoteHealthcare = remoteHealthcare;
             _serialPort = serialPort;
-            _simulation = null;
+            Simulation = null;
             _addMeasurement = addMeasurement;
             SendCommand("RS\n\r", serialPort);
         }
@@ -29,7 +29,7 @@ namespace Client.Connection
         {
             _remoteHealthcare = remoteHealthcare;
             _serialPort = null;
-            _simulation = simulation;
+            Simulation = simulation;
             _addMeasurement = addMeasurement;
         }
 
@@ -37,14 +37,14 @@ namespace Client.Connection
         {
             while (_remoteHealthcare.Visible)
             {
-                if (_simulation != null)
+                if (Simulation != null)
                 {
-                    if (!_simulation.Visible) return;
+                    if (!Simulation.Visible) return;
 
-                    _addMeasurement(_simulation.Measurement);
+                    _addMeasurement(Simulation.Measurement);
 
                     Thread.Sleep(1000);
-                    _simulation.UpdateSim();
+                    Simulation.UpdateSim();
                 }
                 else if ((_serialPort != null) && _serialPort.IsOpen)
                 {

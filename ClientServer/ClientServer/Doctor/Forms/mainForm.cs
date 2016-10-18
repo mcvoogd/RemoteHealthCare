@@ -69,6 +69,8 @@ namespace Doctor.Forms
             trainings.Add(new Training());
             UpdateTrainingBox();
             ResetAllCharts();
+
+            statusLabel.Text = "Selecteer cliënt";
         }
 
         private void UpdateMessages(Message message)
@@ -130,7 +132,7 @@ namespace Doctor.Forms
                 Name = "myLine",
                 LineColor = Color.Red,
                 LineWidth = 2,
-                X = 1
+                X = 2
             };
 
             // the rectangle
@@ -226,8 +228,9 @@ namespace Doctor.Forms
             userAddButton.Font = new Font(_goodTimes, 9.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             printButton.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            label11.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
             label12.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
-            label13.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            statusLabel.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             brakeButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataChart.Legends["Legend1"].Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chatSendButton.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -290,16 +293,16 @@ namespace Doctor.Forms
             #region Offline case
             else
             {
-                //bug : this breaks everything.
-                if (!_historyRequested)
+                if (!_historyRequested) // More testing Doctor seemed to never send this message somehow...
                 {
                     _connector.CurrentPatientMeasurements.Clear();
                     _connector.SendMessage(new
                     {
                         id = "get/patient/history",
-                        data = new {
+                        data = new
+                        {
                         patient = _connector.CurrentPatient.ClientId
-                    }
+                        }
                     });
                     _historyRequested = true;
                 }
@@ -315,24 +318,19 @@ namespace Doctor.Forms
                     }
                     _connector.ReceivedHistoryMeasurements = false;
                 }
-                var list = _connector.CurrentPatientHistoryItems;
-                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                var existingCount = _connector.CurrentPatientHistoryCount;
+                if (historyListBox.Items.Count != existingCount && existingCount != 0) // Testing stuff...
                 {
-                    _currentHistoryItems.Clear();
                     historyListBox.Items.Clear();
-                    int index = 1;
-                    foreach (var historyItem in list)
+                    for (int i = 0; i < existingCount; i++)
                     {
-                        historyListBox.Items.Add($"Training {index}");
-                        _currentHistoryItems.Add(historyItem);
-                        index++;
+                        historyListBox.Items.Add($"Training {i+1}");
+                        _currentHistoryItems.Add(new HistoryItem());
                     }
                     if (historyListBox.Items.Count != 0 || _shownPopUp) return;
                     _shownPopUp = true;
                     MessageBox.Show(this, "Patient heeft geen historie!", "Historie");
                 }
-
-              
             }
             #endregion
         }
@@ -379,7 +377,9 @@ namespace Doctor.Forms
             _connector.SetCurrentPatient(_currentPatient);
             _historyRequested = false;
             _shownPopUp = false;
+            connectedLabel.ForeColor = Color.Green;
             connectedLabel.Text = $"{_currentPatient.Name}";
+            statusLabel.Text = "Start de meting";
         }
 
         public void ResetGui()
@@ -402,6 +402,43 @@ namespace Doctor.Forms
             rpmLabel.Text = m.Rotations.ToString();
             powerLabel.Text = m.Power.ToString();
             bpmLabel.Text = m.Pulse.ToString();
+
+            //AVG Power
+            double avg = 0;
+            foreach (DataPoint point in dataChart.Series["Power (Watts)"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg / dataChart.Series["Power (Watts)"].Points.Count;
+            avgpowerLabel.Text = ((int)avg).ToString();
+            avgwattsLabel.Text = ((int)avg).ToString();
+
+            //AVG RPM
+            avg = 0;
+            foreach (DataPoint point in dataChart.Series["RPM"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg/dataChart.Series["RPM"].Points.Count;
+            avgrpmLabel.Text = ((int)avg).ToString();
+
+            //AVG Km/h
+            avg = 0;
+            foreach (DataPoint point in dataChart.Series["Km/h"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg / dataChart.Series["Km/h"].Points.Count;
+            avgkmhLabel.Text = ((int)avg).ToString();
+
+            //AVG BPM
+            avg = 0;
+            foreach (DataPoint point in dataChart.Series["Pulse"].Points)
+            {
+                avg += point.YValues[0];
+            }
+            avg = avg / dataChart.Series["Pulse"].Points.Count;
+            avgbpmLabel.Text = ((int)avg).ToString();
         }
 
         public void FillPatientsToList()
@@ -449,7 +486,7 @@ namespace Doctor.Forms
                 powerLegendaLabel.BackColor = Color.Green;
                 dataChart.Series["Power (Watts)"].Enabled = true;
             }
-            dataChart.Refresh();
+            dataChart.ResetAutoValues();
         }
 
         private void kjLegendaLabel_Click(object sender, EventArgs e)
@@ -464,8 +501,7 @@ namespace Doctor.Forms
                 kjLegendaLabel.BackColor = Color.Purple;
                 dataChart.Series["KJ"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         private void rpmLegendaLabel_Click(object sender, EventArgs e)
@@ -482,8 +518,7 @@ namespace Doctor.Forms
                 rpmLegendaLabel.ForeColor = Color.Black;
                 dataChart.Series["RPM"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         private void pulseLegendaLabel_Click(object sender, EventArgs e)
@@ -498,8 +533,7 @@ namespace Doctor.Forms
                 pulseLegendaLabel.BackColor = Color.Red;
                 dataChart.Series["Pulse"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         private void kmhLegendaLabel_Click(object sender, EventArgs e)
@@ -514,8 +548,7 @@ namespace Doctor.Forms
                 kmhLegendaLabel.BackColor = Color.Blue;
                 dataChart.Series["Km/h"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         #endregion
@@ -529,6 +562,7 @@ namespace Doctor.Forms
             _countTime = true;
             SessionStarted = true;
             SessionStopped = false;
+            statusLabel.Text = "Aan het meten";
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -546,10 +580,11 @@ namespace Doctor.Forms
                 id = "new/history/item",
                 data = new
                 {
-                    id = _connector.CurrentPatient.ClientId,
+                    patient = _connector.CurrentPatient.ClientId,
                     historyItem = CurrentHistoryItem
                 }
             });
+            statusLabel.Text = "Start de meting";
         }
 
         private void chatSendButton_Click(object sender, EventArgs e)
@@ -628,7 +663,6 @@ namespace Doctor.Forms
             doc.DefaultPageSettings.Landscape = true;
             PrintPreviewDialog dialog = new PrintPreviewDialog();
             dialog.Document = doc;
-            // Show PrintPreview Dialog
             dialog.ShowDialog();
         }
 
@@ -654,7 +688,7 @@ namespace Doctor.Forms
                 data = new
                 {
                     patient = _currentPatient.ClientId,
-                    historyItem = historyListBox.SelectedIndex,
+                    historyItem = historyListBox.SelectedIndex
                 }
             });
             
@@ -700,16 +734,6 @@ namespace Doctor.Forms
             {
                 trainingComboBox.Items.Add(t.TrainingName);
             }
-        }
-
-        private void userLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void progressChart_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -202,6 +202,8 @@ namespace Server
                     Console.Write("*");
                 }
                 if (password == password2) break;
+                Console.WriteLine("Passwords didn't match!");
+                Console.WriteLine();
             }
             var client = new Client(name,password,null,0,new TinyDataBase(), doctor,doctorid,false);//set online state to false.
             _tcpServer.DataBase.AddClient(client);

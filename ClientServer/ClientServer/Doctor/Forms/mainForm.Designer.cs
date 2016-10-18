@@ -62,7 +62,6 @@ namespace Doctor.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.kmLabel = new System.Windows.Forms.Label();
-            this.avgkmLabel = new System.Windows.Forms.Label();
             this.wattsLabel = new System.Windows.Forms.Label();
             this.avgwattsLabel = new System.Windows.Forms.Label();
             this.rpmLabel = new System.Windows.Forms.Label();
@@ -83,7 +82,7 @@ namespace Doctor.Forms
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.chatReceiveTextBox = new System.Windows.Forms.RichTextBox();
             this.chatSendTextBox = new System.Windows.Forms.TextBox();
             this.progressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -110,7 +109,7 @@ namespace Doctor.Forms
             // 
             this.textBox1.Location = new System.Drawing.Point(1241, 676);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(114, 38);
+            this.textBox1.Size = new System.Drawing.Size(114, 20);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "Henk";
             // 
@@ -121,7 +120,7 @@ namespace Doctor.Forms
             this.currentTimeLabel.ForeColor = System.Drawing.Color.White;
             this.currentTimeLabel.Location = new System.Drawing.Point(745, 34);
             this.currentTimeLabel.Name = "currentTimeLabel";
-            this.currentTimeLabel.Size = new System.Drawing.Size(0, 32);
+            this.currentTimeLabel.Size = new System.Drawing.Size(0, 13);
             this.currentTimeLabel.TabIndex = 1;
             // 
             // timeTimer
@@ -150,7 +149,7 @@ namespace Doctor.Forms
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(51, 269);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 32);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Time";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -162,7 +161,7 @@ namespace Doctor.Forms
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(208, 269);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 32);
+            this.label2.Size = new System.Drawing.Size(22, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Km";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -174,7 +173,7 @@ namespace Doctor.Forms
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(333, 269);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 32);
+            this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "watts";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -186,7 +185,7 @@ namespace Doctor.Forms
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(489, 269);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 32);
+            this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 7;
             this.label4.Text = "km/h";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -198,7 +197,7 @@ namespace Doctor.Forms
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(658, 269);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 32);
+            this.label5.Size = new System.Drawing.Size(18, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "kJ";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -210,7 +209,7 @@ namespace Doctor.Forms
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(790, 269);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 32);
+            this.label6.Size = new System.Drawing.Size(31, 13);
             this.label6.TabIndex = 9;
             this.label6.Text = "RPM";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -222,7 +221,7 @@ namespace Doctor.Forms
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(921, 269);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(95, 32);
+            this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 10;
             this.label7.Text = "Power";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -234,7 +233,7 @@ namespace Doctor.Forms
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(1085, 269);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(76, 32);
+            this.label8.Size = new System.Drawing.Size(30, 13);
             this.label8.TabIndex = 11;
             this.label8.Text = "BPM";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -262,18 +261,6 @@ namespace Doctor.Forms
             this.kmLabel.TabIndex = 13;
             this.kmLabel.Text = "00,0";
             this.kmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // avgkmLabel
-            // 
-            this.avgkmLabel.BackColor = System.Drawing.Color.Transparent;
-            this.avgkmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.avgkmLabel.ForeColor = System.Drawing.Color.White;
-            this.avgkmLabel.Location = new System.Drawing.Point(171, 348);
-            this.avgkmLabel.Name = "avgkmLabel";
-            this.avgkmLabel.Size = new System.Drawing.Size(118, 23);
-            this.avgkmLabel.TabIndex = 14;
-            this.avgkmLabel.Text = "00,0";
-            this.avgkmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // wattsLabel
             // 
@@ -414,10 +401,10 @@ namespace Doctor.Forms
             this.clientListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clientListBox.ForeColor = System.Drawing.Color.White;
             this.clientListBox.FormattingEnabled = true;
-            this.clientListBox.ItemHeight = 54;
+            this.clientListBox.ItemHeight = 24;
             this.clientListBox.Location = new System.Drawing.Point(12, 104);
             this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(284, 54);
+            this.clientListBox.Size = new System.Drawing.Size(284, 48);
             this.clientListBox.TabIndex = 26;
             this.clientListBox.DoubleClick += new System.EventHandler(this.clientListBox_DoubleClick_1);
             // 
@@ -428,7 +415,7 @@ namespace Doctor.Forms
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(9, 72);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(243, 32);
+            this.label9.Size = new System.Drawing.Size(99, 13);
             this.label9.TabIndex = 27;
             this.label9.Text = "Client                      ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -548,22 +535,20 @@ namespace Doctor.Forms
             this.userLabel.Location = new System.Drawing.Point(920, 9);
             this.userLabel.MaximumSize = new System.Drawing.Size(220, 65);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(70, 32);
+            this.userLabel.Size = new System.Drawing.Size(27, 13);
             this.userLabel.TabIndex = 30;
             this.userLabel.Text = "user";
             this.userLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.userLabel.Click += new System.EventHandler(this.userLabel_Click);
             // 
             // connectedLabel
             // 
-            this.connectedLabel.AutoSize = true;
             this.connectedLabel.BackColor = System.Drawing.Color.Transparent;
             this.connectedLabel.ForeColor = System.Drawing.Color.Red;
-            this.connectedLabel.Location = new System.Drawing.Point(982, 593);
+            this.connectedLabel.Location = new System.Drawing.Point(934, 593);
             this.connectedLabel.Name = "connectedLabel";
-            this.connectedLabel.Size = new System.Drawing.Size(198, 32);
+            this.connectedLabel.Size = new System.Drawing.Size(260, 17);
             this.connectedLabel.TabIndex = 31;
-            this.connectedLabel.Text = "Not connected";
+            this.connectedLabel.Text = "Geen connectie";
             this.connectedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // versionLabel
@@ -574,7 +559,7 @@ namespace Doctor.Forms
             this.versionLabel.ForeColor = System.Drawing.Color.Black;
             this.versionLabel.Location = new System.Drawing.Point(306, 615);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(79, 38);
+            this.versionLabel.Size = new System.Drawing.Size(32, 16);
             this.versionLabel.TabIndex = 33;
             this.versionLabel.Text = "v1.0";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -596,9 +581,9 @@ namespace Doctor.Forms
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(894, 72);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(257, 32);
+            this.label11.Size = new System.Drawing.Size(116, 13);
             this.label11.TabIndex = 35;
-            this.label11.Text = "Chat                          ";
+            this.label11.Text = "Chat                             ";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label12
@@ -608,22 +593,22 @@ namespace Doctor.Forms
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(894, 385);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(266, 32);
+            this.label12.Size = new System.Drawing.Size(108, 13);
             this.label12.TabIndex = 36;
             this.label12.Text = "Historie                      ";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label13
+            // statusLabel
             // 
-            this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(306, 572);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(91, 32);
-            this.label13.TabIndex = 37;
-            this.label13.Text = "status";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.BackColor = System.Drawing.Color.Transparent;
+            this.statusLabel.ForeColor = System.Drawing.Color.White;
+            this.statusLabel.Location = new System.Drawing.Point(306, 572);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(35, 13);
+            this.statusLabel.TabIndex = 37;
+            this.statusLabel.Text = "status";
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // chatReceiveTextBox
             // 
@@ -642,7 +627,7 @@ namespace Doctor.Forms
             this.chatSendTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chatSendTextBox.Location = new System.Drawing.Point(897, 223);
             this.chatSendTextBox.Name = "chatSendTextBox";
-            this.chatSendTextBox.Size = new System.Drawing.Size(210, 53);
+            this.chatSendTextBox.Size = new System.Drawing.Size(210, 26);
             this.chatSendTextBox.TabIndex = 39;
             // 
             // progressChart
@@ -718,7 +703,6 @@ namespace Doctor.Forms
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
             this.progressChart.AnnotationPositionChanged += new System.EventHandler(this.progressChart_AnnotationPositionChanged);
-            this.progressChart.Click += new System.EventHandler(this.progressChart_Click);
             // 
             // trainingComboBox
             // 
@@ -730,7 +714,7 @@ namespace Doctor.Forms
             "Street"});
             this.trainingComboBox.Location = new System.Drawing.Point(531, 566);
             this.trainingComboBox.Name = "trainingComboBox";
-            this.trainingComboBox.Size = new System.Drawing.Size(127, 67);
+            this.trainingComboBox.Size = new System.Drawing.Size(127, 33);
             this.trainingComboBox.TabIndex = 43;
             this.trainingComboBox.SelectedIndexChanged += new System.EventHandler(this.trainingComboBox_SelectedIndexChanged);
             // 
@@ -771,7 +755,7 @@ namespace Doctor.Forms
             this.powerLegendaLabel.Location = new System.Drawing.Point(47, 385);
             this.powerLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.powerLegendaLabel.Name = "powerLegendaLabel";
-            this.powerLegendaLabel.Size = new System.Drawing.Size(192, 32);
+            this.powerLegendaLabel.Size = new System.Drawing.Size(74, 13);
             this.powerLegendaLabel.TabIndex = 46;
             this.powerLegendaLabel.Text = "Power (Watts)";
             this.powerLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -785,7 +769,7 @@ namespace Doctor.Forms
             this.kjLegendaLabel.Location = new System.Drawing.Point(178, 385);
             this.kjLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.kjLegendaLabel.Name = "kjLegendaLabel";
-            this.kjLegendaLabel.Size = new System.Drawing.Size(48, 32);
+            this.kjLegendaLabel.Size = new System.Drawing.Size(19, 13);
             this.kjLegendaLabel.TabIndex = 47;
             this.kjLegendaLabel.Text = "KJ";
             this.kjLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -799,7 +783,7 @@ namespace Doctor.Forms
             this.rpmLegendaLabel.Location = new System.Drawing.Point(213, 385);
             this.rpmLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.rpmLegendaLabel.Name = "rpmLegendaLabel";
-            this.rpmLegendaLabel.Size = new System.Drawing.Size(77, 32);
+            this.rpmLegendaLabel.Size = new System.Drawing.Size(31, 13);
             this.rpmLegendaLabel.TabIndex = 48;
             this.rpmLegendaLabel.Text = "RPM";
             this.rpmLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -813,7 +797,7 @@ namespace Doctor.Forms
             this.pulseLegendaLabel.Location = new System.Drawing.Point(264, 385);
             this.pulseLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.pulseLegendaLabel.Name = "pulseLegendaLabel";
-            this.pulseLegendaLabel.Size = new System.Drawing.Size(87, 32);
+            this.pulseLegendaLabel.Size = new System.Drawing.Size(33, 13);
             this.pulseLegendaLabel.TabIndex = 49;
             this.pulseLegendaLabel.Text = "Pulse";
             this.pulseLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -827,7 +811,7 @@ namespace Doctor.Forms
             this.kmhLegendaLabel.Location = new System.Drawing.Point(332, 385);
             this.kmhLegendaLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.kmhLegendaLabel.Name = "kmhLegendaLabel";
-            this.kmhLegendaLabel.Size = new System.Drawing.Size(81, 32);
+            this.kmhLegendaLabel.Size = new System.Drawing.Size(33, 13);
             this.kmhLegendaLabel.TabIndex = 50;
             this.kmhLegendaLabel.Text = "Km/h";
             this.kmhLegendaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -841,7 +825,7 @@ namespace Doctor.Forms
             this.label10.Location = new System.Drawing.Point(57, 541);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(131, 32);
+            this.label10.Size = new System.Drawing.Size(50, 13);
             this.label10.TabIndex = 51;
             this.label10.Text = "Tijd (sec)";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -853,11 +837,11 @@ namespace Doctor.Forms
             this.historyListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.historyListBox.ForeColor = System.Drawing.Color.White;
             this.historyListBox.FormattingEnabled = true;
-            this.historyListBox.ItemHeight = 54;
+            this.historyListBox.ItemHeight = 24;
             this.historyListBox.Location = new System.Drawing.Point(896, 420);
             this.historyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.historyListBox.Name = "historyListBox";
-            this.historyListBox.Size = new System.Drawing.Size(291, 54);
+            this.historyListBox.Size = new System.Drawing.Size(291, 144);
             this.historyListBox.TabIndex = 52;
             this.historyListBox.DoubleClick += new System.EventHandler(this.historyListBox_DoubleClick);
             // 
@@ -901,9 +885,9 @@ namespace Doctor.Forms
             this.chatSendButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.chatSendButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chatSendButton.ForeColor = System.Drawing.Color.Black;
-            this.chatSendButton.Location = new System.Drawing.Point(1115, 223);
+            this.chatSendButton.Location = new System.Drawing.Point(1113, 223);
             this.chatSendButton.Name = "chatSendButton";
-            this.chatSendButton.Size = new System.Drawing.Size(128, 32);
+            this.chatSendButton.Size = new System.Drawing.Size(74, 26);
             this.chatSendButton.TabIndex = 41;
             this.chatSendButton.Text = "Verzenden";
             this.chatSendButton.UseVisualStyleBackColor = false;
@@ -930,7 +914,7 @@ namespace Doctor.Forms
             this.Controls.Add(this.chatSendButton);
             this.Controls.Add(this.chatSendTextBox);
             this.Controls.Add(this.chatReceiveTextBox);
-            this.Controls.Add(this.label13);
+            this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.pictureBox1);
@@ -951,7 +935,6 @@ namespace Doctor.Forms
             this.Controls.Add(this.kmhLabel);
             this.Controls.Add(this.avgwattsLabel);
             this.Controls.Add(this.wattsLabel);
-            this.Controls.Add(this.avgkmLabel);
             this.Controls.Add(this.kmLabel);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.label8);
@@ -970,7 +953,7 @@ namespace Doctor.Forms
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Dokter Console";
+            this.Text = "Dokter Console - Spinning Console";
             ((System.ComponentModel.ISupportInitialize)(this.dataChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressChart)).EndInit();
@@ -998,10 +981,9 @@ namespace Doctor.Forms
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label statusLabel;
         public System.Windows.Forms.Label timeLabel;
         public System.Windows.Forms.Label kmLabel;
-        public System.Windows.Forms.Label avgkmLabel;
         public System.Windows.Forms.Label wattsLabel;
         public System.Windows.Forms.Label avgwattsLabel;
         public System.Windows.Forms.Label rpmLabel;

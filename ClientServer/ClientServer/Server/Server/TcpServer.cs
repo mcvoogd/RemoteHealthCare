@@ -30,8 +30,6 @@ namespace Server.Server
                 Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\ClientData\");
 
             SetSavePath();
-            Console.WriteLine($"SavePath = {SavePath}");
-            Console.WriteLine($"Current dir: {Directory.GetCurrentDirectory()}");
 
             LoadAllData();
         }

@@ -69,6 +69,8 @@ namespace Doctor.Forms
             trainings.Add(new Training());
             updateTrainingBox();
             ResetAllCharts();
+
+            statusLabel.Text = "Selecteer cliënt";
         }
 
         private void UpdateMessages(Message message)
@@ -130,7 +132,7 @@ namespace Doctor.Forms
                 Name = "myLine",
                 LineColor = Color.Red,
                 LineWidth = 2,
-                X = 1
+                X = 2
             };
 
             // the rectangle
@@ -226,8 +228,9 @@ namespace Doctor.Forms
             userAddButton.Font = new Font(_goodTimes, 9.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             connectedLabel.Font = new Font(_goodTimes, 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             printButton.Font = new Font(_goodTimes, 18F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            label11.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
             label12.Font = new Font(_goodTimes, 18F, FontStyle.Regular | FontStyle.Underline, GraphicsUnit.Point, 0);
-            label13.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            statusLabel.Font = new Font(_goodTimes, 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             brakeButton.Font = new Font(_goodTimes, 10.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataChart.Legends["Legend1"].Font = new Font(_goodTimes, 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chatSendButton.Font = new Font(_goodTimes, 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -379,7 +382,9 @@ namespace Doctor.Forms
             _connector.SetCurrentPatient(_currentPatient);
             _historyRequested = false;
             _shownPopUp = false;
+            connectedLabel.ForeColor = Color.Green;
             connectedLabel.Text = $"{_currentPatient.Name}";
+            statusLabel.Text = "Start de meting";
         }
 
         public void ResetGui()
@@ -449,7 +454,7 @@ namespace Doctor.Forms
                 powerLegendaLabel.BackColor = Color.Green;
                 dataChart.Series["Power (Watts)"].Enabled = true;
             }
-            dataChart.Refresh();
+            dataChart.ResetAutoValues();
         }
 
         private void kjLegendaLabel_Click(object sender, EventArgs e)
@@ -464,8 +469,7 @@ namespace Doctor.Forms
                 kjLegendaLabel.BackColor = Color.Purple;
                 dataChart.Series["KJ"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         private void rpmLegendaLabel_Click(object sender, EventArgs e)
@@ -482,8 +486,7 @@ namespace Doctor.Forms
                 rpmLegendaLabel.ForeColor = Color.Black;
                 dataChart.Series["RPM"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         private void pulseLegendaLabel_Click(object sender, EventArgs e)
@@ -498,8 +501,7 @@ namespace Doctor.Forms
                 pulseLegendaLabel.BackColor = Color.Red;
                 dataChart.Series["Pulse"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         private void kmhLegendaLabel_Click(object sender, EventArgs e)
@@ -514,8 +516,7 @@ namespace Doctor.Forms
                 kmhLegendaLabel.BackColor = Color.Blue;
                 dataChart.Series["Km/h"].Enabled = true;
             }
-            dataChart.Refresh();
-
+            dataChart.ResetAutoValues();
         }
 
         #endregion
@@ -529,6 +530,7 @@ namespace Doctor.Forms
             _countTime = true;
             SessionStarted = true;
             SessionStopped = false;
+            statusLabel.Text = "Aan het meten";
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -550,6 +552,7 @@ namespace Doctor.Forms
                     historyItem = CurrentHistoryItem
                 }
             });
+            statusLabel.Text = "Start de meting";
         }
 
         private void chatSendButton_Click(object sender, EventArgs e)
@@ -700,16 +703,6 @@ namespace Doctor.Forms
             {
                 trainingComboBox.Items.Add(t.TrainingName);
             }
-        }
-
-        private void userLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void progressChart_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

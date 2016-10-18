@@ -150,6 +150,10 @@ namespace Doctor.Forms
 
         private void progressChart_AnnotationPositionChanged(object sender, EventArgs e)
         {
+            if (progressChart.Series[0] == null) return;
+            if (progressChart.Series[0].Points == null) return;
+            if (progressChart.Series[0].Points.Count <= 0) return;
+
             if (_verticalLine.X > progressChart.Series[0].Points[progressChart.Series[0].Points.Count -1].XValue)
                 _verticalLine.X = progressChart.Series[0].Points[progressChart.Series[0].Points.Count - 1].XValue;
             else if (_verticalLine.X < progressChart.Series[0].Points[0].XValue)
@@ -248,6 +252,7 @@ namespace Doctor.Forms
                 if (tempMeasurement.Equals(_lastMeasurement)) return;
                 SetAllMeasurementData(tempMeasurement);
                 FillAllCharts(tempMeasurement);
+                FillProgressChart(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
             }
             #endregion
@@ -275,6 +280,7 @@ namespace Doctor.Forms
                     foreach (var measurement in measurements)
                     {
                         FillAllCharts(measurement);
+                        FillProgressChart(measurement);
                     }
                     _connector.ReceivedHistoryMeasurements = false;
                 }
@@ -290,13 +296,19 @@ namespace Doctor.Forms
                         _currentHistoryItems.Add(historyItem);
                         index++;
                     }
+                    if (historyListBox.Items.Count != 0 || _shownPopUp) return;
+                    _shownPopUp = true;
+                    MessageBox.Show(this, "Patient heeft geen historie!", "Historie");
                 }
 
-                if (historyListBox.Items.Count != 0 || _shownPopUp) return;
-                _shownPopUp = true;
-                MessageBox.Show(this, "Patient heeft geen historie!","Historie");
+              
             }
             #endregion
+        }
+
+        private void FillProgressChart(Measurement measurement)
+        {
+            progressChart.Series[0].Points.Add(measurement.Power);
         }
 
         public void FillAllCharts(Measurement tempMeasurement)
@@ -310,6 +322,7 @@ namespace Doctor.Forms
 
         public void ResetAllCharts()
         {
+            progressChart.Series[0].Points.Clear();
             dataChart.Series["Power (Watts)"].Points.Clear();
             dataChart.Series["Km/h"].Points.Clear();
             dataChart.Series["KJ"].Points.Clear();
@@ -394,6 +407,7 @@ namespace Doctor.Forms
 
         private void powerLegendaLabel_Click(object sender, EventArgs e)
         {
+           
             if (powerLegendaLabel.BackColor != Color.Transparent)
             {
                 powerLegendaLabel.BackColor = Color.Transparent;
@@ -404,6 +418,8 @@ namespace Doctor.Forms
                 powerLegendaLabel.BackColor = Color.Green;
                 dataChart.Series["Power (Watts)"].Enabled = true;
             }
+            dataChart.Invalidate();
+            dataChart.Update();
         }
 
         private void kjLegendaLabel_Click(object sender, EventArgs e)
@@ -418,6 +434,8 @@ namespace Doctor.Forms
                 kjLegendaLabel.BackColor = Color.Purple;
                 dataChart.Series["KJ"].Enabled = true;
             }
+            dataChart.Invalidate();
+            dataChart.Update();
         }
 
         private void rpmLegendaLabel_Click(object sender, EventArgs e)
@@ -434,6 +452,8 @@ namespace Doctor.Forms
                 rpmLegendaLabel.ForeColor = Color.Black;
                 dataChart.Series["RPM"].Enabled = true;
             }
+            dataChart.Invalidate();
+            dataChart.Update();
         }
 
         private void pulseLegendaLabel_Click(object sender, EventArgs e)
@@ -448,6 +468,8 @@ namespace Doctor.Forms
                 pulseLegendaLabel.BackColor = Color.Red;
                 dataChart.Series["Pulse"].Enabled = true;
             }
+            dataChart.Invalidate();
+            dataChart.Update();
         }
 
         private void kmhLegendaLabel_Click(object sender, EventArgs e)
@@ -462,6 +484,8 @@ namespace Doctor.Forms
                 kmhLegendaLabel.BackColor = Color.Blue;
                 dataChart.Series["Km/h"].Enabled = true;
             }
+            dataChart.Invalidate();
+            dataChart.Update();
         }
 
 #endregion

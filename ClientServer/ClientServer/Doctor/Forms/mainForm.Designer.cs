@@ -718,7 +718,7 @@ namespace Doctor.Forms
             this.progressChart.TabIndex = 42;
             this.progressChart.Text = "chart2";
             this.progressChart.AnnotationPositionChanged += new System.EventHandler(this.progressChart_AnnotationPositionChanged);
-            this.progressChart.AnnotationPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs>(this.progressChart_AnnotationPositionChanging);
+            this.progressChart.Click += new System.EventHandler(this.progressChart_Click);
             // 
             // trainingComboBox
             // 

@@ -559,6 +559,7 @@ namespace Doctor.Forms
             if(!_currentPatient.IsOnline)return;
             if (SessionStarted) return;
             CurrentHistoryItem.StartTime = new SimpleTime(0,0);
+            ResetAllCharts();
             _countTime = true;
             SessionStarted = true;
             SessionStopped = false;

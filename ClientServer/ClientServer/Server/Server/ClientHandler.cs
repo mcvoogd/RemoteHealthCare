@@ -76,6 +76,7 @@ namespace Server.Server
                     var id = readMessage.id;
                     dynamic data = readMessage.data;
 
+                    Console.WriteLine($"received:\n {readMessage}");
                     switch ((string) id)
                     {
                         case "message/send":
@@ -168,7 +169,7 @@ namespace Server.Server
                 }
                 catch (Exception e)
                 {
-                //   Console.WriteLine(e.StackTrace);
+                   Console.WriteLine(e.StackTrace);
                     if (_tcpClient.Connected) continue;
                     try
                     {
@@ -187,11 +188,10 @@ namespace Server.Server
 
         private void HandleNewHistoryItem(dynamic data)
         {
-            int id = data.id;
+            int id = data.patient;
             var client = _database.Clients.Find(p => p.UniqueId == id);
-            HistoryItem temp = new HistoryItem((SimpleTime)data.historyItem.StartTime.ToObject<SimpleTime>(), 
-                (SimpleTime)data.historyItem.EndTime.ToObject<SimpleTime>(), client.TinyDataBaseBase.MeasurementSystem.History.Count+1);
-            client.TinyDataBaseBase.MeasurementSystem.History.Add(temp);
+
+            client.TinyDataBaseBase.MeasurementSystem.SaveSession();
         }
 
         // Have the clienthandler kill itself
@@ -208,9 +208,8 @@ namespace Server.Server
         {
             int id = data.patient;
             var client = _database.Clients.Find(p => p.UniqueId == id);
-
-            HistoryItem temp2 = client.TinyDataBaseBase.MeasurementSystem.History[(int)data.historyItem];
-            var temp = client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsBetweenTimes((SimpleTime)temp2.StartTime, (SimpleTime)temp2.EndTime);
+            var temp = new List<Measurement>();
+            temp.AddRange(client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsHistory((int)data.historyItem));
             SendMessage(new
             {
                 id = "get/patient/history/measurements",
@@ -245,14 +244,14 @@ namespace Server.Server
             int id = data.patient;
             var client = _database.Clients.Find(p => p.UniqueId == id);
             if(client == null) return;
-            List<HistoryItem> temp = client.TinyDataBaseBase.MeasurementSystem.History;
-            if(temp.Count <= 0) return;
+            int count = client.TinyDataBaseBase.MeasurementSystem.SessionMeasurementList.Count;
+            if(count <= 0) return;
             SendMessage(new
             {
                 id = "get/patient/history",
                 data = new
                 {
-                    history = temp
+                    history = count
                 }
             });
         }

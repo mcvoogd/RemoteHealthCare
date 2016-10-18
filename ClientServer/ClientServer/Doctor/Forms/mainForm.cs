@@ -293,16 +293,16 @@ namespace Doctor.Forms
             #region Offline case
             else
             {
-                //bug : this breaks everything.
-                if (!_historyRequested)
+                if (!_historyRequested) // More testing Doctor seemed to never send this message somehow...
                 {
                     _connector.CurrentPatientMeasurements.Clear();
                     _connector.SendMessage(new
                     {
                         id = "get/patient/history",
-                        data = new {
+                        data = new
+                        {
                         patient = _connector.CurrentPatient.ClientId
-                    }
+                        }
                     });
                     _historyRequested = true;
                 }
@@ -318,24 +318,19 @@ namespace Doctor.Forms
                     }
                     _connector.ReceivedHistoryMeasurements = false;
                 }
-                var list = _connector.CurrentPatientHistoryItems;
-                if (historyListBox.Items.Count != list.Count && list.Count != 0)
+                var existingCount = _connector.CurrentPatientHistoryCount;
+                if (historyListBox.Items.Count != existingCount && existingCount != 0) // Testing stuff...
                 {
-                    _currentHistoryItems.Clear();
                     historyListBox.Items.Clear();
-                    int index = 1;
-                    foreach (var historyItem in list)
+                    for (int i = 0; i < existingCount; i++)
                     {
-                        historyListBox.Items.Add($"Training {index}");
-                        _currentHistoryItems.Add(historyItem);
-                        index++;
+                        historyListBox.Items.Add($"Training {i+1}");
+                        _currentHistoryItems.Add(new HistoryItem());
                     }
                     if (historyListBox.Items.Count != 0 || _shownPopUp) return;
                     _shownPopUp = true;
                     MessageBox.Show(this, "Patient heeft geen historie!", "Historie");
                 }
-
-              
             }
             #endregion
         }
@@ -585,7 +580,7 @@ namespace Doctor.Forms
                 id = "new/history/item",
                 data = new
                 {
-                    id = _connector.CurrentPatient.ClientId,
+                    patient = _connector.CurrentPatient.ClientId,
                     historyItem = CurrentHistoryItem
                 }
             });
@@ -693,7 +688,7 @@ namespace Doctor.Forms
                 data = new
                 {
                     patient = _currentPatient.ClientId,
-                    historyItem = historyListBox.SelectedIndex,
+                    historyItem = historyListBox.SelectedIndex
                 }
             });
             

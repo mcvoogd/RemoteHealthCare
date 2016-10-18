@@ -716,6 +716,7 @@ namespace Doctor.Forms
             this.trainingComboBox.Name = "trainingComboBox";
             this.trainingComboBox.Size = new System.Drawing.Size(127, 33);
             this.trainingComboBox.TabIndex = 43;
+            this.trainingComboBox.Visible = false;
             this.trainingComboBox.SelectedIndexChanged += new System.EventHandler(this.trainingComboBox_SelectedIndexChanged);
             // 
             // userAddButton

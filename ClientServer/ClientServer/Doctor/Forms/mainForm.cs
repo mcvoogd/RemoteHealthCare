@@ -62,6 +62,7 @@ namespace Doctor.Forms
             MakeChartSlider();
 
             trainings.Add(new Training());
+            updateTrainingBox();
         }
 
         private void UpdateMessages(Message message)

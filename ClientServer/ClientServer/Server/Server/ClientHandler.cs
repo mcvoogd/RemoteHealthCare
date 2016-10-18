@@ -133,7 +133,6 @@ namespace Server.Server
                                 HandlePatientPersonalHistory(data);
                             }
                             break;
-
                         case "broadcast":
                             BroadCast(data);
                             break;

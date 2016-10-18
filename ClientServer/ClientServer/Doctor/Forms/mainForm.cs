@@ -463,6 +463,7 @@ namespace Doctor.Forms
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            if (_currentPatient == null) return;
             if(!_currentPatient.IsOnline)return;
             if (SessionStarted) return;
             CurrentHistoryItem.StartTime = new SimpleTime(0,0);
@@ -473,6 +474,7 @@ namespace Doctor.Forms
 
         private void stopButton_Click(object sender, EventArgs e)
         {
+            if (_currentPatient == null) return;
             if (!_currentPatient.IsOnline) return;
             if (SessionStopped) return;
             //ResetAllCharts();

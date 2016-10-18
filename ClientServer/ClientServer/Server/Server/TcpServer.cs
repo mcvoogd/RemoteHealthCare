@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,13 +17,29 @@ namespace Server.Server
         private readonly TcpListener _tcpListener;
 
         public List<Thread> threads = new List<Thread>();
+        public string SavePath { get; set; }
 
         public TcpServer()
         {
             IpAddress = GetLocalIpAddress();
             _tcpListener = new TcpListener(IpAddress, 6969);
             Console.WriteLine("IpAddress: {0}", IpAddress);
+
+            SavePath = $@"{Directory.GetCurrentDirectory()}\ClientData\Clients.save";
+            if (!Directory.Exists($@"{Directory.GetCurrentDirectory()}\ClientData\"))
+                Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\ClientData\");
+
+            SetSavePath();
+            Console.WriteLine($"SavePath = {SavePath}");
+            Console.WriteLine($"Current dir: {Directory.GetCurrentDirectory()}");
+
             LoadAllData();
+        }
+
+        [Conditional("DEBUG")]
+        private void SetSavePath()
+        {
+            SavePath = @"..\..\ClientData\Clients.save";
         }
 
         public IPAddress IpAddress { get; set; }
@@ -57,13 +74,13 @@ namespace Server.Server
 
         public void SaveAllData()
         {
-            const string path = @"..\..\ClientData\Clients.save";
+            string path = SavePath;
             DataBase.SaveClients(path);
         }
 
         public void LoadAllData()
         {
-            const string path = @"..\..\ClientData\Clients.save";
+            string path = SavePath;
             if (File.Exists(path))
             {
                 if (File.Exists(path))

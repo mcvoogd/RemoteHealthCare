@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -22,12 +24,17 @@ namespace Server.Server
         public Client Client;
         private bool IsDoctor;
 
+        private string _certPath;
+
         public ClientHandler(TcpClient tcpClient, BigDatabase databaseValue)
         {
             _tcpClient = tcpClient;
             _sslStream = new SslStream(_tcpClient.GetStream());
             _database = databaseValue;
-            _serverCertificate = new X509Certificate2(@"..\..\..\RemoteHealthCareSelfGenerated.pfx", "RemoteHealthCare");
+
+            _certPath = $@"{Directory.GetCurrentDirectory()}\RemoteHealthCareSelfGenerated.pfx";
+            SetCertPath();
+            _serverCertificate = new X509Certificate2(_certPath, "RemoteHealthCare");
 
             _sslStream.AuthenticateAsServer(_serverCertificate, false, SslProtocols.Tls, false);
 
@@ -37,6 +44,12 @@ namespace Server.Server
             DisplayStreamProperties(_sslStream);
 
             _messageBuffer = new byte[0];
+        }
+
+        [Conditional("DEBUG")]
+        private void SetCertPath()
+        {
+            _certPath = @"..\..\..\RemoteHealthCareSelfGenerated.pfx";
         }
 
         //RECEIVER
@@ -467,7 +480,7 @@ namespace Server.Server
             return message.ToString();
         }
 
-        #region Ssl security displays
+#region Ssl security displays
 
         private static void DisplaySecurityLevel(SslStream stream)
         {
@@ -511,6 +524,6 @@ namespace Server.Server
                 Console.WriteLine("Remote certificate is null.");
         }
 
-        #endregion
+#endregion
     }
 }

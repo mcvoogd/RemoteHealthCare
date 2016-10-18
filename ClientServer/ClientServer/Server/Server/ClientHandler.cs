@@ -185,7 +185,10 @@ namespace Server.Server
 
         private void HandleNewHistoryItem(dynamic data)
         {
-            Client.TinyDataBaseBase.MeasurementSystem.SaveSession();
+            int id = data.patient;
+            var client = _database.Clients.Find(p => p.UniqueId == id);
+
+            client.TinyDataBaseBase.MeasurementSystem.SaveSession();
         }
 
         // Have the clienthandler kill itself
@@ -202,14 +205,15 @@ namespace Server.Server
         {
             int id = data.patient;
             var client = _database.Clients.Find(p => p.UniqueId == id);
-
-            
+            List<Measurement> temp = new List<Measurement>();
+            temp.AddRange(client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsHistory(data.historyItem));
+            //Runtime binder exception. fix dat : bug : <-
             SendMessage(new
             {
                 id = "get/patient/history/measurements",
                 data = new
                 {
-                    measurements = client.TinyDataBaseBase.MeasurementSystem.GetMeasurementsHistory(data.historyItem)
+                    measurements = temp
                 }
             });
         }

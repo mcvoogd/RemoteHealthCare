@@ -109,7 +109,6 @@ namespace Doctor.Classes
                                     break;
                                 case "get/patient/history":
                                     CurrentPatientHistoryCount = data.history;
-                                    //
                                     break;
                                 case "get/patient/history/measurements":
                                     CurrentPatientMeasurements.Clear();
@@ -118,7 +117,6 @@ namespace Doctor.Classes
                                         CurrentPatientMeasurements.Add(data.measurements[i].ToObject<Measurement>());
                                     }
                                     ReceivedHistoryMeasurements = true;
-                            
                                     break;
                                 case "client/disconnect":
                                     _sslStream.Close();

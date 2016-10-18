@@ -290,16 +290,16 @@ namespace Doctor.Forms
             #region Offline case
             else
             {
-                //bug : this breaks everything.
-                if (true) // More testing Doctor seemed to never send this message somehow...
+                if (!_historyRequested) // More testing Doctor seemed to never send this message somehow...
                 {
                     _connector.CurrentPatientMeasurements.Clear();
                     _connector.SendMessage(new
                     {
                         id = "get/patient/history",
-                        data = new {
+                        data = new
+                        {
                         patient = _connector.CurrentPatient.ClientId
-                    }
+                        }
                     });
                     _historyRequested = true;
                 }
@@ -316,19 +316,18 @@ namespace Doctor.Forms
                     _connector.ReceivedHistoryMeasurements = false;
                 }
                 var existingCount = _connector.CurrentPatientHistoryCount;
-                if (true) // Testing stuff...
+                if (historyListBox.Items.Count != existingCount && existingCount != 0) // Testing stuff...
                 {
                     historyListBox.Items.Clear();
                     for (int i = 0; i < existingCount; i++)
                     {
                         historyListBox.Items.Add($"Training {i+1}");
+                        _currentHistoryItems.Add(new HistoryItem());
                     }
                     if (historyListBox.Items.Count != 0 || _shownPopUp) return;
                     _shownPopUp = true;
                     MessageBox.Show(this, "Patient heeft geen historie!", "Historie");
                 }
-
-              
             }
             #endregion
         }
@@ -542,7 +541,7 @@ namespace Doctor.Forms
                 id = "new/history/item",
                 data = new
                 {
-                    id = _connector.CurrentPatient.ClientId,
+                    patient = _connector.CurrentPatient.ClientId,
                     historyItem = CurrentHistoryItem
                 }
             });
@@ -650,7 +649,7 @@ namespace Doctor.Forms
                 data = new
                 {
                     patient = _currentPatient.ClientId,
-                    historyItem = historyListBox.SelectedIndex,
+                    historyItem = historyListBox.SelectedIndex
                 }
             });
             

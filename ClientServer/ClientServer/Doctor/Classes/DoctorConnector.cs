@@ -223,7 +223,8 @@ namespace Doctor.Classes
                     username,
                     clientid = ConnectionId,
                     password,
-                    isDoctor = true
+                    isDoctor = true,
+                    isClient = false
                 }
             });
         }

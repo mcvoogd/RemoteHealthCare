@@ -16,11 +16,21 @@ namespace Server.BigDB
 
         public List<Client> Clients { get; set; }
 
-        public void AddClient(Client client)
+        public bool AddClient(Client client)
         {
-            var alreadyThere = Enumerable.Contains(Clients, client);
+            var alreadyThere = false;
+            foreach (var existingClient in Clients)
+            {
+                if (existingClient.Name == client.Name)
+                {
+                    alreadyThere = true;
+                    break;
+                }
+            }
+
             Console.WriteLine($"Adding client: {!alreadyThere}");
             if (!alreadyThere) Clients.Add(client);
+            return !alreadyThere;
         }
 
 #region saving and loading clients

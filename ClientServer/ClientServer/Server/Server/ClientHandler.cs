@@ -88,8 +88,11 @@ namespace Server.Server
                         case "client/new":
                             Console.WriteLine($"Adding new client: {data.name}");
                             var client = new Client((string)data.name, (string)data.password, null, 0, new TinyDataBase(), (bool)data.isDoctor, (int)data.doctorId, false);
-                            _database.AddClient(client);
-                            SendAck("client/new");
+                            if(_database.AddClient(client))
+                                SendAck("client/new");
+                            else
+                                SendNotAck("client/new");
+
                             break;
 
                         case "measurement/add":

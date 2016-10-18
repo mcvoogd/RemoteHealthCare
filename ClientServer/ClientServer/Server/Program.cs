@@ -175,6 +175,7 @@ namespace Server
             while (true)
             {
                 Console.WriteLine("Enter a password:");
+                password = "";
                 while (true)
                 {
                     var key = Console.ReadKey(true);
@@ -187,6 +188,7 @@ namespace Server
                     Console.Write("*");
                 }
                 Console.WriteLine("Re-enter password:");
+                password2 = "";
                 while (true)
                 {
 

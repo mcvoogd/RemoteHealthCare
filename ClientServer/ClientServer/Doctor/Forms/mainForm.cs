@@ -46,6 +46,7 @@ namespace Doctor.Forms
         private UpdateMessagesDelegate _updateMessages;
         private ContextMenuStrip contextMenuStrip;
 
+        private List<Training> trainings = new List<Training>();
         public HistoryItem CurrentHistoryItem = new HistoryItem();
 
         public MainForm(DoctorConnector connector)
@@ -64,6 +65,9 @@ namespace Doctor.Forms
             Fonts();
             AddSplitButton();
             MakeChartSlider();
+
+            trainings.Add(new Training());
+            updateTrainingBox();
             ResetAllCharts();
         }
 
@@ -606,17 +610,42 @@ namespace Doctor.Forms
         {
             //TODO Should work like this. I must test it
             //BUG: natuurlijk werkt het niet, je wilt een string casten naar een training?
-            Training t = (Training)trainingComboBox.SelectedItem;
-            List<dynamic> toSend = t.SendTraining();
-            dynamic message = new
+            Training t = null;
+            foreach (Training temp in trainings)
             {
-                id = "change/resistance/sendList",
-                data = new
+                Console.WriteLine("Selecting a training");
+                if (trainingComboBox.SelectedItem.Equals(temp.TrainingName))
                 {
-                    toSend
+                    t = temp;
                 }
-            };
-            _connector.SendMessage(GetMessageForServer(message));
+            }
+            if (t != null)
+            {
+                Console.WriteLine("Sending a training");
+                List<dynamic> toSend = t.SendTraining();
+                dynamic message = new
+                {
+                    id = "change/resistance/sendList",
+                    data = new
+                    {
+                        toSend
+                    }
+                };
+                _connector.SendMessage(GetMessageForServer(message));
+            }
+            else
+            {
+                Console.WriteLine("Nothing to send Boss!");
+            }
+        }
+
+        private void updateTrainingBox()
+        {
+            trainingComboBox.Items.Clear();
+            foreach (Training t in trainings)
+            {
+                trainingComboBox.Items.Add(t.TrainingName);
+            }
         }
 
         private void userLabel_Click(object sender, EventArgs e)

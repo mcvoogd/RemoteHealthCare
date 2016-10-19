@@ -7,23 +7,31 @@ namespace Server.TinyDB
     public class MeasurementSystem
     {
         public readonly List<Measurement> Measurements;
-        public List<HistoryItem> History;
+        public readonly List<List<Measurement>> SessionMeasurementList;
 
         public MeasurementSystem()
         {
             Measurements = new List<Measurement>();
-            History = new List<HistoryItem>
-            {
-                new HistoryItem(new SimpleTime(0, 1), new SimpleTime(0, 20)),
-                new HistoryItem(new SimpleTime(2, 0), new SimpleTime(2, 40))
-            };
+            SessionMeasurementList = new List<List<Measurement>>();
         }
 
-        public List<Measurement> GetMeasurementsBetweenTimes(SimpleTime startTime, SimpleTime endTime)
+        // Save the session to the session list and clear the old measurements
+        public void SaveSession()
         {
-            var temp = Measurements.Where(m => (m.Time > startTime) && (m.Time < endTime)).ToList();
-            temp.Sort();
-            return temp;
+            var newList = new List<Measurement>();
+            foreach (var measurement in Measurements)
+            {
+                newList.Add(measurement);
+            }
+            Measurements.Clear();
+
+            SessionMeasurementList.Add(newList);
+            Console.WriteLine($"SERVER: saved new session: {SessionMeasurementList.Count}");
+        }
+
+        public List<Measurement> GetMeasurementsHistory(int index)
+        {
+            return SessionMeasurementList[index];
         }
 
         public void AddMeasurement(Measurement m)
@@ -62,11 +70,13 @@ namespace Server.TinyDB
     {
         public SimpleTime StartTime { get; set; }
         public SimpleTime EndTime { get; set; }
+        public int HistoryNumber { get; set; }
 
-        public HistoryItem(SimpleTime startTime, SimpleTime endTime)
+        public HistoryItem(SimpleTime startTime, SimpleTime endTime, int historynumber)
         {
             StartTime = startTime;
             EndTime = endTime;
+            HistoryNumber = historynumber;
         }
     }
 }

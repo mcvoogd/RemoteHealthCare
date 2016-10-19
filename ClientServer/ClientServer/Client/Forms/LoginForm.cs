@@ -27,7 +27,7 @@ namespace Client.Forms
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                var result = MessageBox.Show("Do you really want to exit?", "Exit", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Wil je afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                     Environment.Exit(0);
                 else
@@ -53,27 +53,6 @@ namespace Client.Forms
             {
                 wrongLogin.Visible = true;
             }
-
-            //            wrongLogin.Visible = true;
         }
-
-//        }
-//            toolTipCaps.Hide(passwordTextBox);
-//        {
-//        void passwordTextBox_MouseLeave(object sender, EventArgs e)
-
-//        ToolTip toolTipCaps = new ToolTip();
-//        void passwordTextBox_MouseHover(object sender, EventArgs e)
-//        {
-//            if (Control.IsKeyLocked(Keys.CapsLock))
-//            {
-//
-//                toolTipCaps.ToolTipTitle = "Caps Lock Is On";
-//                toolTipCaps.ToolTipIcon = ToolTipIcon.Warning;
-//                toolTipCaps.IsBalloon = true;
-//                toolTipCaps.SetToolTip(passwordTextBox, "Having Caps Lock on may cause you to enter your password incorrectly.\n\nYou should press Caps Lock to turn it off before entering your password.");
-//                toolTipCaps.Show("Having Caps Lock on may cause you to enter your password incorrectly.\n\nYou should press Caps Lock to turn it off before entering your password.", passwordTextBox, 5, passwordTextBox.Height - 5);
-//            }
-//        }
     }
 }

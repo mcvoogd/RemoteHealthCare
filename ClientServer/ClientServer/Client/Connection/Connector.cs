@@ -102,7 +102,7 @@ namespace Client.Connection
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine(exception.StackTrace);
+                        //Console.WriteLine(exception.StackTrace);
                         if (!_tcpClient.Connected)
                             Console.WriteLine("Client disconnected.");
                     }
@@ -152,9 +152,9 @@ namespace Client.Connection
                 }
                 return false;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                //                Console.WriteLine(exception.StackTrace);
+                //Console.WriteLine(exception.StackTrace);
                 return false;
             }
             
@@ -193,7 +193,8 @@ namespace Client.Connection
                     username,
                     clientid = ConnectionId,
                     password,
-                    isDoctor = false
+                    isDoctor = false,
+                    isClient = true
                 }
             });
         }

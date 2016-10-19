@@ -61,13 +61,24 @@ namespace Server
                         DeleteUser();
                         break;
                     case "help":
-                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- showclients\n- broadcast\n- help");
+                        Console.WriteLine("\nCommands :" +
+                                          "\n- exit" +
+                                          "\n- newdoctor" +
+                                          "\n- newpatient" +
+                                          "\n- deleteuser" +
+                                          "\n- showclients" +
+                                          "\n- broadcast" +
+                                          "\n- help" +
+                                          "\n- save");
                         break;
                     case "showclients":
                         ShowUsers();
                         break;
                     case "broadcast":
                         BroadCast();
+                        break;
+                    case "save": 
+                        _tcpServer.SaveAllData();
                         break;
                     default:
                         Console.WriteLine("Command not recognised...");
@@ -150,8 +161,9 @@ namespace Server
 
         private void CreateUser(bool doctor)
         {
-            var passwords = new string[2];
             var doctorid = 0;
+            string password = null;
+            string password2 = null;
 
             Console.WriteLine("new user...\nEnter a name: ");
             var name = Console.ReadLine();
@@ -174,12 +186,37 @@ namespace Server
             while (true)
             {
                 Console.WriteLine("Enter a password:");
-                passwords[0] = Console.ReadLine();
+                password = "";
+                while (true)
+                {
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        Console.WriteLine();
+                        break;
+                    }
+                    password += key.KeyChar;
+                    Console.Write("*");
+                }
                 Console.WriteLine("Re-enter password:");
-                passwords[1] = Console.ReadLine();
-                if (passwords[0] == passwords[1]) break;
+                password2 = "";
+                while (true)
+                {
+
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        Console.WriteLine();
+                        break;
+                    }
+                    password2 += key.KeyChar;
+                    Console.Write("*");
+                }
+                if (password == password2) break;
+                Console.WriteLine("Passwords didn't match!");
+                Console.WriteLine();
             }
-            var client = new Client(name,passwords[0],null,0,new TinyDataBase(), doctor,doctorid,false);//set online state to false.
+            var client = new Client(name,password,null,0,new TinyDataBase(), doctor,doctorid,false);//set online state to false.
             _tcpServer.DataBase.AddClient(client);
             Console.WriteLine("User created...");
         }

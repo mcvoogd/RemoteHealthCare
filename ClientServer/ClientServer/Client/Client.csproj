@@ -116,6 +116,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Simulator\SimulationForm.resx" />
     <EmbeddedResource Include="VRConnection\Forms\Form1.resx">
@@ -135,6 +136,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\good_times.ttf" />
     <None Include="VRConnection\App.config" />
     <None Include="VRConnection\packages.config" />
     <None Include="VRConnection\Properties\Settings.settings" />
@@ -143,6 +145,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\background.png" />
     <Content Include="res\heightmaptest.jpg" />
     <Content Include="res\heightmaptest2.jpg" />
     <Content Include="res\map.jpg" />

@@ -43,6 +43,9 @@ namespace Client.VRConnection.Forms.Program
             CreateSkybox();
             Blocker.WaitOne(5000);
 
+            CreateProps();
+            Blocker.WaitOne(5000);
+
             CreateBike();
             Blocker.WaitOne(5000);
             CreateRoad();
@@ -401,12 +404,12 @@ namespace Client.VRConnection.Forms.Program
                     type = "static",
                     files = new
                     {
-                        xpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_rt.png",
-                        xneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_lf.png",
-                        ypos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_up.png",
-                        yneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_dn.png",
-                        zpos = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_bk.png",
-                        zneg = "data/NetworkEngine/textures/SkyBoxes/clouds/bluecloud_ft.png"
+                        xpos = "data/NetworkEngine/textures/SkyBoxes/interstaller/interstellar_dn.png",
+                        xneg = "data/NetworkEngine/textures/SkyBoxes/interstaller/interstellar_dn.png",
+                        ypos = "data/NetworkEngine/textures/SkyBoxes/interstaller/interstellar_dn.png",
+                        yneg = "data/NetworkEngine/textures/SkyBoxes/interstaller/interstellar_dn.png",
+                        zpos = "data/NetworkEngine/textures/SkyBoxes/interstaller/interstellar_dn.png",
+                        zneg = "data/NetworkEngine/textures/SkyBoxes/interstaller/interstellar_dn.png"
 
                     }
                 }

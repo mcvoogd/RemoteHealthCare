@@ -43,9 +43,6 @@ namespace Client.VRConnection.Forms.Program
             CreateSkybox();
             Blocker.WaitOne(5000);
 
-            CreateProps();
-            Blocker.WaitOne(5000);
-
             CreateBike();
             Blocker.WaitOne(5000);
             CreateRoad();

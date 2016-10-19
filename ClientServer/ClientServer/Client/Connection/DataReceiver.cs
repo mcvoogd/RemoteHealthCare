@@ -56,7 +56,7 @@ namespace Client.Connection
 
                         Console.WriteLine("Reading...");
                         var temp = ReceiveCommand(_serialPort);
-
+                        if(temp.Contains("ACK"))continue;
                         _addMeasurement(ParseMeasurement(temp));
       
                         Thread.Sleep(1000);

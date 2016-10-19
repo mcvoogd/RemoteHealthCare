@@ -288,6 +288,8 @@ namespace Doctor.Forms
                 FillAllCharts(tempMeasurement);
                 FillProgressChart(tempMeasurement);
                 _lastMeasurement = tempMeasurement;
+                _verticalLine.X = 2;
+                progressChart.Update();
             }
             #endregion
             #region Offline case
@@ -309,10 +311,22 @@ namespace Doctor.Forms
                 if (_connector.ReceivedHistoryMeasurements)
                 {
                     ResetAllCharts();
+                    _verticalLine.X = 2;
+                    progressChart.Update();
+                    bool foundStart = false;
+                    SimpleTime checker = new SimpleTime(0, 0);
                     if (_connector.CurrentPatientMeasurements.Count <= 0) return;
                     var measurements = new List<Measurement>(_connector.CurrentPatientMeasurements);
                     foreach (var measurement in measurements)
                     {
+                        if (!foundStart)
+                        {
+                            if (measurement.Time.Equals(checker))
+                            {
+                                foundStart = true;
+                            }
+                        }
+                        if (!foundStart) continue;
                         FillAllCharts(measurement);
                         FillProgressChart(measurement);
                     }

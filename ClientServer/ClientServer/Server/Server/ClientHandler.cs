@@ -159,6 +159,9 @@ namespace Server.Server
                                 HandleNewHistoryItem(data);
                             }
                             break;
+                        case "bike/break":
+                            ForwardMessage(readMessage);
+                            break;
                         case "change/resistance/sendList":
                             ForwardMessage(data);
                             break;

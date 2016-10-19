@@ -266,7 +266,6 @@ namespace Client.VRConnection.Forms.Program
             else
             {
                 _connection.SendMessage(RequestCreater.SceneNodeDelete(_connection.GroundPlanId, _connection.TunnelId));
-                Blocker.Set();
             }
         }
 

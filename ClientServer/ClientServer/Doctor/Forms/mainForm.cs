@@ -410,9 +410,11 @@ namespace Doctor.Forms
                 avg += point.YValues[0];
             }
             avg = avg / dataChart.Series["Power (Watts)"].Points.Count;
-            avgpowerLabel.Text = ((int)avg).ToString();
-            avgwattsLabel.Text = ((int)avg).ToString();
-
+            if (!(avg <= 0))
+            {
+                avgpowerLabel.Text = ((int) avg).ToString();
+                avgwattsLabel.Text = ((int) avg).ToString();
+            }
             //AVG RPM
             avg = 0;
             foreach (DataPoint point in dataChart.Series["RPM"].Points)
@@ -420,25 +422,31 @@ namespace Doctor.Forms
                 avg += point.YValues[0];
             }
             avg = avg/dataChart.Series["RPM"].Points.Count;
-            avgrpmLabel.Text = ((int)avg).ToString();
-
+            if (!(avg <= 0))
+            {
+                avgrpmLabel.Text = ((int) avg).ToString();
+            }
             //AVG Km/h
             avg = 0;
             foreach (DataPoint point in dataChart.Series["Km/h"].Points)
             {
                 avg += point.YValues[0];
             }
-            avg = avg / dataChart.Series["Km/h"].Points.Count;
-            avgkmhLabel.Text = ((int)avg).ToString();
 
+            avg = avg/dataChart.Series["Km/h"].Points.Count;
+            if (!(avg <= 0))
+            {
+                avgkmhLabel.Text = ((int) avg).ToString();
+            }
             //AVG BPM
             avg = 0;
             foreach (DataPoint point in dataChart.Series["Pulse"].Points)
             {
                 avg += point.YValues[0];
             }
-            avg = avg / dataChart.Series["Pulse"].Points.Count;
-            avgbpmLabel.Text = ((int)avg).ToString();
+            avg = avg/dataChart.Series["Pulse"].Points.Count;
+            if (avg <= 0) return;
+            avgbpmLabel.Text = ((int) avg).ToString();
         }
 
         public void FillPatientsToList()

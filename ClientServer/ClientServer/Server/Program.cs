@@ -61,13 +61,24 @@ namespace Server
                         DeleteUser();
                         break;
                     case "help":
-                        Console.WriteLine("Commands :\n- exit\n- newdoctor\n- newpatient\n- deleteuser\n- showclients\n- broadcast\n- help");
+                        Console.WriteLine("\nCommands :" +
+                                          "\n- exit" +
+                                          "\n- newdoctor" +
+                                          "\n- newpatient" +
+                                          "\n- deleteuser" +
+                                          "\n- showclients" +
+                                          "\n- broadcast" +
+                                          "\n- help" +
+                                          "\n- save");
                         break;
                     case "showclients":
                         ShowUsers();
                         break;
                     case "broadcast":
                         BroadCast();
+                        break;
+                    case "save": 
+                        _tcpServer.SaveAllData();
                         break;
                     default:
                         Console.WriteLine("Command not recognised...");

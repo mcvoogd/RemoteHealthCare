@@ -100,7 +100,7 @@ namespace Client.Connection
             }
 
             var tempTime = new SimpleTime(int.Parse(simpleTimeString[0]), int.Parse(simpleTimeString[1]));
-            var tempMeasurement = new Measurement(list[0], list[1], list[2]/10, list[4], list[3], list[5],
+            var tempMeasurement = new Measurement(list[0] list[1], list[2]/10, list[4], list[3], list[5],
                 tempTime.Minutes, tempTime.Seconds, list[7]);
 
             return tempMeasurement;

@@ -240,9 +240,12 @@ namespace Client.Forms
         private void timer1_Tick(object sender, EventArgs e)
         {
             if(DataReceiver == null) return;
-            if (!DataReceiver.Simulation.Visible) return;
-            if (Measurements.Count <= 0) return;
-            chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
+            if (DataReceiver.Simulation != null)
+            {
+                if (!DataReceiver.Simulation.Visible) return;
+                if (Measurements.Count <= 0) return;
+                chart1.Series[0].Points.Add(Measurements[Measurements.Count - 1].Speed);
+            }
         }
 
         public void SendCommandToBike(dynamic message)
